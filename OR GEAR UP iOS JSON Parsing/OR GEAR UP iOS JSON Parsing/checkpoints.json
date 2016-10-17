@@ -1,0 +1,46 @@
+ [
+  {
+    "title": "Make a post-high school plan",
+    "description": "Make a list of three careers you are interested in and the training or education (including program or major) you will need.",
+    "moreInfo": "https://bigfuture.collegeboard.org/explore-careers/careers/exploring-careers-step-by-step",
+    "entry": {
+        "type": "field",
+        "instances": [
+            {
+                "prompt": "Enter Career 1",
+                "placeholder": "xxxx"
+            },
+            {
+                "prompt": "Enter Career 2",
+                "placeholder": "xxxx"
+            },
+            {
+                "prompt": "Enter Career 3",
+                "placeholder": "xxxx"
+            }
+        ]
+    }
+  },
+  {
+  "title": "Make a post-high school plan",
+  "description": "Make a list of five colleges you are interested in with deadline information",
+  "moreInfo": "https://docs.google.com/spreadsheets/d/1c2XKdn-v5f_3f8lu4HdNJw-hVIURuSx_8vY92wK-3g4/edit",
+  "entry": {
+  "type": "field",
+  "instances": [
+                {
+                "prompt": "Enter College 1",
+                "placeholder": "xxxx"
+                },
+                {
+                "prompt": "Enter College 2",
+                "placeholder": "xxxx"
+                },
+                {
+                "prompt": "Enter College 3",
+                "placeholder": "xxxx"
+                }
+                ]
+  }
+  }
+  ]
