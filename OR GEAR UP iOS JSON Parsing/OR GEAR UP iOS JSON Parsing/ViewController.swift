@@ -36,7 +36,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var inputField2: UITextField!
     @IBOutlet weak var fieldLabel3: UILabel!
     @IBOutlet weak var inputField3: UITextField!
-    
+    @IBOutlet var radioButtons: [UIButton]!
+    @IBOutlet weak var groupStackview: UIStackView!
+    @IBOutlet weak var fieldStackview: UIStackView!
+    @IBOutlet weak var checkboxStackview: UIStackView!
+    @IBOutlet weak var radioStackview: UIStackView!
+    @IBOutlet var checkboxesButtons: [UIButton]!
+
     var cpIndex: Int = 0
     
     func loadCP(index: Int){
@@ -52,9 +58,45 @@ class ViewController: UIViewController {
             self.moreInfoButton.isHidden = true
         }
         
-        self.fieldLabel1.text = cp.entry.instances[0].prompt
-        self.fieldLabel2.text = cp.entry.instances[1].prompt
-        self.fieldLabel3.text = cp.entry.instances[2].prompt
+        let type = cp.entry.type
+        switch type {
+        case .FieldEntry:
+            showStack(stack: fieldStackview)
+            hideStack(stack: checkboxStackview)
+            hideStack(stack: radioStackview)
+            self.fieldLabel1.text = cp.entry.instances[0].prompt
+            self.fieldLabel2.text = cp.entry.instances[1].prompt
+            self.fieldLabel3.text = cp.entry.instances[2].prompt
+        
+        case .CheckboxEntry:
+            showStack(stack: checkboxStackview)
+            hideStack(stack: fieldStackview)
+            hideStack(stack: radioStackview)
+            var checkboxIndex: Int = 0
+            for checkbox in checkboxesButtons {
+                checkbox.setTitle(cp.entry.instances[checkboxIndex].prompt, for: .normal)
+                checkbox.setTitle(cp.entry.instances[checkboxIndex].prompt, for: .selected)
+                checkboxIndex += 1
+            }
+            
+        case .RadioEntry:
+            showStack(stack: radioStackview)
+            hideStack(stack: fieldStackview)
+            hideStack(stack: checkboxStackview)
+            var radiobuttonIndex: Int = 0
+            for radio in radioButtons {
+                radio.setTitle(cp.entry.instances[radiobuttonIndex].prompt, for: .normal)
+                radio.setTitle(cp.entry.instances[radiobuttonIndex].prompt, for: .selected)
+                radiobuttonIndex += 1
+            }
+        
+        case .FieldDateEntry:
+            hideStack(stack: fieldStackview)
+            hideStack(stack: checkboxStackview)
+            hideStack(stack: radioStackview)
+        }
+        
+        
     }
     func nextCP(){
         let maxCP = CheckpointManager.sharedManager.checkpoints.count
@@ -83,7 +125,29 @@ class ViewController: UIViewController {
         self.PrevButton.addTarget(self, action: #selector(prevCP), for: .touchUpInside)
         
         
-        loadCP(index: cpIndex)
+        CheckpointManager.sharedManager.fetchJSON() { (success) in
+            
+            print("fetchJSON was successful: \(success)")
+            
+            
+            self.loadCP(index: self.cpIndex)
+            
+       }
+        
+        
+    }
+    @IBAction func handleRadio(_ sender: UIButton) {
+        
+        for radio in radioButtons {
+            radio.isSelected = false
+        }
+        
+        sender.isSelected = true
+
+    }
+    @IBAction func handleCheckbox(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,6 +155,25 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func hideStack(stack: UIStackView){
+        stack.isHidden = true
+    }
+    
+    func showStack(stack: UIStackView){
+        stack.isHidden = false
+    }
+    
+    // TODO: Make a generalized Stackview show/hide function
+    /*func stackviewLoop(stack: UIStackView, groupStack: UIStackView){
+        for stackview in groupStack {
+            if stackview == stack {
+                showStack(stackview)
+            }
+            else {
+                hideStack(stack: stackview)
+            }
+        }
+    }*/
     func showMoreInfo() {
         
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController

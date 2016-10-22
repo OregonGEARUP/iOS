@@ -524,6 +524,7 @@
 				F93314A61DA47A5E007BF85B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F93314A71DA47A5E007BF85B /* Build configuration list for PBXNativeTarget "OR GEAR UP iOS JSON ParsingTests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +533,7 @@
 				F93314A91DA47A5E007BF85B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F93314AA1DA47A5E007BF85B /* Build configuration list for PBXNativeTarget "OR GEAR UP iOS JSON ParsingUITests" */ = {
 			isa = XCConfigurationList;
@@ -540,6 +542,7 @@
 				F93314AC1DA47A5E007BF85B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

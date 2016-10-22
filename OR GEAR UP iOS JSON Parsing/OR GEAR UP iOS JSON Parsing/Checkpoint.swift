@@ -11,6 +11,8 @@ import Foundation
 enum EntryType: String {
     case FieldEntry = "field"
     case RadioEntry = "radio"
+    case FieldDateEntry = "fielddate"
+    case CheckboxEntry = "checkbox"
     
 }
 
@@ -30,6 +32,22 @@ class FieldInstance: BaseInstance{
 }
 
 class RadioInstance: BaseInstance{
+    let placeholder: String
+    init(prompt: String, placeholder: String){
+        self.placeholder = placeholder
+        super.init(prompt: prompt)
+    }
+}
+
+class FieldDateInstance: BaseInstance{
+    let placeholder: String
+    init(prompt: String, placeholder: String){
+        self.placeholder = placeholder
+        super.init(prompt: prompt)
+    }
+}
+
+class CheckboxInstance: BaseInstance{
     let placeholder: String
     init(prompt: String, placeholder: String){
         self.placeholder = placeholder

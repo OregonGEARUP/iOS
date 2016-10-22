@@ -22,25 +22,47 @@
     }
   },
   {
-  "title": "Make a post-high school plan",
-  "description": "Make a list of five colleges you are interested in with deadline information",
-  "moreInfo": "https://docs.google.com/spreadsheets/d/1c2XKdn-v5f_3f8lu4HdNJw-hVIURuSx_8vY92wK-3g4/edit",
-  "entry": {
-  "type": "field",
-  "instances": [
-                {
-                "prompt": "Enter College 1",
-                "placeholder": "xxxx"
-                },
-                {
-                "prompt": "Enter College 2",
-                "placeholder": "xxxx"
-                },
-                {
-                "prompt": "Enter College 3",
-                "placeholder": "xxxx"
-                }
-                ]
+  "title": "Checkbox Example",
+  "description": "This is an example of the checkbox type checkpoint. It will have a checkboxes with prompts.",
+  "moreInfo": "https://ebay.com",
+  "entry" : {
+  "type" : "checkbox",
+  "instances" : [
+                 {
+                 "prompt" : "College 1",
+                 "placeholder" : "college 1"
+                 },
+                 {
+                 "prompt" : "College 2",
+                 "placeholder" : "college 2"
+                 },
+                 {
+                 "prompt" : "College 3",
+                 "placeholder" : "college 3"
+                 }
+                 ]
+  }
+  },
+  {
+  "title": "Radio button example",
+  "description": "This is an example of the radio button type checkpoint. It will have a radio buttons with prompts.",
+  "moreInfo": "http://oregongoestocollege.org",
+  "entry" : {
+  "type" : "radio",
+  "instances" : [
+                 {
+                 "prompt" : "College 1",
+                 "placeholder" : "college 1"
+                 },
+                 {
+                 "prompt" : "College 2",
+                 "placeholder" : "college 2"
+                 },
+                 {
+                 "prompt" : "College 3",
+                 "placeholder" : "college 3"
+                 }
+                 ]
   }
   }
   ]
