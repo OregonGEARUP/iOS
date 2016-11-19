@@ -25,6 +25,7 @@ class WebViewController: UIViewController {
 
 class ViewController: UIViewController {
     
+<<<<<<< HEAD
     // Outlets for the UI Elements shared by all checkpoint types
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -34,12 +35,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var NextButton: UIButton!
     
     // Field checkpoint UI Elements
+=======
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var moreInfoButton: UIButton!
+    @IBOutlet weak var PrevButton: UIButton!
+    @IBOutlet weak var NextButton: UIButton!
+>>>>>>> origin/master
     @IBOutlet weak var fieldLabel1: UILabel!
     @IBOutlet weak var inputField1: UITextField!
     @IBOutlet weak var fieldLabel2: UILabel!
     @IBOutlet weak var inputField2: UITextField!
     @IBOutlet weak var fieldLabel3: UILabel!
     @IBOutlet weak var inputField3: UITextField!
+<<<<<<< HEAD
     
     // Radiobutton collection
     @IBOutlet var radioButtons: [UIButton]!
@@ -92,22 +101,46 @@ class ViewController: UIViewController {
             self.moreInfoButton.setTitle(moreInfo, for: .normal)
             
             
+=======
+    @IBOutlet var radioButtons: [UIButton]!
+    @IBOutlet weak var groupStackview: UIStackView!
+    @IBOutlet weak var fieldStackview: UIStackView!
+    @IBOutlet weak var checkboxStackview: UIStackView!
+    @IBOutlet weak var radioStackview: UIStackView!
+    @IBOutlet var checkboxesButtons: [UIButton]!
+
+    var cpIndex: Int = 0
+    
+    func loadCP(index: Int){
+        let cp = CheckpointManager.sharedManager.checkpoints[index]
+        
+        self.titleLabel.text = cp.title
+        self.descriptionLabel.text = cp.description
+        
+        if let moreInfo = cp.moreInfo {
+            self.moreInfoButton.setTitle(moreInfo, for: .normal)
+>>>>>>> origin/master
             self.moreInfoButton.isHidden = false
         } else {
             self.moreInfoButton.isHidden = true
         }
         
+<<<<<<< HEAD
         // Set type
         let type = cp.entry.type
         
         
         // Display checkpoint, loads existing input from UserDefaults
         // TODO: Convert storyboard field and fieldDate checkpoints to collections so they can be dynamically iterated over. Could probably make a generalized show/hide stackview function.
+=======
+        let type = cp.entry.type
+>>>>>>> origin/master
         switch type {
         case .FieldEntry:
             showStack(stack: fieldStackview)
             hideStack(stack: checkboxStackview)
             hideStack(stack: radioStackview)
+<<<<<<< HEAD
             hideStack(stack: fieldDateStackview)
             
             self.fieldLabel1.text = cp.entry.instances[0].prompt
@@ -134,11 +167,17 @@ class ViewController: UIViewController {
             } else {
                 inputField3.becomeFirstResponder()
             }
+=======
+            self.fieldLabel1.text = cp.entry.instances[0].prompt
+            self.fieldLabel2.text = cp.entry.instances[1].prompt
+            self.fieldLabel3.text = cp.entry.instances[2].prompt
+>>>>>>> origin/master
         
         case .CheckboxEntry:
             showStack(stack: checkboxStackview)
             hideStack(stack: fieldStackview)
             hideStack(stack: radioStackview)
+<<<<<<< HEAD
             hideStack(stack: fieldDateStackview)
             
             
@@ -155,6 +194,12 @@ class ViewController: UIViewController {
                     checkbox.isSelected = false
                 }
                 
+=======
+            var checkboxIndex: Int = 0
+            for checkbox in checkboxesButtons {
+                checkbox.setTitle(cp.entry.instances[checkboxIndex].prompt, for: .normal)
+                checkbox.setTitle(cp.entry.instances[checkboxIndex].prompt, for: .selected)
+>>>>>>> origin/master
                 checkboxIndex += 1
             }
             
@@ -162,6 +207,7 @@ class ViewController: UIViewController {
             showStack(stack: radioStackview)
             hideStack(stack: fieldStackview)
             hideStack(stack: checkboxStackview)
+<<<<<<< HEAD
             hideStack(stack: fieldDateStackview)
             var radiobuttonIndex: Int = 0
             let defaults = UserDefaults.standard
@@ -182,21 +228,36 @@ class ViewController: UIViewController {
             }
             
         // Add UserDefaults loading once FieldDate collection has been implemented
+=======
+            var radiobuttonIndex: Int = 0
+            for radio in radioButtons {
+                radio.setTitle(cp.entry.instances[radiobuttonIndex].prompt, for: .normal)
+                radio.setTitle(cp.entry.instances[radiobuttonIndex].prompt, for: .selected)
+                radiobuttonIndex += 1
+            }
+        
+>>>>>>> origin/master
         case .FieldDateEntry:
             hideStack(stack: fieldStackview)
             hideStack(stack: checkboxStackview)
             hideStack(stack: radioStackview)
+<<<<<<< HEAD
             showStack(stack: fieldDateStackview)
             self.fieldDateLabel1.text = cp.entry.instances[0].prompt
             self.fieldDateLabel2.text = cp.entry.instances[1].prompt
             self.fieldDateLabel3.text = cp.entry.instances[2].prompt
 
+=======
+>>>>>>> origin/master
         }
         
         
     }
+<<<<<<< HEAD
     
     // Next and Previous CP function to navigate between checkpoints
+=======
+>>>>>>> origin/master
     func nextCP(){
         let maxCP = CheckpointManager.sharedManager.checkpoints.count
         if cpIndex < maxCP-1 {
@@ -212,6 +273,7 @@ class ViewController: UIViewController {
         }
     }
     
+<<<<<<< HEAD
     
     // Handles the saving of user input to UserDefaults
     @IBAction func handleSubmit(_ sender: UIButton) {
@@ -295,19 +357,28 @@ class ViewController: UIViewController {
     }
     
     
+=======
+>>>>>>> origin/master
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Checkpoint"
         
+<<<<<<< HEAD
         //Adds hanlders for moreInfo, Next and Prev buttons
+=======
+>>>>>>> origin/master
         self.moreInfoButton.addTarget(self, action: #selector(showMoreInfo), for: .touchUpInside)
         
         self.NextButton.addTarget(self, action: #selector(nextCP), for: .touchUpInside)
         
         self.PrevButton.addTarget(self, action: #selector(prevCP), for: .touchUpInside)
         
+<<<<<<< HEAD
         // Asynchronous call for JSON information
+=======
+        
+>>>>>>> origin/master
         CheckpointManager.sharedManager.fetchJSON() { (success) in
             
             print("fetchJSON was successful: \(success)")
@@ -317,6 +388,7 @@ class ViewController: UIViewController {
             
        }
         
+<<<<<<< HEAD
         // The following code implements a done button for the keyboard
         self.keyboardAccessoryView = UIView(frame: CGRect(x:0.0, y:0.0, width:0.0, height:40.0))
         self.keyboardAccessoryView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.95)
@@ -441,6 +513,10 @@ class ViewController: UIViewController {
     
     
     // Makes sure that Radio buttons are mutually exclusive
+=======
+        
+    }
+>>>>>>> origin/master
     @IBAction func handleRadio(_ sender: UIButton) {
         
         for radio in radioButtons {
@@ -448,16 +524,22 @@ class ViewController: UIViewController {
         }
         
         sender.isSelected = true
+<<<<<<< HEAD
         
 
     }
     
     // Since checkboxes are not native to iOS development, this keeps track if the button representing them is selected
+=======
+
+    }
+>>>>>>> origin/master
     @IBAction func handleCheckbox(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
 
     }
     
+<<<<<<< HEAD
     // Handles the Field Date checkpoint date input, needs to be updated such that it handles all date inputs
     @IBAction func fieldDatePressed(_ sender: AnyObject) {
 
@@ -499,6 +581,8 @@ class ViewController: UIViewController {
         inputDate1.resignFirstResponder()
     }
 
+=======
+>>>>>>> origin/master
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -512,7 +596,21 @@ class ViewController: UIViewController {
         stack.isHidden = false
     }
     
+<<<<<<< HEAD
     
+=======
+    // TODO: Make a generalized Stackview show/hide function
+    /*func stackviewLoop(stack: UIStackView, groupStack: UIStackView){
+        for stackview in groupStack {
+            if stackview == stack {
+                showStack(stackview)
+            }
+            else {
+                hideStack(stack: stackview)
+            }
+        }
+    }*/
+>>>>>>> origin/master
     func showMoreInfo() {
         
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
