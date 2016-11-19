@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YYv-yI-MYJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OR_GEAR_UP_iOS_JSON_Parsing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +18,337 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6l-ds-nOW">
+                                <state key="normal" title="Next"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRg-MG-cqx">
+                                <state key="normal" title="Previous"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwk-62-bQY" userLabel="Submit">
+                                <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="handleSubmit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iBE-z9-kb7"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PYy-eh-vw9">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YUx-64-cm0">
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBj-Cz-NW1">
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5g1-aR-NYt">
+                                        <state key="normal" title="More Info"/>
+                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2dT-4H-94D">
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="11z-9q-iVq">
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwc-om-aEP">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="61i-kR-n27">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lW-zY-DRF">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iee-uQ-Qak">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9C-yc-TIM">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wd1-gb-hkr">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="g9Y-nU-AbJ" userLabel="FieldDate Stackview">
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8a8-gn-nlU">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8ln-zj-kUh" userLabel="Input Field Date1">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cyn-yn-uM9" userLabel="Input Date1">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="fieldDatePressed:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="cto-pK-Tev"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtF-Rr-PDD">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h47-HH-pcn" userLabel="Input Field Date2">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NbF-SB-NY6" userLabel="Input Date2">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="fieldDateHandler:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="riH-Ab-RAQ"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4v-XL-1lE">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qnA-Bi-2t4" userLabel="Input Field Date3">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cL1-ji-ZUv" userLabel="Input Date3">
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="fieldDateHandler:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="O4O-I7-k9K"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="R8c-33-Bb5">
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSK-LW-Dgh">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="Check One" image="Checkbox">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <state key="selected" title="Check One" image="Checkbox_Checked"/>
+                                                        <connections>
+                                                            <action selector="handleCheckbox:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6un-tm-rfy"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9vC-dT-g3A">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="Check Two" image="Checkbox">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <state key="selected" title="Check Two" image="Checkbox_Checked"/>
+                                                        <connections>
+                                                            <action selector="handleCheckbox:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GUO-VX-TXs"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yE3-O2-6Az">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="Check Three" image="Checkbox">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <state key="selected" title="Check Three" image="Checkbox_Checked"/>
+                                                        <connections>
+                                                            <action selector="handleCheckbox:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pfa-Aj-lp6"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="7uT-th-ow4">
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77l-3O-z3y">
+                                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="Radio One" image="Radio">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <state key="selected" title="Radio One" image="Radio_On"/>
+                                                        <connections>
+                                                            <action selector="handleRadio:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m4e-t0-qXY"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bgp-s0-QpL">
+                                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="Radio Two" image="Radio">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <state key="selected" title="Radio Two" image="Radio_On"/>
+                                                        <connections>
+                                                            <action selector="handleRadio:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OaX-WZ-Wue"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kJ5-sV-6zY">
+                                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="Radio Three" image="Radio">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <state key="selected" title="Radio Three" image="Radio_On"/>
+                                                        <connections>
+                                                            <action selector="handleRadio:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yDd-Op-D3r"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XN8-sh-XYC" userLabel="picker palette">
+                                <frame key="frameInset" minX="16" minY="258" width="343" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="6yX-DV-4E0">
+                                        <frame key="frameInset" minY="-33" height="216"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <date key="date" timeIntervalSinceReferenceDate="499040159.65701902">
+                                            <!--2016-10-24 22:15:59 +0000-->
+                                        </date>
+                                    </datePicker>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="cwk-62-bQY" secondAttribute="trailing" constant="136" id="6Hx-aD-jom"/>
+                            <constraint firstItem="PYy-eh-vw9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Abz-dQ-Cfl"/>
+                            <constraint firstItem="cwk-62-bQY" firstAttribute="leading" secondItem="VRg-MG-cqx" secondAttribute="trailing" constant="61" id="CRS-v5-d6R"/>
+                            <constraint firstItem="PYy-eh-vw9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="QJ0-e1-KvI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PYy-eh-vw9" secondAttribute="trailing" id="RDU-kv-PBH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="T6l-ds-nOW" secondAttribute="trailing" id="Z2S-uW-GbL"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="T6l-ds-nOW" secondAttribute="bottom" constant="20" id="fjL-jK-Q3d"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="VRg-MG-cqx" secondAttribute="bottom" constant="20" id="khF-Hh-gDA"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="VRg-MG-cqx" secondAttribute="leading" id="nKY-DT-N8c"/>
+                            <constraint firstItem="T6l-ds-nOW" firstAttribute="leading" secondItem="cwk-62-bQY" secondAttribute="trailing" constant="61" id="thD-R1-dKl"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cwk-62-bQY" secondAttribute="bottom" constant="20" id="xqv-5X-Wub"/>
+                            <constraint firstItem="cwk-62-bQY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="136" id="zDE-Z9-386"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="XXI-l2-7YU"/>
+                    <connections>
+                        <outlet property="NextButton" destination="T6l-ds-nOW" id="Z8l-Pl-xND"/>
+                        <outlet property="PrevButton" destination="VRg-MG-cqx" id="vAf-5c-im3"/>
+                        <outlet property="checkboxStackview" destination="R8c-33-Bb5" id="Jbk-tV-Zpd"/>
+                        <outlet property="descriptionLabel" destination="DBj-Cz-NW1" id="GiA-2L-tTr"/>
+                        <outlet property="fieldDateLabel1" destination="8a8-gn-nlU" id="qnh-C1-elb"/>
+                        <outlet property="fieldDateLabel2" destination="vtF-Rr-PDD" id="M6a-qD-415"/>
+                        <outlet property="fieldDateLabel3" destination="n4v-XL-1lE" id="UCw-A4-wD9"/>
+                        <outlet property="fieldDatePicker" destination="6yX-DV-4E0" id="6E7-6D-gN2"/>
+                        <outlet property="fieldDateStackview" destination="g9Y-nU-AbJ" id="UzC-Sd-JbG"/>
+                        <outlet property="fieldLabel1" destination="Lwc-om-aEP" id="KFZ-z6-3dW"/>
+                        <outlet property="fieldLabel2" destination="3lW-zY-DRF" id="sj5-oX-Em4"/>
+                        <outlet property="fieldLabel3" destination="E9C-yc-TIM" id="ZN5-Ub-v9b"/>
+                        <outlet property="fieldStackview" destination="11z-9q-iVq" id="TD9-SP-FDi"/>
+                        <outlet property="inputDate1" destination="Cyn-yn-uM9" id="dcB-o5-k6k"/>
+                        <outlet property="inputDate2" destination="NbF-SB-NY6" id="gFN-DA-Pbg"/>
+                        <outlet property="inputDate3" destination="cL1-ji-ZUv" id="mgp-K8-0bm"/>
+                        <outlet property="inputField1" destination="61i-kR-n27" id="0lg-0y-Evk"/>
+                        <outlet property="inputField2" destination="iee-uQ-Qak" id="N9F-0R-BbR"/>
+                        <outlet property="inputField3" destination="wd1-gb-hkr" id="Oup-Hf-2r4"/>
+                        <outlet property="inputFieldDate1" destination="8ln-zj-kUh" id="v3b-M3-EIK"/>
+                        <outlet property="inputFieldDate2" destination="h47-HH-pcn" id="dmC-YA-MOv"/>
+                        <outlet property="inputFieldDate3" destination="qnA-Bi-2t4" id="wfv-tN-9ks"/>
+                        <outlet property="moreInfoButton" destination="5g1-aR-NYt" id="Ydi-5w-RAZ"/>
+                        <outlet property="outerTopConstraint" destination="QJ0-e1-KvI" id="TaR-9e-FwZ"/>
+                        <outlet property="pickerPaletteView" destination="XN8-sh-XYC" id="36A-Hb-ehD"/>
+                        <outlet property="radioStackview" destination="7uT-th-ow4" id="lOp-O5-Bgi"/>
+                        <outlet property="submitButton" destination="cwk-62-bQY" id="wuU-LJ-4KP"/>
+                        <outlet property="titleLabel" destination="YUx-64-cm0" id="0WU-3h-om2"/>
+                        <outletCollection property="radioButtons" destination="77l-3O-z3y" collectionClass="NSMutableArray" id="eFy-Rr-xcz"/>
+                        <outletCollection property="checkboxesButtons" destination="VSK-LW-Dgh" collectionClass="NSMutableArray" id="uQc-wg-G2j"/>
+                        <outletCollection property="checkboxesButtons" destination="9vC-dT-g3A" collectionClass="NSMutableArray" id="L23-vx-OTx"/>
+                        <outletCollection property="checkboxesButtons" destination="yE3-O2-6Az" collectionClass="NSMutableArray" id="yS4-k9-yvI"/>
+                        <outletCollection property="radioButtons" destination="Bgp-s0-QpL" collectionClass="NSMutableArray" id="DwB-mP-NXF"/>
+                        <outletCollection property="radioButtons" destination="kJ5-sV-6zY" collectionClass="NSMutableArray" id="rUe-vn-xKS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="356" y="119.1904047976012"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="axJ-kn-qbb">
+            <objects>
+                <viewController storyboardIdentifier="webview" id="jEZ-tc-QPf" customClass="WebViewController" customModule="OR_GEAR_UP_iOS_JSON_Parsing" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="egf-TG-3Bf"/>
+                        <viewControllerLayoutGuide type="bottom" id="JjO-PN-Bdl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ThT-8n-ceg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XuT-VB-iPT">
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XuT-VB-iPT" firstAttribute="top" secondItem="ThT-8n-ceg" secondAttribute="top" id="7Hg-ac-9YJ"/>
+                            <constraint firstItem="XuT-VB-iPT" firstAttribute="leading" secondItem="ThT-8n-ceg" secondAttribute="leading" id="NdM-qK-eaV"/>
+                            <constraint firstItem="JjO-PN-Bdl" firstAttribute="top" secondItem="XuT-VB-iPT" secondAttribute="bottom" id="cNJ-JG-S3J"/>
+                            <constraint firstAttribute="trailing" secondItem="XuT-VB-iPT" secondAttribute="trailing" id="paE-ko-bi2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="XuT-VB-iPT" id="DjM-Zs-kSY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4er-KG-EQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="46.875" y="860"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="NrF-7u-Xjv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YYv-yI-MYJ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5HS-8f-SzL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="mDH-5K-zgV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cio-mT-dsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-533" y="120"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Checkbox" width="22" height="22"/>
+        <image name="Checkbox_Checked" width="22" height="22"/>
+        <image name="Radio" width="22" height="22"/>
+        <image name="Radio_On" width="22" height="22"/>
+    </resources>
 </document>

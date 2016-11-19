@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-            timestampString = "498784675.037675"
+            timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "loadCP(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -102,7 +102,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/CheckpointManager.swift"
@@ -202,12 +202,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-            timestampString = "498784675.037675"
+            timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
-            landmarkName = "didReceiveMemoryWarning()"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "activeTextField()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-            timestampString = "498782475.142771"
+            timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "loadCP(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,325 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-            timestampString = "498784675.037675"
+            timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "loadCP(index:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.cpIndex.getter : Swift.Int"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499029427.36275"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "19">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.cpIndex.setter : Swift.Int"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499029427.366374"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "23">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; OR_GEAR_UP_iOS_JSON_Parsing.ViewController"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499029427.370028"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "1089">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;OR_GEAR_UP_iOS_JSON_Parsing.ViewController&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499029427.372818"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "985">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.radioStackview.getter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIStackView&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031776.248883"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "27">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.radioStackview.setter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIStackView&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031776.251561"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "42">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; OR_GEAR_UP_iOS_JSON_Parsing.ViewController"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031776.253494"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "1006">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;OR_GEAR_UP_iOS_JSON_Parsing.ViewController&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031776.255795"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "902">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.fieldDatePicker.getter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIDatePicker&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031916.84266"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "27">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.fieldDatePicker.setter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIDatePicker&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031916.844898"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "42">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; OR_GEAR_UP_iOS_JSON_Parsing.ViewController"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031916.846552"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "1526">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OR_GEAR_UP_iOS_JSON_Parsing.ViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;OR_GEAR_UP_iOS_JSON_Parsing.ViewController&gt;"
+                  moduleName = "OR GEAR UP iOS JSON Parsing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxmaceachern/gearup-ios/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/OR%20GEAR%20UP%20iOS%20JSON%20Parsing/ViewController.swift"
+                  timestampString = "499031916.848186"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "1422">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
+            landmarkName = "activeTextField()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
+            landmarkName = "fieldDatePressed(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "469"
+            endingLineNumber = "469"
+            landmarkName = "fieldDatePressed(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
+            timestampString = "501206467.790559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "loadCP(index:)"
             landmarkType = "7">
          </BreakpointContent>
