@@ -74,19 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-<<<<<<< HEAD
             timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "176"
             endingLineNumber = "176"
-=======
-            timestampString = "498784675.037675"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
->>>>>>> origin/master
             landmarkName = "loadCP(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,11 +102,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-<<<<<<< HEAD
             shouldBeEnabled = "No"
-=======
-            shouldBeEnabled = "Yes"
->>>>>>> origin/master
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/CheckpointManager.swift"
@@ -214,7 +202,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-<<<<<<< HEAD
             timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -237,14 +224,6 @@
             startingLineNumber = "93"
             endingLineNumber = "93"
             landmarkName = "loadCP(index:)"
-=======
-            timestampString = "498784675.037675"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
-            landmarkName = "didReceiveMemoryWarning()"
->>>>>>> origin/master
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -255,19 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-<<<<<<< HEAD
             timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
             endingLineNumber = "130"
-=======
-            timestampString = "498782475.142771"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
->>>>>>> origin/master
             landmarkName = "loadCP(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -279,7 +250,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OR GEAR UP iOS JSON Parsing/ViewController.swift"
-<<<<<<< HEAD
             timestampString = "501206467.790559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -583,13 +553,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "142"
             endingLineNumber = "142"
-=======
-            timestampString = "498784675.037675"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
->>>>>>> origin/master
             landmarkName = "loadCP(index:)"
             landmarkType = "7">
          </BreakpointContent>

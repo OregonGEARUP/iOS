@@ -1,9 +1,9 @@
 //
 //  ViewController.swift
-//  OR GEAR UP iOS JSON Parsing
+//  Oregon GEAR UP App
 //
-//  Created by Max MacEachern on 9/26/16.
-//  Copyright © 2016 Max MacEachern. All rights reserved.
+//  Created by Max MacEachern on 11/28/16.
+//  Copyright © 2016 Oregon GEAR UP. All rights reserved.
 //
 
 import UIKit
@@ -52,16 +52,17 @@ class ViewController: UIViewController {
     
     // Field Date checkpoint UI elements
     @IBOutlet weak var fieldDateLabel1: UILabel!
-    @IBOutlet weak var inputDate1: UITextField!
-    @IBOutlet weak var inputFieldDate1: UITextField!
+	@IBOutlet weak var inputFieldDate1: UITextField!
+    @IBOutlet weak var inputDate1: UIButton!
     @IBOutlet weak var fieldDateLabel2: UILabel!
     @IBOutlet weak var inputFieldDate2: UITextField!
-    @IBOutlet weak var inputDate2: UITextField!
+    @IBOutlet weak var inputDate2: UIButton!
     @IBOutlet weak var fieldDateLabel3: UILabel!
     @IBOutlet weak var inputFieldDate3: UITextField!
-    @IBOutlet weak var inputDate3: UITextField!
+    @IBOutlet weak var inputDate3: UIButton!
     @IBOutlet weak var fieldDatePicker: UIDatePicker!
-    
+	
+	var currentInputDate: UIButton?
     @IBOutlet weak var pickerPaletteView: UIView!
     
     // Checkbox UI Elements
@@ -72,7 +73,7 @@ class ViewController: UIViewController {
     
     // View used for keyboard avoidance
     private var keyboardAccessoryView: UIView? = nil
-
+    
     var cpIndex: Int = 0
     var paletteVisible = false
     
@@ -88,7 +89,7 @@ class ViewController: UIViewController {
         self.descriptionLabel.text = cp.description
         
         if let moreInfo = cp.moreInfo {
-         
+            
             self.moreInfoButton.setTitle(moreInfo, for: .normal)
             
             
@@ -126,7 +127,7 @@ class ViewController: UIViewController {
             if let inputFieldContent2 = defaults.string(forKey: "fkey2") {
                 inputField2.text = inputFieldContent2
             } else {
-               
+                
                 inputField2.becomeFirstResponder()
             }
             if let inputFieldContent3 = defaults.string(forKey: "fkey3") {
@@ -134,7 +135,7 @@ class ViewController: UIViewController {
             } else {
                 inputField3.becomeFirstResponder()
             }
-        
+            
         case .CheckboxEntry:
             showStack(stack: checkboxStackview)
             hideStack(stack: fieldStackview)
@@ -190,7 +191,42 @@ class ViewController: UIViewController {
             self.fieldDateLabel1.text = cp.entry.instances[0].prompt
             self.fieldDateLabel2.text = cp.entry.instances[1].prompt
             self.fieldDateLabel3.text = cp.entry.instances[2].prompt
-
+            
+            // Set up UserDefaults to store user data
+            let defaults = UserDefaults.standard
+            
+            if let inputFieldDateContent1 = defaults.string(forKey: "fdfield1") {
+                inputFieldDate1.text = inputFieldDateContent1
+            } else {
+                inputFieldDate1.becomeFirstResponder()
+            }
+            if let inputDateContent1 = defaults.string(forKey: "fddate1"){
+                inputDate1.setTitle(inputDateContent1, for: .normal)
+            } else {
+                //inputDate1.becomeFirstResponder()
+            }
+            if let inputFieldDateContent2 = defaults.string(forKey: "fdfield2") {
+                inputFieldDate2.text = inputFieldDateContent2
+            } else {
+                
+                inputFieldDate2.becomeFirstResponder()
+            }
+            if let inputDateContent2 = defaults.string(forKey: "fddate2"){
+                inputDate2.setTitle(inputDateContent2, for: .normal)
+            } else {
+                //inputDate2.becomeFirstResponder()
+            }
+            if let inputFieldDateContent3 = defaults.string(forKey: "fdfield3") {
+                inputFieldDate3.text = inputFieldDateContent3
+            } else {
+                
+                inputFieldDate3.becomeFirstResponder()
+            }
+            if let inputDateContent3 = defaults.string(forKey: "fddate3"){
+                inputDate3.setTitle(inputDateContent3, for: .normal)
+            } else {
+                //inputDate3.becomeFirstResponder()
+            }
         }
         
         
@@ -217,7 +253,7 @@ class ViewController: UIViewController {
     @IBAction func handleSubmit(_ sender: UIButton) {
         
         let cp = CheckpointManager.sharedManager.checkpoints[cpIndex]
-
+        
         let type = cp.entry.type
         
         switch type {
@@ -253,7 +289,7 @@ class ViewController: UIViewController {
             for key in keyHolder {
                 print(defaults.object(forKey: key))
             }
-        
+            
         case.RadioEntry:
             let defaults = UserDefaults.standard
             var radioKeyHolder: [String] = []
@@ -271,26 +307,26 @@ class ViewController: UIViewController {
             for key in radioKeyHolder {
                 print(defaults.object(forKey: key))
             }
-        
+            
         case .FieldDateEntry:
             
             let defaults = UserDefaults.standard
             defaults.set(inputFieldDate1.text, forKey: "fdfield1")
-            defaults.set(inputDate1.text, forKey: "fddate1")
+            defaults.set(inputDate1.title(for: .normal), forKey: "fddate1")
             defaults.set(inputFieldDate2.text, forKey: "fdfield2")
-            defaults.set(inputDate2.text, forKey: "fddate2")
+            defaults.set(inputDate2.title(for: .normal), forKey: "fddate2")
             defaults.set(inputFieldDate3.text, forKey: "fdfield3")
-            defaults.set(inputDate3.text, forKey: "fddate3")
+            defaults.set(inputDate3.title(for: .normal), forKey: "fddate3")
             defaults.synchronize()
-//            Used for testing
-//            let testFDfield1 = defaults.object(forKey: "fdfield1")
-//            let testFDDate1 = defaults.object(forKey: "fddate1")
-//            let testFDfield2 = defaults.object(forKey: "fdfield2")
-//            let testFDDate2 = defaults.object(forKey: "fddate2")
-//            let testFDfield3 = defaults.object(forKey: "fdfield3")
-//            let testFDDate3 = defaults.object(forKey: "fddate3")
-//            
-//            print(testFDfield1, testFDDate1, testFDfield2, testFDDate2, testFDfield3, testFDDate3)
+            //            Used for testing
+            //            let testFDfield1 = defaults.object(forKey: "fdfield1")
+            //            let testFDDate1 = defaults.object(forKey: "fddate1")
+            //            let testFDfield2 = defaults.object(forKey: "fdfield2")
+            //            let testFDDate2 = defaults.object(forKey: "fddate2")
+            //            let testFDfield3 = defaults.object(forKey: "fdfield3")
+            //            let testFDDate3 = defaults.object(forKey: "fddate3")
+            //
+            //            print(testFDfield1, testFDDate1, testFDfield2, testFDDate2, testFDfield3, testFDDate3)
         }
     }
     
@@ -315,7 +351,7 @@ class ViewController: UIViewController {
             
             self.loadCP(index: self.cpIndex)
             
-       }
+        }
         
         // The following code implements a done button for the keyboard
         self.keyboardAccessoryView = UIView(frame: CGRect(x:0.0, y:0.0, width:0.0, height:40.0))
@@ -327,7 +363,7 @@ class ViewController: UIViewController {
         doneBtn.addTarget(self, action: #selector(doneWithKeyboard(btn:)), for: .touchUpInside)
         self.keyboardAccessoryView?.addSubview(doneBtn)
         
-        let views = ["doneBtn": doneBtn]
+        var views = ["doneBtn": doneBtn]
         var allConstraints = [NSLayoutConstraint]()
         allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[doneBtn]|", options: [], metrics: nil, views: views)
         allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:[doneBtn]-20-|", options: [], metrics: nil, views: views)
@@ -339,11 +375,39 @@ class ViewController: UIViewController {
             }
         }
         
-        
-        
-        
+		for subview in self.fieldDateStackview.arrangedSubviews {
+			if let textField = subview as? UITextField {
+				textField.inputAccessoryView = keyboardAccessoryView
+			}
+		}
+		
+		inputDate1.layer.borderColor = UIColor.lightGray.cgColor
+		inputDate1.layer.cornerRadius = 4.0
+		inputDate1.layer.borderWidth = 0.5
+		
+		inputDate2.layer.borderColor = UIColor.lightGray.cgColor
+		inputDate2.layer.cornerRadius = 4.0
+		inputDate2.layer.borderWidth = 0.5
+		
+		inputDate3.layer.borderColor = UIColor.lightGray.cgColor
+		inputDate3.layer.cornerRadius = 4.0
+		inputDate3.layer.borderWidth = 0.5
+		
+		fieldDatePicker.addTarget(self, action: #selector(fieldDatePickerHandler(_:)), for: UIControlEvents.valueChanged)
+		
+		// TODO: handle this in the storyborad file
+		let doneBtn2 = UIButton(type: .system)
+		doneBtn2.translatesAutoresizingMaskIntoConstraints = false
+		doneBtn2.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
+		doneBtn2.addTarget(self, action: #selector(dismissDatePicker), for: .touchUpInside)
+		self.pickerPaletteView?.addSubview(doneBtn2)
+		views = ["doneBtn": doneBtn2]
+		allConstraints = [NSLayoutConstraint]()
+		allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[doneBtn]", options: [], metrics: nil, views: views)
+		allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:[doneBtn]-16-|", options: [], metrics: nil, views: views)
+		NSLayoutConstraint.activate(allConstraints)
     }
-    
+	
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -353,7 +417,7 @@ class ViewController: UIViewController {
         
         
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -368,7 +432,7 @@ class ViewController: UIViewController {
         // Field Date UI implementation
         self.pickerPaletteView.frame = CGRect(x: 0, y: self.view.bounds.size.height, width: self.view.bounds.size.width, height: pickerPaletteView.frame.size.height)
     }
-    
+	
     private dynamic func keyboardDidShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue
             else { return }
@@ -449,56 +513,45 @@ class ViewController: UIViewController {
         
         sender.isSelected = true
         
-
+        
     }
     
     // Since checkboxes are not native to iOS development, this keeps track if the button representing them is selected
     @IBAction func handleCheckbox(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-
+        
     }
     
     // Handles the Field Date checkpoint date input, needs to be updated such that it handles all date inputs
-    @IBAction func fieldDatePressed(_ sender: AnyObject) {
-
-        UIView.animate(withDuration: 0.3) {
+    @IBAction func fieldDatePressed(_ button: UIButton) {
+		
+		// toggle date picker visible/hidden
+		UIView.animate(withDuration: 0.3) {
             let top = (self.paletteVisible ? self.view.bounds.size.height : self.view.bounds.size.height - self.pickerPaletteView.frame.size.height);
             self.pickerPaletteView.frame = CGRect(x: 0, y: top, width: self.view.bounds.size.width, height: self.pickerPaletteView.frame.size.height)
             self.paletteVisible = !self.paletteVisible
         }
-        let doneBtn = UIButton(type: .system)
-        doneBtn.translatesAutoresizingMaskIntoConstraints = false
-        doneBtn.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
-        doneBtn.addTarget(self, action: #selector(DPdoneButton), for: .touchUpInside)
-        self.pickerPaletteView?.addSubview(doneBtn)
-        
-        let views = ["doneBtn": doneBtn]
-        var allConstraints = [NSLayoutConstraint]()
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[doneBtn]|", options: [], metrics: nil, views: views)
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:[doneBtn]-20-|", options: [], metrics: nil, views: views)
-        NSLayoutConstraint.activate(allConstraints)
-        
-
-        fieldDatePicker.addTarget(self, action: #selector(fieldDateHandler), for: UIControlEvents.valueChanged)
-        
+		
+		// keep track of which button triggered the date picker
+		currentInputDate = (paletteVisible ? button : nil)
     }
-    
-    func fieldDateHandler(sender: UIDatePicker, currentfield: UITextField){
-        var dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        var strDate = dateFormatter.string(from: fieldDatePicker.date)
-        self.inputDate1.text = strDate
+	
+	func fieldDatePickerHandler(_ datePicker: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+		dateFormatter.timeStyle = .none
+        let strDate = dateFormatter.string(from: datePicker.date)
+        currentInputDate?.setTitle(strDate, for: .normal)
     }
-    
-    func DPdoneButton(sender:UIButton){
+	
+    func dismissDatePicker(sender:UIButton){
         
         UIView.animate(withDuration: 0.3) {
             self.pickerPaletteView.frame = CGRect(x: 0, y: self.view.bounds.size.height, width: self.view.bounds.size.width, height: self.pickerPaletteView.frame.size.height)
-            //self.paletteVisible = !self.paletteVisible
         }
-        inputDate1.resignFirstResponder()
+        paletteVisible = false
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -520,3 +573,5 @@ class ViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+

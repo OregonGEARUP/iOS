@@ -15,13 +15,8 @@
 		F93314AE1DA47AD2007BF85B /* Checkpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93314AD1DA47AD2007BF85B /* Checkpoint.swift */; };
 		F93314B01DA47AE7007BF85B /* CheckpointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93314AF1DA47AE7007BF85B /* CheckpointManager.swift */; };
 		F93314B21DA47B3C007BF85B /* checkpoints.json in Resources */ = {isa = PBXBuildFile; fileRef = F93314B11DA47B3C007BF85B /* checkpoints.json */; };
-<<<<<<< HEAD
-		F95AAB331DDFD74F00082DF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F95AAB311DDFD74F00082DF4 /* Main.storyboard */; };
-		F95AAB361DDFD89200082DF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F95AAB341DDFD89200082DF4 /* LaunchScreen.storyboard */; };
-=======
-		F93314B81DA47B7F007BF85B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93314B41DA47B7F007BF85B /* LaunchScreen.storyboard */; };
-		F93314B91DA47B7F007BF85B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93314B61DA47B7F007BF85B /* Main.storyboard */; };
->>>>>>> origin/master
+		F948503A1DDFDAA500ADCB64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94850361DDFDAA500ADCB64 /* LaunchScreen.storyboard */; };
+		F948503B1DDFDAA500ADCB64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94850381DDFDAA500ADCB64 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,13 +51,8 @@
 		F93314AD1DA47AD2007BF85B /* Checkpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkpoint.swift; sourceTree = "<group>"; };
 		F93314AF1DA47AE7007BF85B /* CheckpointManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckpointManager.swift; sourceTree = "<group>"; };
 		F93314B11DA47B3C007BF85B /* checkpoints.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checkpoints.json; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		F95AAB321DDFD74F00082DF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "OR GEAR UP iOS JSON Parsing/Base.lproj/Main.storyboard"; sourceTree = SOURCE_ROOT; };
-		F95AAB351DDFD89200082DF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "OR GEAR UP iOS JSON Parsing/Base.lproj/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
-=======
-		F93314B51DA47B7F007BF85B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		F93314B71DA47B7F007BF85B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
->>>>>>> origin/master
+		F94850371DDFDAA500ADCB64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "OR GEAR UP iOS JSON Parsing/Base.lproj/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
+		F94850391DDFDAA500ADCB64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "OR GEAR UP iOS JSON Parsing/Base.lproj/Main.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,13 +136,8 @@
 		F93314B31DA47B7F007BF85B /* Base.lproj */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				F95AAB341DDFD89200082DF4 /* LaunchScreen.storyboard */,
-				F95AAB311DDFD74F00082DF4 /* Main.storyboard */,
-=======
-				F93314B41DA47B7F007BF85B /* LaunchScreen.storyboard */,
-				F93314B61DA47B7F007BF85B /* Main.storyboard */,
->>>>>>> origin/master
+				F94850361DDFDAA500ADCB64 /* LaunchScreen.storyboard */,
+				F94850381DDFDAA500ADCB64 /* Main.storyboard */,
 			);
 			name = Base.lproj;
 			path = "../../../Documents/workspace/iOS Projects/OR GEAR UP iOS JSON Parsing/OR GEAR UP iOS JSON Parsing/Base.lproj";
@@ -265,16 +250,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F948503A1DDFDAA500ADCB64 /* LaunchScreen.storyboard in Resources */,
 				F93314871DA47A5D007BF85B /* Assets.xcassets in Resources */,
-<<<<<<< HEAD
-				F95AAB361DDFD89200082DF4 /* LaunchScreen.storyboard in Resources */,
 				F93314B21DA47B3C007BF85B /* checkpoints.json in Resources */,
-				F95AAB331DDFD74F00082DF4 /* Main.storyboard in Resources */,
-=======
-				F93314B91DA47B7F007BF85B /* Main.storyboard in Resources */,
-				F93314B81DA47B7F007BF85B /* LaunchScreen.storyboard in Resources */,
-				F93314B21DA47B3C007BF85B /* checkpoints.json in Resources */,
->>>>>>> origin/master
+				F948503B1DDFDAA500ADCB64 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,37 +317,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-<<<<<<< HEAD
-		F95AAB311DDFD74F00082DF4 /* Main.storyboard */ = {
+		F94850361DDFDAA500ADCB64 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F95AAB321DDFD74F00082DF4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		F95AAB341DDFD89200082DF4 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F95AAB351DDFD89200082DF4 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-=======
-		F93314B41DA47B7F007BF85B /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F93314B51DA47B7F007BF85B /* Base */,
+				F94850371DDFDAA500ADCB64 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		F93314B61DA47B7F007BF85B /* Main.storyboard */ = {
+		F94850381DDFDAA500ADCB64 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F93314B71DA47B7F007BF85B /* Base */,
+				F94850391DDFDAA500ADCB64 /* Base */,
 			);
 			name = Main.storyboard;
->>>>>>> origin/master
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
