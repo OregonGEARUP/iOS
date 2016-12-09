@@ -41,6 +41,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var fieldLabel3: UILabel!
     @IBOutlet weak var inputField3: UITextField!
     
+    // inputFields collection
+    @IBOutlet var inputFields: [UITextField]!
+    
     // Radiobutton collection
     @IBOutlet var radioButtons: [UIButton]!
     
@@ -116,24 +119,17 @@ class ViewController: UIViewController {
             self.fieldLabel3.text = cp.entry.instances[2].prompt
             
             // Set up UserDefaults to store user data
+
             let defaults = UserDefaults.standard
-            
-            if let inputFieldContent1 = defaults.string(forKey: "fkey1") {
-                inputField1.text = inputFieldContent1
-            } else {
-                inputField1.becomeFirstResponder()
-            }
-            
-            if let inputFieldContent2 = defaults.string(forKey: "fkey2") {
-                inputField2.text = inputFieldContent2
-            } else {
-                
-                inputField2.becomeFirstResponder()
-            }
-            if let inputFieldContent3 = defaults.string(forKey: "fkey3") {
-                inputField3.text = inputFieldContent3
-            } else {
-                inputField3.becomeFirstResponder()
+            var inputfieldIndex: Int = 0;
+            for inputField in inputFields {
+                let inputFieldKey = "fkey" + String(inputfieldIndex+1)
+                if let inputFieldContent = defaults.string(forKey: inputFieldKey){
+                    inputField.text = inputFieldContent
+                } else {
+                    inputField.becomeFirstResponder()
+                }
+                inputfieldIndex += 1
             }
             
         case .CheckboxEntry:
