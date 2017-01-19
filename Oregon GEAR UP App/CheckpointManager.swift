@@ -9,6 +9,9 @@
 import Foundation
 
 
+
+  
+
 class CheckpointManager {
     
     static let sharedManager = CheckpointManager()      // this makes this class a "Singleton"
