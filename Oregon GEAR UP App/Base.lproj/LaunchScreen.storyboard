@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -30,14 +30,14 @@
                                     <constraint firstAttribute="width" secondItem="Utd-xd-o4E" secondAttribute="height" id="RfC-se-ttz"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GEAR UP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q0n-wC-ZJO">
-                                <rect key="frame" x="26" y="323" width="323" height="88"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="73"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GOES TO COLLEGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0n-wC-ZJO">
+                                <rect key="frame" x="26" y="307.5" width="323" height="119.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oregon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="99N-Is-3is">
-                                <rect key="frame" x="26" y="242" width="323" height="83"/>
+                                <rect key="frame" x="26" y="225.5" width="323" height="83"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="70"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +52,7 @@
                             <constraint firstItem="Utd-xd-o4E" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Qq6-Cc-5lm"/>
                             <constraint firstItem="Utd-xd-o4E" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.9" id="Vun-EK-Eei"/>
                             <constraint firstAttribute="trailingMargin" secondItem="99N-Is-3is" secondAttribute="trailing" constant="10" id="Zdb-XQ-eB7"/>
-                            <constraint firstItem="99N-Is-3is" firstAttribute="centerY" secondItem="Utd-xd-o4E" secondAttribute="centerY" multiplier="0.85" id="cs0-EB-lGI"/>
+                            <constraint firstItem="99N-Is-3is" firstAttribute="centerY" secondItem="Utd-xd-o4E" secondAttribute="centerY" multiplier="0.8" id="cs0-EB-lGI"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Q0n-wC-ZJO" secondAttribute="leading" constant="-10" id="eEL-lG-tao"/>
                         </constraints>
                     </view>

@@ -229,6 +229,7 @@ class ViewController: UIViewController {
 		
         if let moreInfo = cp.moreInfo {
             moreInfoButton.setTitle(moreInfo, for: .normal)
+			moreInfoButton.setTitle("https://oregongoestocollege.org", for: .normal)
             moreInfoButton.isHidden = false
         } else {
             moreInfoButton.isHidden = true
@@ -577,6 +578,7 @@ class ViewController: UIViewController {
     func showMoreInfo() {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
         vc.urlStr = CheckpointManager.sharedManager.checkpoints[checkpointIndex].moreInfo!
+		vc.urlStr = "https://oregongoestocollege.org"
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
