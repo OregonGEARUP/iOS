@@ -14,51 +14,16 @@ enum EntryType: String {
     case checkboxEntry = "checkbox"
 }
 
-class BaseInstance {
+struct Instance {
     let prompt: String
 	let placeholder: String
-	
-	init(prompt: String, placeholder: String){
-        self.prompt = prompt
-		self.placeholder = placeholder
-    }
 }
 
-class FieldInstance: BaseInstance{
-}
-
-class RadioInstance: BaseInstance{
-}
-
-class FieldDateInstance: BaseInstance{
-}
-
-class CheckboxInstance: BaseInstance{
-}
-
-struct Entry {
-    var type: EntryType
-    var instances = [BaseInstance]()
-	
-    // Make field entry struct that has two fields, prompt & placeholder (array of those)
-    init?(type: EntryType, instances: [BaseInstance]){
-        self.type = type
-        if instances.isEmpty {return nil}
-        self.instances = instances
-    }
-}
-
-class Checkpoint {
-    var title: String
-    var description: String
-    var moreInfo: String?
+struct Checkpoint {
+    let title: String
+    let description: String
+    let moreInfo: String?
     
-    var entry: Entry
-    
-    init(title: String, description: String, moreInfo: String?, type: EntryType, instances: [BaseInstance]){
-        self.title = title
-        self.description = description
-        self.moreInfo = moreInfo
-        self.entry = Entry(type: type, instances: instances)!
-    }
+	let type: EntryType
+	let instances: [Instance]
 }

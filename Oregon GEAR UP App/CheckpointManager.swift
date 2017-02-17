@@ -7,9 +7,6 @@
 //
 
 import Foundation
-
-
-
   
 
 class CheckpointManager {
@@ -51,21 +48,16 @@ class CheckpointManager {
 							let moreInfo = json["moreInfo"] as? String
 							
 							
-                            var cpInstances = [BaseInstance]()
+                            var cpInstances = [Instance]()
                             for  instance in instances {
 								
 								guard let prompt = instance["prompt"],
 									  let placeholder = instance["placeholder"]
 								else {
-									break
+									continue
 								}
 								
-                                switch type {
-                                case .fieldEntry:		cpInstances.append(FieldInstance(prompt: prompt, placeholder: placeholder))
-                                case .radioEntry:		cpInstances.append(RadioInstance(prompt: prompt, placeholder: placeholder))
-                                case .checkboxEntry:		cpInstances.append(CheckboxInstance(prompt: prompt, placeholder: placeholder))
-                                case .fieldDateEntry:	cpInstances.append(FieldDateInstance(prompt: prompt, placeholder: placeholder))
-                                }
+                                cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
                             }
                             
                             let checkpoint = Checkpoint(title: title, description: description, moreInfo: moreInfo, type: type, instances: cpInstances)
@@ -74,7 +66,6 @@ class CheckpointManager {
 						
                         success = true
                     }
-                    
                 } catch {
                     print("JSON error")
                 }
@@ -90,5 +81,3 @@ class CheckpointManager {
         task.resume()
     }
 }
-
-

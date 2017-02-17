@@ -237,16 +237,16 @@ class ViewController: UIViewController {
 		
         
         // Display checkpoint and load existing input from UserDefaults
-		setupStackViews(forEntryType:cp.entry.type)
+		setupStackViews(forEntryType:cp.type)
 		
 		let defaults = UserDefaults.standard
 		
-		switch cp.entry.type {
+		switch cp.type {
         case .fieldEntry:
 			
-            fieldLabel1.text = cp.entry.instances[0].prompt
-            fieldLabel2.text = cp.entry.instances[1].prompt
-            fieldLabel3.text = cp.entry.instances[2].prompt
+            fieldLabel1.text = cp.instances[0].prompt
+            fieldLabel2.text = cp.instances[1].prompt
+            fieldLabel3.text = cp.instances[2].prompt
 			
             // Restore user data
             if let inputFieldContent1 = defaults.string(forKey: "fkey1") {
@@ -261,7 +261,7 @@ class ViewController: UIViewController {
 		
         case .checkboxEntry:
             for (index, checkbox) in checkboxesButtons.enumerated() {
-                checkbox.setTitle(cp.entry.instances[index].prompt, for: .normal)
+                checkbox.setTitle(cp.instances[index].prompt, for: .normal)
 				
                 let cbKey = (titleLabel.text! + (checkbox.titleLabel?.text!)!)		// TODO: need a unique key here
                 checkbox.isSelected = defaults.bool(forKey: cbKey)
@@ -269,7 +269,7 @@ class ViewController: UIViewController {
 		
         case .radioEntry:
             for (index, radio) in radioButtons.enumerated() {
-                radio.setTitle(cp.entry.instances[index].prompt, for: .normal)
+                radio.setTitle(cp.instances[index].prompt, for: .normal)
 				
 				let radioKey = (titleLabel.text! + (radio.titleLabel?.text!)!)		// TODO: need a unique key here
                 radio.isSelected = defaults.bool(forKey: radioKey)
@@ -278,9 +278,9 @@ class ViewController: UIViewController {
         // Add UserDefaults loading once FieldDate collection has been implemented
         case .fieldDateEntry:
 			
-            fieldDateLabel1.text = cp.entry.instances[0].prompt
-            fieldDateLabel2.text = cp.entry.instances[1].prompt
-            fieldDateLabel3.text = cp.entry.instances[2].prompt
+            fieldDateLabel1.text = cp.instances[0].prompt
+            fieldDateLabel2.text = cp.instances[1].prompt
+            fieldDateLabel3.text = cp.instances[2].prompt
 			
 			// Restore user data
             if let inputFieldDateContent1 = defaults.string(forKey: "fdfield1") {
@@ -333,7 +333,7 @@ class ViewController: UIViewController {
         
         let cp = CheckpointManager.sharedManager.checkpoints[checkpointIndex]
         
-        let type = cp.entry.type
+        let type = cp.type
 		let defaults = UserDefaults.standard
 		
         switch type {
