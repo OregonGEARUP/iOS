@@ -19,12 +19,6 @@ class CheckpointManager {
     var checkpoints: [Checkpoint] = []
     
     private init() {
-        // self.checkpoints = loadCheckpoints()
-        /*fetchJSON() { (success) in
-         
-         print("fetchJSON was successful: \(success)")
-         
-         }*/
     }
     
     func fetchJSON(completion: @escaping (_ success: Bool) -> Void) {
@@ -36,76 +30,48 @@ class CheckpointManager {
             
             var success = false
             if let data = data {
-                
-                //print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
-                
+				
                 do {
                     if let jsonArray = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: Any]] {
                         
-                        // print out the array of dictionaries
-                        //print(jsonArray)
-                        
-                        
-                        // TODO: parse and store the data
-                        //var checkpoints: [Checkpoint] = []
-                        for json in jsonArray{
-                            guard let title = json["title"] as? String, let description = json["description"] as? String
-                                else {continue}
-                            let moreInfo = json["moreInfo"] as? String
-                            let cpEntry = json["entry"] as? [String: AnyObject]
-                            guard let typeStr = cpEntry?["type"] as? String
-                                else {continue}
-                            
-                            // TODO: deal with optional
-                            let type = EntryType(rawValue: typeStr)!
-                            
-                            
-                            
-                            let instances = cpEntry?["instances"] as? [[String: String]]
+                        for json in jsonArray {
+							
+							// required fields
+							guard let title = json["title"] as? String,
+								  let description = json["description"] as? String,
+								  let cpEntry = json["entry"] as? [String: AnyObject],			// TODO: this level is going away in the new JSON
+								  let typeStr = cpEntry["type"] as? String,
+								  let type = EntryType(rawValue: typeStr),
+								  let instances = cpEntry["instances"] as? [[String: String]]
+							else {
+								break
+							}
+							
+							// optional fields
+							let moreInfo = json["moreInfo"] as? String
+							
+							
                             var cpInstances = [BaseInstance]()
-                            for  instance in instances!{
-                                // TODO: Deal with '!' in code.
-                                // Cases for different types
-                                
+                            for  instance in instances {
+								
+								guard let prompt = instance["prompt"],
+									  let placeholder = instance["placeholder"]
+								else {
+									break
+								}
+								
                                 switch type {
-                                case .FieldEntry:
-                                    guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                                        else {break}
-                                    let fieldInstance = FieldInstance(prompt: prompt, placeholder: placeholder)
-                                    cpInstances.append(fieldInstance)
-                                case .RadioEntry:
-                                    guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                                        else {break}
-                                    let radioInstance = RadioInstance(prompt: prompt, placeholder: placeholder)
-                                    cpInstances.append(radioInstance)
-                                case .CheckboxEntry:
-                                    guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                                        else {break}
-                                    let checkboxInstance = CheckboxInstance(prompt: prompt, placeholder: placeholder)
-                                    cpInstances.append(checkboxInstance)
-                                case .FieldDateEntry:
-                                    guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                                        else {break}
-                                    let fielddateInstance = FieldDateInstance(prompt: prompt, placeholder: placeholder)
-                                    cpInstances.append(fielddateInstance)
+                                case .fieldEntry:		cpInstances.append(FieldInstance(prompt: prompt, placeholder: placeholder))
+                                case .radioEntry:		cpInstances.append(RadioInstance(prompt: prompt, placeholder: placeholder))
+                                case .checkboxEntry:		cpInstances.append(CheckboxInstance(prompt: prompt, placeholder: placeholder))
+                                case .fieldDateEntry:	cpInstances.append(FieldDateInstance(prompt: prompt, placeholder: placeholder))
                                 }
-                                
-                                
                             }
                             
                             let checkpoint = Checkpoint(title: title, description: description, moreInfo: moreInfo, type: type, instances: cpInstances)
                             self.checkpoints.append(checkpoint)
                         }
-                        for checkpoint in CheckpointManager.sharedManager.checkpoints {
-                            print(checkpoint.title)
-                            print(checkpoint.description)
-                            print(checkpoint.moreInfo)
-                            print(checkpoint.entry.type)
-                            for instance in checkpoint.entry.instances{
-                                print(instance)
-                            }
-                        }
-                        
+						
                         success = true
                     }
                     
@@ -122,78 +88,6 @@ class CheckpointManager {
         
         // run the task to fetch the JSON data
         task.resume()
-    }
-    
-    func loadCheckpoints() -> [Checkpoint] {
-        
-        let url = Bundle.main.url(forResource: "checkpoints", withExtension: "json")
-        let data = NSData(contentsOf: url!)
-        
-        var checkpoints: [Checkpoint] = []
-        do {
-            let jsonArray = try JSONSerialization.jsonObject(with: data! as Data) as! [[String : Any]]
-            for json in jsonArray{
-                guard let title = json["title"] as? String, let description = json["description"] as? String
-                    else {continue}
-                let moreInfo = json["moreInfo"] as? String
-                let cpEntry = json["entry"] as? [String: AnyObject]
-                guard let typeStr = cpEntry?["type"] as? String
-                    else {continue}
-                
-                // TODO: deal with optional
-                let type = EntryType(rawValue: typeStr)!
-                
-                
-                
-                let instances = cpEntry?["instances"] as? [[String: String]]
-                var cpInstances = [BaseInstance]()
-                for  instance in instances!{
-                    // TODO: Deal with '!' in code.
-                    // Cases for different types
-                    
-                    switch type {
-                    case .FieldEntry:
-                        guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                            else {break}
-                        let fieldInstance = FieldInstance(prompt: prompt, placeholder: placeholder)
-                        cpInstances.append(fieldInstance)
-                    case .RadioEntry:
-                        guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                            else {break}
-                        let radioInstance = RadioInstance(prompt: prompt, placeholder: placeholder)
-                        cpInstances.append(radioInstance)
-                    case .CheckboxEntry:
-                        guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                            else {break}
-                        let checkboxInstance = CheckboxInstance(prompt: prompt, placeholder: placeholder)
-                        cpInstances.append(checkboxInstance)
-                    case .FieldDateEntry:
-                        guard let prompt = instance["prompt"], let placeholder = instance["placeholder"]
-                            else {break}
-                        let fielddateInstance = FieldDateInstance(prompt: prompt, placeholder: placeholder)
-                        cpInstances.append(fielddateInstance)
-                    }
-                    
-                    
-                }
-                
-                let checkpoint = Checkpoint(title: title, description: description, moreInfo: moreInfo, type: type, instances: cpInstances)
-                checkpoints.append(checkpoint)
-            }
-            for checkpoint in checkpoints {
-                print(checkpoint.title)
-                print(checkpoint.description)
-                print(checkpoint.moreInfo)
-                print(checkpoint.entry.type)
-                for instance in checkpoint.entry.instances{
-                    print(instance)
-                }
-            }
-        }
-        catch {
-            print("error getting JSON data")
-        }
-        return checkpoints
     }
 }
 

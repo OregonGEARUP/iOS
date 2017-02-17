@@ -6,58 +6,41 @@
 //  Copyright © 2016 Oregon GEAR UP. All rights reserved.
 //
 
-import Foundation
 
 enum EntryType: String {
-    case FieldEntry = "field"
-    case RadioEntry = "radio"
-    case FieldDateEntry = "fielddate"
-    case CheckboxEntry = "checkbox"
+    case fieldEntry = "field"
+    case radioEntry = "radio"
+    case fieldDateEntry = "fielddate"
+    case checkboxEntry = "checkbox"
     
 }
 
-class BaseInstance{
+class BaseInstance {
     let prompt: String
-    init(prompt: String){
+	let placeholder: String
+	
+	init(prompt: String, placeholder: String){
         self.prompt = prompt
+		self.placeholder = placeholder
     }
 }
 
 class FieldInstance: BaseInstance{
-    let placeholder: String
-    init(prompt: String, placeholder: String){
-        self.placeholder = placeholder
-        super.init(prompt: prompt)
-    }
 }
 
 class RadioInstance: BaseInstance{
-    let placeholder: String
-    init(prompt: String, placeholder: String){
-        self.placeholder = placeholder
-        super.init(prompt: prompt)
-    }
 }
 
 class FieldDateInstance: BaseInstance{
-    let placeholder: String
-    init(prompt: String, placeholder: String){
-        self.placeholder = placeholder
-        super.init(prompt: prompt)
-    }
 }
 
 class CheckboxInstance: BaseInstance{
-    let placeholder: String
-    init(prompt: String, placeholder: String){
-        self.placeholder = placeholder
-        super.init(prompt: prompt)
-    }
 }
 
 struct Entry {
     var type: EntryType
     var instances = [BaseInstance]()
+	
     // Make field entry struct that has two fields, prompt & placeholder (array of those)
     init?(type: EntryType, instances: [BaseInstance]){
         self.type = type

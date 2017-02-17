@@ -242,7 +242,7 @@ class ViewController: UIViewController {
 		let defaults = UserDefaults.standard
 		
 		switch cp.entry.type {
-        case .FieldEntry:
+        case .fieldEntry:
 			
             fieldLabel1.text = cp.entry.instances[0].prompt
             fieldLabel2.text = cp.entry.instances[1].prompt
@@ -259,7 +259,7 @@ class ViewController: UIViewController {
                 inputField3.text = inputFieldContent3
             }
 		
-        case .CheckboxEntry:
+        case .checkboxEntry:
             for (index, checkbox) in checkboxesButtons.enumerated() {
                 checkbox.setTitle(cp.entry.instances[index].prompt, for: .normal)
 				
@@ -267,7 +267,7 @@ class ViewController: UIViewController {
                 checkbox.isSelected = defaults.bool(forKey: cbKey)
             }
 		
-        case .RadioEntry:
+        case .radioEntry:
             for (index, radio) in radioButtons.enumerated() {
                 radio.setTitle(cp.entry.instances[index].prompt, for: .normal)
 				
@@ -276,7 +276,7 @@ class ViewController: UIViewController {
             }
 		
         // Add UserDefaults loading once FieldDate collection has been implemented
-        case .FieldDateEntry:
+        case .fieldDateEntry:
 			
             fieldDateLabel1.text = cp.entry.instances[0].prompt
             fieldDateLabel2.text = cp.entry.instances[1].prompt
@@ -305,10 +305,10 @@ class ViewController: UIViewController {
     }
 	
 	func setupStackViews(forEntryType type: EntryType) {
-		fieldStackview.isHidden = (type != .FieldEntry)
-		checkboxStackview.isHidden = (type != .CheckboxEntry)
-		radioStackview.isHidden = (type != .RadioEntry)
-		fieldDateStackview.isHidden = (type != .FieldDateEntry)
+		fieldStackview.isHidden = (type != .fieldEntry)
+		checkboxStackview.isHidden = (type != .checkboxEntry)
+		radioStackview.isHidden = (type != .radioEntry)
+		fieldDateStackview.isHidden = (type != .fieldDateEntry)
 	}
 	
     // next and previous checkpoint functions to navigate between checkpoints
@@ -337,7 +337,7 @@ class ViewController: UIViewController {
 		let defaults = UserDefaults.standard
 		
         switch type {
-        case .FieldEntry:
+        case .fieldEntry:
             defaults.set(inputField1.text, forKey: "fkey1")
             defaults.set(inputField2.text, forKey: "fkey2")
             defaults.set(inputField3.text, forKey: "fkey3")
@@ -350,7 +350,7 @@ class ViewController: UIViewController {
             // let testField3 = defaults.object(forKey: "fkey3")
             // print(testField1, testField2, testField3)
             
-        case.CheckboxEntry:
+        case .checkboxEntry:
             var keyHolder: [String] = []
             for checkbox in checkboxesButtons{
                 if checkbox.isSelected {
@@ -368,7 +368,7 @@ class ViewController: UIViewController {
 //                print(defaults.object(forKey: key))
 //            }
 			
-        case.RadioEntry:
+        case .radioEntry:
             var radioKeyHolder: [String] = []
             for radiobtn in radioButtons {
                 if radiobtn.isSelected {
@@ -385,7 +385,7 @@ class ViewController: UIViewController {
 //                print(defaults.object(forKey: key))
 //            }
             
-        case .FieldDateEntry:
+        case .fieldDateEntry:
             defaults.set(inputFieldDate1.text, forKey: "fdfield1")
             defaults.set(inputDate1.title(for: .normal), forKey: "fddate1")
             defaults.set(inputFieldDate2.text, forKey: "fdfield2")
