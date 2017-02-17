@@ -11,7 +11,7 @@ import Foundation
 
 struct Block {
 	let identifier: String
-	let date: Date
+	let date: String
 	let stages: [Stage]
 	
 }

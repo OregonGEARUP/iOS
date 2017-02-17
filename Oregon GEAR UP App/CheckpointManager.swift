@@ -11,65 +11,36 @@ import Foundation
 
 class CheckpointManager {
     
-    static let sharedManager = CheckpointManager()      // this makes this class a "Singleton"
+    static let shared = CheckpointManager()
     
-    var checkpoints: [Checkpoint] = []
+    var blocks = [Block]()
+	
+	// TEMPORARY bridge to a set of Checkpoints
+	var checkpoints: [Checkpoint] {
+		return blocks[0].stages[0].checkpoints
+	}
     
     private init() {
     }
     
-    func fetchJSON(completion: @escaping (_ success: Bool) -> Void) {
-        let urlstr = NSString(format: "https://raw.githubusercontent.com/Sam-Makman/json/master/fields.json") as String
-        let url = URL(string: urlstr)
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: url!) { (data, reponse, error) -> Void in
+    func fetchCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
+		
+		let url = URL(string: "https://oregongoestocollege.org/mobileApp/SampleData.json")!
+        let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
             
             var success = false
             if let data = data {
 				
-                do {
-                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: Any]] {
-                        
-                        for json in jsonArray {
-							
-							// required fields
-							guard let title = json["title"] as? String,
-								  let description = json["description"] as? String,
-								  let cpEntry = json["entry"] as? [String: AnyObject],			// TODO: this level is going away in the new JSON
-								  let typeStr = cpEntry["type"] as? String,
-								  let type = EntryType(rawValue: typeStr),
-								  let instances = cpEntry["instances"] as? [[String: String]]
-							else {
-								break
-							}
-							
-							// optional fields
-							let moreInfo = json["moreInfo"] as? String
-							
-							
-                            var cpInstances = [Instance]()
-                            for  instance in instances {
-								
-								guard let prompt = instance["prompt"],
-									  let placeholder = instance["placeholder"]
-								else {
-									continue
-								}
-								
-                                cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
-                            }
-                            
-                            let checkpoint = Checkpoint(title: title, description: description, moreInfo: moreInfo, type: type, instances: cpInstances)
-                            self.checkpoints.append(checkpoint)
-                        }
+				do {
+					if let jsonArray = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
 						
-                        success = true
-                    }
-                } catch {
-                    print("JSON error")
-                }
-                
+						self.blocks = self.parseBlocks(from: jsonArray)
+						success = true
+					}
+				} catch {
+					print("JSON error")
+				}
+				
                 // call the completion block on the main thread
                 DispatchQueue.main.async(execute: {
                     completion(success)
@@ -80,4 +51,83 @@ class CheckpointManager {
         // run the task to fetch the JSON data
         task.resume()
     }
+	
+	private func parseBlocks(from jsonArray: [[String: Any]]) -> [Block] {
+		
+		var blocks = [Block]()
+		for jsonDict in jsonArray {
+			
+			guard let date = jsonDict["date"] as? String,
+				let identifier = jsonDict["id"] as? String,
+				let jsonArray = jsonDict["stages"] as? [[String: Any]]
+			else {
+				continue
+			}
+			
+			let stages = parseStages(from: jsonArray)
+			let block = Block(identifier: identifier, date: date, stages: stages)
+			blocks.append(block)
+		}
+		
+		return blocks
+	}
+	
+	private func parseStages(from jsonArray: [[String: Any]]) -> [Stage] {
+		
+		var stages = [Stage]()
+		for jsonDict in jsonArray {
+			
+			guard let identifier = jsonDict["id"] as? String,
+				let title = jsonDict["title"] as? String,
+				let image = jsonDict["img"] as? String,
+				let jsonArray = jsonDict["checkpoints"] as? [[String: Any]]
+			else {
+				continue
+			}
+			
+			let checkpoints = parseCheckpoints(from: jsonArray)
+			let stage = Stage(identifier: identifier, title: title, image: image, checkpoints: checkpoints)
+			stages.append(stage)
+		}
+		
+		return stages
+	}
+	
+	private func parseCheckpoints(from jsonArray: [[String: Any]]) -> [Checkpoint] {
+		
+		var checkpoints = [Checkpoint]()
+		for json in jsonArray {
+			
+			// required fields
+			guard let title = json["title"] as? String,
+				let description = json["description"] as? String,
+				let typeStr = json["type"] as? String,
+				let type = EntryType(rawValue: typeStr),
+				let instances = json["instances"] as? [[String: String]]
+			else {
+				continue
+			}
+			
+			// optional fields
+			let moreInfo = json["moreInfo"] as? String
+			
+			
+			var cpInstances = [Instance]()
+			for  instance in instances {
+				
+				guard let prompt = instance["prompt"],
+					let placeholder = instance["placeholder"]
+				else {
+					continue
+				}
+				
+				cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
+			}
+			
+			let checkpoint = Checkpoint(title: title, description: description, moreInfo: moreInfo, type: type, instances: cpInstances)
+			checkpoints.append(checkpoint)
+		}
+		
+		return checkpoints
+	}
 }

@@ -103,7 +103,7 @@ class ViewController: UIViewController {
 		fieldDateStackview.isHidden = true
 		
 		// load the JSON checkpoint information
-		CheckpointManager.sharedManager.fetchJSON() { (success) in
+		CheckpointManager.shared.fetchCheckpoints() { (success) in
 			
 			if success {
 				self.loadCheckpoint(at: self.checkpointIndex)
@@ -220,7 +220,7 @@ class ViewController: UIViewController {
 	func loadCheckpoint(at index: Int){
 		
         // Access CheckpointManager (singleton)
-        let cp = CheckpointManager.sharedManager.checkpoints[index]
+        let cp = CheckpointManager.shared.checkpoints[index]
 		
         // Set Title, Description, & More Info
         titleLabel.text = cp.title
@@ -229,7 +229,6 @@ class ViewController: UIViewController {
 		
         if let moreInfo = cp.moreInfo {
             moreInfoButton.setTitle(moreInfo, for: .normal)
-			moreInfoButton.setTitle("https://oregongoestocollege.org", for: .normal)
             moreInfoButton.isHidden = false
         } else {
             moreInfoButton.isHidden = true
@@ -313,7 +312,7 @@ class ViewController: UIViewController {
 	
     // next and previous checkpoint functions to navigate between checkpoints
     func showNextCheckPoint() {
-        let maxCP = CheckpointManager.sharedManager.checkpoints.count - 1
+        let maxCP = CheckpointManager.shared.checkpoints.count - 1
         if checkpointIndex < maxCP {
             checkpointIndex += 1
             loadCheckpoint(at: checkpointIndex)
@@ -331,7 +330,7 @@ class ViewController: UIViewController {
     // Handles the saving of user input to UserDefaults
     @IBAction func handleSubmit(_ sender: UIButton) {
         
-        let cp = CheckpointManager.sharedManager.checkpoints[checkpointIndex]
+        let cp = CheckpointManager.shared.checkpoints[checkpointIndex]
         
         let type = cp.type
 		let defaults = UserDefaults.standard
@@ -577,8 +576,7 @@ class ViewController: UIViewController {
     
     func showMoreInfo() {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
-        vc.urlStr = CheckpointManager.sharedManager.checkpoints[checkpointIndex].moreInfo!
-		vc.urlStr = "https://oregongoestocollege.org"
+        vc.urlStr = CheckpointManager.shared.checkpoints[checkpointIndex].moreInfo!
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
