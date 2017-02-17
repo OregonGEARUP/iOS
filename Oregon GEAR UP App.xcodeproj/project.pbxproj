@@ -7,17 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C462BFB1E5761BF0093BBB9 /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C462BFA1E5761BF0093BBB9 /* Stage.swift */; };
+		2C462BFD1E5762950093BBB9 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C462BFC1E5762950093BBB9 /* Block.swift */; };
 		F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */; };
 		F93BB5721DECA5D0000C6C56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5711DECA5D0000C6C56 /* ViewController.swift */; };
 		F93BB5751DECA5D0000C6C56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93BB5731DECA5D0000C6C56 /* Main.storyboard */; };
 		F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5761DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld */; };
 		F93BB57A1DECA5D0000C6C56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93BB5791DECA5D0000C6C56 /* Assets.xcassets */; };
 		F93BB57D1DECA5D0000C6C56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93BB57B1DECA5D0000C6C56 /* LaunchScreen.storyboard */; };
-		F93BB5851DECAAAA000C6C56 /* checkpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5841DECAAAA000C6C56 /* checkpoint.swift */; };
+		F93BB5851DECAAAA000C6C56 /* Checkpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5841DECAAAA000C6C56 /* Checkpoint.swift */; };
 		F93BB5871DECAB32000C6C56 /* CheckpointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5861DECAB32000C6C56 /* CheckpointManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C462BFA1E5761BF0093BBB9 /* Stage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
+		2C462BFC1E5762950093BBB9 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		F93BB56C1DECA5D0000C6C56 /* Oregon GEAR UP App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oregon GEAR UP App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F93BB5711DECA5D0000C6C56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -26,7 +30,7 @@
 		F93BB5791DECA5D0000C6C56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F93BB57C1DECA5D0000C6C56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F93BB57E1DECA5D0000C6C56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F93BB5841DECAAAA000C6C56 /* checkpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = checkpoint.swift; sourceTree = "<group>"; };
+		F93BB5841DECAAAA000C6C56 /* Checkpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkpoint.swift; sourceTree = "<group>"; };
 		F93BB5861DECAB32000C6C56 /* CheckpointManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckpointManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,7 +71,9 @@
 				F93BB57B1DECA5D0000C6C56 /* LaunchScreen.storyboard */,
 				F93BB57E1DECA5D0000C6C56 /* Info.plist */,
 				F93BB5761DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld */,
-				F93BB5841DECAAAA000C6C56 /* checkpoint.swift */,
+				F93BB5841DECAAAA000C6C56 /* Checkpoint.swift */,
+				2C462BFA1E5761BF0093BBB9 /* Stage.swift */,
+				2C462BFC1E5762950093BBB9 /* Block.swift */,
 				F93BB5861DECAB32000C6C56 /* CheckpointManager.swift */,
 			);
 			path = "Oregon GEAR UP App";
@@ -145,11 +151,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C462BFB1E5761BF0093BBB9 /* Stage.swift in Sources */,
+				2C462BFD1E5762950093BBB9 /* Block.swift in Sources */,
 				F93BB5871DECAB32000C6C56 /* CheckpointManager.swift in Sources */,
 				F93BB5721DECA5D0000C6C56 /* ViewController.swift in Sources */,
 				F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */,
 				F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */,
-				F93BB5851DECAAAA000C6C56 /* checkpoint.swift in Sources */,
+				F93BB5851DECAAAA000C6C56 /* Checkpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +317,7 @@
 				F93BB5831DECA5D0000C6C56 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

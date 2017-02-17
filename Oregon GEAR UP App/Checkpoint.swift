@@ -1,5 +1,5 @@
 //
-//  checkpoint.swift
+//  Checkpoint.swift
 //  Oregon GEAR UP App
 //
 //  Created by Max MacEachern on 11/28/16.
@@ -12,7 +12,6 @@ enum EntryType: String {
     case radioEntry = "radio"
     case fieldDateEntry = "fielddate"
     case checkboxEntry = "checkbox"
-    
 }
 
 class BaseInstance {
