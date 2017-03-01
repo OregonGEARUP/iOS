@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  StageViewController.swift
 //  Oregon GEAR UP App
 //
 //  Created by Max MacEachern on 11/28/16.
@@ -24,7 +24,7 @@ class WebViewController: UIViewController {
 }
 
 
-class ViewController: UIViewController {
+class StageViewController: UIViewController {
     
     // Outlets for the UI Elements shared by all checkpoint types
     @IBOutlet weak var titleLabel: UILabel!
@@ -101,16 +101,8 @@ class ViewController: UIViewController {
 		checkboxStackview.isHidden = true
 		radioStackview.isHidden = true
 		fieldDateStackview.isHidden = true
+		pickerPaletteView.isHidden = true
 		
-		// load the JSON checkpoint information
-		CheckpointManager.shared.fetchCheckpoints() { (success) in
-			
-			if success {
-				self.loadCheckpoint(at: self.checkpointIndex)
-			} else {
-				// TODO: show error here?
-			}
-		}
 		
 		// add a done button for the keyboard
 		keyboardAccessoryView = UIView(frame: CGRect(x:0.0, y:0.0, width:0.0, height:40.0))
@@ -191,6 +183,8 @@ class ViewController: UIViewController {
 		// hookup the keyboard show/hide notifications
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: Notification.Name.UIKeyboardDidShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		
+		loadCheckpoint(at: checkpointIndex)
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -547,6 +541,7 @@ class ViewController: UIViewController {
     @IBAction func fieldDatePressed(_ button: UIButton) {
 		
 		// toggle date picker visible/hidden
+		pickerPaletteView.isHidden = false
 		UIView.animate(withDuration: 0.3) {
             let top = (self.datePaletteVisible ? self.view.bounds.size.height : self.view.bounds.size.height - self.pickerPaletteView.frame.size.height);
             self.pickerPaletteView.frame = CGRect(x: 0, y: top, width: self.view.bounds.size.width, height: self.pickerPaletteView.frame.size.height)

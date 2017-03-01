@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		2C462BFB1E5761BF0093BBB9 /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C462BFA1E5761BF0093BBB9 /* Stage.swift */; };
 		2C462BFD1E5762950093BBB9 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C462BFC1E5762950093BBB9 /* Block.swift */; };
+		C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C19EB1E6640D300F253A0 /* BlockViewController.swift */; };
 		F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */; };
-		F93BB5721DECA5D0000C6C56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5711DECA5D0000C6C56 /* ViewController.swift */; };
+		F93BB5721DECA5D0000C6C56 /* StageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5711DECA5D0000C6C56 /* StageViewController.swift */; };
 		F93BB5751DECA5D0000C6C56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93BB5731DECA5D0000C6C56 /* Main.storyboard */; };
 		F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F93BB5761DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld */; };
 		F93BB57A1DECA5D0000C6C56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93BB5791DECA5D0000C6C56 /* Assets.xcassets */; };
@@ -22,9 +23,10 @@
 /* Begin PBXFileReference section */
 		2C462BFA1E5761BF0093BBB9 /* Stage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
 		2C462BFC1E5762950093BBB9 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		C64C19EB1E6640D300F253A0 /* BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewController.swift; sourceTree = "<group>"; };
 		F93BB56C1DECA5D0000C6C56 /* Oregon GEAR UP App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oregon GEAR UP App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F93BB5711DECA5D0000C6C56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F93BB5711DECA5D0000C6C56 /* StageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageViewController.swift; sourceTree = "<group>"; };
 		F93BB5741DECA5D0000C6C56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F93BB5771DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Oregon_GEAR_UP_App.xcdatamodel; sourceTree = "<group>"; };
 		F93BB5791DECA5D0000C6C56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,15 +67,16 @@
 			isa = PBXGroup;
 			children = (
 				F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */,
-				F93BB5711DECA5D0000C6C56 /* ViewController.swift */,
+				C64C19EB1E6640D300F253A0 /* BlockViewController.swift */,
+				F93BB5711DECA5D0000C6C56 /* StageViewController.swift */,
 				F93BB5731DECA5D0000C6C56 /* Main.storyboard */,
 				F93BB5791DECA5D0000C6C56 /* Assets.xcassets */,
 				F93BB57B1DECA5D0000C6C56 /* LaunchScreen.storyboard */,
 				F93BB57E1DECA5D0000C6C56 /* Info.plist */,
 				F93BB5761DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld */,
-				F93BB5841DECAAAA000C6C56 /* Checkpoint.swift */,
-				2C462BFA1E5761BF0093BBB9 /* Stage.swift */,
 				2C462BFC1E5762950093BBB9 /* Block.swift */,
+				2C462BFA1E5761BF0093BBB9 /* Stage.swift */,
+				F93BB5841DECAAAA000C6C56 /* Checkpoint.swift */,
 				F93BB5861DECAB32000C6C56 /* CheckpointManager.swift */,
 			);
 			path = "Oregon GEAR UP App";
@@ -154,9 +157,10 @@
 				2C462BFB1E5761BF0093BBB9 /* Stage.swift in Sources */,
 				2C462BFD1E5762950093BBB9 /* Block.swift in Sources */,
 				F93BB5871DECAB32000C6C56 /* CheckpointManager.swift in Sources */,
-				F93BB5721DECA5D0000C6C56 /* ViewController.swift in Sources */,
+				F93BB5721DECA5D0000C6C56 /* StageViewController.swift in Sources */,
 				F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */,
 				F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */,
+				C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */,
 				F93BB5851DECAAAA000C6C56 /* Checkpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

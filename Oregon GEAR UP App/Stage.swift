@@ -12,5 +12,4 @@ struct Stage {
 	let title: String
 	let image: String
 	let checkpoints: [Checkpoint]
-	
 }

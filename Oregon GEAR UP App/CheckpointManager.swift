@@ -58,6 +58,7 @@ class CheckpointManager {
 		for jsonDict in jsonArray {
 			
 			guard let date = jsonDict["date"] as? String,
+				let title = jsonDict["blocktitle"] as? String,
 				let identifier = jsonDict["id"] as? String,
 				let jsonArray = jsonDict["stages"] as? [[String: Any]]
 			else {
@@ -65,7 +66,7 @@ class CheckpointManager {
 			}
 			
 			let stages = parseStages(from: jsonArray)
-			let block = Block(identifier: identifier, date: date, stages: stages)
+			let block = Block(identifier: identifier, title: title, date: date, stages: stages)
 			blocks.append(block)
 		}
 		

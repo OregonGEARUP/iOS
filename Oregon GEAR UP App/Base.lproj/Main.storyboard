@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YYv-yI-MYJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YYv-yI-MYJ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,63 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Block View Controller-->
+        <scene sceneID="Agh-hD-1RU">
+            <objects>
+                <viewController id="oiw-ma-sQV" customClass="BlockViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aeS-6K-Fq5"/>
+                        <viewControllerLayoutGuide type="bottom" id="aId-t5-Jd6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZMp-oc-4Hd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP0-cB-eVZ">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="WsF-Uz-Mfj">
+                                        <rect key="frame" x="0.0" y="0.0" width="73" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rhx-pA-Y1z">
+                                                <rect key="frame" x="0.0" y="0.0" width="73" height="30"/>
+                                                <state key="normal" title="Stage One"/>
+                                                <connections>
+                                                    <segue destination="BYZ-38-t0r" kind="show" id="aM9-ai-Qw0"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="WsF-Uz-Mfj" secondAttribute="trailing" id="9Tq-q0-xBf"/>
+                                    <constraint firstItem="WsF-Uz-Mfj" firstAttribute="leading" secondItem="zP0-cB-eVZ" secondAttribute="leading" id="O07-fg-vKY"/>
+                                    <constraint firstItem="WsF-Uz-Mfj" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="top" id="aov-yb-Uj2"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zP0-cB-eVZ" firstAttribute="leading" secondItem="ZMp-oc-4Hd" secondAttribute="leading" id="TRz-6K-u0i"/>
+                            <constraint firstAttribute="trailing" secondItem="zP0-cB-eVZ" secondAttribute="trailing" id="r2m-vK-ux9"/>
+                            <constraint firstItem="zP0-cB-eVZ" firstAttribute="top" secondItem="aeS-6K-Fq5" secondAttribute="bottom" id="vxF-Sq-8EJ"/>
+                            <constraint firstItem="aId-t5-Jd6" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="bottom" id="xC1-wt-CtU"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="uCW-gw-dH1"/>
+                    <connections>
+                        <outlet property="scrollView" destination="zP0-cB-eVZ" id="bDD-8X-Yjg"/>
+                        <outlet property="stackView" destination="WsF-Uz-Mfj" id="1cO-KT-8WK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S4v-EE-754" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="88.799999999999997" y="117.39130434782609"/>
+        </scene>
+        <!--Stage View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="StageViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -304,7 +357,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IjA-gn-xw5">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="0.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="1"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
@@ -372,7 +425,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="356" y="119.1904047976012"/>
+            <point key="canvasLocation" x="799" y="119"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="axJ-kn-qbb">
@@ -418,12 +471,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="mDH-5K-zgV"/>
+                        <segue destination="oiw-ma-sQV" kind="relationship" relationship="rootViewController" id="VbP-0V-5VW"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cio-mT-dsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-533" y="120"/>
+            <point key="canvasLocation" x="-634" y="118"/>
         </scene>
     </scenes>
     <resources>

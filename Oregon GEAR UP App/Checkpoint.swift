@@ -10,7 +10,7 @@
 enum EntryType: String {
     case fieldEntry = "field"
     case radioEntry = "radio"
-    case fieldDateEntry = "fielddate"
+    case fieldDateEntry = "date"
     case checkboxEntry = "checkbox"
 }
 
