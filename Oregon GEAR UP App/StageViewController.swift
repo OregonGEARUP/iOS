@@ -232,68 +232,132 @@ class StageViewController: UIViewController {
         // Display checkpoint and load existing input from UserDefaults
 		setupStackViews(forEntryType:cp.type)
 		
-		let defaults = UserDefaults.standard
+//		let defaults = UserDefaults.standard
 		
 		switch cp.type {
         case .fieldEntry:
 			
-            fieldLabel1.text = cp.instances[0].prompt
-            fieldLabel2.text = cp.instances[1].prompt
-            fieldLabel3.text = cp.instances[2].prompt
+			if (cp.instances.count > 0) {
+				fieldLabel1.isHidden = false
+				inputField1.isHidden = false
+				fieldLabel1.text = cp.instances[0].prompt
+			} else {
+				fieldLabel1.isHidden = true
+				inputField1.isHidden = true
+			}
 			
-            // Restore user data
-            if let inputFieldContent1 = defaults.string(forKey: "fkey1") {
-                inputField1.text = inputFieldContent1
-            }
-            if let inputFieldContent2 = defaults.string(forKey: "fkey2") {
-                inputField2.text = inputFieldContent2
-            }
-            if let inputFieldContent3 = defaults.string(forKey: "fkey3") {
-                inputField3.text = inputFieldContent3
-            }
+			if (cp.instances.count > 1) {
+				fieldLabel2.isHidden = false
+				inputField2.isHidden = false
+				fieldLabel2.text = cp.instances[1].prompt
+			} else {
+				fieldLabel2.isHidden = true
+				inputField2.isHidden = true
+			}
+			
+			if (cp.instances.count > 2) {
+				fieldLabel3.isHidden = false
+				inputField3.isHidden = false
+				fieldLabel3.text = cp.instances[2].prompt
+			} else {
+				fieldLabel3.isHidden = true
+				inputField3.isHidden = true
+			}
+			
+//			// Restore user data
+//			if let inputFieldContent1 = defaults.string(forKey: "fkey1") {
+//				inputField1.text = inputFieldContent1
+//			}
+//			if let inputFieldContent2 = defaults.string(forKey: "fkey2") {
+//				inputField2.text = inputFieldContent2
+//			}
+//			if let inputFieldContent3 = defaults.string(forKey: "fkey3") {
+//				inputField3.text = inputFieldContent3
+//			}
 		
         case .checkboxEntry:
             for (index, checkbox) in checkboxesButtons.enumerated() {
-                checkbox.setTitle(cp.instances[index].prompt, for: .normal)
 				
-                let cbKey = (titleLabel.text! + (checkbox.titleLabel?.text!)!)		// TODO: need a unique key here
-                checkbox.isSelected = defaults.bool(forKey: cbKey)
+				if (index < cp.instances.count) {
+					checkbox.isHidden = false
+					checkbox.setTitle(cp.instances[index].prompt, for: .normal)
+				} else {
+					checkbox.isHidden = true
+				}
+				
+//				let cbKey = (titleLabel.text! + (checkbox.titleLabel?.text!)!)		// TODO: need a unique key here
+//				checkbox.isSelected = defaults.bool(forKey: cbKey)
             }
 		
         case .radioEntry:
             for (index, radio) in radioButtons.enumerated() {
-                radio.setTitle(cp.instances[index].prompt, for: .normal)
 				
-				let radioKey = (titleLabel.text! + (radio.titleLabel?.text!)!)		// TODO: need a unique key here
-                radio.isSelected = defaults.bool(forKey: radioKey)
+				if (index < cp.instances.count) {
+					radio.isHidden = false
+					radio.setTitle(cp.instances[index].prompt, for: .normal)
+				} else {
+					radio.isHidden = true
+				}
+				
+//				let radioKey = (titleLabel.text! + (radio.titleLabel?.text!)!)		// TODO: need a unique key here
+//				radio.isSelected = defaults.bool(forKey: radioKey)
             }
 		
         // Add UserDefaults loading once FieldDate collection has been implemented
         case .fieldDateEntry:
 			
-            fieldDateLabel1.text = cp.instances[0].prompt
-            fieldDateLabel2.text = cp.instances[1].prompt
-            fieldDateLabel3.text = cp.instances[2].prompt
+			if (cp.instances.count > 0) {
+				fieldDateLabel1.isHidden = false
+				inputFieldDate1.isHidden = false
+				inputDate1.isHidden = false
+				fieldDateLabel1.text = cp.instances[0].prompt
+			} else {
+				fieldDateLabel1.isHidden = true
+				inputFieldDate1.isHidden = true
+				inputDate1.isHidden = true
+			}
 			
-			// Restore user data
-            if let inputFieldDateContent1 = defaults.string(forKey: "fdfield1") {
-                inputFieldDate1.text = inputFieldDateContent1
-            }
-            if let inputDateContent1 = defaults.string(forKey: "fddate1"){
-                inputDate1.setTitle(inputDateContent1, for: .normal)
-            }
-            if let inputFieldDateContent2 = defaults.string(forKey: "fdfield2") {
-                inputFieldDate2.text = inputFieldDateContent2
-            }
-            if let inputDateContent2 = defaults.string(forKey: "fddate2"){
-                inputDate2.setTitle(inputDateContent2, for: .normal)
-            }
-            if let inputFieldDateContent3 = defaults.string(forKey: "fdfield3") {
-                inputFieldDate3.text = inputFieldDateContent3
-            }
-            if let inputDateContent3 = defaults.string(forKey: "fddate3"){
-                inputDate3.setTitle(inputDateContent3, for: .normal)
-            }
+			if (cp.instances.count > 1) {
+				fieldDateLabel2.isHidden = false
+				inputFieldDate2.isHidden = false
+				inputDate2.isHidden = false
+				fieldDateLabel2.text = cp.instances[1].prompt
+			} else {
+				fieldDateLabel2.isHidden = true
+				inputFieldDate2.isHidden = true
+				inputDate2.isHidden = true
+			}
+			
+			if (cp.instances.count > 2) {
+				fieldDateLabel3.isHidden = false
+				inputFieldDate3.isHidden = false
+				inputDate3.isHidden = false
+				fieldDateLabel3.text = cp.instances[2].prompt
+			} else {
+				fieldDateLabel3.isHidden = true
+				inputFieldDate3.isHidden = true
+				inputDate3.isHidden = true
+			}
+			
+//			// Restore user data
+//			if let inputFieldDateContent1 = defaults.string(forKey: "fdfield1") {
+//				inputFieldDate1.text = inputFieldDateContent1
+//			}
+//			if let inputDateContent1 = defaults.string(forKey: "fddate1"){
+//				inputDate1.setTitle(inputDateContent1, for: .normal)
+//			}
+//			if let inputFieldDateContent2 = defaults.string(forKey: "fdfield2") {
+//				inputFieldDate2.text = inputFieldDateContent2
+//			}
+//			if let inputDateContent2 = defaults.string(forKey: "fddate2"){
+//				inputDate2.setTitle(inputDateContent2, for: .normal)
+//			}
+//			if let inputFieldDateContent3 = defaults.string(forKey: "fdfield3") {
+//				inputFieldDate3.text = inputFieldDateContent3
+//			}
+//			if let inputDateContent3 = defaults.string(forKey: "fddate3"){
+//				inputDate3.setTitle(inputDateContent3, for: .normal)
+//			}
         }
     }
 	
@@ -323,7 +387,9 @@ class StageViewController: UIViewController {
     
     // Handles the saving of user input to UserDefaults
     @IBAction func handleSubmit(_ sender: UIButton) {
-        
+		
+		return		// TODO: fix all this to have unique keys
+		
         let cp = CheckpointManager.shared.checkpoints[checkpointIndex]
         
         let type = cp.type
@@ -386,15 +452,15 @@ class StageViewController: UIViewController {
             defaults.set(inputFieldDate3.text, forKey: "fdfield3")
             defaults.set(inputDate3.title(for: .normal), forKey: "fddate3")
             defaults.synchronize()
-            //            Used for testing
-            //            let testFDfield1 = defaults.object(forKey: "fdfield1")
-            //            let testFDDate1 = defaults.object(forKey: "fddate1")
-            //            let testFDfield2 = defaults.object(forKey: "fdfield2")
-            //            let testFDDate2 = defaults.object(forKey: "fddate2")
-            //            let testFDfield3 = defaults.object(forKey: "fdfield3")
-            //            let testFDDate3 = defaults.object(forKey: "fddate3")
-            //
-            //            print(testFDfield1, testFDDate1, testFDfield2, testFDDate2, testFDfield3, testFDDate3)
+//            Used for testing
+//            let testFDfield1 = defaults.object(forKey: "fdfield1")
+//            let testFDDate1 = defaults.object(forKey: "fddate1")
+//            let testFDfield2 = defaults.object(forKey: "fdfield2")
+//            let testFDDate2 = defaults.object(forKey: "fddate2")
+//            let testFDfield3 = defaults.object(forKey: "fdfield3")
+//            let testFDDate3 = defaults.object(forKey: "fddate3")
+//
+//            print(testFDfield1, testFDDate1, testFDfield2, testFDDate2, testFDfield3, testFDDate3)
         }
     }
     
