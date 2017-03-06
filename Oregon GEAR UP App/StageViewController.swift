@@ -89,8 +89,6 @@ class StageViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.title = NSLocalizedString("Checkpoint", comment: "checking screen title")
-		
 		// add hanlders for moreInfo, Next and Prev buttons
 		moreInfoButton.addTarget(self, action: #selector(showMoreInfo), for: .touchUpInside)
 		nextButton.addTarget(self, action: #selector(showNextCheckPoint), for: .touchUpInside)
@@ -186,6 +184,8 @@ class StageViewController: UIViewController {
 		// hookup the keyboard show/hide notifications
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: Notification.Name.UIKeyboardDidShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		
+		title = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].title
 		
 		loadCheckpoint(at: checkpointIndex)
 	}

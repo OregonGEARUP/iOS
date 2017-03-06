@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -21,23 +21,23 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" alpha="0.10000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gear" translatesAutoresizingMaskIntoConstraints="NO" id="Utd-xd-o4E">
-                                <rect key="frame" x="-113" y="33.5" width="600" height="600"/>
+                                <rect key="frame" x="-95.5" y="28.5" width="511" height="511"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Utd-xd-o4E" secondAttribute="height" id="RfC-se-ttz"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GOES TO COLLEGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0n-wC-ZJO">
-                                <rect key="frame" x="26" y="307.5" width="323" height="119.5"/>
+                                <rect key="frame" x="26" y="267" width="268" height="119.5"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oregon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="99N-Is-3is">
-                                <rect key="frame" x="26" y="225.5" width="323" height="83"/>
+                                <rect key="frame" x="26" y="185.5" width="268" height="83"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="70"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Q0n-wC-ZJO" secondAttribute="trailing" constant="10" id="2EA-T8-8rV"/>
-                            <constraint firstItem="Q0n-wC-ZJO" firstAttribute="centerY" secondItem="Utd-xd-o4E" secondAttribute="centerY" multiplier="1.1" id="8bn-2c-FIe"/>
+                            <constraint firstItem="Q0n-wC-ZJO" firstAttribute="centerY" secondItem="Utd-xd-o4E" secondAttribute="centerY" multiplier="1.15" id="8bn-2c-FIe"/>
                             <constraint firstAttribute="leadingMargin" secondItem="99N-Is-3is" secondAttribute="leading" constant="-10" id="Ius-YL-OAr"/>
                             <constraint firstItem="Utd-xd-o4E" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="JKJ-ig-7YB"/>
                             <constraint firstItem="Utd-xd-o4E" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Qq6-Cc-5lm"/>
