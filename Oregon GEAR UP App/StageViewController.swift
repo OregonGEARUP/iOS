@@ -76,8 +76,11 @@ class StageViewController: UIViewController {
 	
     // view used for keyboard Done button
     private var keyboardAccessoryView: UIView!
-    
-    var checkpointIndex: Int = 0
+	
+	var blockIndex = 0
+	var stageIndex = 0
+    var checkpointIndex = 0
+	
     var datePaletteVisible = false
 	
 	
@@ -213,8 +216,7 @@ class StageViewController: UIViewController {
 	
 	func loadCheckpoint(at index: Int){
 		
-        // Access CheckpointManager (singleton)
-        let cp = CheckpointManager.shared.checkpoints[index]
+        let cp = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints[index]
 		
         // Set Title, Description, & More Info
         titleLabel.text = cp.title
@@ -370,7 +372,7 @@ class StageViewController: UIViewController {
 	
     // next and previous checkpoint functions to navigate between checkpoints
     func showNextCheckPoint() {
-        let maxCP = CheckpointManager.shared.checkpoints.count - 1
+        let maxCP = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints.count - 1
         if checkpointIndex < maxCP {
             checkpointIndex += 1
             loadCheckpoint(at: checkpointIndex)

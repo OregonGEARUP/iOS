@@ -13,6 +13,8 @@ class BlockViewController: UIViewController {
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var stackView: UIStackView!
 	
+	var blockIndex = 0
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,19 +22,32 @@ class BlockViewController: UIViewController {
 		CheckpointManager.shared.fetchCheckpoints() { (success) in
 			
 			if success {
-				self.title = CheckpointManager.shared.blocks[0].title
+				let block = CheckpointManager.shared.blocks[self.blockIndex]
 				
+				self.title = block.title
 				
-				// TODO: need to build buttons for each stage in block[0] and add them to the arrangedSubviews of the stackView
-				
-				// NOTE: I added one button to the allow access to the stage view controller screen (you will need to remove that from the storyboard when you do the real buttons here)
-				
+				for (index, stage) in block.stages.enumerated() {
+					
+					let button = UIButton(type: .custom)
+					button.tag = index
+					button.setTitle(stage.title, for: .normal)
+					button.addTarget(self, action: #selector(self.handleStageTap(_:)), for: .touchUpInside)
+					
+					button.setTitleColor(.gray, for: .normal)
+					button.setTitleColor(.lightGray, for: .highlighted)
+					
+					button.layer.cornerRadius = 5.0
+					button.layer.backgroundColor = UIColor.cyan.withAlphaComponent(0.3).cgColor
+					
+					self.stackView.addArrangedSubview(button)
+
+					button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+				}
 				
 			} else {
 				// TODO: show error here?
 			}
 		}
-
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -45,16 +60,13 @@ class BlockViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+	
+	dynamic func handleStageTap(_ button: UIButton) {
+		
+		let vc: StageViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "stage") as! StageViewController
+		vc.blockIndex = 0
+		vc.stageIndex = button.tag
+		self.navigationController?.pushViewController(vc, animated: true)
+	}
+	
 }
