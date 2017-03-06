@@ -91,8 +91,8 @@ class StageViewController: UIViewController {
 		
 		// add hanlders for moreInfo, Next and Prev buttons
 		moreInfoButton.addTarget(self, action: #selector(showMoreInfo), for: .touchUpInside)
-		nextButton.addTarget(self, action: #selector(showNextCheckPoint), for: .touchUpInside)
-		prevButton.addTarget(self, action: #selector(showPrevCheckPoint), for: .touchUpInside)
+		nextButton.addTarget(self, action: #selector(showNextCheckpoint), for: .touchUpInside)
+		prevButton.addTarget(self, action: #selector(showPrevCheckpoint), for: .touchUpInside)
 		
 		// empty the UI until we have data to drive it
 		titleLabel.text = nil
@@ -214,9 +214,15 @@ class StageViewController: UIViewController {
 	
 	// MARK: - Checkpoint Handling
 	
-	func loadCheckpoint(at index: Int){
+	func loadCheckpoint(at index: Int) {
 		
-        let cp = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints[index]
+		if index < 0 || index >= CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints.count {
+			return
+		}
+		
+		checkpointIndex = index
+		
+        let cp = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints[checkpointIndex]
 		
         // Set Title, Description, & More Info
         titleLabel.text = cp.title
@@ -361,6 +367,11 @@ class StageViewController: UIViewController {
 //				inputDate3.setTitle(inputDateContent3, for: .normal)
 //			}
         }
+		
+		UIView.animate(withDuration: 0.3) {
+			self.nextButton.alpha = (self.checkpointIndex < CheckpointManager.shared.blocks[self.blockIndex].stages[self.stageIndex].checkpoints.count - 1 ? 1.0 : 0.0)
+			self.prevButton.alpha = (self.checkpointIndex > 0 ? 1.0 : 0.0)
+		}
     }
 	
 	func setupStackViews(forEntryType type: EntryType) {
@@ -371,18 +382,15 @@ class StageViewController: UIViewController {
 	}
 	
     // next and previous checkpoint functions to navigate between checkpoints
-    func showNextCheckPoint() {
-        let maxCP = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints.count - 1
-        if checkpointIndex < maxCP {
-            checkpointIndex += 1
-            loadCheckpoint(at: checkpointIndex)
+    func showNextCheckpoint() {
+        if checkpointIndex < CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints.count - 1 {
+            loadCheckpoint(at: checkpointIndex+1)
         }
     }
     
-    func showPrevCheckPoint() {
+    func showPrevCheckpoint() {
         if checkpointIndex > 0 {
-            checkpointIndex -= 1
-			loadCheckpoint(at: checkpointIndex)
+			loadCheckpoint(at: checkpointIndex-1)
         }
     }
     

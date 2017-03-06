@@ -33,6 +33,7 @@ class BlockViewController: UIViewController {
 					button.setTitle(stage.title, for: .normal)
 					button.addTarget(self, action: #selector(self.handleStageTap(_:)), for: .touchUpInside)
 					
+					button.titleLabel?.font = UIFont.systemFont(ofSize: 24.0)
 					button.setTitleColor(.gray, for: .normal)
 					button.setTitleColor(.lightGray, for: .highlighted)
 					
@@ -42,6 +43,7 @@ class BlockViewController: UIViewController {
 					self.stackView.addArrangedSubview(button)
 
 					button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+					button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
 				}
 				
 			} else {

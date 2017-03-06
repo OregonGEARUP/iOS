@@ -44,7 +44,9 @@
                             <constraint firstItem="aId-t5-Jd6" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="bottom" id="xC1-wt-CtU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uCW-gw-dH1"/>
+                    <navigationItem key="navigationItem" id="uCW-gw-dH1">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="3zv-M4-9hT"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="scrollView" destination="zP0-cB-eVZ" id="bDD-8X-Yjg"/>
                         <outlet property="stackView" destination="WsF-Uz-Mfj" id="1cO-KT-8WK"/>
