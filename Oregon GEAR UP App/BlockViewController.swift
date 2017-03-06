@@ -13,7 +13,7 @@ class BlockViewController: UIViewController {
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var stackView: UIStackView!
 	
-	var blockIndex = 0
+	var blockIndex = 0		// TODO: need to set this programatically
 	
     override func viewDidLoad() {
         super.viewDidLoad()
