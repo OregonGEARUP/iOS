@@ -373,6 +373,7 @@ class StageViewController: UIViewController {
 		UIView.animate(withDuration: 0.3) {
 			self.nextButton.alpha = (self.checkpointIndex < CheckpointManager.shared.blocks[self.blockIndex].stages[self.stageIndex].checkpoints.count - 1 ? 1.0 : 0.0)
 			self.prevButton.alpha = (self.checkpointIndex > 0 ? 1.0 : 0.0)
+			self.submitButton.alpha = (cp.type != .infoEntry ? 1.0 : 0.0)
 		}
     }
 	
