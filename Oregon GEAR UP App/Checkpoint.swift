@@ -6,12 +6,14 @@
 //  Copyright © 2016 Oregon GEAR UP. All rights reserved.
 //
 
+import Foundation
 
 enum EntryType: String {
     case fieldEntry = "field"
     case radioEntry = "radio"
     case fieldDateEntry = "date"
     case checkboxEntry = "checkbox"
+	case infoEntry = "info"
 }
 
 struct Instance {
@@ -20,9 +22,11 @@ struct Instance {
 }
 
 struct Checkpoint {
+	let required: Bool
     let title: String
     let description: String
     let moreInfo: String?
+	let moreInfoURL: URL?
     
 	let type: EntryType
 	let instances: [Instance]

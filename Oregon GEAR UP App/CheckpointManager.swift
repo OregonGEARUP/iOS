@@ -25,7 +25,8 @@ class CheckpointManager {
     
     func fetchCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
-		let url = URL(string: "https://oregongoestocollege.org/mobileApp/SampleData.json")!
+//		let url = URL(string: "https://oregongoestocollege.org/mobileApp/SampleData.json")!
+		let url = URL(string: "https://oregongoestocollege.org/mobileApp/ExploreYourOptions.json")!
         let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
             
             var success = false
@@ -57,8 +58,7 @@ class CheckpointManager {
 		var blocks = [Block]()
 		for jsonDict in jsonArray {
 			
-			guard let date = jsonDict["date"] as? String,
-				let title = jsonDict["blocktitle"] as? String,
+			guard let title = jsonDict["blocktitle"] as? String,
 				let identifier = jsonDict["id"] as? String,
 				let jsonArray = jsonDict["stages"] as? [[String: Any]]
 			else {
@@ -66,7 +66,7 @@ class CheckpointManager {
 			}
 			
 			let stages = parseStages(from: jsonArray)
-			let block = Block(identifier: identifier, title: title, date: date, stages: stages)
+			let block = Block(identifier: identifier, title: title, stages: stages)
 			blocks.append(block)
 		}
 		
@@ -100,7 +100,8 @@ class CheckpointManager {
 		for json in jsonArray {
 			
 			// required fields
-			guard let title = json["title"] as? String,
+			guard let requiredStr = json["requiredCP"] as? String,
+				let title = json["title"] as? String,
 				let description = json["description"] as? String,
 				let typeStr = json["type"] as? String,
 				let type = EntryType(rawValue: typeStr),
@@ -109,9 +110,14 @@ class CheckpointManager {
 				continue
 			}
 			
-			// optional fields
-			let moreInfo = json["moreInfo"] as? String
+			let required = (requiredStr.lowercased() == "yes")
 			
+			// optional fields
+			let moreInfo = json["urlText"] as? String
+			var moreInfoURL: URL? = nil
+			if let moreInfoURLStr = json["url"] as? String {
+				moreInfoURL = URL(string: moreInfoURLStr)
+			}
 			
 			var cpInstances = [Instance]()
 			for  instance in instances {
@@ -125,7 +131,7 @@ class CheckpointManager {
 				cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
 			}
 			
-			let checkpoint = Checkpoint(title: title, description: description, moreInfo: moreInfo, type: type, instances: cpInstances)
+			let checkpoint = Checkpoint(required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances)
 			checkpoints.append(checkpoint)
 		}
 		

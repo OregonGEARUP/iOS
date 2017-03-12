@@ -10,13 +10,13 @@ import UIKit
 
 
 class WebViewController: UIViewController {
-    var urlStr: String?
+    var url: URL?
     @IBOutlet weak var webView: UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		if let urlStr = urlStr, let ulr = URL(string:urlStr) {
+		if let ulr = url {
 			let request = URLRequest(url: ulr)
 			self.webView.loadRequest(request)
 		}
@@ -366,6 +366,15 @@ class StageViewController: UIViewController {
 //			if let inputDateContent3 = defaults.string(forKey: "fddate3"){
 //				inputDate3.setTitle(inputDateContent3, for: .normal)
 //			}
+			
+		case .infoEntry:
+			fieldLabel1.isHidden = true
+			inputField1.isHidden = true
+			fieldLabel2.isHidden = true
+			inputField2.isHidden = true
+			fieldLabel3.isHidden = true
+			inputField3.isHidden = true
+			break
         }
 		
 		UIView.animate(withDuration: 0.3) {
@@ -375,7 +384,7 @@ class StageViewController: UIViewController {
     }
 	
 	func setupStackViews(forEntryType type: EntryType) {
-		fieldStackview.isHidden = (type != .fieldEntry)
+		fieldStackview.isHidden = (type != .fieldEntry && type != .infoEntry)
 		checkboxStackview.isHidden = (type != .checkboxEntry)
 		radioStackview.isHidden = (type != .radioEntry)
 		fieldDateStackview.isHidden = (type != .fieldDateEntry)
@@ -647,7 +656,7 @@ class StageViewController: UIViewController {
     
     func showMoreInfo() {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
-        vc.urlStr = CheckpointManager.shared.checkpoints[checkpointIndex].moreInfo!
+        vc.url = CheckpointManager.shared.checkpoints[checkpointIndex].moreInfoURL!
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
