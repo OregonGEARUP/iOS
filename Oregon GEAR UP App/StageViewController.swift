@@ -214,17 +214,24 @@ class StageViewController: UIViewController {
 	
 	// MARK: - Checkpoint Handling
 	
+	private var checkpoints: [Checkpoint] {
+		return CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints
+	}
+	
+	private func keyForInstanceIndex(_ instanceIndex: Int) -> String {
+		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
+	}
+	
 	func loadCheckpoint(at index: Int) {
 		
-		if index < 0 || index >= CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints.count {
+		if index < 0 || index >= checkpoints.count {
 			return
 		}
 		
 		checkpointIndex = index
+        let cp = checkpoints[checkpointIndex]
 		
-        let cp = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints[checkpointIndex]
-		
-        // Set Title, Description, & More Info
+        // set Title, Description, & More Info
         titleLabel.text = cp.title
 		
         descriptionLabel.text = cp.description
@@ -237,10 +244,10 @@ class StageViewController: UIViewController {
         }
 		
         
-        // Display checkpoint and load existing input from UserDefaults
+        // display checkpoint and load existing input from UserDefaults
 		setupStackViews(forEntryType:cp.type)
 		
-//		let defaults = UserDefaults.standard
+		let defaults = UserDefaults.standard
 		
 		switch cp.type {
         case .fieldEntry:
@@ -249,6 +256,9 @@ class StageViewController: UIViewController {
 				fieldLabel1.isHidden = false
 				inputField1.isHidden = false
 				fieldLabel1.text = cp.instances[0].prompt
+				if let fieldContent = defaults.string(forKey: keyForInstanceIndex(1)) {
+					inputField1.text = fieldContent
+				}
 			} else {
 				fieldLabel1.isHidden = true
 				inputField1.isHidden = true
@@ -258,6 +268,9 @@ class StageViewController: UIViewController {
 				fieldLabel2.isHidden = false
 				inputField2.isHidden = false
 				fieldLabel2.text = cp.instances[1].prompt
+				if let fieldContent = defaults.string(forKey: keyForInstanceIndex(2)) {
+					inputField2.text = fieldContent
+				}
 			} else {
 				fieldLabel2.isHidden = true
 				inputField2.isHidden = true
@@ -267,21 +280,13 @@ class StageViewController: UIViewController {
 				fieldLabel3.isHidden = false
 				inputField3.isHidden = false
 				fieldLabel3.text = cp.instances[2].prompt
+				if let fieldContent = defaults.string(forKey: keyForInstanceIndex(3)) {
+					inputField3.text = fieldContent
+				}
 			} else {
 				fieldLabel3.isHidden = true
 				inputField3.isHidden = true
 			}
-			
-//			// Restore user data
-//			if let inputFieldContent1 = defaults.string(forKey: "fkey1") {
-//				inputField1.text = inputFieldContent1
-//			}
-//			if let inputFieldContent2 = defaults.string(forKey: "fkey2") {
-//				inputField2.text = inputFieldContent2
-//			}
-//			if let inputFieldContent3 = defaults.string(forKey: "fkey3") {
-//				inputField3.text = inputFieldContent3
-//			}
 		
         case .checkboxEntry:
             for (index, checkbox) in checkboxesButtons.enumerated() {
@@ -289,12 +294,10 @@ class StageViewController: UIViewController {
 				if (index < cp.instances.count) {
 					checkbox.isHidden = false
 					checkbox.setTitle(cp.instances[index].prompt, for: .normal)
+					checkbox.isSelected = defaults.bool(forKey: keyForInstanceIndex(index+1))
 				} else {
 					checkbox.isHidden = true
 				}
-				
-//				let cbKey = (titleLabel.text! + (checkbox.titleLabel?.text!)!)		// TODO: need a unique key here
-//				checkbox.isSelected = defaults.bool(forKey: cbKey)
             }
 		
         case .radioEntry:
@@ -303,15 +306,12 @@ class StageViewController: UIViewController {
 				if (index < cp.instances.count) {
 					radio.isHidden = false
 					radio.setTitle(cp.instances[index].prompt, for: .normal)
+					radio.isSelected = defaults.bool(forKey: keyForInstanceIndex(index+1))
 				} else {
 					radio.isHidden = true
 				}
-				
-//				let radioKey = (titleLabel.text! + (radio.titleLabel?.text!)!)		// TODO: need a unique key here
-//				radio.isSelected = defaults.bool(forKey: radioKey)
             }
 		
-        // Add UserDefaults loading once FieldDate collection has been implemented
         case .fieldDateEntry:
 			
 			if (cp.instances.count > 0) {
@@ -319,6 +319,10 @@ class StageViewController: UIViewController {
 				inputFieldDate1.isHidden = false
 				inputDate1.isHidden = false
 				fieldDateLabel1.text = cp.instances[0].prompt
+				
+				let key1 = keyForInstanceIndex(1)
+				inputFieldDate1.text = defaults.string(forKey: "\(key1)_field")
+				inputDate1.setTitle(defaults.string(forKey: "\(key1)_date"), for: .normal)
 			} else {
 				fieldDateLabel1.isHidden = true
 				inputFieldDate1.isHidden = true
@@ -330,6 +334,10 @@ class StageViewController: UIViewController {
 				inputFieldDate2.isHidden = false
 				inputDate2.isHidden = false
 				fieldDateLabel2.text = cp.instances[1].prompt
+				
+				let key2 = keyForInstanceIndex(2)
+				inputFieldDate2.text = defaults.string(forKey: "\(key2)_field")
+				inputDate2.setTitle(defaults.string(forKey: "\(key2)_date"), for: .normal)
 			} else {
 				fieldDateLabel2.isHidden = true
 				inputFieldDate2.isHidden = true
@@ -341,33 +349,18 @@ class StageViewController: UIViewController {
 				inputFieldDate3.isHidden = false
 				inputDate3.isHidden = false
 				fieldDateLabel3.text = cp.instances[2].prompt
+				
+				let key3 = keyForInstanceIndex(3)
+				inputFieldDate3.text = defaults.string(forKey: "\(key3)_field")
+				inputDate3.setTitle(defaults.string(forKey: "\(key3)_date"), for: .normal)
 			} else {
 				fieldDateLabel3.isHidden = true
 				inputFieldDate3.isHidden = true
 				inputDate3.isHidden = true
 			}
 			
-//			// Restore user data
-//			if let inputFieldDateContent1 = defaults.string(forKey: "fdfield1") {
-//				inputFieldDate1.text = inputFieldDateContent1
-//			}
-//			if let inputDateContent1 = defaults.string(forKey: "fddate1"){
-//				inputDate1.setTitle(inputDateContent1, for: .normal)
-//			}
-//			if let inputFieldDateContent2 = defaults.string(forKey: "fdfield2") {
-//				inputFieldDate2.text = inputFieldDateContent2
-//			}
-//			if let inputDateContent2 = defaults.string(forKey: "fddate2"){
-//				inputDate2.setTitle(inputDateContent2, for: .normal)
-//			}
-//			if let inputFieldDateContent3 = defaults.string(forKey: "fdfield3") {
-//				inputFieldDate3.text = inputFieldDateContent3
-//			}
-//			if let inputDateContent3 = defaults.string(forKey: "fddate3"){
-//				inputDate3.setTitle(inputDateContent3, for: .normal)
-//			}
-			
 		case .infoEntry:
+			// info checkpoints just have static text
 			fieldLabel1.isHidden = true
 			inputField1.isHidden = true
 			fieldLabel2.isHidden = true
@@ -407,82 +400,61 @@ class StageViewController: UIViewController {
     // Handles the saving of user input to UserDefaults
     @IBAction func handleSubmit(_ sender: UIButton) {
 		
-		return		// TODO: fix all this to have unique keys
-		
-        let cp = CheckpointManager.shared.checkpoints[checkpointIndex]
-        
-        let type = cp.type
 		let defaults = UserDefaults.standard
 		
-        switch type {
+		let cp = checkpoints[checkpointIndex]
+        switch cp.type {
         case .fieldEntry:
-            defaults.set(inputField1.text, forKey: "fkey1")
-            defaults.set(inputField2.text, forKey: "fkey2")
-            defaults.set(inputField3.text, forKey: "fkey3")
-            // synchronize() updates UserDefaults to make sure you are working with current data
-            defaults.synchronize()
-            
-            // Used for testing
-            // let testField1 = defaults.object(forKey: "fkey1")
-            // let testField2 = defaults.object(forKey: "fkey2")
-            // let testField3 = defaults.object(forKey: "fkey3")
-            // print(testField1, testField2, testField3)
-            
+			if (cp.instances.count > 0) {
+				defaults.set(inputField1.text, forKey: keyForInstanceIndex(1))
+			}
+			if (cp.instances.count > 1) {
+				defaults.set(inputField2.text, forKey: keyForInstanceIndex(2))
+			}
+			if (cp.instances.count > 2) {
+				defaults.set(inputField3.text, forKey: keyForInstanceIndex(3))
+			}
+			
         case .checkboxEntry:
-            var keyHolder: [String] = []
-            for checkbox in checkboxesButtons{
-                if checkbox.isSelected {
-                    defaults.set(true, forKey: titleLabel.text! + (checkbox.titleLabel?.text!)!)
-                    keyHolder.append(titleLabel.text! + (checkbox.titleLabel?.text!)!)
-                    //print(titleLabel.text! + (checkbox.titleLabel?.text!)!)
-                }
-                else {
-                    defaults.set(false, forKey: titleLabel.text! + (checkbox.titleLabel?.text!)!)
-                    keyHolder.append(titleLabel.text! + (checkbox.titleLabel?.text!)!)
-                }
+            for (index, checkbox) in checkboxesButtons.enumerated() {
+				if (index < cp.instances.count) {
+					defaults.set(checkbox.isSelected, forKey: keyForInstanceIndex(index+1))
+				}
             }
-            defaults.synchronize()
-//            for key in keyHolder {
-//                print(defaults.object(forKey: key))
-//            }
 			
         case .radioEntry:
-            var radioKeyHolder: [String] = []
-            for radiobtn in radioButtons {
-                if radiobtn.isSelected {
-                    defaults.set(true, forKey: titleLabel.text! + (radiobtn.titleLabel?.text!)!)
-                    radioKeyHolder.append(titleLabel.text! + (radiobtn.titleLabel?.text!)!)
-                }
-                else {
-                    defaults.set(false, forKey: "radiobtnKey")
-                    radioKeyHolder.append(titleLabel.text! + (radiobtn.titleLabel?.text!)!)
-                }
+            for (index, radio) in radioButtons.enumerated() {
+				if (index < cp.instances.count) {
+					defaults.set(radio.isSelected, forKey: keyForInstanceIndex(index+1))
+					print("\(keyForInstanceIndex(index+1)): \(radio.isSelected)")
+				}
             }
-            defaults.synchronize()
-//            for key in radioKeyHolder {
-//                print(defaults.object(forKey: key))
-//            }
-            
+			
         case .fieldDateEntry:
-            defaults.set(inputFieldDate1.text, forKey: "fdfield1")
-            defaults.set(inputDate1.title(for: .normal), forKey: "fddate1")
-            defaults.set(inputFieldDate2.text, forKey: "fdfield2")
-            defaults.set(inputDate2.title(for: .normal), forKey: "fddate2")
-            defaults.set(inputFieldDate3.text, forKey: "fdfield3")
-            defaults.set(inputDate3.title(for: .normal), forKey: "fddate3")
-            defaults.synchronize()
-//            Used for testing
-//            let testFDfield1 = defaults.object(forKey: "fdfield1")
-//            let testFDDate1 = defaults.object(forKey: "fddate1")
-//            let testFDfield2 = defaults.object(forKey: "fdfield2")
-//            let testFDDate2 = defaults.object(forKey: "fddate2")
-//            let testFDfield3 = defaults.object(forKey: "fdfield3")
-//            let testFDDate3 = defaults.object(forKey: "fddate3")
-//
-//            print(testFDfield1, testFDDate1, testFDfield2, testFDDate2, testFDfield3, testFDDate3)
+			if (cp.instances.count > 0) {
+				let key1 = keyForInstanceIndex(1)
+				defaults.set(inputFieldDate1.text, forKey: "\(key1)_field")
+				defaults.set(inputDate1.title(for: .normal), forKey: "\(key1)_date")
+			}
+			if (cp.instances.count > 1) {
+				let key2 = keyForInstanceIndex(2)
+				defaults.set(inputFieldDate2.text, forKey: "\(key2)_field")
+				defaults.set(inputDate2.title(for: .normal), forKey: "\(key2)_date")
+			}
+			if (cp.instances.count > 2) {
+				let key3 = keyForInstanceIndex(3)
+				defaults.set(inputFieldDate3.text, forKey: "\(key3)_field")
+				defaults.set(inputDate3.title(for: .normal), forKey: "\(key3)_date")
+			}
+		
+		case .infoEntry:
+			// nothing to persist here
+			break
         }
+		
+		defaults.synchronize()
     }
-    
+	
 	
 	// MARK: Keyboard Handling
 	

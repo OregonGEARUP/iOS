@@ -23,7 +23,7 @@ class CheckpointManager {
     private init() {
     }
     
-    func fetchCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
+    public func fetchCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
 //		let url = URL(string: "https://oregongoestocollege.org/mobileApp/SampleData.json")!
 		let url = URL(string: "https://oregongoestocollege.org/mobileApp/ExploreYourOptions.json")!
@@ -52,6 +52,11 @@ class CheckpointManager {
         // run the task to fetch the JSON data
         task.resume()
     }
+	
+	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
+		let cp = blocks[blockIndex].stages[stageIndex].checkpoints[checkpointIndex]
+		return "\(blocks[blockIndex].identifier)_\(blocks[blockIndex].stages[stageIndex].identifier)_\(cp.identifier)_\(cp.entryTypeKey)\(instanceIndex)"
+	}
 	
 	private func parseBlocks(from jsonArray: [[String: Any]]) -> [Block] {
 		
@@ -97,15 +102,16 @@ class CheckpointManager {
 	private func parseCheckpoints(from jsonArray: [[String: Any]]) -> [Checkpoint] {
 		
 		var checkpoints = [Checkpoint]()
-		for json in jsonArray {
+		for jsonDict in jsonArray {
 			
 			// required fields
-			guard let requiredStr = json["requiredCP"] as? String,
-				let title = json["title"] as? String,
-				let description = json["description"] as? String,
-				let typeStr = json["type"] as? String,
+			guard let identifier = jsonDict["id"] as? String,
+				let requiredStr = jsonDict["requiredCP"] as? String,
+				let title = jsonDict["title"] as? String,
+				let description = jsonDict["description"] as? String,
+				let typeStr = jsonDict["type"] as? String,
 				let type = EntryType(rawValue: typeStr),
-				let instances = json["instances"] as? [[String: String]]
+				let instances = jsonDict["instances"] as? [[String: String]]
 			else {
 				continue
 			}
@@ -113,9 +119,9 @@ class CheckpointManager {
 			let required = (requiredStr.lowercased() == "yes")
 			
 			// optional fields
-			let moreInfo = json["urlText"] as? String
+			let moreInfo = jsonDict["urlText"] as? String
 			var moreInfoURL: URL? = nil
-			if let moreInfoURLStr = json["url"] as? String {
+			if let moreInfoURLStr = jsonDict["url"] as? String {
 				moreInfoURL = URL(string: moreInfoURLStr)
 			}
 			
@@ -131,7 +137,7 @@ class CheckpointManager {
 				cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
 			}
 			
-			let checkpoint = Checkpoint(required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances)
+			let checkpoint = Checkpoint(identifier: identifier, required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances)
 			checkpoints.append(checkpoint)
 		}
 		

@@ -22,6 +22,7 @@ struct Instance {
 }
 
 struct Checkpoint {
+	let identifier: String
 	let required: Bool
     let title: String
     let description: String
@@ -30,4 +31,8 @@ struct Checkpoint {
     
 	let type: EntryType
 	let instances: [Instance]
+	
+	var entryTypeKey: String {
+		return type.rawValue
+	}
 }
