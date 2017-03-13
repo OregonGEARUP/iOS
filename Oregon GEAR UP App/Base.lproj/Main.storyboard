@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -419,6 +420,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="799" y="119"/>
+        </scene>
+        <!--New Stage View Controller-->
+        <scene sceneID="xeR-b0-D7q">
+            <objects>
+                <viewController storyboardIdentifier="newstage" id="1sY-m6-8lK" customClass="NewStageViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MLq-ml-LAj"/>
+                        <viewControllerLayoutGuide type="bottom" id="oN9-6r-Pag"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3A8-f0-egm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRy-2c-1tI">
+                                <rect key="frame" x="16" y="117" width="339" height="500"/>
+                                <color key="backgroundColor" white="0.95126488095238082" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zRy-2c-1tI" firstAttribute="centerY" secondItem="3A8-f0-egm" secondAttribute="centerY" multiplier="1.1" id="8Fs-fd-1eB"/>
+                            <constraint firstItem="zRy-2c-1tI" firstAttribute="height" secondItem="3A8-f0-egm" secondAttribute="height" multiplier="0.75" id="U5K-e0-w2U"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="zRy-2c-1tI" secondAttribute="leading" id="X3i-30-39Z"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zRy-2c-1tI" secondAttribute="trailing" constant="4" id="uzk-Fw-4gQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cpContainerView" destination="zRy-2c-1tI" id="Gl7-RU-rcU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="89B-UV-ZZg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1498.4000000000001" y="117.39130434782609"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="axJ-kn-qbb">
