@@ -461,6 +461,8 @@ class StageViewController: UIViewController {
 	
     private dynamic func keyboardDidShow(notification: NSNotification) {
 		
+		dismissDatePicker()
+		
 		guard let userInfo = notification.userInfo,
 			  let r = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue
 		else {
@@ -598,6 +600,9 @@ class StageViewController: UIViewController {
     // Handles the Field Date checkpoint date input, needs to be updated such that it handles all date inputs
     @IBAction func fieldDatePressed(_ button: UIButton) {
 		
+		// dismiss the keyboard
+		self.view.endEditing(true)
+		
 		// toggle date picker visible/hidden
 		pickerPaletteView.isHidden = false
 		UIView.animate(withDuration: 0.3) {
@@ -618,7 +623,7 @@ class StageViewController: UIViewController {
         currentInputDate?.setTitle(strDate, for: .normal)
     }
 	
-    func dismissDatePicker(sender:UIButton){
+    func dismissDatePicker() {
         
         UIView.animate(withDuration: 0.3) {
             self.pickerPaletteView.frame = CGRect(x: 0, y: self.view.bounds.size.height, width: self.view.bounds.size.width, height: self.pickerPaletteView.frame.size.height)
