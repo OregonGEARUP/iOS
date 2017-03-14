@@ -80,16 +80,17 @@ class NewStageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		title = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].title
+		
 		createKeyboardAccessoryView()
 		createDatePickerPaletteView()
+		
+		loadCheckpointAtIndex(checkpointIndex);
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		title = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].title
-		
-		loadCheckpointAtIndex(checkpointIndex);
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -176,7 +177,7 @@ class NewStageViewController: UIViewController {
 		cpView.stackView.axis = .vertical
 		cpView.stackView.alignment = .fill
 		cpView.stackView.distribution = .fill
-		cpView.stackView.spacing = 3.0
+		cpView.stackView.spacing = 6.0
 		cpView.addSubview(cpView.stackView)
 		NSLayoutConstraint.activate([
 			cpView.stackView.topAnchor.constraint(equalTo: cpView.moreInfoButton.bottomAnchor, constant: 16.0),
@@ -689,7 +690,8 @@ class NewStageViewController: UIViewController {
 		case .none:
 			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(checkpointView, with: checkpoints[checkpointIndex])
-			view.addSubview(checkpointView)
+			//view.addSubview(checkpointView)
+			view.insertSubview(checkpointView, at: 0)
 			
 			checkpointCenterXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 			NSLayoutConstraint.activate([
@@ -702,7 +704,8 @@ class NewStageViewController: UIViewController {
 		case .fromLeft, .fromRight:
 			let newCheckpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(newCheckpointView, with: checkpoints[checkpointIndex])
-			view.addSubview(newCheckpointView)
+			//view.addSubview(newCheckpointView)
+			view.insertSubview(newCheckpointView, at: 0)
 			
 			// offset new checkpoint view horizontally and then animate it into center postion
 			let offset: CGFloat = (animation == .fromRight ? 400.0 : -400.0)
