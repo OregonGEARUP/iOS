@@ -129,18 +129,18 @@ class NewStageViewController: UIViewController {
 		cpView.translatesAutoresizingMaskIntoConstraints = false
 		
 		cpView.titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 19.0)
+		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
 		cpView.titleLabel.textAlignment = .center
 		cpView.titleLabel.numberOfLines = 1
 		cpView.addSubview(cpView.titleLabel)
 		NSLayoutConstraint.activate([
-			cpView.titleLabel.topAnchor.constraint(equalTo: cpView.topAnchor, constant: 18.0),
+			cpView.titleLabel.topAnchor.constraint(equalTo: cpView.topAnchor, constant: 20.0),
 			cpView.titleLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
 			cpView.titleLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
 		])
 		
 		cpView.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-		cpView.descriptionLabel.font = UIFont.systemFont(ofSize: 16.0)
+		cpView.descriptionLabel.font = UIFont.systemFont(ofSize: 18.0)
 		cpView.descriptionLabel.textAlignment = .left
 		cpView.descriptionLabel.numberOfLines = 0
 		cpView.addSubview(cpView.descriptionLabel)
@@ -160,7 +160,7 @@ class NewStageViewController: UIViewController {
 		
 		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false
 		cpView.incompeteLabel.text = NSLocalizedString("This checkpoint must be completed before proceeding to the next one.", comment:"incomplete checkpoint message")
-		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 16.0)
+		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 18.0)
 		cpView.incompeteLabel.textColor = .red
 		cpView.incompeteLabel.textAlignment = .center
 		cpView.incompeteLabel.numberOfLines = 0
@@ -177,7 +177,7 @@ class NewStageViewController: UIViewController {
 		cpView.stackView.axis = .vertical
 		cpView.stackView.alignment = .fill
 		cpView.stackView.distribution = .fill
-		cpView.stackView.spacing = 6.0
+		cpView.stackView.spacing = 8.0
 		cpView.addSubview(cpView.stackView)
 		NSLayoutConstraint.activate([
 			cpView.stackView.topAnchor.constraint(equalTo: cpView.moreInfoButton.bottomAnchor, constant: 16.0),
@@ -193,7 +193,7 @@ class NewStageViewController: UIViewController {
 			let fieldsCPView = cpView as! FieldsCheckpointView
 			for i in 0..<cpView.maxInstances {
 				fieldsCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
-				fieldsCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 16.0)
+				fieldsCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0)
 				fieldsCPView.fieldLabels[i].textAlignment = .left
 				fieldsCPView.fieldLabels[i].numberOfLines = 1
 				cpView.stackView.addArrangedSubview(fieldsCPView.fieldLabels[i])
@@ -214,7 +214,7 @@ class NewStageViewController: UIViewController {
 			let datesCPView = cpView as! DatesCheckpointView
 			for i in 0..<cpView.maxInstances {
 				datesCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
-				datesCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 16.0)
+				datesCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0)
 				datesCPView.fieldLabels[i].textAlignment = .left
 				datesCPView.fieldLabels[i].numberOfLines = 1
 				cpView.stackView.addArrangedSubview(datesCPView.fieldLabels[i])
