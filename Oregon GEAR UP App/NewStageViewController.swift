@@ -17,6 +17,8 @@ class CheckpointView: UIView {
 	public let moreInfoButton = UIButton(type: .system)
 	
 	public let stackView = UIStackView()
+	
+	public let incompeteLabel = UILabel()
 }
 
 class InfoCheckpointView: CheckpointView {
@@ -31,6 +33,7 @@ class DatesCheckpointView: CheckpointView {
 	public let fieldLabels = [UILabel(), UILabel(), UILabel()]
 	public let textFields = [UITextField(), UITextField(), UITextField()]
 	public let dateButtons = [UIButton(), UIButton(), UIButton()]
+	public let dateTextPlaceholder = NSLocalizedString("tap here to select date", comment: "date text placeholder")
 }
 
 class CheckboxesCheckpointView: CheckpointView {
@@ -42,14 +45,28 @@ class RadiosCheckpointView: CheckpointView {
 }
 
 
+
 class NewStageViewController: UIViewController {
+	
+	enum CheckpointAnimation {
+		case none
+		case fromLeft
+		case fromRight
+	}
 
 	var blockIndex = 0
 	var stageIndex = 0
 	var checkpointIndex = 0
 	
-	@IBOutlet var cpContainerView: UIView!
-	var cpView: CheckpointView!
+	private var keyboardAccessoryView: UIView!
+	
+	private let datePickerPaletteHeight: CGFloat = 170.0
+	private var datePickerPaletteView: UIView!
+	private var datePickerTopConstraint: NSLayoutConstraint!
+	private var currentInputDate: UIButton?
+	
+	var checkpointView: CheckpointView!
+	var checkpointCenterXConstraint: NSLayoutConstraint!
 	
 	private var checkpoints: [Checkpoint] {
 		return CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints
@@ -63,7 +80,8 @@ class NewStageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		cpContainerView.backgroundColor = .clear
+		createKeyboardAccessoryView()
+		createDatePickerPaletteView()
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -71,16 +89,13 @@ class NewStageViewController: UIViewController {
 		
 		title = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].title
 		
-		cpView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
-		cpContainerView.addSubview(cpView)
-		NSLayoutConstraint.activate([
-			cpView.leftAnchor.constraint(equalTo: cpContainerView.leftAnchor),
-			cpView.rightAnchor.constraint(equalTo: cpContainerView.rightAnchor),
-			cpView.topAnchor.constraint(equalTo: cpContainerView.topAnchor),
-			cpView.bottomAnchor.constraint(equalTo: cpContainerView.bottomAnchor)
-		])
+		loadCheckpointAtIndex(checkpointIndex);
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
 		
-		populateCheckpointView(cpView, with: checkpoints[checkpointIndex])
+		saveCheckpointEntries()
 	}
 
     override func didReceiveMemoryWarning() {
@@ -142,6 +157,21 @@ class NewStageViewController: UIViewController {
 			cpView.moreInfoButton.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
 		])
 		
+		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false
+		cpView.incompeteLabel.text = NSLocalizedString("This checkpoint must be completed before proceeding to the next one.", comment:"incomplete checkpoint message")
+		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 16.0)
+		cpView.incompeteLabel.textColor = .red
+		cpView.incompeteLabel.textAlignment = .center
+		cpView.incompeteLabel.numberOfLines = 0
+		cpView.incompeteLabel.alpha = 0.0
+		cpView.addSubview(cpView.incompeteLabel)
+		NSLayoutConstraint.activate([
+			cpView.incompeteLabel.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: -20.0),
+			cpView.incompeteLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
+			cpView.incompeteLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
+		])
+		
+		
 		cpView.stackView.translatesAutoresizingMaskIntoConstraints = false
 		cpView.stackView.axis = .vertical
 		cpView.stackView.alignment = .fill
@@ -169,6 +199,7 @@ class NewStageViewController: UIViewController {
 				
 				fieldsCPView.textFields[i].translatesAutoresizingMaskIntoConstraints = false
 				fieldsCPView.textFields[i].borderStyle = .roundedRect
+				fieldsCPView.textFields[i].inputAccessoryView = keyboardAccessoryView
 				cpView.stackView.addArrangedSubview(fieldsCPView.textFields[i])
 				
 				let spacer = UIView()
@@ -189,6 +220,7 @@ class NewStageViewController: UIViewController {
 				
 				datesCPView.textFields[i].translatesAutoresizingMaskIntoConstraints = false
 				datesCPView.textFields[i].borderStyle = .roundedRect
+				datesCPView.textFields[i].inputAccessoryView = keyboardAccessoryView
 				cpView.stackView.addArrangedSubview(datesCPView.textFields[i])
 				
 				datesCPView.dateButtons[i].translatesAutoresizingMaskIntoConstraints = false
@@ -198,6 +230,8 @@ class NewStageViewController: UIViewController {
 				datesCPView.dateButtons[i].layer.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
 				datesCPView.dateButtons[i].layer.borderWidth = 0.5
 				datesCPView.dateButtons[i].layer.cornerRadius = 5.0
+				datesCPView.dateButtons[i].setTitleColor(.darkText, for: .normal)
+				datesCPView.dateButtons[i].addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(datesCPView.dateButtons[i])
 				let hc1 = datesCPView.dateButtons[i].heightAnchor.constraint(equalToConstant: 30.0)
 				hc1.priority = UILayoutPriorityRequired - 1
@@ -219,6 +253,8 @@ class NewStageViewController: UIViewController {
 				checkboxesCPView.checkboxes[i].setTitleColor(.darkText, for: .normal)
 				checkboxesCPView.checkboxes[i].contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
 				checkboxesCPView.checkboxes[i].imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+				checkboxesCPView.checkboxes[i].titleLabel?.adjustsFontSizeToFitWidth = true
+				checkboxesCPView.checkboxes[i].titleLabel?.minimumScaleFactor = 0.7
 				checkboxesCPView.checkboxes[i].addTarget(self, action: #selector(handleCheckbox(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(checkboxesCPView.checkboxes[i])
 			}
@@ -232,6 +268,8 @@ class NewStageViewController: UIViewController {
 				radiosCPView.radios[i].setTitleColor(.darkText, for: .normal)
 				radiosCPView.radios[i].contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
 				radiosCPView.radios[i].imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+				radiosCPView.radios[i].titleLabel?.adjustsFontSizeToFitWidth = true
+				radiosCPView.radios[i].titleLabel?.minimumScaleFactor = 0.7
 				radiosCPView.radios[i].addTarget(self, action: #selector(handleRadio(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(radiosCPView.radios[i])
 			}
@@ -269,6 +307,7 @@ class NewStageViewController: UIViewController {
 					fieldsCPView.fieldLabels[i].isHidden = false
 					fieldsCPView.textFields[i].isHidden = false
 					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
+					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
 					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForInstanceIndex(i+1))
 				} else {
 					fieldsCPView.fieldLabels[i].isHidden = true
@@ -284,10 +323,17 @@ class NewStageViewController: UIViewController {
 					datesCPView.textFields[i].isHidden = false
 					datesCPView.dateButtons[i].isHidden = false
 					datesCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
+					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
 					
 					let key = keyForInstanceIndex(i+1)
 					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_field")
-					datesCPView.dateButtons[i].setTitle(defaults.string(forKey: "\(key)_date"), for: .normal)
+					if let dateStr = defaults.string(forKey: "\(key)_date") {
+						datesCPView.dateButtons[i].setTitle(dateStr, for: .normal)
+						datesCPView.dateButtons[i].setTitleColor(.darkText, for: .normal)
+					} else {
+						datesCPView.dateButtons[i].setTitle(datesCPView.dateTextPlaceholder, for: .normal)
+						datesCPView.dateButtons[i].setTitleColor(.lightGray, for: .normal)
+					}
 				} else {
 					datesCPView.fieldLabels[i].isHidden = true
 					datesCPView.textFields[i].isHidden = true
@@ -321,6 +367,190 @@ class NewStageViewController: UIViewController {
 		}
 	}
 	
+	private func isCurrentCheckpointCompleted() -> Bool {
+		
+		let checkPoint = checkpoints[checkpointIndex]
+		switch checkPoint.type {
+		case .infoEntry:
+			return true
+			
+		case .fieldEntry:
+			let fieldsCPView = checkpointView as! FieldsCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				if let text = fieldsCPView.textFields[i].text {
+					if text.isEmpty {
+						return false
+					}
+				} else {
+					return false
+				}
+			}
+			return true
+			
+		case .fieldDateEntry:
+			let datesCPView = checkpointView as! DatesCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				if let text = datesCPView.textFields[i].text {
+					if text.isEmpty {
+						return false
+					}
+				} else {
+					return false
+				}
+				if let text = datesCPView.dateButtons[i].title(for: .normal) {
+					if text.isEmpty {
+						return false
+					}
+				} else {
+					return false
+				}
+			}
+			return true
+			
+		case .checkboxEntry:
+//			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
+//			for i in 0..<checkPoint.instances.count {
+//				if checkboxesCPView.checkboxes[i].isSelected {
+//					return true
+//				}
+//			}
+//			return false
+			return true
+			
+		case .radioEntry:
+			let radiosCPView = checkpointView as! RadiosCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				if radiosCPView.radios[i].isSelected {
+					return true
+				}
+			}
+			return false
+		}
+	}
+	
+	private func saveCheckpointEntries() {
+		
+		let defaults = UserDefaults.standard
+		
+		let checkPoint = checkpoints[checkpointIndex]
+		switch checkPoint.type {
+		case .infoEntry:
+			break
+			
+		case .fieldEntry:
+			let fieldsCPView = checkpointView as! FieldsCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				defaults.set(fieldsCPView.textFields[i].text, forKey: keyForInstanceIndex(i+1))
+			}
+			
+		case .fieldDateEntry:
+			let datesCPView = checkpointView as! DatesCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				let key = keyForInstanceIndex(i+1)
+				defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_field")
+				if let text = datesCPView.dateButtons[i].title(for: .normal), text != datesCPView.dateTextPlaceholder {
+					defaults.set(text, forKey: "\(key)_date")
+				} else {
+					defaults.removeObject(forKey: "\(key)_date")
+				}
+			}
+			
+		case .checkboxEntry:
+			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: keyForInstanceIndex(i+1))
+			}
+			
+		case .radioEntry:
+			let radiosCPView = checkpointView as! RadiosCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				defaults.set(radiosCPView.radios[i].isSelected, forKey: keyForInstanceIndex(i+1))
+			}
+		}
+	}
+	
+	private func createKeyboardAccessoryView() {
+		
+		// add a done button for the keyboard
+		keyboardAccessoryView = UIView(frame: CGRect(x:0.0, y:0.0, width:0.0, height:40.0))
+		keyboardAccessoryView.backgroundColor = UIColor(red: 0.7790, green: 0.7963, blue: 0.8216, alpha: 0.9)
+		
+		let prevBtn = UIButton(type: .system)
+		prevBtn.translatesAutoresizingMaskIntoConstraints = false
+		prevBtn.setTitle("<", for: .normal)
+		prevBtn.addTarget(self, action: #selector(previousField(btn:)), for: .touchUpInside)
+		keyboardAccessoryView.addSubview(prevBtn)
+		
+		let nextBtn = UIButton(type: .system)
+		nextBtn.translatesAutoresizingMaskIntoConstraints = false
+		nextBtn.setTitle(">", for: .normal)
+		nextBtn.addTarget(self, action: #selector(nextField(btn:)), for: .touchUpInside)
+		keyboardAccessoryView.addSubview(nextBtn)
+		
+		let doneBtn = UIButton(type: .system)
+		doneBtn.translatesAutoresizingMaskIntoConstraints = false
+		doneBtn.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
+		doneBtn.addTarget(self, action: #selector(doneWithKeyboard(btn:)), for: .touchUpInside)
+		keyboardAccessoryView.addSubview(doneBtn)
+		
+		NSLayoutConstraint.activate([
+			prevBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
+			prevBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
+			prevBtn.leadingAnchor.constraint(equalTo: keyboardAccessoryView.leadingAnchor, constant: 20.0),
+			nextBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
+			nextBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
+			nextBtn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 20.0),
+			doneBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
+			doneBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
+			doneBtn.trailingAnchor.constraint(equalTo: keyboardAccessoryView.trailingAnchor, constant: -20.0)
+		])
+	}
+	
+	private func createDatePickerPaletteView() {
+		
+		datePickerPaletteView = UIView()
+		datePickerPaletteView.translatesAutoresizingMaskIntoConstraints = false
+		datePickerPaletteView.backgroundColor = UIColor(white: 0.9, alpha: 0.9)
+		view.addSubview(datePickerPaletteView)
+		datePickerTopConstraint = datePickerPaletteView.topAnchor.constraint(equalTo: self.view.bottomAnchor)
+		NSLayoutConstraint.activate([
+			datePickerPaletteView.widthAnchor.constraint(equalTo: view.widthAnchor),
+			datePickerPaletteView.heightAnchor.constraint(equalToConstant: datePickerPaletteHeight),
+			datePickerPaletteView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			datePickerTopConstraint
+		])
+		
+		let topLine = UIView()
+		topLine.translatesAutoresizingMaskIntoConstraints = false
+		topLine.backgroundColor = .gray
+		datePickerPaletteView.addSubview(topLine)
+		NSLayoutConstraint.activate([
+			topLine.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor),
+			topLine.widthAnchor.constraint(equalTo: datePickerPaletteView.widthAnchor),
+			topLine.heightAnchor.constraint(equalToConstant: 0.5)
+		])
+		
+		let datePicker = UIDatePicker()
+		datePicker.translatesAutoresizingMaskIntoConstraints = false
+		datePicker.addTarget(self, action: #selector(datePickerChanged(_:)), for: UIControlEvents.valueChanged)
+		datePicker.datePickerMode = .date
+		datePickerPaletteView.addSubview(datePicker)
+		NSLayoutConstraint.activate([
+			datePicker.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor, constant: 16.0),
+			datePicker.centerXAnchor.constraint(equalTo: datePickerPaletteView.centerXAnchor)
+		])
+		
+		let doneBtn = UIButton(type: .system)
+		doneBtn.translatesAutoresizingMaskIntoConstraints = false
+		doneBtn.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
+		doneBtn.addTarget(self, action: #selector(doneWithDatePicker), for: .touchUpInside)
+		datePickerPaletteView.addSubview(doneBtn)
+		NSLayoutConstraint.activate([
+			doneBtn.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor, constant: 2.0),
+			doneBtn.rightAnchor.constraint(equalTo: datePickerPaletteView.rightAnchor, constant: -20.0)
+		])
+	}
+	
 	func showMoreInfo() {
 		let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
 		vc.url = checkpoints[checkpointIndex].moreInfoURL!
@@ -334,7 +564,7 @@ class NewStageViewController: UIViewController {
 
 	@IBAction func handleRadio(_ sender: UIButton) {
 		
-		let radiosCPView = cpView as! RadiosCheckpointView
+		let radiosCPView = checkpointView as! RadiosCheckpointView
 		for radio in radiosCPView.radios {
 			radio.isSelected = false
 		}
@@ -342,15 +572,162 @@ class NewStageViewController: UIViewController {
 		sender.isSelected = true
 	}
 
+	private dynamic func doneWithKeyboard(btn: UIButton) {
+		
+		self.view.endEditing(true)
+	}
+	
+	private dynamic func nextField(btn: UIButton) {
+		
+		var foundCurrent = false
+		for subview in checkpointView.stackView.arrangedSubviews {
+			
+			if let textField = subview as? UITextField, !textField.isHidden {
+				
+				if !foundCurrent && textField.isFirstResponder {
+					foundCurrent = true
+					continue
+				}
+				
+				if foundCurrent {
+					textField.becomeFirstResponder()
+					return
+				}
+			}
+		}
+	}
+	
+	private dynamic func previousField(btn: UIButton) {
+		
+		var foundCurrent = false
+		for subview in checkpointView.stackView.arrangedSubviews.reversed() {
+			
+			if let textField = subview as? UITextField, !textField.isHidden {
+				
+				if !foundCurrent && textField.isFirstResponder {
+					foundCurrent = true
+					continue
+				}
+				
+				if foundCurrent {
+					textField.becomeFirstResponder()
+					return
+				}
+			}
+		}
+	}
+	
+	private dynamic func toggleDatePicker(_ button: UIButton) {
+		
+		// hide keyboard first
+		self.view.endEditing(true)
+		
+		// track whether picker will become visible
+		let datePickerVisible = (datePickerTopConstraint.constant == 0)
+		
+		view.layoutIfNeeded()
+		UIView.animate(withDuration: 0.3, animations: {
+			self.datePickerTopConstraint.constant = (self.datePickerTopConstraint.constant == 0 ? -self.datePickerPaletteHeight : 0.0)
+			self.view.layoutIfNeeded()
+		})
 
-    /*
-    // MARK: - Navigation
+		// keep track of which button triggered the date picker
+		currentInputDate = (datePickerVisible ? button : nil)
+	}
+	
+	private dynamic func doneWithDatePicker() {
+		
+		view.layoutIfNeeded()
+		UIView.animate(withDuration: 0.3, animations: {
+			self.datePickerTopConstraint.constant = 0.0
+			self.view.layoutIfNeeded()
+		})
+		
+		currentInputDate = nil
+	}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+	func datePickerChanged(_ datePicker: UIDatePicker) {
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .full
+		dateFormatter.timeStyle = .none
+		let strDate = dateFormatter.string(from: datePicker.date)
+		
+		currentInputDate?.setTitle(strDate, for: .normal)
+		currentInputDate?.setTitleColor(.darkText, for: .normal)
+	}
+	
+	@IBAction func nextCheckpoint(_ button: UIButton) {
+		
+		if checkpoints[checkpointIndex].required && !isCurrentCheckpointCompleted() {
+			
+			UIView.animate(withDuration: 0.3, animations: { 
+				self.checkpointView.incompeteLabel.alpha = 1.0
+			})
+			return
+		}
+		
+		saveCheckpointEntries()
+		if checkpointIndex < checkpoints.count - 1 {
+			loadCheckpointAtIndex(checkpointIndex + 1, withAnimation: .fromRight)
+		}
+	}
+	
+	@IBAction func previousCheckpoint(_ button: UIButton) {
+		
+		saveCheckpointEntries()
+		if checkpointIndex > 0 {
+			loadCheckpointAtIndex(checkpointIndex - 1, withAnimation: .fromLeft)
+		}
+	}
+	
+	private func loadCheckpointAtIndex(_ index: Int, withAnimation animation: CheckpointAnimation = .none) {
+		
+		checkpointIndex = index
+		
+		switch animation {
+		case .none:
+			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
+			populateCheckpointView(checkpointView, with: checkpoints[checkpointIndex])
+			view.addSubview(checkpointView)
+			
+			checkpointCenterXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+			NSLayoutConstraint.activate([
+				checkpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.75),
+				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
+				checkpointCenterXConstraint,
+				checkpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 20.0)
+			])
+			
+		case .fromLeft, .fromRight:
+			let newCheckpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
+			populateCheckpointView(newCheckpointView, with: checkpoints[checkpointIndex])
+			view.addSubview(newCheckpointView)
+			
+			// offset new checkpoint view horizontally and then animate it into center postion
+			let offset: CGFloat = (animation == .fromRight ? 400.0 : -400.0)
+			let newCheckpointCenterXConstraint = newCheckpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: offset)
+			NSLayoutConstraint.activate([
+				newCheckpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.75),
+				newCheckpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
+				newCheckpointCenterXConstraint,
+				newCheckpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 20.0)
+			])
+			
+			//newCheckpointView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+			
+			view.layoutIfNeeded()
+			UIView.animate(withDuration: 0.3, animations: {
+				self.checkpointCenterXConstraint.constant = -offset
+				newCheckpointCenterXConstraint.constant = 0.0
+				newCheckpointView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				self.view.layoutIfNeeded()
+			}, completion: { (complete) in
+				self.checkpointCenterXConstraint = newCheckpointCenterXConstraint
+				self.checkpointView.removeFromSuperview()
+				self.checkpointView = newCheckpointView
+			})
+		}
+	}
+	
 }

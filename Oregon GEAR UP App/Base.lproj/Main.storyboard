@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -433,22 +432,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRy-2c-1tI">
-                                <rect key="frame" x="16" y="117" width="339" height="500"/>
-                                <color key="backgroundColor" white="0.95126488095238082" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rc2-nj-tnq">
+                                <rect key="frame" x="327" y="629" width="32" height="30"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextCheckpoint:" destination="1sY-m6-8lK" eventType="touchUpInside" id="pIP-Xs-5Bg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0S-Mt-uhK">
+                                <rect key="frame" x="16" y="629" width="59" height="30"/>
+                                <state key="normal" title="Previous"/>
+                                <connections>
+                                    <action selector="previousCheckpoint:" destination="1sY-m6-8lK" eventType="touchUpInside" id="isE-Ge-JCb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="zRy-2c-1tI" firstAttribute="centerY" secondItem="3A8-f0-egm" secondAttribute="centerY" multiplier="1.1" id="8Fs-fd-1eB"/>
-                            <constraint firstItem="zRy-2c-1tI" firstAttribute="height" secondItem="3A8-f0-egm" secondAttribute="height" multiplier="0.75" id="U5K-e0-w2U"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="zRy-2c-1tI" secondAttribute="leading" id="X3i-30-39Z"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="zRy-2c-1tI" secondAttribute="trailing" constant="4" id="uzk-Fw-4gQ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="p0S-Mt-uhK" secondAttribute="leading" id="0R4-ht-tV8"/>
+                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="rc2-nj-tnq" secondAttribute="bottom" constant="8" id="a1N-55-cPm"/>
+                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="p0S-Mt-uhK" secondAttribute="bottom" constant="8" id="igQ-rq-VIl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rc2-nj-tnq" secondAttribute="trailing" id="p8W-QT-3sR"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="cpContainerView" destination="zRy-2c-1tI" id="Gl7-RU-rcU"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="89B-UV-ZZg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
