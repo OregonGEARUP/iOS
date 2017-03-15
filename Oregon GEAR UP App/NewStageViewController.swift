@@ -73,7 +73,7 @@ class NewStageViewController: UIViewController {
 	}
 	
 	private func keyForInstanceIndex(_ instanceIndex: Int) -> String {
-		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
+		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex+1)
 	}
 	
 	
@@ -86,6 +86,9 @@ class NewStageViewController: UIViewController {
 		createDatePickerPaletteView()
 		
 		loadCheckpointAtIndex(checkpointIndex);
+		
+		let lpg = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+		view.addGestureRecognizer(lpg)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -308,7 +311,7 @@ class NewStageViewController: UIViewController {
 					fieldsCPView.textFields[i].isHidden = false
 					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
 					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
-					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForInstanceIndex(i+1))
+					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForInstanceIndex(i))
 				} else {
 					fieldsCPView.fieldLabels[i].isHidden = true
 					fieldsCPView.textFields[i].isHidden = true
@@ -325,7 +328,7 @@ class NewStageViewController: UIViewController {
 					datesCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
 					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
 					
-					let key = keyForInstanceIndex(i+1)
+					let key = keyForInstanceIndex(i)
 					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_field")
 					if let dateStr = defaults.string(forKey: "\(key)_date") {
 						datesCPView.dateButtons[i].setTitle(dateStr, for: .normal)
@@ -347,7 +350,7 @@ class NewStageViewController: UIViewController {
 				if (i < checkPoint.instances.count) {
 					checkboxesCPView.checkboxes[i].isHidden = false
 					checkboxesCPView.checkboxes[i].setTitle(checkPoint.instances[i].prompt, for: .normal)
-					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i+1))
+					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
 				} else {
 					checkboxesCPView.checkboxes[i].isHidden = true
 				}
@@ -359,7 +362,7 @@ class NewStageViewController: UIViewController {
 				if (i < checkPoint.instances.count) {
 					radiosCPView.radios[i].isHidden = false
 					radiosCPView.radios[i].setTitle(checkPoint.instances[i].prompt, for: .normal)
-					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i+1))
+					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
 				} else {
 					radiosCPView.radios[i].isHidden = true
 				}
@@ -440,13 +443,13 @@ class NewStageViewController: UIViewController {
 		case .fieldEntry:
 			let fieldsCPView = checkpointView as! FieldsCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				defaults.set(fieldsCPView.textFields[i].text, forKey: keyForInstanceIndex(i+1))
+				defaults.set(fieldsCPView.textFields[i].text, forKey: keyForInstanceIndex(i))
 			}
 			
 		case .fieldDateEntry:
 			let datesCPView = checkpointView as! DatesCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				let key = keyForInstanceIndex(i+1)
+				let key = keyForInstanceIndex(i)
 				defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_field")
 				if let text = datesCPView.dateButtons[i].title(for: .normal), text != datesCPView.dateTextPlaceholder {
 					defaults.set(text, forKey: "\(key)_date")
@@ -458,13 +461,13 @@ class NewStageViewController: UIViewController {
 		case .checkboxEntry:
 			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: keyForInstanceIndex(i+1))
+				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: keyForInstanceIndex(i))
 			}
 			
 		case .radioEntry:
 			let radiosCPView = checkpointView as! RadiosCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				defaults.set(radiosCPView.radios[i].isSelected, forKey: keyForInstanceIndex(i+1))
+				defaults.set(radiosCPView.radios[i].isSelected, forKey: keyForInstanceIndex(i))
 			}
 		}
 	}
@@ -732,4 +735,62 @@ class NewStageViewController: UIViewController {
 		}
 	}
 	
+	private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {
+		
+		if gr.state != .began {
+			return
+		}
+		
+		if let hitView = view.hitTest(gr.location(ofTouch: 0, in: view), with: nil) {
+			
+			var hitKey: String? = nil
+			switch checkpoints[checkpointIndex].type {
+			case .infoEntry:
+				break
+			
+			case .fieldEntry:
+				let fieldsCPView = checkpointView as! FieldsCheckpointView
+				for (index, field) in fieldsCPView.textFields.enumerated() {
+					if field == hitView {
+						hitKey = keyForInstanceIndex(index)
+					}
+				}
+			
+			case .fieldDateEntry:
+				let datesCPView = checkpointView as! DatesCheckpointView
+				for (index, field) in datesCPView.textFields.enumerated() {
+					if field == hitView {
+						hitKey = keyForInstanceIndex(index) + "_field"
+					}
+				}
+				for (index, button) in datesCPView.dateButtons.enumerated() {
+					if button == hitView {
+						hitKey = keyForInstanceIndex(index) + "_date"
+					}
+				}
+			
+			case .checkboxEntry:
+				let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
+				for (index, checkbox) in checkboxesCPView.checkboxes.enumerated() {
+					if checkbox == hitView {
+						hitKey = keyForInstanceIndex(index)
+					}
+				}
+				
+			case .radioEntry:
+				let radiosCPView = checkpointView as! RadiosCheckpointView
+				for (index, radio) in radiosCPView.radios.enumerated() {
+					if radio == hitView {
+						hitKey = keyForInstanceIndex(index)
+					}
+				}
+			}
+			
+			if let hitKey = hitKey {
+				let alert = UIAlertController(title: "Instance Key", message: hitKey, preferredStyle: .alert)
+				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+				present(alert, animated: true, completion: nil)
+			}
+		}
+	}
 }
