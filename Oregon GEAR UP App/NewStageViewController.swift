@@ -150,29 +150,6 @@ class NewStageViewController: UIViewController {
 			cpView.descriptionLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
 		])
 		
-		cpView.moreInfoButton.translatesAutoresizingMaskIntoConstraints = false
-		cpView.moreInfoButton.addTarget(self, action: #selector(showMoreInfo), for: .touchUpInside)
-		cpView.addSubview(cpView.moreInfoButton)
-		NSLayoutConstraint.activate([
-			cpView.moreInfoButton.topAnchor.constraint(equalTo: cpView.descriptionLabel.bottomAnchor, constant: 8.0),
-			cpView.moreInfoButton.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
-		])
-		
-		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false
-		cpView.incompeteLabel.text = NSLocalizedString("This checkpoint must be completed before proceeding to the next one.", comment:"incomplete checkpoint message")
-		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 18.0)
-		cpView.incompeteLabel.textColor = .red
-		cpView.incompeteLabel.textAlignment = .center
-		cpView.incompeteLabel.numberOfLines = 0
-		cpView.incompeteLabel.alpha = 0.0
-		cpView.addSubview(cpView.incompeteLabel)
-		NSLayoutConstraint.activate([
-			cpView.incompeteLabel.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: -20.0),
-			cpView.incompeteLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
-			cpView.incompeteLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
-		])
-		
-		
 		cpView.stackView.translatesAutoresizingMaskIntoConstraints = false
 		cpView.stackView.axis = .vertical
 		cpView.stackView.alignment = .fill
@@ -180,7 +157,7 @@ class NewStageViewController: UIViewController {
 		cpView.stackView.spacing = 8.0
 		cpView.addSubview(cpView.stackView)
 		NSLayoutConstraint.activate([
-			cpView.stackView.topAnchor.constraint(equalTo: cpView.moreInfoButton.bottomAnchor, constant: 16.0),
+			cpView.stackView.topAnchor.constraint(equalTo: cpView.descriptionLabel.bottomAnchor, constant: 20.0),
 			cpView.stackView.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
 			cpView.stackView.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
 		])
@@ -276,6 +253,28 @@ class NewStageViewController: UIViewController {
 			}
 		}
 		
+		cpView.moreInfoButton.translatesAutoresizingMaskIntoConstraints = false
+		cpView.moreInfoButton.addTarget(self, action: #selector(showMoreInfo), for: .touchUpInside)
+		cpView.addSubview(cpView.moreInfoButton)
+		NSLayoutConstraint.activate([
+			cpView.moreInfoButton.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: -18.0),
+			cpView.moreInfoButton.centerXAnchor.constraint(equalTo: cpView.centerXAnchor),
+		])
+		
+		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false
+		cpView.incompeteLabel.text = NSLocalizedString("This checkpoint must be completed before proceeding to the next one.", comment:"incomplete checkpoint message")
+		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 18.0)
+		cpView.incompeteLabel.textColor = .red
+		cpView.incompeteLabel.textAlignment = .center
+		cpView.incompeteLabel.numberOfLines = 0
+		cpView.incompeteLabel.alpha = 0.0
+		cpView.addSubview(cpView.incompeteLabel)
+		NSLayoutConstraint.activate([
+			cpView.incompeteLabel.bottomAnchor.constraint(equalTo: cpView.moreInfoButton.topAnchor, constant: -20.0),
+			cpView.incompeteLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
+			cpView.incompeteLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
+		])
+
 		return cpView
 	}
 	

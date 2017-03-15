@@ -433,14 +433,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rc2-nj-tnq">
-                                <rect key="frame" x="327" y="629" width="32" height="30"/>
+                                <rect key="frame" x="311" y="621" width="48" height="42"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="12" maxX="8" maxY="12"/>
                                 <state key="normal" title="Next"/>
                                 <connections>
                                     <action selector="nextCheckpoint:" destination="1sY-m6-8lK" eventType="touchUpInside" id="pIP-Xs-5Bg"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0S-Mt-uhK">
-                                <rect key="frame" x="16" y="629" width="59" height="30"/>
+                                <rect key="frame" x="16" y="621" width="75" height="42"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="12" maxX="8" maxY="12"/>
                                 <state key="normal" title="Previous"/>
                                 <connections>
                                     <action selector="previousCheckpoint:" destination="1sY-m6-8lK" eventType="touchUpInside" id="isE-Ge-JCb"/>
@@ -450,8 +452,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="p0S-Mt-uhK" secondAttribute="leading" id="0R4-ht-tV8"/>
-                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="rc2-nj-tnq" secondAttribute="bottom" constant="8" id="a1N-55-cPm"/>
-                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="p0S-Mt-uhK" secondAttribute="bottom" constant="8" id="igQ-rq-VIl"/>
+                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="rc2-nj-tnq" secondAttribute="bottom" constant="4" id="a1N-55-cPm"/>
+                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="p0S-Mt-uhK" secondAttribute="bottom" constant="4" id="igQ-rq-VIl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rc2-nj-tnq" secondAttribute="trailing" id="p8W-QT-3sR"/>
                         </constraints>
                     </view>
