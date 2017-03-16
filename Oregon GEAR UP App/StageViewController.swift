@@ -312,7 +312,7 @@ class StageViewController: UIViewController {
 				}
             }
 		
-        case .fieldDateEntry:
+        case .dateAndTextEntry:
 			
 			if (cp.instances.count > 0) {
 				fieldDateLabel1.isHidden = false
@@ -381,7 +381,7 @@ class StageViewController: UIViewController {
 		fieldStackview.isHidden = (type != .fieldEntry && type != .infoEntry)
 		checkboxStackview.isHidden = (type != .checkboxEntry)
 		radioStackview.isHidden = (type != .radioEntry)
-		fieldDateStackview.isHidden = (type != .fieldDateEntry)
+		fieldDateStackview.isHidden = (type != .dateAndTextEntry)
 	}
 	
     // next and previous checkpoint functions to navigate between checkpoints
@@ -431,7 +431,7 @@ class StageViewController: UIViewController {
 				}
             }
 			
-        case .fieldDateEntry:
+        case .dateAndTextEntry:
 			if (cp.instances.count > 0) {
 				let key1 = keyForInstanceIndex(1)
 				defaults.set(inputFieldDate1.text, forKey: "\(key1)_field")

@@ -28,7 +28,7 @@ class CheckpointManager {
 		URLCache.shared.removeAllCachedResponses()
 		
 //		let url = URL(string: "https://oregongoestocollege.org/mobileApp/SampleData.json")!
-		let url = URL(string: "https://oregongoestocollege.org/mobileApp/ExploreYourOptions.json")!
+		let url = URL(string: "https://oregongoestocollege.org/mobileApp/json/ExploreYourOptions.json")!
         let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
             
             var success = false

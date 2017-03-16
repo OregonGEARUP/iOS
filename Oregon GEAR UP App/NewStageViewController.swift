@@ -116,7 +116,8 @@ class NewStageViewController: UIViewController {
 			cpView = InfoCheckpointView()
 		case .fieldEntry:
 			cpView = FieldsCheckpointView()
-		case .fieldDateEntry:
+		case .dateAndTextEntry,
+		     .dateOnlyEntry:
 			cpView = DatesCheckpointView()
 		case .checkboxEntry:
 			cpView = CheckboxesCheckpointView()
@@ -190,7 +191,8 @@ class NewStageViewController: UIViewController {
 				hc2.isActive = true
 			}
 			
-		case .fieldDateEntry:
+		case .dateAndTextEntry,
+		     .dateOnlyEntry:
 			let datesCPView = cpView as! DatesCheckpointView
 			for i in 0..<cpView.maxInstances {
 				datesCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
@@ -318,12 +320,13 @@ class NewStageViewController: UIViewController {
 				}
 			}
 		
-		case .fieldDateEntry:
+		case .dateAndTextEntry,
+		     .dateOnlyEntry:
 			let datesCPView = cpView as! DatesCheckpointView
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					datesCPView.fieldLabels[i].isHidden = false
-					datesCPView.textFields[i].isHidden = false
+					datesCPView.textFields[i].isHidden = (checkPoint.type == .dateOnlyEntry)
 					datesCPView.dateButtons[i].isHidden = false
 					datesCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
 					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
@@ -390,16 +393,20 @@ class NewStageViewController: UIViewController {
 			}
 			return true
 			
-		case .fieldDateEntry:
+		case .dateAndTextEntry,
+		     .dateOnlyEntry:
 			let datesCPView = checkpointView as! DatesCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				if let text = datesCPView.textFields[i].text {
-					if text.isEmpty {
+				if checkPoint.type == .dateAndTextEntry {
+					if let text = datesCPView.textFields[i].text {
+						if text.isEmpty {
+							return false
+						}
+					} else {
 						return false
 					}
-				} else {
-					return false
 				}
+				
 				if let text = datesCPView.dateButtons[i].title(for: .normal) {
 					if text.isEmpty {
 						return false
@@ -446,11 +453,15 @@ class NewStageViewController: UIViewController {
 				defaults.set(fieldsCPView.textFields[i].text, forKey: keyForInstanceIndex(i))
 			}
 			
-		case .fieldDateEntry:
+		case .dateAndTextEntry,
+		     .dateOnlyEntry:
 			let datesCPView = checkpointView as! DatesCheckpointView
 			for i in 0..<checkPoint.instances.count {
 				let key = keyForInstanceIndex(i)
-				defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_field")
+				if checkPoint.type == .dateAndTextEntry {
+					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_field")
+				}
+				
 				if let text = datesCPView.dateButtons[i].title(for: .normal), text != datesCPView.dateTextPlaceholder {
 					defaults.set(text, forKey: "\(key)_date")
 				} else {
@@ -756,7 +767,8 @@ class NewStageViewController: UIViewController {
 					}
 				}
 			
-			case .fieldDateEntry:
+			case .dateAndTextEntry,
+			     .dateOnlyEntry:
 				let datesCPView = checkpointView as! DatesCheckpointView
 				for (index, field) in datesCPView.textFields.enumerated() {
 					if field == hitView {
@@ -791,6 +803,20 @@ class NewStageViewController: UIViewController {
 				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 				present(alert, animated: true, completion: nil)
 			}
+		}
+	}
+}
+
+class WebViewController: UIViewController {
+	var url: URL?
+	@IBOutlet weak var webView: UIWebView!
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		if let ulr = url {
+			let request = URLRequest(url: ulr)
+			self.webView.loadRequest(request)
 		}
 	}
 }

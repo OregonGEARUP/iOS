@@ -11,7 +11,8 @@ import Foundation
 enum EntryType: String {
     case fieldEntry = "field"
     case radioEntry = "radio"
-    case fieldDateEntry = "date"
+	case dateOnlyEntry = "dateOnly"
+	case dateAndTextEntry = "dateAndText"
     case checkboxEntry = "checkbox"
 	case infoEntry = "info"
 }
