@@ -56,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="88.799999999999997" y="117.39130434782609"/>
         </scene>
-        <!--New Stage View Controller-->
+        <!--Stage View Controller-->
         <scene sceneID="xeR-b0-D7q">
             <objects>
-                <viewController storyboardIdentifier="newstage" id="1sY-m6-8lK" customClass="NewStageViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="stage" id="1sY-m6-8lK" customClass="StageViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MLq-ml-LAj"/>
                         <viewControllerLayoutGuide type="bottom" id="oN9-6r-Pag"/>

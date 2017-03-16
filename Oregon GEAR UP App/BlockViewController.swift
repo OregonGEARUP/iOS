@@ -65,7 +65,7 @@ class BlockViewController: UIViewController {
 	
 	dynamic func handleStageTap(_ button: UIButton) {
 		
-		let vc: NewStageViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newstage") as! NewStageViewController
+		let vc: StageViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "stage") as! StageViewController
 		vc.blockIndex = 0
 		vc.stageIndex = button.tag
 		self.navigationController?.pushViewController(vc, animated: true)

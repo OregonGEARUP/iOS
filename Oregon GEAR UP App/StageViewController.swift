@@ -1,5 +1,5 @@
 //
-//  NewStageViewController.swift
+//  StageViewController.swift
 //  Oregon GEAR UP App
 //
 //  Created by Steve Splonskowski on 3/12/17.
@@ -46,7 +46,7 @@ class RadiosCheckpointView: CheckpointView {
 
 
 
-class NewStageViewController: UIViewController {
+class StageViewController: UIViewController {
 	
 	enum CheckpointAnimation {
 		case none
