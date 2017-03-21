@@ -1,0 +1,188 @@
+[
+    {
+        "blocktitle": "Explore your options.",
+        "date": "10/01/17",
+        "id": "block_1",
+        "stages": [
+            {
+                "title": "Who are you?",
+                "id": "Stage_1",
+                "img": "",
+                "checkpoints": [
+                    {
+                        "title": "I am:",
+                        "description": "This information is related to Selective Service which impacts federal financial aid, therefore only binary options are available.",
+                        "moreInfo": "https://www.sss.gov/",
+                        "type": "radio",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": "Female"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "Male"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "My birthday:",
+                        "description": "",
+                        "moreInfo": "",
+                        "type": "date",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Why go to college?",
+                "id": "Stage_2",
+                "img": "",
+                "checkpoints": [
+                    {
+                        "title": "College is any type of education after high school. There are many benefits to going to college.",
+                        "description": "",
+                        "moreInfo": "",
+                        "type": "",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": ""
+                            }
+                        ]
+                    },
+                    {
+                        "title": "College helps you have new experiences, meet new people & visit new places.",
+                        "description": "",
+                        "moreInfo": "",
+                        "type": "field",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "College is for you.",
+                "id": "Stage_3",
+                "img": "",
+                "checkpoints": [
+                    {
+                        "title": "Talk to a trusted adult and explore specific resources and support services for your situation.",
+                        "description": "",
+                        "moreInfo": "",
+                        "type": "",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": ""
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Special Circumstances",
+                        "description": "",
+                        "moreInfo": "https://oryouthconnection.org/resources/",
+                        "type": "checkbox",
+                        "instances": [
+                            {
+                                "prompt": "I am or have been in foster care.",
+                                "placeholder": "I am or have been in foster care."
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Special Circumstances",
+                        "description": "",
+                        "moreInfo": "http://www.naehcy.org/educational-resources/helpline",
+                        "type": "checkbox",
+                        "instances": [
+                            {
+                                "prompt": "I am homeless.",
+                                "placeholder": "I am homeless."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "blocktitle": "Be prepared.",
+        "date": "11/01/2017",
+        "id": "block_2",
+        "stages": [
+            {
+                "title": "Make a list of colleges.",
+                "id": "Stage_1",
+                "img": "",
+                "checkpoints": [
+                    {
+                        "title": "Make a list of at least five colleges you are interested in with deadline information.",
+                        "description": "Should we separate these out on different cards? Can we add a date picker for deadlines?",
+                        "moreInfo": "https://bigfuture.collegeboard.org/college-search",
+                        "type": "",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": "College 1"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "College 2"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "College 3"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "College 4"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "College 5"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Enter deadlines for each college.",
+                        "description": "Ideally, this could be combined with the previous list.",
+                        "moreInfo": "",
+                        "type": "date",
+                        "instances": [
+                            {
+                                "prompt": "",
+                                "placeholder": "Deadline College 1"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "Deadline College 2"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "Deadline College 3"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "Deadline College 4"
+                            },
+                            {
+                                "prompt": "",
+                                "placeholder": "Deadline College 5"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
