@@ -60,6 +60,8 @@ class StageViewController: UIViewController {
 	var stageIndex = 0
 	var checkpointIndex = 0
 	
+	var routeFilename: String?
+	
 	private var keyboardAccessoryView: UIView!
 	
 	private let datePickerPaletteHeight: CGFloat = 170.0
@@ -676,6 +678,7 @@ class StageViewController: UIViewController {
 	
 	@IBAction func nextCheckpoint(_ button: UIButton) {
 		
+		// check to see if required entry checkpoint is completed
 		if checkpoints[checkpointIndex].required && !isCurrentCheckpointCompleted() {
 			
 			UIView.animate(withDuration: 0.3, animations: { 
@@ -685,16 +688,31 @@ class StageViewController: UIViewController {
 		}
 		
 		saveCheckpointEntries()
-		if checkpointIndex < checkpoints.count - 1 {
+		
+		// if current checkpoint is a route entry, then do the navigation
+		if checkpoints[checkpointIndex].type == .routeEntry {
 			
-			if (checkpoints[checkpointIndex+1].type == .routeEntry) {
+			routeFilename = checkpoints[checkpointIndex].filename
+			
+			_ = navigationController?.popViewController(animated: true)
+			return
+		}
+		
+		
+		var nextIndex = checkpointIndex + 1
+		while nextIndex < checkpoints.count {
+			
+			if checkpoints[nextIndex].type == .routeEntry {
 				
 				var meetsCriteria = true
-				if let criteria = checkpoints[checkpointIndex+1].criteria {
+				if let criteria = checkpoints[nextIndex].criteria {
 					
+					// check to see that all criteria are met
 					for key in criteria.keys {
 						if let obj = UserDefaults.standard.object(forKey: key) {
-							meetsCriteria = meetsCriteria && (String(describing: obj) == criteria[key])
+							let objStr = String(describing: obj).lowercased()
+							let value = criteria[key]?.lowercased()
+							meetsCriteria = meetsCriteria && (objStr == value)
 						} else {
 							meetsCriteria = false
 						}
@@ -703,25 +721,38 @@ class StageViewController: UIViewController {
 							break
 						}
 					}
+					
+					// make sure we have a route destination
+					if meetsCriteria && checkpoints[nextIndex].filename == nil {
+						meetsCriteria = false
+					}
 				}
 				
 				print("meetsCriteria: \(meetsCriteria)")
 				
 				if (!meetsCriteria) {
 					
-					// TODO: skip this checkpoint
-					
+					// skip this checkpoint
+					if nextIndex + 1 < checkpoints.count {
+						nextIndex += 1
+						continue
+					} else {
+						
+						// ran out of checkpoints, nothing more to do
+						return
+					}
 				}
-				
 			}
 			
-			loadCheckpointAtIndex(checkpointIndex + 1, withAnimation: .fromRight)
+			loadCheckpointAtIndex(nextIndex, withAnimation: .fromRight)
+			break
 		}
 	}
 	
 	@IBAction func previousCheckpoint(_ button: UIButton) {
 		
 		saveCheckpointEntries()
+		
 		if checkpointIndex > 0 {
 			loadCheckpointAtIndex(checkpointIndex - 1, withAnimation: .fromLeft)
 		}
