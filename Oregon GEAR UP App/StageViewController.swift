@@ -44,6 +44,8 @@ class RadiosCheckpointView: CheckpointView {
 	public let radios = [UIButton(), UIButton(), UIButton()]
 }
 
+class RouteCheckpointView: CheckpointView {
+}
 
 
 class StageViewController: UIViewController {
@@ -122,6 +124,8 @@ class StageViewController: UIViewController {
 			cpView = CheckboxesCheckpointView()
 		case .radioEntry:
 			cpView = RadiosCheckpointView()
+		case .routeEntry:
+			cpView = RouteCheckpointView()
 		}
 		
 		cpView.layer.backgroundColor = UIColor(white: 0.95, alpha: 1.0).cgColor
@@ -166,7 +170,7 @@ class StageViewController: UIViewController {
 		])
 		
 		switch type {
-		case .infoEntry:
+		case .infoEntry, .routeEntry:
 			break
 			
 		case .fieldEntry:
@@ -301,7 +305,7 @@ class StageViewController: UIViewController {
 		let defaults = UserDefaults.standard
 		
 		switch checkPoint.type {
-		case .infoEntry:
+		case .infoEntry, .routeEntry:
 			break
 			
 		case .fieldEntry:
@@ -376,7 +380,7 @@ class StageViewController: UIViewController {
 		
 		let checkPoint = checkpoints[checkpointIndex]
 		switch checkPoint.type {
-		case .infoEntry:
+		case .infoEntry, .routeEntry:
 			return true
 			
 		case .fieldEntry:
@@ -443,7 +447,7 @@ class StageViewController: UIViewController {
 		
 		let checkPoint = checkpoints[checkpointIndex]
 		switch checkPoint.type {
-		case .infoEntry:
+		case .infoEntry, .routeEntry:
 			break
 			
 		case .fieldEntry:
@@ -682,6 +686,35 @@ class StageViewController: UIViewController {
 		
 		saveCheckpointEntries()
 		if checkpointIndex < checkpoints.count - 1 {
+			
+			if (checkpoints[checkpointIndex+1].type == .routeEntry) {
+				
+				var meetsCriteria = true
+				if let criteria = checkpoints[checkpointIndex+1].criteria {
+					
+					for key in criteria.keys {
+						if let obj = UserDefaults.standard.object(forKey: key) {
+							meetsCriteria = meetsCriteria && (String(describing: obj) == criteria[key])
+						} else {
+							meetsCriteria = false
+						}
+						
+						if !meetsCriteria {
+							break
+						}
+					}
+				}
+				
+				print("meetsCriteria: \(meetsCriteria)")
+				
+				if (!meetsCriteria) {
+					
+					// TODO: skip this checkpoint
+					
+				}
+				
+			}
+			
 			loadCheckpointAtIndex(checkpointIndex + 1, withAnimation: .fromRight)
 		}
 	}
@@ -755,7 +788,7 @@ class StageViewController: UIViewController {
 			
 			var hitKey: String? = nil
 			switch checkpoints[checkpointIndex].type {
-			case .infoEntry:
+			case .infoEntry, .routeEntry:
 				break
 			
 			case .fieldEntry:

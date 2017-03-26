@@ -15,6 +15,7 @@ enum EntryType: String {
 	case dateAndTextEntry = "dateAndText"
     case checkboxEntry = "checkbox"
 	case infoEntry = "info"
+	case routeEntry = "route"
 }
 
 struct Instance {
@@ -29,9 +30,12 @@ struct Checkpoint {
     let description: String
     let moreInfo: String?
 	let moreInfoURL: URL?
-    
+	
 	let type: EntryType
 	let instances: [Instance]
+	
+	let criteria: [String: String]?
+	let filename: String?
 	
 	var entryTypeKey: String {
 		return type.rawValue

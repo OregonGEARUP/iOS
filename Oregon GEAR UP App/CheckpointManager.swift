@@ -127,6 +127,10 @@ class CheckpointManager {
 				moreInfoURL = URL(string: moreInfoURLStr)
 			}
 			
+			// optional route fields
+			let criteria = jsonDict["criteria"] as? [String: String]
+			let filename = jsonDict["filename"] as? String
+			
 			var cpInstances = [Instance]()
 			for  instance in instances {
 				
@@ -139,7 +143,7 @@ class CheckpointManager {
 				cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
 			}
 			
-			let checkpoint = Checkpoint(identifier: identifier, required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances)
+			let checkpoint = Checkpoint(identifier: identifier, required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances, criteria: criteria, filename: filename)
 			checkpoints.append(checkpoint)
 		}
 		
