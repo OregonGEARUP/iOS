@@ -22,13 +22,14 @@ class CheckpointManager {
     
     private init() {
     }
+	
+	private let BaseURL = "https://oregongoestocollege.org/mobileApp/json/"
     
-    public func fetchCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
+	public func fetchCheckpoints(fromFile file: String, completion: @escaping (_ success: Bool) -> Void) {
 		
 		URLCache.shared.removeAllCachedResponses()
 		
-//		let url = URL(string: "https://oregongoestocollege.org/mobileApp/SampleData.json")!
-		let url = URL(string: "https://oregongoestocollege.org/mobileApp/json/ExploreYourOptions.json")!
+		let url = URL(string: BaseURL + file)!
         let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
             
             var success = false
@@ -128,7 +129,7 @@ class CheckpointManager {
 			}
 			
 			// optional route fields
-			let criteria = ["b1_s3_cp2_checkbox1": "1"]	//jsonDict["criteria"] as? [String: String]
+			let criteria = jsonDict["criteria"] as? [String: String]		// for testing: ["b1_s3_cp2_checkbox1": "1"]
 			let filename = jsonDict["filename"] as? String
 			
 			var cpInstances = [Instance]()

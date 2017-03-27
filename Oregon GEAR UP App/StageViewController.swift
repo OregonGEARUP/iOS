@@ -130,7 +130,7 @@ class StageViewController: UIViewController {
 			cpView = RouteCheckpointView()
 		}
 		
-		cpView.layer.backgroundColor = UIColor(white: 0.95, alpha: 1.0).cgColor
+		cpView.layer.backgroundColor = UIColor(white: 1.0, alpha: 1.0).cgColor
 		cpView.layer.borderColor = UIColor.lightGray.cgColor
 		cpView.layer.borderWidth = 0.5
 		cpView.layer.cornerRadius = 5.0
@@ -693,8 +693,7 @@ class StageViewController: UIViewController {
 		if checkpoints[checkpointIndex].type == .routeEntry {
 			
 			routeFilename = checkpoints[checkpointIndex].filename
-			
-			_ = navigationController?.popViewController(animated: true)
+			performSegue(withIdentifier: "unwindToNewBlock", sender: self)
 			return
 		}
 		

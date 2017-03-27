@@ -12,39 +12,22 @@ class BlockViewController: UIViewController {
 
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var stackView: UIStackView!
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
-	var blockIndex = 0		// TODO: need to set this programatically
+	var blockIndex = 0
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		// load the JSON checkpoint information
-		CheckpointManager.shared.fetchCheckpoints() { (success) in
+		activityIndicator.startAnimating()
+		CheckpointManager.shared.fetchCheckpoints(fromFile: "ExploreYourOptions.json") { (success) in
 			
 			if success {
 				let block = CheckpointManager.shared.blocks[self.blockIndex]
+				self.setupFor(block)
 				
-				self.title = block.title
-				
-				for (index, stage) in block.stages.enumerated() {
-					
-					let button = UIButton(type: .custom)
-					button.tag = index
-					button.setTitle(stage.title, for: .normal)
-					button.addTarget(self, action: #selector(self.handleStageTap(_:)), for: .touchUpInside)
-					
-					button.titleLabel?.font = UIFont.systemFont(ofSize: 24.0)
-					button.setTitleColor(.gray, for: .normal)
-					button.setTitleColor(.lightGray, for: .highlighted)
-					
-					button.layer.cornerRadius = 5.0
-					button.layer.backgroundColor = UIColor.cyan.withAlphaComponent(0.3).cgColor
-					
-					self.stackView.addArrangedSubview(button)
-
-					button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
-					button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
-				}
+				self.activityIndicator.stopAnimating()
 				
 			} else {
 				// TODO: show error here?
@@ -54,7 +37,6 @@ class BlockViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
 		
 	}
 
@@ -71,4 +53,71 @@ class BlockViewController: UIViewController {
 		self.navigationController?.pushViewController(vc, animated: true)
 	}
 	
+	private func prepareForNewBlock() {
+		
+		for view in stackView.arrangedSubviews {
+			view.removeFromSuperview()
+		}
+	}
+	
+	private func setupFor(_ block: Block) {
+		
+		prepareForNewBlock()
+
+		title = block.title
+		
+		for (index, stage) in block.stages.enumerated() {
+			
+			let button = UIButton(type: .custom)
+			button.tag = index
+			button.setTitle(stage.title, for: .normal)
+			button.addTarget(self, action: #selector(self.handleStageTap(_:)), for: .touchUpInside)
+			
+			button.titleLabel?.font = UIFont.systemFont(ofSize: 24.0)
+			button.setTitleColor(.gray, for: .normal)
+			button.setTitleColor(.lightGray, for: .highlighted)
+			
+			button.layer.cornerRadius = 5.0
+			button.layer.backgroundColor = UIColor.cyan.withAlphaComponent(0.3).cgColor
+			
+			stackView.addArrangedSubview(button)
+			
+			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+		}
+	}
+	
+	@IBAction func unwindToNewBlock(unwindSegue: UIStoryboardSegue) {
+		
+		guard unwindSegue.identifier == "unwindToNewBlock" else {
+			return
+		}
+		
+		guard let stageViewController = unwindSegue.source as? StageViewController else {
+			return
+		}
+		
+		guard let blockFilename = stageViewController.routeFilename else {
+			return
+		}
+		
+		print("unwindToNewBlock: \(blockFilename)")
+		
+		prepareForNewBlock()
+		activityIndicator.startAnimating()
+		
+		CheckpointManager.shared.fetchCheckpoints(fromFile: blockFilename) { (success) in
+			
+			if success {
+				let block = CheckpointManager.shared.blocks[self.blockIndex]
+				self.setupFor(block)
+				
+				self.activityIndicator.stopAnimating()
+				
+			} else {
+				// TODO: show error here?
+			}
+		}
+
+	}
 }
