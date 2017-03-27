@@ -290,11 +290,11 @@ class StageViewController: UIViewController {
 	
 	private func populateCheckpointView(_ cpView: CheckpointView, with checkPoint: Checkpoint) {
 		
-		cpView.titleLabel.text = checkPoint.title
-		cpView.descriptionLabel.text = checkPoint.description
+		cpView.titleLabel.text = checkPoint.titleSubstituted
+		cpView.descriptionLabel.text = checkPoint.descriptionSubstituted
 		
 		if let url = checkPoint.moreInfoURL {
-			if let linkText = checkPoint.moreInfo {
+			if let linkText = checkPoint.moreInfoSubstituted {
 				cpView.moreInfoButton.setTitle(linkText, for: .normal)
 			} else {
 				cpView.moreInfoButton.setTitle(url.absoluteString, for: .normal)
@@ -316,8 +316,8 @@ class StageViewController: UIViewController {
 				if (i < checkPoint.instances.count) {
 					fieldsCPView.fieldLabels[i].isHidden = false
 					fieldsCPView.textFields[i].isHidden = false
-					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
-					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
+					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
+					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
 					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForInstanceIndex(i))
 				} else {
 					fieldsCPView.fieldLabels[i].isHidden = true
@@ -333,8 +333,8 @@ class StageViewController: UIViewController {
 					datesCPView.fieldLabels[i].isHidden = false
 					datesCPView.textFields[i].isHidden = (checkPoint.type == .dateOnlyEntry)
 					datesCPView.dateButtons[i].isHidden = false
-					datesCPView.fieldLabels[i].text = checkPoint.instances[i].prompt
-					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholder
+					datesCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
+					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
 					
 					let key = keyForInstanceIndex(i)
 					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_field")
@@ -357,7 +357,7 @@ class StageViewController: UIViewController {
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					checkboxesCPView.checkboxes[i].isHidden = false
-					checkboxesCPView.checkboxes[i].setTitle(checkPoint.instances[i].prompt, for: .normal)
+					checkboxesCPView.checkboxes[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
 					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
 				} else {
 					checkboxesCPView.checkboxes[i].isHidden = true
@@ -369,7 +369,7 @@ class StageViewController: UIViewController {
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					radiosCPView.radios[i].isHidden = false
-					radiosCPView.radios[i].setTitle(checkPoint.instances[i].prompt, for: .normal)
+					radiosCPView.radios[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
 					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
 				} else {
 					radiosCPView.radios[i].isHidden = true
@@ -703,30 +703,7 @@ class StageViewController: UIViewController {
 			
 			if checkpoints[nextIndex].type == .routeEntry {
 				
-				var meetsCriteria = true
-				if let criteria = checkpoints[nextIndex].criteria {
-					
-					// check to see that all criteria are met
-					for key in criteria.keys {
-						if let obj = UserDefaults.standard.object(forKey: key) {
-							let objStr = String(describing: obj).lowercased()
-							let value = criteria[key]?.lowercased()
-							meetsCriteria = meetsCriteria && (objStr == value)
-						} else {
-							meetsCriteria = false
-						}
-						
-						if !meetsCriteria {
-							break
-						}
-					}
-					
-					// make sure we have a route destination
-					if meetsCriteria && checkpoints[nextIndex].filename == nil {
-						meetsCriteria = false
-					}
-				}
-				
+				let meetsCriteria = checkpoints[nextIndex].meetsCriteria
 				print("meetsCriteria: \(meetsCriteria)")
 				
 				if (!meetsCriteria) {
@@ -765,7 +742,6 @@ class StageViewController: UIViewController {
 		case .none:
 			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(checkpointView, with: checkpoints[checkpointIndex])
-			//view.addSubview(checkpointView)
 			view.insertSubview(checkpointView, at: 0)
 			
 			checkpointCenterXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
@@ -779,7 +755,6 @@ class StageViewController: UIViewController {
 		case .fromLeft, .fromRight:
 			let newCheckpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(newCheckpointView, with: checkpoints[checkpointIndex])
-			//view.addSubview(newCheckpointView)
 			view.insertSubview(newCheckpointView, at: 0)
 			
 			// offset new checkpoint view horizontally and then animate it into center postion
