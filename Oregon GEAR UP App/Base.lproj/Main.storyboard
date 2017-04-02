@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YYv-yI-MYJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pOb-Ra-yhe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -23,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP0-cB-eVZ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP0-cB-eVZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WsF-Uz-Mfj">
@@ -61,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4v-EE-754" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="88.799999999999997" y="117.39130434782609"/>
+            <point key="canvasLocation" x="1028" y="117.39130434782609"/>
         </scene>
         <!--Stage View Controller-->
         <scene sceneID="xeR-b0-D7q">
@@ -107,7 +106,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="89B-UV-ZZg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yeU-1I-dgj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="769" y="117"/>
+            <point key="canvasLocation" x="1708" y="116.49175412293854"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="axJ-kn-qbb">
@@ -140,12 +139,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4er-KG-EQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1426" y="117"/>
+            <point key="canvasLocation" x="2364" y="116.49175412293854"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Checkpoints-->
         <scene sceneID="NrF-7u-Xjv">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YYv-yI-MYJ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Checkpoints" image="tab_checkpoints" id="yyo-E1-pke"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5HS-8f-SzL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -158,7 +158,27 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cio-mT-dsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-634" y="118"/>
+            <point key="canvasLocation" x="304.80000000000001" y="117.39130434782609"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="a4b-Fq-Bgp">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="pOb-Ra-yhe" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="4co-tN-Nmm">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="YYv-yI-MYJ" kind="relationship" relationship="viewControllers" id="Xh8-cX-Vgc"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gp9-i0-R0h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-665" y="116"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tab_checkpoints" width="30" height="30"/>
+    </resources>
 </document>

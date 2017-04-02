@@ -746,10 +746,10 @@ class StageViewController: UIViewController {
 			
 			checkpointCenterXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 			NSLayoutConstraint.activate([
-				checkpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.75),
+				checkpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
 				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				checkpointCenterXConstraint,
-				checkpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 20.0)
+				checkpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0)
 			])
 			
 		case .fromLeft, .fromRight:
@@ -761,10 +761,10 @@ class StageViewController: UIViewController {
 			let offset: CGFloat = (animation == .fromRight ? 400.0 : -400.0)
 			let newCheckpointCenterXConstraint = newCheckpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: offset)
 			NSLayoutConstraint.activate([
-				newCheckpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.75),
+				newCheckpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
 				newCheckpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				newCheckpointCenterXConstraint,
-				newCheckpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 20.0)
+				newCheckpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0)
 			])
 			
 			//newCheckpointView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
