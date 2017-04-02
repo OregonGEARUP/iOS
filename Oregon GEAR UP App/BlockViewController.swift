@@ -14,6 +14,8 @@ class BlockViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
+	private var firstAppearance = true
+	
 	var blockIndex = 0
 	
     override func viewDidLoad() {
@@ -21,13 +23,18 @@ class BlockViewController: UIViewController {
 
 		// load the JSON checkpoint information
 		activityIndicator.startAnimating()
-		CheckpointManager.shared.fetchCheckpoints(fromFile: "ExploreYourOptions.json") { (success) in
+		CheckpointManager.shared.resumeCheckpoints { (success) in
 			
 			if success {
+				self.blockIndex = CheckpointManager.shared.blockIndex
 				let block = CheckpointManager.shared.blocks[self.blockIndex]
 				self.setupFor(block)
 				
 				self.activityIndicator.stopAnimating()
+				
+				if CheckpointManager.shared.stageIndex >= 0 && CheckpointManager.shared.checkpointIndex >= 0 {
+					self.showStage(forIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
+				}
 				
 			} else {
 				// TODO: show error here?
@@ -38,6 +45,11 @@ class BlockViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		if !firstAppearance {
+			CheckpointManager.shared.persistState(forBlock: blockIndex, stage: -1, checkpoint: -1)
+		}
+		
+		firstAppearance = false
 	}
 
     override func didReceiveMemoryWarning() {
@@ -47,10 +59,16 @@ class BlockViewController: UIViewController {
 	
 	dynamic func handleStageTap(_ button: UIButton) {
 		
+		showStage(forIndex: button.tag, checkpointIndex: 0)
+	}
+	
+	private func showStage(forIndex index: Int, checkpointIndex: Int, animated: Bool = true) {
+		
 		let vc: StageViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "stage") as! StageViewController
 		vc.blockIndex = 0
-		vc.stageIndex = button.tag
-		self.navigationController?.pushViewController(vc, animated: true)
+		vc.stageIndex = index
+		vc.checkpointIndex = checkpointIndex
+		navigationController?.pushViewController(vc, animated: animated)
 	}
 	
 	private func prepareForNewBlock() {
@@ -106,7 +124,7 @@ class BlockViewController: UIViewController {
 		prepareForNewBlock()
 		activityIndicator.startAnimating()
 		
-		CheckpointManager.shared.fetchCheckpoints(fromFile: blockFilename) { (success) in
+		CheckpointManager.shared.loadNextBlock(fromFile: blockFilename) { (success) in
 			
 			if success {
 				let block = CheckpointManager.shared.blocks[self.blockIndex]

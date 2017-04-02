@@ -13,23 +13,92 @@ class CheckpointManager {
     
     static let shared = CheckpointManager()
     
-    var blocks = [Block]()
+    public var blocks = [Block]()
 	
-	// TEMPORARY bridge to a set of Checkpoints
-	var checkpoints: [Checkpoint] {
-		return blocks[0].stages[0].checkpoints
-	}
-    
+	private var blockFilename: String?
+	public var blockIndex = 0
+	public var stageIndex = 0
+	public var checkpointIndex = 0
+	
     private init() {
     }
 	
 	private let BaseURL = "https://oregongoestocollege.org/mobileApp/json/"
-    
-	public func fetchCheckpoints(fromFile file: String, completion: @escaping (_ success: Bool) -> Void) {
+	
+	public func persistState(forBlock block: Int, stage: Int, checkpoint: Int) {
+		
+		guard let blockFilename = blockFilename else {
+			fatalError("persistState called before first block file was loaded")
+		}
+		
+		print("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
+		
+		blockIndex = block
+		stageIndex = stage
+		checkpointIndex = checkpoint
+		
+		let defaults = UserDefaults.standard
+		defaults.set(blockFilename, forKey: "currentBlockFilename")
+		defaults.set(block, forKey: "currentBlockIndex")
+		defaults.set(stage, forKey: "currentStageIndex")
+		defaults.set(checkpoint, forKey: "currentCheckpointIndex")
+	}
+	
+	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
+		let block = blocks[blockIndex]
+		let stage = block.stages[stageIndex]
+		let cp = stage.checkpoints[checkpointIndex]
+		let instance = cp.instances[instanceIndex]
+		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)_\(instance.identifier)"
+	}
+	
+	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
+		
+		let defaults = UserDefaults.standard
+		let filename = defaults.string(forKey: "currentBlockFilename") ?? "ExploreYourOptions.json"
+		
+		if defaults.object(forKey: "currentBlockIndex") != nil {
+			blockIndex = defaults.integer(forKey: "currentBlockIndex")
+		} else {
+			blockIndex = 0
+		}
+		
+		if defaults.object(forKey: "currentStageIndex") != nil {
+			stageIndex = defaults.integer(forKey: "currentStageIndex")
+		} else {
+			stageIndex = -1
+		}
+		
+		if defaults.object(forKey: "currentCheckpointIndex") != nil {
+			checkpointIndex = defaults.integer(forKey: "currentCheckpointIndex")
+		} else {
+			checkpointIndex = -1
+		}
+		
+		fetchCheckpoints(fromFile: filename, completion: completion)
+	}
+	
+	public func loadNextBlock(fromFile filename: String, completion: @escaping (_ success: Bool) -> Void) {
+		
+		blockIndex = 0
+		stageIndex = -1
+		checkpointIndex = -1
+		
+		fetchCheckpoints(fromFile: filename) { (success) in
+			
+			if success {
+				self.persistState(forBlock: self.blockIndex, stage: self.stageIndex, checkpoint: self.checkpointIndex)
+			}
+			
+			completion(success)
+		}
+	}
+	
+	private func fetchCheckpoints(fromFile filename: String, completion: @escaping (_ success: Bool) -> Void) {
 		
 		URLCache.shared.removeAllCachedResponses()
 		
-		let url = URL(string: BaseURL + file)!
+		let url = URL(string: BaseURL + filename)!
         let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
             
             var success = false
@@ -39,34 +108,33 @@ class CheckpointManager {
 					if let jsonArray = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
 						
 						self.blocks = self.parseBlocks(from: jsonArray)
+						self.blockFilename  = filename
 						success = true
 					}
 				} catch {
 					print("JSON error")
 				}
 				
-				// TODO: cache this JSON file/data
-				
-				
+				// cache this JSON file data
+				if success, let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true).first {
+					let fileurl = URL(fileURLWithPath: dir).appendingPathComponent(filename)
+					try? data.write(to: fileurl)
+				}
 				
                 // call the completion block on the main thread
                 DispatchQueue.main.async(execute: {
                     completion(success)
                 })
-            }
+			} else {
+				
+				// TODO: handle failure here by checking to see if we have the desired file cached
+				
+			}
         }
         
         // run the task to fetch the JSON data
         task.resume()
     }
-	
-	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
-		let block = blocks[blockIndex]
-		let stage = block.stages[stageIndex]
-		let cp = stage.checkpoints[checkpointIndex]
-		let instance = cp.instances[instanceIndex]
-		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)_\(instance.identifier)"
-	}
 	
 	private func parseBlocks(from jsonArray: [[String: Any]]) -> [Block] {
 		

@@ -737,6 +737,7 @@ class StageViewController: UIViewController {
 	private func loadCheckpointAtIndex(_ index: Int, withAnimation animation: CheckpointAnimation = .none) {
 		
 		checkpointIndex = index
+		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 		
 		switch animation {
 		case .none:
