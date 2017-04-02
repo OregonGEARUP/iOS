@@ -45,6 +45,10 @@ class CheckpointManager {
 					print("JSON error")
 				}
 				
+				// TODO: cache this JSON file/data
+				
+				
+				
                 // call the completion block on the main thread
                 DispatchQueue.main.async(execute: {
                     completion(success)
@@ -57,8 +61,11 @@ class CheckpointManager {
     }
 	
 	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
-		let cp = blocks[blockIndex].stages[stageIndex].checkpoints[checkpointIndex]
-		return "\(blocks[blockIndex].identifier)_\(blocks[blockIndex].stages[stageIndex].identifier)_\(cp.identifier)_\(cp.entryTypeKey)\(instanceIndex)"
+		let block = blocks[blockIndex]
+		let stage = block.stages[stageIndex]
+		let cp = stage.checkpoints[checkpointIndex]
+		let instance = cp.instances[instanceIndex]
+		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)_\(instance.identifier)"
 	}
 	
 	private func parseBlocks(from jsonArray: [[String: Any]]) -> [Block] {
@@ -129,19 +136,20 @@ class CheckpointManager {
 			}
 			
 			// optional route fields
-			let criteria = ["b1_s3_cp2_checkbox1": "1"]	//jsonDict["criteria"] as? [String: String]		// for testing: ["b1_s3_cp2_checkbox1": "1"]
+			let criteria = jsonDict["criteria"] as? [String: String]		// for testing: ["b1_s3_cp2_checkbox1": "1"]
 			let filename = jsonDict["filename"] as? String
 			
 			var cpInstances = [Instance]()
 			for  instance in instances {
 				
-				guard let prompt = instance["prompt"],
+				guard let identifier = instance["id"],
+					let prompt = instance["prompt"],
 					let placeholder = instance["placeholder"]
 				else {
 					continue
 				}
 				
-				cpInstances.append(Instance(prompt: prompt, placeholder: placeholder))
+				cpInstances.append(Instance(identifier: identifier, prompt: prompt, placeholder: placeholder))
 			}
 			
 			let checkpoint = Checkpoint(identifier: identifier, required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances, criteria: criteria, filename: filename)

@@ -19,6 +19,7 @@ enum EntryType: String {
 }
 
 struct Instance {
+	let identifier: String
     let prompt: String
 	let placeholder: String
 	

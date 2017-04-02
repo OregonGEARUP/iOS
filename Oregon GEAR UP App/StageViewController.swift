@@ -77,7 +77,7 @@ class StageViewController: UIViewController {
 	}
 	
 	private func keyForInstanceIndex(_ instanceIndex: Int) -> String {
-		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex+1)
+		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
 	}
 	
 	
