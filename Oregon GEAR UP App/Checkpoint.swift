@@ -38,7 +38,7 @@ struct Checkpoint {
 	let type: EntryType
 	let instances: [Instance]
 	
-	let criteria: [String: String]?
+	let criteria: [[String: String]]?
 	let filename: String?
 	
 	var entryTypeKey: String {
@@ -51,20 +51,23 @@ struct Checkpoint {
 		if let criteria = criteria {
 			
 			// check to see that all criteria are met
-			for key in criteria.keys {
-				if let obj = UserDefaults.standard.object(forKey: key) {
-					let objStr = String(describing: obj).lowercased()
-					let value = criteria[key]?.lowercased()
-					meets = meets && (objStr == value)
-				} else {
-					meets = false
-				}
+			for crit in criteria {
 				
-				if !meets {
-					break
+				if let key = crit["key"], let value = crit["value"] {
+					
+					if let obj = UserDefaults.standard.object(forKey: key) {
+						let objStr = String(describing: obj).lowercased()
+						let value = value.lowercased()
+						meets = meets && (objStr == value)
+					} else {
+						meets = false
+					}
+					
+					if !meets {
+						break
+					}
 				}
 			}
-			
 		}
 		
 		// make sure we have a route destination

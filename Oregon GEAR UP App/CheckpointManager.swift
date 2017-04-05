@@ -55,7 +55,7 @@ class CheckpointManager {
 	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
 		let defaults = UserDefaults.standard
-		let filename = defaults.string(forKey: "currentBlockFilename") ?? "ExploreYourOptions.json"
+		let filename = defaults.string(forKey: "currentBlockFilename") ?? "start.json"
 		
 		if defaults.object(forKey: "currentBlockIndex") != nil {
 			blockIndex = defaults.integer(forKey: "currentBlockIndex")
@@ -204,7 +204,7 @@ class CheckpointManager {
 			}
 			
 			// optional route fields
-			let criteria = jsonDict["criteria"] as? [String: String]		// for testing: ["b1_s3_cp2_checkbox1": "1"]
+			let criteria = jsonDict["criteria"] as? [[String: String]]		// for testing: ["b1_s3_cp2_checkbox1": "1"]
 			let filename = jsonDict["filename"] as? String
 			
 			var cpInstances = [Instance]()
