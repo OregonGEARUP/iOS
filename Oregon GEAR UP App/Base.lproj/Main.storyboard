@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pOb-Ra-yhe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pOb-Ra-yhe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP0-cB-eVZ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP0-cB-eVZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WsF-Uz-Mfj">
@@ -61,6 +61,54 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4v-EE-754" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1028" y="117.39130434782609"/>
+        </scene>
+        <!--Secure-->
+        <scene sceneID="d9V-En-pPs">
+            <objects>
+                <navigationController id="YfL-mo-ZLn" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Secure" image="tab_secure" id="asf-4D-N84"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qoh-cq-kd9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="lNA-EA-cqA" kind="relationship" relationship="rootViewController" id="lpX-Zj-7cm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QEi-ya-BTB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="305" y="824"/>
+        </scene>
+        <!--Secure Items-->
+        <scene sceneID="Pnl-P3-WYb">
+            <objects>
+                <viewController id="lNA-EA-cqA" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="J8O-9T-w1T"/>
+                        <viewControllerLayoutGuide type="bottom" id="W08-4p-p1d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ch1-Qk-Ln8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add secure storage items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8EU-uD-MUZ">
+                                <rect key="frame" x="89" y="177" width="196" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8EU-uD-MUZ" firstAttribute="top" secondItem="J8O-9T-w1T" secondAttribute="bottom" constant="113" id="9fd-OC-PuX"/>
+                            <constraint firstItem="8EU-uD-MUZ" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="E8s-ac-Uc8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Secure Items" id="yre-M2-oEp"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C57-H8-Z8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="823.53823088455783"/>
         </scene>
         <!--Stage View Controller-->
         <scene sceneID="xeR-b0-D7q">
@@ -166,11 +214,13 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="pOb-Ra-yhe" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="4co-tN-Nmm">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="YYv-yI-MYJ" kind="relationship" relationship="viewControllers" id="Xh8-cX-Vgc"/>
+                        <segue destination="YfL-mo-ZLn" kind="relationship" relationship="viewControllers" id="nbQ-Fv-jY0"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gp9-i0-R0h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -180,5 +230,6 @@
     </scenes>
     <resources>
         <image name="tab_checkpoints" width="30" height="30"/>
+        <image name="tab_secure" width="30" height="30"/>
     </resources>
 </document>

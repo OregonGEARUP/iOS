@@ -646,7 +646,7 @@ class StageViewController: UIViewController {
 		
 		view.layoutIfNeeded()
 		UIView.animate(withDuration: 0.3, animations: {
-			self.datePickerTopConstraint.constant = (self.datePickerTopConstraint.constant == 0 ? -self.datePickerPaletteHeight : 0.0)
+			self.datePickerTopConstraint.constant = (self.datePickerTopConstraint.constant == 0 ? -(self.datePickerPaletteHeight + 50.0) : 0.0)
 			self.view.layoutIfNeeded()
 		})
 
