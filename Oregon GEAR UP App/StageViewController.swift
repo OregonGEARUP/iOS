@@ -668,7 +668,7 @@ class StageViewController: UIViewController {
 	func datePickerChanged(_ datePicker: UIDatePicker) {
 		
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .full
+		dateFormatter.dateStyle = .long
 		dateFormatter.timeStyle = .none
 		let strDate = dateFormatter.string(from: datePicker.date)
 		
@@ -747,10 +747,12 @@ class StageViewController: UIViewController {
 			
 			checkpointCenterXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 			NSLayoutConstraint.activate([
-				checkpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
 				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				checkpointCenterXConstraint,
-				checkpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0)
+//				checkpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
+//				checkpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0),
+				checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
+				checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
 			])
 			
 		case .fromLeft, .fromRight:
@@ -762,10 +764,12 @@ class StageViewController: UIViewController {
 			let offset: CGFloat = (animation == .fromRight ? 400.0 : -400.0)
 			let newCheckpointCenterXConstraint = newCheckpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: offset)
 			NSLayoutConstraint.activate([
-				newCheckpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
 				newCheckpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				newCheckpointCenterXConstraint,
-				newCheckpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0)
+//				newCheckpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
+//				newCheckpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0),
+				newCheckpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
+				newCheckpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
 			])
 			
 			//newCheckpointView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)

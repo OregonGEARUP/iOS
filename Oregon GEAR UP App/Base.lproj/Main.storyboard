@@ -62,11 +62,11 @@
             </objects>
             <point key="canvasLocation" x="1028" y="117.39130434782609"/>
         </scene>
-        <!--Secure-->
+        <!--Secure Info-->
         <scene sceneID="d9V-En-pPs">
             <objects>
                 <navigationController id="YfL-mo-ZLn" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Secure" image="tab_secure" id="asf-4D-N84"/>
+                    <tabBarItem key="tabBarItem" title="Secure Info" image="tab_secure" id="asf-4D-N84"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qoh-cq-kd9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -79,7 +79,7 @@
             </objects>
             <point key="canvasLocation" x="305" y="824"/>
         </scene>
-        <!--Secure Items-->
+        <!--Secure Info-->
         <scene sceneID="Pnl-P3-WYb">
             <objects>
                 <viewController id="lNA-EA-cqA" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                             <constraint firstItem="8EU-uD-MUZ" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="E8s-ac-Uc8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Secure Items" id="yre-M2-oEp"/>
+                    <navigationItem key="navigationItem" title="Secure Info" id="yre-M2-oEp"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C57-H8-Z8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
