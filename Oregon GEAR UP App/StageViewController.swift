@@ -721,8 +721,29 @@ class StageViewController: UIViewController {
 			}
 			
 			loadCheckpointAtIndex(nextIndex, withAnimation: .fromRight)
-			break
+			return
 		}
+		
+		// if we get to here, then we have run out of checkpoints
+		
+		// first check to see if there are more stages
+		let nextStageIndex = stageIndex + 1
+		if nextStageIndex < CheckpointManager.shared.blocks[blockIndex].stages.count {
+			
+			let message = NSLocalizedString("You have reached the end of this stage.", comment: "end of stage message")
+			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+			alertController.addAction(UIAlertAction.init(title: NSLocalizedString("Next Stage", comment: "next stage button title"), style: .default, handler: { (action) in
+				self.stageIndex = nextStageIndex
+				self.title = CheckpointManager.shared.blocks[self.blockIndex].stages[self.stageIndex].title
+				self.loadCheckpointAtIndex(0, withAnimation: .fromRight)
+			}))
+			self.present(alertController, animated: true, completion: nil)
+			
+			return
+		}
+		
+		// getting here is an error
+		//fatalError("ran out of checkpoints in block: \(blockIndex)  stage: \(stageIndex)")
 	}
 	
 	@IBAction func previousCheckpoint(_ button: UIButton) {
