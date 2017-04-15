@@ -692,7 +692,7 @@ class StageViewController: UIViewController {
 		// if current checkpoint is a route entry, then do the navigation
 		if checkpoints[checkpointIndex].type == .routeEntry {
 			
-			routeFilename = checkpoints[checkpointIndex].filename
+			routeFilename = checkpoints[checkpointIndex].routeFileName
 			performSegue(withIdentifier: "unwindToNewBlock", sender: self)
 			return
 		}
@@ -732,11 +732,12 @@ class StageViewController: UIViewController {
 			
 			let message = NSLocalizedString("You have reached the end of this stage.", comment: "end of stage message")
 			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction.init(title: NSLocalizedString("Next Stage", comment: "next stage button title"), style: .default, handler: { (action) in
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Next Stage", comment: "next stage button title"), style: .default, handler: { (action) in
 				self.stageIndex = nextStageIndex
 				self.title = CheckpointManager.shared.blocks[self.blockIndex].stages[self.stageIndex].title
 				self.loadCheckpointAtIndex(0, withAnimation: .fromRight)
 			}))
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "cancel button title"), style: .cancel, handler: nil))
 			self.present(alertController, animated: true, completion: nil)
 			
 			return

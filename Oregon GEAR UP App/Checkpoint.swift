@@ -39,7 +39,7 @@ struct Checkpoint {
 	let instances: [Instance]
 	
 	let criteria: [[String: String]]?
-	let filename: String?
+	let routeFileName: String?
 	
 	var entryTypeKey: String {
 		return type.rawValue
@@ -55,6 +55,12 @@ struct Checkpoint {
 				
 				if let key = crit["key"], let value = crit["value"] {
 					
+					// empty keys are a match
+					if key == "" {
+						continue
+					}
+					
+					// check that value for the key matches the expected value
 					if let obj = UserDefaults.standard.object(forKey: key) {
 						let objStr = String(describing: obj).lowercased()
 						let value = value.lowercased()
@@ -71,7 +77,7 @@ struct Checkpoint {
 		}
 		
 		// make sure we have a route destination
-		if meets && filename == nil {
+		if meets && routeFileName == nil {
 			meets = false
 		}
 		

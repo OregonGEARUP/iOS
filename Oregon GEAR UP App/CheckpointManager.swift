@@ -205,7 +205,7 @@ class CheckpointManager {
 			
 			// optional route fields
 			let criteria = jsonDict["criteria"] as? [[String: String]]		// for testing: ["b1_s3_cp2_checkbox1": "1"]
-			let filename = jsonDict["filename"] as? String
+			let routeFileName = jsonDict["routeFileName"] as? String
 			
 			var cpInstances = [Instance]()
 			for  instance in instances {
@@ -220,7 +220,7 @@ class CheckpointManager {
 				cpInstances.append(Instance(identifier: identifier, prompt: prompt, placeholder: placeholder))
 			}
 			
-			let checkpoint = Checkpoint(identifier: identifier, required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances, criteria: criteria, filename: filename)
+			let checkpoint = Checkpoint(identifier: identifier, required: required, title: title, description: description, moreInfo: moreInfo, moreInfoURL: moreInfoURL, type: type, instances: cpInstances, criteria: criteria, routeFileName: routeFileName)
 			checkpoints.append(checkpoint)
 		}
 		
