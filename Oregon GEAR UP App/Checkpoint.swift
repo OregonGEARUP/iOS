@@ -106,7 +106,7 @@ private func stringWithSubstitutions(_ string: String) -> String {
 		if replacement == nil {
 			replacement = "<< missing value for \(key) >>"
 		}
-		newString = (newString as NSString).replacingCharacters(in: match.range, with: String(describing: replacement))
+		newString = (newString as NSString).replacingCharacters(in: match.range, with: String(describing: replacement!))
 	}
 	
 	return newString

@@ -272,7 +272,7 @@ class StageViewController: UIViewController {
 		])
 		
 		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false
-		cpView.incompeteLabel.text = NSLocalizedString("This checkpoint must be completed before proceeding to the next one.", comment:"incomplete checkpoint message")
+		cpView.incompeteLabel.text = NSLocalizedString("You must complete this before proceeding.", comment:"incomplete checkpoint message")
 		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 18.0)
 		cpView.incompeteLabel.textColor = .red
 		cpView.incompeteLabel.textAlignment = .center
@@ -730,14 +730,16 @@ class StageViewController: UIViewController {
 		let nextStageIndex = stageIndex + 1
 		if nextStageIndex < CheckpointManager.shared.blocks[blockIndex].stages.count {
 			
-			let message = NSLocalizedString("You have reached the end of this stage.", comment: "end of stage message")
+			let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
 			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Next Stage", comment: "next stage button title"), style: .default, handler: { (action) in
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Keep Going!", comment: "Keep Going! button title"), style: .default, handler: { (action) in
 				self.stageIndex = nextStageIndex
 				self.title = CheckpointManager.shared.blocks[self.blockIndex].stages[self.stageIndex].title
 				self.loadCheckpointAtIndex(0, withAnimation: .fromRight)
 			}))
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "cancel button title"), style: .cancel, handler: nil))
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Home", comment: "Home button title"), style: .cancel, handler: { (action) in
+				self.navigationController?.popViewController(animated: true)
+			}))
 			self.present(alertController, animated: true, completion: nil)
 			
 			return
