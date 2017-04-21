@@ -337,7 +337,7 @@ class StageViewController: UIViewController {
 					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
 					
 					let key = keyForInstanceIndex(i)
-					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_field")
+					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_text")
 					if let dateStr = defaults.string(forKey: "\(key)_date") {
 						datesCPView.dateButtons[i].setTitle(dateStr, for: .normal)
 						datesCPView.dateButtons[i].setTitleColor(.darkText, for: .normal)
@@ -464,7 +464,7 @@ class StageViewController: UIViewController {
 			for i in 0..<checkPoint.instances.count {
 				let key = keyForInstanceIndex(i)
 				if checkPoint.type == .dateAndTextEntry {
-					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_field")
+					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
 				}
 				
 				if let text = datesCPView.dateButtons[i].title(for: .normal), text != datesCPView.dateTextPlaceholder {
@@ -838,7 +838,7 @@ class StageViewController: UIViewController {
 				let datesCPView = checkpointView as! DatesCheckpointView
 				for (index, field) in datesCPView.textFields.enumerated() {
 					if field == hitView {
-						hitKey = keyForInstanceIndex(index) + "_field"
+						hitKey = keyForInstanceIndex(index) + "_text"
 					}
 				}
 				for (index, button) in datesCPView.dateButtons.enumerated() {
