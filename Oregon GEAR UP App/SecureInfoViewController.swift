@@ -17,6 +17,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	@IBOutlet weak var ssnTextField: UITextField!
 	@IBOutlet weak var lockButton: UIButton!
 	
+	@IBOutlet weak var pinPadView: UIView!
+	@IBOutlet weak var pinTextField: UITextField!
+	@IBOutlet weak var setPINButton: UIButton!
+	@IBOutlet weak var badPINLabel: UILabel!
+	
 	private var keyboardAccessoryView: UIView!
 	
 	
@@ -25,9 +30,20 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 
 		createKeyboardAccessoryView()
 		
+		let isSetup = UserDefaults.standard.bool(forKey: "initialsecuresetup")
+		
+		pinPadView.layer.cornerRadius = 6.0
+		pinPadView.layer.borderWidth = 0.5
+		pinPadView.layer.borderColor = UIColor.gray.cgColor
+		pinPadView.alpha = 0.0
+		setPINButton.alpha = 0.0
+		badPINLabel.alpha = 0.0
+		pinTextField.delegate = self
+		NotificationCenter.default.addObserver(self, selector: #selector(checkPIN), name: Notification.Name.UITextFieldTextDidChange, object: pinTextField)
+		
 		ssnTextField.delegate = self
 		ssnTextField.inputAccessoryView = keyboardAccessoryView
-		ssnTextField.text = KeychainWrapper.standard.string(forKey: "ssn")
+		ssnTextField.text = isSetup ? KeychainWrapper.standard.string(forKey: "ssn") : ""
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(lockInfo), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
     }
@@ -42,6 +58,106 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		}
 	}
 	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
+			
+			// clear all leftover values
+			KeychainWrapper.standard.removeObject(forKey: "pin")
+			KeychainWrapper.standard.removeObject(forKey: "ssn")
+			
+			
+			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+			
+			var message: String? = nil
+			if haveBiometrics {
+				message = NSLocalizedString("You can either use your fingerprint or setup a PIN for accessing your secure information.", comment: "secure info fingerprint or PIN message")
+			} else {
+				message = NSLocalizedString("You need to setup a PIN for accessing your secure information.", comment: "secure info PIN message")
+			}
+			
+			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Setup PIN", comment: "Setup PIN button title"), style: .default, handler: { (action) in
+				self.promptForPIN()
+			}))
+			if haveBiometrics {
+				alertController.addAction(UIAlertAction(title: NSLocalizedString("Use Fingerprint", comment: "Use Fingerprint button title"), style: .default, handler: { (action) in
+					UserDefaults.standard.set(true, forKey: "initialsecuresetup")
+					UserDefaults.standard.set(true, forKey: "securewithfingerprint")
+				}))
+			}
+			
+			present(alertController, animated: true, completion: nil)
+		}
+	}
+	
+	private func promptForPIN() {
+		
+		pinTextField.text = ""
+		setPINButton.alpha = 0.0
+		badPINLabel.alpha = 0.0
+		
+		UIView.animate(withDuration: 0.3, animations: { 
+			self.pinPadView.alpha = 1.0
+		}) { (complete) in
+			self.pinTextField.becomeFirstResponder()
+		}
+	}
+	
+	dynamic func checkPIN() {
+		
+		guard let pin = pinTextField.text else {
+			return
+		}
+		
+		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
+			setPINButton.alpha = pin.characters.count == 4 ? 1.0 : 0.0
+		} else {
+			
+			if pin.characters.count < 4 {
+				
+				UIView.animate(withDuration: 0.2, animations: {
+					self.badPINLabel.alpha = 0.0
+				})
+				return
+			}
+			
+			let goodpin = KeychainWrapper.standard.string(forKey: "pin")
+			if pin == goodpin {
+				
+				pinTextField.resignFirstResponder()
+				
+				UIView.animate(withDuration: 0.3, animations: { 
+					self.pinPadView.alpha = 0.0
+				}, completion: { (complete) in
+					self.unlockInfo()
+				})
+				
+				return
+			}
+			
+			// pin does not match
+			UIView.animate(withDuration: 0.2, animations: { 
+				self.badPINLabel.alpha = 1.0
+			})
+		}
+	}
+	
+	@IBAction func setPIN() {
+		
+		if let pin = pinTextField.text {
+			KeychainWrapper.standard.set(pin, forKey: "pin")
+			UserDefaults.standard.set(true, forKey: "initialsecuresetup")
+			
+			pinTextField.resignFirstResponder()
+			
+			UIView.animate(withDuration: 0.3, animations: { 
+				self.pinPadView.alpha = 0.0
+			})
+		}
+	}
+	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
@@ -53,7 +169,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		if locked {
 			var error: NSError?
 			let context = LAContext()
-			if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+			if UserDefaults.standard.bool(forKey: "securewithfingerprint") && context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
 				
 				let reason = NSLocalizedString("Unlock your secure information.", comment: "biometrics unlock reason")
 				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
@@ -70,9 +186,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 					}
 				}
 			} else {
-				// no Touch ID case here
-				
-				self.unlockInfo()		// TEMPORARY
+				// no Touch ID case
+				self.promptForPIN()
 			}
 		} else {
 			lockInfo()
@@ -102,6 +217,21 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		ssnTextField.isEnabled = true
 		
 		lockButton.setTitle(NSLocalizedString("Lock Info", comment: "lock button title"), for: .normal)
+	}
+	
+	public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		
+		if textField == pinTextField {
+			
+			if let fieldText = textField.text {
+				let length = fieldText.characters.count + string.characters.count
+				return length <= 4
+			}
+			
+			return false
+		}
+		
+		return true
 	}
 	
 	public func textFieldDidEndEditing(_ textField: UITextField) {
