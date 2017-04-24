@@ -20,6 +20,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	@IBOutlet weak var pinPadView: UIView!
 	@IBOutlet weak var pinTextField: UITextField!
 	@IBOutlet weak var setPINButton: UIButton!
+	@IBOutlet weak var cancelPINButton: UIButton!
 	@IBOutlet weak var badPINLabel: UILabel!
 	
 	private var keyboardAccessoryView: UIView!
@@ -98,6 +99,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		setPINButton.alpha = 0.0
 		badPINLabel.alpha = 0.0
 		
+		cancelPINButton.alpha = UserDefaults.standard.bool(forKey: "initialsecuresetup") ? 1.0 : 0.0
+		
 		UIView.animate(withDuration: 0.3, animations: { 
 			self.pinPadView.alpha = 1.0
 		}) { (complete) in
@@ -156,6 +159,15 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 				self.pinPadView.alpha = 0.0
 			})
 		}
+	}
+	
+	@IBAction func cancelPIN() {
+		
+		pinTextField.resignFirstResponder()
+		
+		UIView.animate(withDuration: 0.3, animations: {
+			self.pinPadView.alpha = 0.0
+		})
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {

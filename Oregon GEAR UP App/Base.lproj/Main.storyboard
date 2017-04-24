@@ -123,7 +123,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pz6-nK-1xu">
-                                        <rect key="frame" x="70.5" y="62" width="100" height="29"/>
+                                        <rect key="frame" x="70.5" y="59" width="100" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="sY8-lv-bbb"/>
                                         </constraints>
@@ -132,15 +132,22 @@
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jp4-7f-h8U">
-                                        <rect key="frame" x="91" y="102" width="57" height="33"/>
+                                        <rect key="frame" x="91" y="103" width="57" height="33"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Set PIN"/>
                                         <connections>
                                             <action selector="setPIN" destination="lNA-EA-cqA" eventType="touchUpInside" id="3Qt-7v-agA"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jv7-LK-h3N">
+                                        <rect key="frame" x="96" y="106" width="48" height="30"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelPIN" destination="lNA-EA-cqA" eventType="touchUpInside" id="PUy-Kl-f11"/>
+                                        </connections>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIN is not correct" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZVo-TY-zm6">
-                                        <rect key="frame" x="54" y="106" width="133" height="21"/>
+                                        <rect key="frame" x="54" y="88" width="133" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="0.084977516389999994" blue="0.1329727439" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -151,10 +158,11 @@
                                     <constraint firstItem="wXH-YH-liQ" firstAttribute="top" secondItem="6pX-Z9-xAW" secondAttribute="top" constant="23" id="7pH-eQ-afb"/>
                                     <constraint firstItem="jp4-7f-h8U" firstAttribute="centerX" secondItem="6pX-Z9-xAW" secondAttribute="centerX" id="8Ek-hj-b5b"/>
                                     <constraint firstItem="wXH-YH-liQ" firstAttribute="centerX" secondItem="6pX-Z9-xAW" secondAttribute="centerX" id="EUM-6q-Ync"/>
-                                    <constraint firstItem="ZVo-TY-zm6" firstAttribute="top" secondItem="Pz6-nK-1xu" secondAttribute="bottom" constant="15" id="bLl-bO-gbr"/>
+                                    <constraint firstItem="ZVo-TY-zm6" firstAttribute="top" secondItem="Pz6-nK-1xu" secondAttribute="bottom" id="bLl-bO-gbr"/>
                                     <constraint firstAttribute="height" constant="140" id="bTc-eI-s2i"/>
-                                    <constraint firstItem="jp4-7f-h8U" firstAttribute="top" secondItem="Pz6-nK-1xu" secondAttribute="bottom" constant="11" id="lWH-x9-RaR"/>
-                                    <constraint firstItem="Pz6-nK-1xu" firstAttribute="top" secondItem="wXH-YH-liQ" secondAttribute="bottom" constant="18" id="nnc-2O-7Og"/>
+                                    <constraint firstItem="Jv7-LK-h3N" firstAttribute="top" secondItem="Pz6-nK-1xu" secondAttribute="bottom" constant="18" id="lCd-g1-JlG"/>
+                                    <constraint firstItem="jp4-7f-h8U" firstAttribute="top" secondItem="Pz6-nK-1xu" secondAttribute="bottom" constant="15" id="lWH-x9-RaR"/>
+                                    <constraint firstItem="Pz6-nK-1xu" firstAttribute="top" secondItem="wXH-YH-liQ" secondAttribute="bottom" constant="15" id="nnc-2O-7Og"/>
                                     <constraint firstItem="ZVo-TY-zm6" firstAttribute="centerX" secondItem="6pX-Z9-xAW" secondAttribute="centerX" id="pO3-lW-All"/>
                                     <constraint firstAttribute="width" constant="240" id="r4I-p7-3pd"/>
                                     <constraint firstItem="Pz6-nK-1xu" firstAttribute="centerX" secondItem="6pX-Z9-xAW" secondAttribute="centerX" id="ym0-cd-nvz"/>
@@ -166,6 +174,7 @@
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="top" secondItem="LNI-CC-zFx" secondAttribute="bottom" constant="8" id="3T9-ox-6pK"/>
                             <constraint firstItem="Fzv-g0-MjU" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="Bl8-Dk-aCq"/>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="KFg-T1-JJs"/>
+                            <constraint firstItem="Jv7-LK-h3N" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="UEe-ma-8al"/>
                             <constraint firstItem="W08-4p-p1d" firstAttribute="top" secondItem="Fzv-g0-MjU" secondAttribute="bottom" constant="17" id="VbB-Tn-jGY"/>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="top" secondItem="J8O-9T-w1T" secondAttribute="bottom" constant="73" id="XaM-eX-eJL"/>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="leading" secondItem="LNI-CC-zFx" secondAttribute="leading" id="jXC-Qs-khQ"/>
@@ -176,6 +185,7 @@
                     <navigationItem key="navigationItem" title="Secure Info" id="yre-M2-oEp"/>
                     <connections>
                         <outlet property="badPINLabel" destination="ZVo-TY-zm6" id="ssY-b9-mRs"/>
+                        <outlet property="cancelPINButton" destination="Jv7-LK-h3N" id="g09-oP-nRQ"/>
                         <outlet property="lockButton" destination="Fzv-g0-MjU" id="A1B-QZ-tGl"/>
                         <outlet property="pinPadView" destination="6pX-Z9-xAW" id="j08-DV-uVK"/>
                         <outlet property="pinTextField" destination="Pz6-nK-1xu" id="Wyt-mL-vhQ"/>
