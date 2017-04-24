@@ -241,8 +241,10 @@ class StageViewController: UIViewController {
 				checkboxesCPView.checkboxes[i].setTitleColor(.darkText, for: .normal)
 				checkboxesCPView.checkboxes[i].contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
 				checkboxesCPView.checkboxes[i].imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
-				checkboxesCPView.checkboxes[i].titleLabel?.adjustsFontSizeToFitWidth = true
-				checkboxesCPView.checkboxes[i].titleLabel?.minimumScaleFactor = 0.7
+//				checkboxesCPView.checkboxes[i].titleLabel?.adjustsFontSizeToFitWidth = true
+//				checkboxesCPView.checkboxes[i].titleLabel?.minimumScaleFactor = 0.7
+				checkboxesCPView.checkboxes[i].titleLabel?.numberOfLines = 2
+				checkboxesCPView.checkboxes[i].titleLabel?.textAlignment = .left
 				checkboxesCPView.checkboxes[i].addTarget(self, action: #selector(handleCheckbox(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(checkboxesCPView.checkboxes[i])
 			}
@@ -256,8 +258,10 @@ class StageViewController: UIViewController {
 				radiosCPView.radios[i].setTitleColor(.darkText, for: .normal)
 				radiosCPView.radios[i].contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
 				radiosCPView.radios[i].imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
-				radiosCPView.radios[i].titleLabel?.adjustsFontSizeToFitWidth = true
-				radiosCPView.radios[i].titleLabel?.minimumScaleFactor = 0.7
+//				radiosCPView.radios[i].titleLabel?.adjustsFontSizeToFitWidth = true
+//				radiosCPView.radios[i].titleLabel?.minimumScaleFactor = 0.7
+				radiosCPView.radios[i].titleLabel?.numberOfLines = 2
+				radiosCPView.radios[i].titleLabel?.textAlignment = .left
 				radiosCPView.radios[i].addTarget(self, action: #selector(handleRadio(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(radiosCPView.radios[i])
 			}
@@ -755,6 +759,8 @@ class StageViewController: UIViewController {
 		
 		if checkpointIndex > 0 {
 			loadCheckpointAtIndex(checkpointIndex - 1, withAnimation: .fromLeft)
+		} else if checkpointIndex == 0 {
+			navigationController?.popViewController(animated: true)
 		}
 	}
 	
@@ -773,8 +779,6 @@ class StageViewController: UIViewController {
 			NSLayoutConstraint.activate([
 				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				checkpointCenterXConstraint,
-//				checkpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
-//				checkpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0),
 				checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 				checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
 			])
@@ -790,8 +794,6 @@ class StageViewController: UIViewController {
 			NSLayoutConstraint.activate([
 				newCheckpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				newCheckpointCenterXConstraint,
-//				newCheckpointView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.70),
-//				newCheckpointView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0.0),
 				newCheckpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 				newCheckpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
 			])
