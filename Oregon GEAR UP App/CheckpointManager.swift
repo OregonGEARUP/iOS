@@ -55,7 +55,7 @@ class CheckpointManager {
 	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
 		let defaults = UserDefaults.standard
-		let filename = defaults.string(forKey: "currentBlockFilename") ?? "start.json"
+		let filename = defaults.string(forKey: "currentBlockFilename") ?? "block1.json"
 		
 		if defaults.object(forKey: "currentBlockIndex") != nil {
 			blockIndex = defaults.integer(forKey: "currentBlockIndex")
