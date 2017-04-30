@@ -16,36 +16,42 @@ class BlockViewController: UIViewController {
 	
 	private var firstAppearance = true
 	
-	var blockIndex = 0
+	var blockIndex = -1
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		// load the JSON checkpoint information
-		activityIndicator.startAnimating()
-		CheckpointManager.shared.resumeCheckpoints { (success) in
-			
-			if success {
-				self.blockIndex = CheckpointManager.shared.blockIndex
-				let block = CheckpointManager.shared.blocks[self.blockIndex]
-				self.setupFor(block)
-				
-				self.activityIndicator.stopAnimating()
-				
-				if CheckpointManager.shared.stageIndex >= 0 && CheckpointManager.shared.checkpointIndex >= 0 {
-					self.showStage(forIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
-				}
-				
-			} else {
-				// TODO: show error here?
-			}
-		}
+//		// load the JSON checkpoint information
+//		activityIndicator.startAnimating()
+//		CheckpointManager.shared.resumeCheckpoints { (success) in
+//			
+//			if success {
+//				self.blockIndex = CheckpointManager.shared.blockIndex
+//				let block = CheckpointManager.shared.blocks[self.blockIndex]
+//				self.setupFor(block)
+//				
+//				self.activityIndicator.stopAnimating()
+//				
+//				if CheckpointManager.shared.stageIndex >= 0 && CheckpointManager.shared.checkpointIndex >= 0 {
+//					self.showStage(forIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
+//				}
+//				
+//			} else {
+//				// TODO: show error here?
+//			}
+//		}
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		if !firstAppearance {
+		if firstAppearance {
+			self.setupFor(CheckpointManager.shared.block)
+			
+			if CheckpointManager.shared.stageIndex >= 0 && CheckpointManager.shared.checkpointIndex >= 0 {
+				self.showStage(forIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
+			}
+		} else {
 			CheckpointManager.shared.persistState(forBlock: blockIndex, stage: -1, checkpoint: -1)
 		}
 		
@@ -65,7 +71,7 @@ class BlockViewController: UIViewController {
 	private func showStage(forIndex index: Int, checkpointIndex: Int, animated: Bool = true) {
 		
 		let vc: StageViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "stage") as! StageViewController
-		vc.blockIndex = 0
+		vc.blockIndex = blockIndex
 		vc.stageIndex = index
 		vc.checkpointIndex = checkpointIndex
 		navigationController?.pushViewController(vc, animated: animated)
@@ -83,6 +89,8 @@ class BlockViewController: UIViewController {
 		prepareForNewBlock()
 
 		title = block.title
+		
+		self.blockIndex = CheckpointManager.shared.blockIndex
 		
 		for (index, stage) in block.stages.enumerated() {
 			
@@ -129,8 +137,7 @@ class BlockViewController: UIViewController {
 		CheckpointManager.shared.loadNextBlock(fromFile: blockFilename) { (success) in
 			
 			if success {
-				let block = CheckpointManager.shared.blocks[self.blockIndex]
-				self.setupFor(block)
+				self.setupFor(CheckpointManager.shared.block)
 				
 				self.activityIndicator.stopAnimating()
 				

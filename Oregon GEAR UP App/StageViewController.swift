@@ -73,7 +73,7 @@ class StageViewController: UIViewController {
 	var checkpointCenterXConstraint: NSLayoutConstraint!
 	
 	private var checkpoints: [Checkpoint] {
-		return CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].checkpoints
+		return CheckpointManager.shared.block.stages[stageIndex].checkpoints
 	}
 	
 	private func keyForInstanceIndex(_ instanceIndex: Int) -> String {
@@ -84,7 +84,7 @@ class StageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		title = CheckpointManager.shared.blocks[blockIndex].stages[stageIndex].title
+		title = CheckpointManager.shared.block.stages[stageIndex].title
 		
 		createKeyboardAccessoryView()
 		createDatePickerPaletteView()
@@ -732,13 +732,13 @@ class StageViewController: UIViewController {
 		
 		// first check to see if there are more stages
 		let nextStageIndex = stageIndex + 1
-		if nextStageIndex < CheckpointManager.shared.blocks[blockIndex].stages.count {
+		if nextStageIndex < CheckpointManager.shared.block.stages.count {
 			
 			let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
 			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Keep Going!", comment: "Keep Going! button title"), style: .default, handler: { (action) in
 				self.stageIndex = nextStageIndex
-				self.title = CheckpointManager.shared.blocks[self.blockIndex].stages[self.stageIndex].title
+				self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
 				self.loadCheckpointAtIndex(0, withAnimation: .fromRight)
 			}))
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Home", comment: "Home button title"), style: .cancel, handler: { (action) in

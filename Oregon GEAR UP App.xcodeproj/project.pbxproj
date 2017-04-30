@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0F09931EB631E300283A87 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F09921EB631E300283A87 /* OverviewViewController.swift */; };
 		2C1DAC2F1E9D1F2500D2C1BF /* SecureInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */; };
 		2C1DAC321E9D331200D2C1BF /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DAC301E9D331200D2C1BF /* KeychainItemAccessibility.swift */; };
 		2C1DAC331E9D331200D2C1BF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DAC311E9D331200D2C1BF /* KeychainWrapper.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C0F09921EB631E300283A87 /* OverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
 		2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInfoViewController.swift; sourceTree = "<group>"; };
 		2C1DAC301E9D331200D2C1BF /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		2C1DAC311E9D331200D2C1BF /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */,
+				2C0F09921EB631E300283A87 /* OverviewViewController.swift */,
 				C64C19EB1E6640D300F253A0 /* BlockViewController.swift */,
 				2CBECF211E7600A400DCC7AD /* StageViewController.swift */,
 				2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */,
@@ -124,7 +127,7 @@
 					F93BB56B1DECA5CF000C6C56 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 8MQWG368EY;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -169,6 +172,7 @@
 				F93BB5871DECAB32000C6C56 /* CheckpointManager.swift in Sources */,
 				2C1DAC331E9D331200D2C1BF /* KeychainWrapper.swift in Sources */,
 				2C1DAC321E9D331200D2C1BF /* KeychainItemAccessibility.swift in Sources */,
+				2C0F09931EB631E300283A87 /* OverviewViewController.swift in Sources */,
 				F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */,
 				F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */,
 				2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */,
@@ -297,14 +301,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 8MQWG368EY;
 				INFOPLIST_FILE = "Oregon GEAR UP App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sck-designs.OGC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9ef54d7f-a4b7-4366-9388-5da6d77896ba";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.sck-designs.*";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -313,14 +317,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 8MQWG368EY;
 				INFOPLIST_FILE = "Oregon GEAR UP App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sck-designs.OGC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9ef54d7f-a4b7-4366-9388-5da6d77896ba";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.sck-designs.*";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
