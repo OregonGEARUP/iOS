@@ -39,15 +39,53 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="MoL-OB-pNu">
                                 <rect key="frame" x="169" y="265" width="37" height="37"/>
                             </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZE9-oP-kxb">
+                                <rect key="frame" x="30" y="90" width="315" height="500"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IoH-ld-EQ9">
+                                        <rect key="frame" x="112" y="29" width="91.5" height="26.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a place to put some text that will be displayed the first time the app is run after being installed." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLz-pz-dmW">
+                                        <rect key="frame" x="33" y="87" width="252" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VAB-YF-NN7">
+                                        <rect key="frame" x="99" y="449" width="117" height="30"/>
+                                        <state key="normal" title="Let's get started!"/>
+                                        <connections>
+                                            <action selector="dismissWelcomeOverlay" destination="oiw-ma-sQV" eventType="touchUpInside" id="037-n5-6uZ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="IoH-ld-EQ9" firstAttribute="top" secondItem="ZE9-oP-kxb" secondAttribute="top" constant="29" id="2ez-e2-3j3"/>
+                                    <constraint firstItem="fLz-pz-dmW" firstAttribute="top" secondItem="IoH-ld-EQ9" secondAttribute="bottom" constant="31.5" id="3WQ-C3-jsF"/>
+                                    <constraint firstItem="fLz-pz-dmW" firstAttribute="leading" secondItem="ZE9-oP-kxb" secondAttribute="leading" constant="33" id="K0w-JU-nq7"/>
+                                    <constraint firstAttribute="trailing" secondItem="fLz-pz-dmW" secondAttribute="trailing" constant="30" id="Swk-r8-big"/>
+                                    <constraint firstItem="VAB-YF-NN7" firstAttribute="centerX" secondItem="ZE9-oP-kxb" secondAttribute="centerX" id="VqE-Bh-QJP"/>
+                                    <constraint firstItem="IoH-ld-EQ9" firstAttribute="centerX" secondItem="ZE9-oP-kxb" secondAttribute="centerX" id="hXd-lC-4PU"/>
+                                    <constraint firstAttribute="bottom" secondItem="VAB-YF-NN7" secondAttribute="bottom" constant="21" id="xeP-Ua-gq1"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zP0-cB-eVZ" firstAttribute="width" secondItem="ZMp-oc-4Hd" secondAttribute="width" id="PEo-8R-QkZ"/>
                             <constraint firstItem="zP0-cB-eVZ" firstAttribute="leading" secondItem="ZMp-oc-4Hd" secondAttribute="leading" id="TRz-6K-u0i"/>
                             <constraint firstItem="MoL-OB-pNu" firstAttribute="centerX" secondItem="ZMp-oc-4Hd" secondAttribute="centerX" id="WOu-fe-NhO"/>
+                            <constraint firstItem="ZE9-oP-kxb" firstAttribute="top" secondItem="aeS-6K-Fq5" secondAttribute="bottom" constant="26" id="qrR-iB-q9W"/>
+                            <constraint firstItem="aId-t5-Jd6" firstAttribute="top" secondItem="ZE9-oP-kxb" secondAttribute="bottom" constant="28" id="tiJ-z1-AbH"/>
                             <constraint firstItem="MoL-OB-pNu" firstAttribute="centerY" secondItem="ZMp-oc-4Hd" secondAttribute="centerY" multiplier="0.85" id="tzx-x3-Isj"/>
                             <constraint firstItem="zP0-cB-eVZ" firstAttribute="top" secondItem="aeS-6K-Fq5" secondAttribute="bottom" id="vxF-Sq-8EJ"/>
+                            <constraint firstItem="ZE9-oP-kxb" firstAttribute="width" secondItem="ZMp-oc-4Hd" secondAttribute="width" multiplier="0.84" id="w7z-4h-xjo"/>
                             <constraint firstItem="aId-t5-Jd6" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="bottom" id="xC1-wt-CtU"/>
+                            <constraint firstItem="ZE9-oP-kxb" firstAttribute="centerX" secondItem="ZMp-oc-4Hd" secondAttribute="centerX" id="xbF-BE-44E"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uCW-gw-dH1">
@@ -57,6 +95,7 @@
                         <outlet property="activityIndicator" destination="MoL-OB-pNu" id="4sO-pS-92E"/>
                         <outlet property="scrollView" destination="zP0-cB-eVZ" id="bDD-8X-Yjg"/>
                         <outlet property="stackView" destination="WsF-Uz-Mfj" id="1cO-KT-8WK"/>
+                        <outlet property="welcomeOverlay" destination="ZE9-oP-kxb" id="Xbu-eC-xSC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4v-EE-754" userLabel="First Responder" sceneMemberID="firstResponder"/>

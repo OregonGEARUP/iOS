@@ -9,6 +9,8 @@
 import UIKit
 
 class OverviewViewController: UIViewController {
+	
+	@IBOutlet weak var welcomeOverlay: UIView!
 
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var stackView: UIStackView!
@@ -18,7 +20,12 @@ class OverviewViewController: UIViewController {
         super.viewDidLoad()
 		
 		title = NSLocalizedString("It's A Plan!", comment: "overview title")
-
+		
+		welcomeOverlay.alpha = 0.0
+		welcomeOverlay.layer.borderColor = UIColor.lightGray.cgColor
+		welcomeOverlay.layer.borderWidth = 0.5
+		welcomeOverlay.layer.cornerRadius = 5.0
+		
 		// load the JSON checkpoint information
 		activityIndicator.startAnimating()
 		CheckpointManager.shared.resumeCheckpoints { (success) in
@@ -28,10 +35,16 @@ class OverviewViewController: UIViewController {
 				
 				self.activityIndicator.stopAnimating()
 				
-				if CheckpointManager.shared.blockIndex >= 0 {
-					self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
+				// show welcome message if first run
+				if UserDefaults.standard.bool(forKey: "welcomedone") == false {
+					self.scrollView.alpha = 0.2
+					self.showWelcomeOverlay()
+					UserDefaults.standard.set(true, forKey: "welcomedone")
+				} else {
+					if CheckpointManager.shared.blockIndex >= 0 {
+						self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
+					}
 				}
-				
 			} else {
 				// TODO: show error here?
 			}
@@ -43,7 +56,7 @@ class OverviewViewController: UIViewController {
 		
 		update()
 	}
-
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -127,6 +140,25 @@ class OverviewViewController: UIViewController {
 				}
 				button.layer.backgroundColor = UIColor.green.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
 			}
+		}
+	}
+	
+	private func showWelcomeOverlay() {
+		
+		UIView.animate(withDuration: 0.3) {
+			self.welcomeOverlay.alpha = 1.0
+		}
+	}
+	
+	@IBAction private func dismissWelcomeOverlay() {
+		
+		if CheckpointManager.shared.blockIndex >= 0 {
+			self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: true)
+		}
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { 
+			self.welcomeOverlay.alpha = 0.0
+			self.scrollView.alpha = 1.0
 		}
 	}
 }
