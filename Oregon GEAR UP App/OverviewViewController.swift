@@ -92,19 +92,16 @@ class OverviewViewController: UIViewController {
 	private func setup() {
 		
 		prepareForNewBlocks()
-
-		for (index, blockInfo) in CheckpointManager.shared.blockInfo.enumerated() {
+		
+		for index in 0..<CheckpointManager.shared.countOfBlocks() {
+			
+			let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
 			
 			let button = UIButton(type: .custom)
 			button.tag = index
-			button.setTitle(blockInfo["title"] as? String, for: .normal)
+			button.setTitle(blockInfo.title, for: .normal)
 			button.addTarget(self, action: #selector(self.handleBlockTap(_:)), for: .touchUpInside)
-			
-			if let filename = blockInfo["blockFileName"] as? String {
-				button.isEnabled = !filename.isEmpty
-			} else {
-				button.isEnabled = false
-			}
+			button.isEnabled = blockInfo.available
 			
 			button.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
 			button.titleLabel?.numberOfLines = 0
@@ -124,20 +121,17 @@ class OverviewViewController: UIViewController {
 	
 	private func update() {
 		
+		let blockCount = CheckpointManager.shared.countOfBlocks()
 		for (index, button) in stackView.arrangedSubviews.enumerated() {
 			if let button = button as? UIButton {
 				
-				if index >= CheckpointManager.shared.blockInfo.count {
+				if index >= blockCount {
 					break
 				}
 				
-				let blockInfo = CheckpointManager.shared.blockInfo[index]
-				button.setTitle(blockInfo["title"] as? String, for: .normal)
-				if let filename = blockInfo["blockFileName"] as? String {
-					button.isEnabled = !filename.isEmpty
-				} else {
-					button.isEnabled = false
-				}
+				let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
+				button.setTitle(blockInfo.title, for: .normal)
+				button.isEnabled = blockInfo.available
 				button.layer.backgroundColor = UIColor.green.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
 			}
 		}
