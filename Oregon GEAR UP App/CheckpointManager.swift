@@ -69,60 +69,60 @@ class CheckpointManager {
 		}
 		
 		
-		// TEMPORARY in place of loading blocks info below
-		let b1 = ["ids": "b1", "title": "Explore your options.", "blockFileName": "block1.json"]
-		blockInfos.append(b1)
-		let b2 = ["ids": "b2", "title": "Be prepared.", "blockFileName": ""]
-		blockInfos.append(b2)
-		let b3 = ["ids": "b3citizen,b3undocumented,b3visa", "title": "Learn how to pay.", "blockFileName": ""]
-		blockInfos.append(b3)
-		let b4 = ["ids": "b4", "title": "Get Organized.", "blockFileName": ""]
-		blockInfos.append(b4)
-		let b5 = ["ids": "b5citizen,b5undocumented,b5visa", "title": "Get paid.", "blockFileName": ""]
-		blockInfos.append(b5)
-		let b6 = ["ids": "b6cc,b6cc,b6cc", "title": "Get set for college applications.", "blockFileName": ""]
-		blockInfos.append(b6)
-		let b7 = ["ids": "b7citizen,b7undocumented,b7visa", "title": "Follow up.", "blockFileName": ""]
-		blockInfos.append(b7)
-		let b8 = ["ids": "b8cc,b8noncc", "title": "Apply!", "blockFileName": ""]
-		blockInfos.append(b8)
-		let b9 = ["ids": "b9citizen,b9noncitizen", "title": "Look ahead.", "blockFileName": ""]
-		blockInfos.append(b9)
-		let b10 = ["ids": "b10", "title": "Make your choice.", "blockFileName": ""]
-		blockInfos.append(b10)
-		let b11 = ["ids": "b11", "title": "Tie up loose ends.", "blockFileName": ""]
-		blockInfos.append(b11)
-		let b12 = ["ids": "b12", "title": "Get ready to go.", "blockFileName": ""]
-		blockInfos.append(b12)
-		
-		resumeCheckpointsInternal(completion: completion)
-
-		
-//		// load the block info
-//		let url = URL(string: BaseURL + "blocks.json")!
-//		let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
-//			
-//			var success = false
-//			if let data = data {
-//				
-//				if let jsonArray = try? JSONSerialization.jsonObject(with: data), let blockInfos = jsonArray as? [[String: String]] {
-//			
-//					self.blockInfos = blockInfos
-//					success = true
-//				}
-//			}
-//			
-//			if success == false {
-//				
-//				completion(false)
-//				return
-//			}
-//			
-//			self.resumeCheckpointsInternal(completion: completion)
-//			return
-//		}
+//		// TEMPORARY in place of loading blocks info below
+//		let b1 = ["ids": "b1", "title": "Explore your options.", "blockFileName": "block1.json"]
+//		blockInfos.append(b1)
+//		let b2 = ["ids": "b2", "title": "Be prepared.", "blockFileName": ""]
+//		blockInfos.append(b2)
+//		let b3 = ["ids": "b3citizen,b3undocumented,b3visa", "title": "Learn how to pay.", "blockFileName": ""]
+//		blockInfos.append(b3)
+//		let b4 = ["ids": "b4", "title": "Get Organized.", "blockFileName": ""]
+//		blockInfos.append(b4)
+//		let b5 = ["ids": "b5citizen,b5undocumented,b5visa", "title": "Get paid.", "blockFileName": ""]
+//		blockInfos.append(b5)
+//		let b6 = ["ids": "b6cc,b6cc,b6cc", "title": "Get set for college applications.", "blockFileName": ""]
+//		blockInfos.append(b6)
+//		let b7 = ["ids": "b7citizen,b7undocumented,b7visa", "title": "Follow up.", "blockFileName": ""]
+//		blockInfos.append(b7)
+//		let b8 = ["ids": "b8cc,b8noncc", "title": "Apply!", "blockFileName": ""]
+//		blockInfos.append(b8)
+//		let b9 = ["ids": "b9citizen,b9noncitizen", "title": "Look ahead.", "blockFileName": ""]
+//		blockInfos.append(b9)
+//		let b10 = ["ids": "b10", "title": "Make your choice.", "blockFileName": ""]
+//		blockInfos.append(b10)
+//		let b11 = ["ids": "b11", "title": "Tie up loose ends.", "blockFileName": ""]
+//		blockInfos.append(b11)
+//		let b12 = ["ids": "b12", "title": "Get ready to go.", "blockFileName": ""]
+//		blockInfos.append(b12)
 //		
-//		task.resume()
+//		resumeCheckpointsInternal(completion: completion)
+		
+		
+		// load the block info
+		let url = URL(string: BaseURL + "blocks.json")!
+		let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
+			
+			var success = false
+			if let data = data {
+				
+				if let jsonArray = try? JSONSerialization.jsonObject(with: data), let blockInfos = jsonArray as? [[String: String]] {
+			
+					self.blockInfos = blockInfos
+					success = true
+				}
+			}
+			
+			if success == false {
+				
+				completion(false)
+				return
+			}
+			
+			self.resumeCheckpointsInternal(completion: completion)
+			return
+		}
+		
+		task.resume()
 	}
 	
 	private func resumeCheckpointsInternal(completion: @escaping (_ success: Bool) -> Void) {
