@@ -709,6 +709,13 @@ class StageViewController: UIViewController {
 				
 				let meetsCriteria = checkpoints[nextIndex].meetsCriteria
 				print("meetsCriteria: \(meetsCriteria)")
+				if meetsCriteria {
+					if let filename = checkpoints[nextIndex].routeFileName {
+						print("will nav to on next: \(filename)")
+					} else {
+						print("MISSING routeFileName for route checkpoint")
+					}
+				}
 				
 				if (!meetsCriteria) {
 					
