@@ -29,7 +29,23 @@ class CheckpointManager {
 	public var stageIndex = 0
 	public var checkpointIndex = 0
 	
+	private var visited: Set<String>!
+	
     private init() {
+		
+		if let visitedArray = UserDefaults.standard.array(forKey: "visited") as? [String] {
+			visited = Set(visitedArray)
+		} else {
+			visited = Set<String>()
+		}
+		
+		NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { (note) in
+			
+			let visitedArray = Array(self.visited)
+			print("visitedArray: \(visitedArray)")
+			
+			UserDefaults.standard.set(visitedArray, forKey: "visited")
+		}
     }
 	
 	private let BaseURL = "https://oregongoestocollege.org/mobileApp/json/"
@@ -53,11 +69,27 @@ class CheckpointManager {
 		defaults.set(checkpoint, forKey: "currentCheckpointIndex")
 	}
 	
+	public func markVisited(forBlock block: Int, stage: Int, checkpoint: Int) {
+		
+		visited.insert(keyForBlockIndex(block, stageIndex: stage, checkpointIndex: checkpoint))
+	}
+	
+	public func hasVisited(block: Int, stage: Int, checkpoint: Int) -> Bool {
+		
+		return visited.contains(keyForBlockIndex(block, stageIndex: stage, checkpointIndex: checkpoint))
+	}
+	
 	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
 		let stage = block.stages[stageIndex]
 		let cp = stage.checkpoints[checkpointIndex]
 		let instance = cp.instances[instanceIndex]
 		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)_\(instance.identifier)"
+	}
+	
+	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int) -> String {
+		let stage = block.stages[stageIndex]
+		let cp = stage.checkpoints[checkpointIndex]
+		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)"
 	}
 	
 	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
@@ -339,6 +371,7 @@ class CheckpointManager {
 	}
 	
 	
+	// MARK: block info
 	public func countOfBlocks() -> Int {
 		
 		return blockInfos.count
@@ -353,5 +386,39 @@ class CheckpointManager {
 		}
 		
 		return (title, filename, !filename.isEmpty)
+	}
+	
+	
+	// MARK: completed
+	public func blockCompleted() -> Bool {
+		
+		var completed = true
+		for (stageIndex, _) in block.stages.enumerated() {
+			completed = completed && stageCompleted(atIndex: stageIndex)
+		}
+		
+		return completed
+	}
+	
+	public func stageCompleted(atIndex stageIndex: Int) -> Bool {
+		
+		var completed = true
+		for (cpIndex, _) in block.stages[stageIndex].checkpoints.enumerated() {
+			completed = completed && checkpointCompleted(atIndex: cpIndex, stageIndex: stageIndex)
+		}
+		
+		return completed
+	}
+	
+	public func checkpointCompleted(atIndex cpIndex: Int, stageIndex: Int) -> Bool {
+		
+		let completed = hasVisited(block: 0, stage: stageIndex, checkpoint: cpIndex)
+		if completed == false {
+			return false
+		}
+		
+		// check to see if checkpoint is completed
+		let cp = block.stages[stageIndex].checkpoints[cpIndex]
+		return cp.isCompleted(forBlockIndex: 0, stageIndex:stageIndex, checkpointIndex: cpIndex)
 	}
 }

@@ -819,6 +819,8 @@ class StageViewController: UIViewController {
 				self.checkpointView = newCheckpointView
 			})
 		}
+		
+		CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 	}
 	
 	private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {

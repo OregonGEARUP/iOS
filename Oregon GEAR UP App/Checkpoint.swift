@@ -53,7 +53,7 @@ struct Checkpoint {
 			// check to see that all criteria are met
 			for crit in criteria {
 				
-				if let key = crit["key"], let value = crit["value"] {
+				if let key = crit["key"], let expectedValue = crit["value"] {
 					
 					// empty keys are a match
 					if key == "" {
@@ -62,9 +62,9 @@ struct Checkpoint {
 					
 					// check that value for the key matches the expected value
 					if let obj = UserDefaults.standard.object(forKey: key) {
-						let objStr = String(describing: obj).lowercased()
-						let value = value.lowercased()
-						meets = meets && (objStr == value)
+						let value = String(describing: obj).lowercased()
+						let expectedValue = expectedValue.lowercased()
+						meets = meets && (value == expectedValue)
 					} else {
 						meets = false
 					}
@@ -82,6 +82,57 @@ struct Checkpoint {
 		}
 		
 		return meets
+	}
+	
+	public func isCompleted(forBlockIndex blockIndex: Int, stageIndex: Int, checkpointIndex: Int) -> Bool {
+		
+		if required == false {
+			return true
+		}
+		
+		let defaults = UserDefaults.standard
+		
+		switch type {
+		case .infoEntry, .checkboxEntry, .routeEntry:
+			return true
+			
+		case .radioEntry:
+			var oneOn = false
+			for (index, _) in instances.enumerated() {
+				let key = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: index)
+				oneOn = defaults.bool(forKey: key)
+				if oneOn {
+					break
+				}
+			}
+			return oneOn
+			
+		case .fieldEntry, .dateOnlyEntry:
+			var allFilled = true
+			for (index, _) in instances.enumerated() {
+				let key = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: index)
+				if let str = defaults.string(forKey: key), str.isEmpty == false {
+					allFilled = true
+				} else {
+					allFilled = false
+					break
+				}
+			}
+			return allFilled
+			
+		case .dateAndTextEntry:
+			var allFilled = true
+			for (index, _) in instances.enumerated() {
+				let key = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: index)
+				if let text = defaults.string(forKey: key+"_text"), let date = defaults.string(forKey: key+"_date"), text.isEmpty == false, date.isEmpty == false {
+					allFilled = true
+				} else {
+					allFilled = false
+					break
+				}
+			}
+			return allFilled
+		}
 	}
 	
 	var titleSubstituted: String { return stringWithSubstitutions(title) }

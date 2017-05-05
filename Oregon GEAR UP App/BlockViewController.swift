@@ -28,7 +28,7 @@ class BlockViewController: UIViewController {
 //			if success {
 //				self.blockIndex = CheckpointManager.shared.blockIndex
 //				let block = CheckpointManager.shared.blocks[self.blockIndex]
-//				self.setupFor(block)
+//				self.setupForBlock(block)
 //				
 //				self.activityIndicator.stopAnimating()
 //				
@@ -46,7 +46,7 @@ class BlockViewController: UIViewController {
 		super.viewWillAppear(animated)
 		
 		if firstAppearance {
-			self.setupFor(CheckpointManager.shared.block)
+			self.setupForBlock(CheckpointManager.shared.block)
 			
 			if CheckpointManager.shared.stageIndex >= 0 && CheckpointManager.shared.checkpointIndex >= 0 {
 				self.showStage(forIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
@@ -54,6 +54,8 @@ class BlockViewController: UIViewController {
 		} else {
 			CheckpointManager.shared.persistState(forBlock: blockIndex, stage: -1, checkpoint: -1)
 		}
+		
+		updateForBlock(CheckpointManager.shared.block)
 		
 		firstAppearance = false
 	}
@@ -84,7 +86,7 @@ class BlockViewController: UIViewController {
 		}
 	}
 	
-	private func setupFor(_ block: Block) {
+	private func setupForBlock(_ block: Block) {
 		
 		prepareForNewBlock()
 
@@ -112,6 +114,34 @@ class BlockViewController: UIViewController {
 			
 			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
 			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+			
+			
+			let statusView = UIImageView()
+			statusView.translatesAutoresizingMaskIntoConstraints = false
+			statusView.contentMode = .scaleAspectFit
+			statusView.tag = 100 + index
+			statusView.image = UIImage(named: "tab_checkpoints")!.withRenderingMode(.alwaysTemplate)
+			statusView.tintColor = .gray
+			statusView.alpha = 0.0
+			button.addSubview(statusView)
+			
+			statusView.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
+			statusView.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
+			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -6.0).isActive = true
+			statusView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -6.0).isActive = true
+		}
+	}
+	
+	private func updateForBlock(_ block: Block) {
+		
+		// show checkmarks for completed stages
+		for (index, _) in block.stages.enumerated() {
+			
+			let completed = CheckpointManager.shared.stageCompleted(atIndex: index)
+			
+			if let statusView = view.viewWithTag(100 + index) {
+				statusView.alpha = completed ? 1.0 : 0.0
+			}
 		}
 	}
 	
@@ -137,7 +167,8 @@ class BlockViewController: UIViewController {
 		CheckpointManager.shared.loadNextBlock(fromFile: blockFilename) { (success) in
 			
 			if success {
-				self.setupFor(CheckpointManager.shared.block)
+				self.setupForBlock(CheckpointManager.shared.block)
+				self.updateForBlock(CheckpointManager.shared.block)
 				
 				self.activityIndicator.stopAnimating()
 				
