@@ -243,34 +243,20 @@ class StageViewController: UIViewController {
 			cpView.stackView.alignment = .leading
 			let checkboxesCPView = cpView as! CheckboxesCheckpointView
 			for i in 0..<cpView.maxInstances {
-				checkboxesCPView.checkboxes[i].setImage(UIImage(named: "Checkbox"), for: .normal)
-				checkboxesCPView.checkboxes[i].setImage(UIImage(named: "Checkbox_Checked"), for: .selected)
-				checkboxesCPView.checkboxes[i].setTitleColor(.darkText, for: .normal)
-				checkboxesCPView.checkboxes[i].contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
-				checkboxesCPView.checkboxes[i].imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
-//				checkboxesCPView.checkboxes[i].titleLabel?.adjustsFontSizeToFitWidth = true
-//				checkboxesCPView.checkboxes[i].titleLabel?.minimumScaleFactor = 0.7
-				checkboxesCPView.checkboxes[i].titleLabel?.numberOfLines = 2
-				checkboxesCPView.checkboxes[i].titleLabel?.textAlignment = .left
+				checkboxesCPView.checkboxes[i].translatesAutoresizingMaskIntoConstraints = false
 				checkboxesCPView.checkboxes[i].addTarget(self, action: #selector(handleCheckbox(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(checkboxesCPView.checkboxes[i])
+				setupButton(checkboxesCPView.checkboxes[i], withText: "", image: #imageLiteral(resourceName: "Checkbox"))
 			}
 			
 		case .radioEntry:
 			cpView.stackView.alignment = .leading
 			let radiosCPView = cpView as! RadiosCheckpointView
 			for i in 0..<cpView.maxInstances {
-				radiosCPView.radios[i].setImage(UIImage(named: "Radio"), for: .normal)
-				radiosCPView.radios[i].setImage(UIImage(named: "Radio_On"), for: .selected)
-				radiosCPView.radios[i].setTitleColor(.darkText, for: .normal)
-				radiosCPView.radios[i].contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
-				radiosCPView.radios[i].imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
-//				radiosCPView.radios[i].titleLabel?.adjustsFontSizeToFitWidth = true
-//				radiosCPView.radios[i].titleLabel?.minimumScaleFactor = 0.7
-				radiosCPView.radios[i].titleLabel?.numberOfLines = 2
-				radiosCPView.radios[i].titleLabel?.textAlignment = .left
+				radiosCPView.radios[i].translatesAutoresizingMaskIntoConstraints = false
 				radiosCPView.radios[i].addTarget(self, action: #selector(handleRadio(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(radiosCPView.radios[i])
+				setupButton(radiosCPView.radios[i], withText: "", image: #imageLiteral(resourceName: "Radio"))
 			}
 		}
 		
@@ -297,6 +283,34 @@ class StageViewController: UIViewController {
 		])
 
 		return cpView
+	}
+	
+	private func setupButton(_ button: UIButton, withText text: String, image: UIImage?) {
+		
+		let imageView = UIImageView()
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.image = image
+		imageView.tag = 100
+		imageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+		button.addSubview(imageView)
+		
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.numberOfLines = 0
+		label.textAlignment = .left
+		label.textColor = .darkText
+		label.font = UIFont.systemFont(ofSize: 18.0)
+		label.text = text
+		label.tag = 101
+		button.addSubview(label)
+		
+		imageView.leftAnchor.constraint(equalTo: button.leftAnchor, constant: 0.0).isActive = true
+		imageView.centerYAnchor.constraint(equalTo: button.centerYAnchor, constant: 0.0).isActive = true
+		
+		label.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 7.0).isActive = true
+		label.rightAnchor.constraint(equalTo: button.rightAnchor, constant: 0.0).isActive = true
+		label.topAnchor.constraint(equalTo: button.topAnchor, constant: 0.0).isActive = true
+		label.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: 0.0).isActive = true
 	}
 	
 	private func populateCheckpointView(_ cpView: CheckpointView, with checkPoint: Checkpoint) {
@@ -368,8 +382,14 @@ class StageViewController: UIViewController {
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					checkboxesCPView.checkboxes[i].isHidden = false
-					checkboxesCPView.checkboxes[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
+					//checkboxesCPView.checkboxes[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
+					if let label = checkboxesCPView.checkboxes[i].viewWithTag(101) as? UILabel {
+						label.text = checkPoint.instances[i].promptSubstituted
+					}
 					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
+					if let imageView = checkboxesCPView.checkboxes[i].viewWithTag(100) as? UIImageView {
+						imageView.image = checkboxesCPView.checkboxes[i].isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					}
 				} else {
 					checkboxesCPView.checkboxes[i].isHidden = true
 				}
@@ -380,8 +400,14 @@ class StageViewController: UIViewController {
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					radiosCPView.radios[i].isHidden = false
-					radiosCPView.radios[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
+					//radiosCPView.radios[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
+					if let label = radiosCPView.radios[i].viewWithTag(101) as? UILabel {
+						label.text = checkPoint.instances[i].promptSubstituted
+					}
 					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
+					if let imageView = radiosCPView.radios[i].viewWithTag(100) as? UIImageView {
+						imageView.image = radiosCPView.radios[i].isSelected ? #imageLiteral(resourceName: "Radio_On") : #imageLiteral(resourceName: "Radio")
+					}
 				} else {
 					radiosCPView.radios[i].isHidden = true
 				}
@@ -590,6 +616,9 @@ class StageViewController: UIViewController {
 	@IBAction func handleCheckbox(_ sender: UIButton) {
 		
 		sender.isSelected = !sender.isSelected
+		if let imageView = sender.viewWithTag(100) as? UIImageView {
+			imageView.image = sender.isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+		}
 	}
 
 	@IBAction func handleRadio(_ sender: UIButton) {
@@ -597,9 +626,15 @@ class StageViewController: UIViewController {
 		let radiosCPView = checkpointView as! RadiosCheckpointView
 		for radio in radiosCPView.radios {
 			radio.isSelected = false
+			if let imageView = radio.viewWithTag(100) as? UIImageView {
+				imageView.image = #imageLiteral(resourceName: "Radio")
+			}
 		}
 		
 		sender.isSelected = true
+		if let imageView = sender.viewWithTag(100) as? UIImageView {
+			imageView.image = #imageLiteral(resourceName: "Radio_On")
+		}
 	}
 
 	private dynamic func doneWithKeyboard(btn: UIButton) {
