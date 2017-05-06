@@ -64,7 +64,7 @@ class StageViewController: UIViewController {
 	
 	private var keyboardAccessoryView: UIView!
 	
-	private let datePickerPaletteHeight: CGFloat = 170.0
+	private let datePickerPaletteHeight: CGFloat = 200.0
 	private var datePickerPaletteView: UIView!
 	private var datePickerTopConstraint: NSLayoutConstraint!
 	private var currentInputDate: UIButton?
@@ -91,6 +91,9 @@ class StageViewController: UIViewController {
 		
 		loadCheckpointAtIndex(checkpointIndex);
 		
+		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidShow(_:)), name:NSNotification.Name.UIKeyboardDidShow, object: nil)
+		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
+		
 		let lpg = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
 		view.addGestureRecognizer(lpg)
     }
@@ -103,7 +106,11 @@ class StageViewController: UIViewController {
 		super.viewWillDisappear(animated)
 		
 		saveCheckpointEntries()
+		
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 	}
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -598,6 +605,44 @@ class StageViewController: UIViewController {
 	private dynamic func doneWithKeyboard(btn: UIButton) {
 		
 		self.view.endEditing(true)
+	}
+	
+	fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
+		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey]
+			else { return }
+		
+		var textField: UITextField?
+		for subview in checkpointView.stackView.arrangedSubviews {
+			if let tf = subview as? UITextField, !tf.isHidden, tf.isFirstResponder {
+				textField = tf
+				break
+			}
+		}
+		
+		guard textField != nil else {
+			return
+		}
+		
+		let kbHeigth = (r as AnyObject).cgRectValue.size.height
+		let textFrame = textField!.convert(textField!.bounds, to: view)
+		let textBottom = textFrame.maxY
+		let kbTop = self.view.frame.maxY - kbHeigth
+		
+		if (textBottom < kbTop-16)
+		{
+			return
+		}
+		
+		UIView.animate(withDuration: 0.3, animations: {
+			let offset = textBottom - kbTop + 16
+			self.view.frame = CGRect(x: 0.0, y: -offset, width: self.view.frame.width, height: self.view.frame.height)
+		})
+	}
+	
+	fileprivate dynamic func keyboardDidHide(_ notification: Notification) {
+		UIView.animate(withDuration: 0.3, animations: {
+			self.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height)
+		})
 	}
 	
 	private dynamic func nextField(btn: UIButton) {
