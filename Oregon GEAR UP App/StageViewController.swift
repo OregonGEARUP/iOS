@@ -66,6 +66,7 @@ class StageViewController: UIViewController {
 	
 	private let datePickerPaletteHeight: CGFloat = 200.0
 	private var datePickerPaletteView: UIView!
+	private var datePicker: UIDatePicker!
 	private var datePickerTopConstraint: NSLayoutConstraint!
 	private var currentInputDate: UIButton?
 	
@@ -105,13 +106,15 @@ class StageViewController: UIViewController {
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
+		doneWithKeyboard(btn: nil)
+		doneWithDatePicker()
+		
 		saveCheckpointEntries()
 		
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 	}
-
-
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -586,7 +589,7 @@ class StageViewController: UIViewController {
 			topLine.heightAnchor.constraint(equalToConstant: 0.5)
 		])
 		
-		let datePicker = UIDatePicker()
+		datePicker = UIDatePicker()
 		datePicker.translatesAutoresizingMaskIntoConstraints = false
 		datePicker.addTarget(self, action: #selector(datePickerChanged(_:)), for: UIControlEvents.valueChanged)
 		datePicker.datePickerMode = .date
@@ -637,14 +640,18 @@ class StageViewController: UIViewController {
 		}
 	}
 
-	private dynamic func doneWithKeyboard(btn: UIButton) {
+	private dynamic func doneWithKeyboard(btn: UIButton?) {
 		
 		self.view.endEditing(true)
 	}
 	
 	fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
-		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey]
-			else { return }
+		
+		doneWithDatePicker()
+		
+		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] else {
+			return
+		}
 		
 		var textField: UITextField?
 		for subview in checkpointView.stackView.arrangedSubviews {
@@ -723,10 +730,23 @@ class StageViewController: UIViewController {
 	private dynamic func toggleDatePicker(_ button: UIButton) {
 		
 		// hide keyboard first
-		self.view.endEditing(true)
+		doneWithKeyboard(btn: nil)
 		
 		// track whether picker will become visible
 		let datePickerVisible = (datePickerTopConstraint.constant == 0)
+		
+		if datePickerVisible {
+			
+			let dateFormatter = DateFormatter()
+			dateFormatter.dateStyle = .long
+			dateFormatter.timeStyle = .none
+			
+			if let dateStr = button.title(for: .normal),
+				let date = dateFormatter.date(from: dateStr) {
+				
+				datePicker.date = date
+			}
+		}
 		
 		view.layoutIfNeeded()
 		UIView.animate(withDuration: 0.3, animations: {
