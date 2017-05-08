@@ -237,6 +237,38 @@
             </objects>
             <point key="canvasLocation" x="1028" y="823.53823088455783"/>
         </scene>
+        <!--My Plan View Controller-->
+        <scene sceneID="u39-rF-5ex">
+            <objects>
+                <viewController id="v9c-Iw-Jcz" customClass="MyPlanViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ule-7n-VHZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="RyT-NP-LSb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DPa-1S-6Cd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WRK-Mz-Cww">
+                                <rect key="frame" x="0.0" y="114" width="375" height="504"/>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="WRK-Mz-Cww" secondAttribute="trailing" id="3SQ-IX-KHK"/>
+                            <constraint firstItem="WRK-Mz-Cww" firstAttribute="top" secondItem="ule-7n-VHZ" secondAttribute="bottom" constant="50" id="Gfl-v3-OFG"/>
+                            <constraint firstItem="WRK-Mz-Cww" firstAttribute="leading" secondItem="DPa-1S-6Cd" secondAttribute="leading" id="bNF-Eo-Ijv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="VVC-gl-VLd"/>
+                    <connections>
+                        <outlet property="stackView" destination="WRK-Mz-Cww" id="sdY-cA-xRW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vE6-sc-lms" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="1497.3013493253375"/>
+        </scene>
         <!--Stage View Controller-->
         <scene sceneID="xeR-b0-D7q">
             <objects>
@@ -347,6 +379,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="YYv-yI-MYJ" kind="relationship" relationship="viewControllers" id="Xh8-cX-Vgc"/>
+                        <segue destination="Esl-Xg-SLO" kind="relationship" relationship="viewControllers" id="xHF-7p-Nbe"/>
                         <segue destination="YfL-mo-ZLn" kind="relationship" relationship="viewControllers" id="nbQ-Fv-jY0"/>
                     </connections>
                 </tabBarController>
@@ -407,9 +440,29 @@
             </objects>
             <point key="canvasLocation" x="1722" y="116"/>
         </scene>
+        <!--My Plan-->
+        <scene sceneID="UUN-bu-2EQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Esl-Xg-SLO" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="My Plan" image="tab_myplan" id="8OH-7P-67Q"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Uj-9G-i7N">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="v9c-Iw-Jcz" kind="relationship" relationship="rootViewController" id="u69-d5-3wf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4xT-X5-7iu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="305" y="1498"/>
+        </scene>
     </scenes>
     <resources>
         <image name="tab_checkpoints" width="30" height="30"/>
+        <image name="tab_myplan" width="30" height="30"/>
         <image name="tab_secure" width="30" height="30"/>
     </resources>
 </document>

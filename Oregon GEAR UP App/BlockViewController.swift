@@ -104,7 +104,7 @@ class BlockViewController: UIViewController {
 			button.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
 			button.titleLabel?.numberOfLines = 0
 			button.titleLabel?.textAlignment = .center
-			button.setTitleColor(.gray, for: .normal)
+			button.setTitleColor(.white, for: .normal)
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
