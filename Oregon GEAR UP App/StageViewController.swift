@@ -534,6 +534,12 @@ class StageViewController: UIViewController {
 		keyboardAccessoryView = UIView(frame: CGRect(x:0.0, y:0.0, width:0.0, height:40.0))
 		keyboardAccessoryView.backgroundColor = UIColor(red: 0.7790, green: 0.7963, blue: 0.8216, alpha: 0.9)
 		
+		
+		let topLine = UIView()
+		topLine.translatesAutoresizingMaskIntoConstraints = false
+		topLine.backgroundColor = .gray
+		keyboardAccessoryView.addSubview(topLine)
+		
 		let prevBtn = UIButton(type: .system)
 		prevBtn.translatesAutoresizingMaskIntoConstraints = false
 		prevBtn.setTitle("<", for: .normal)
@@ -553,6 +559,9 @@ class StageViewController: UIViewController {
 		keyboardAccessoryView.addSubview(doneBtn)
 		
 		NSLayoutConstraint.activate([
+			topLine.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
+			topLine.widthAnchor.constraint(equalTo: keyboardAccessoryView.widthAnchor),
+			topLine.heightAnchor.constraint(equalToConstant: 0.5),
 			prevBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			prevBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
 			prevBtn.leadingAnchor.constraint(equalTo: keyboardAccessoryView.leadingAnchor, constant: 20.0),
@@ -569,9 +578,9 @@ class StageViewController: UIViewController {
 		
 		datePickerPaletteView = UIView()
 		datePickerPaletteView.translatesAutoresizingMaskIntoConstraints = false
-		datePickerPaletteView.backgroundColor = UIColor(white: 0.9, alpha: 0.9)
+		datePickerPaletteView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 1.0, alpha: 1.0)
 		view.addSubview(datePickerPaletteView)
-		datePickerTopConstraint = datePickerPaletteView.topAnchor.constraint(equalTo: self.view.bottomAnchor)
+		datePickerTopConstraint = datePickerPaletteView.topAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor)
 		NSLayoutConstraint.activate([
 			datePickerPaletteView.widthAnchor.constraint(equalTo: view.widthAnchor),
 			datePickerPaletteView.heightAnchor.constraint(equalToConstant: datePickerPaletteHeight),

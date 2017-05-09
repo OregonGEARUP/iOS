@@ -14,6 +14,7 @@
 		2C462BFB1E5761BF0093BBB9 /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C462BFA1E5761BF0093BBB9 /* Stage.swift */; };
 		2C462BFD1E5762950093BBB9 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C462BFC1E5762950093BBB9 /* Block.swift */; };
 		2C52EE611EC0D8A500E92F39 /* MyPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52EE601EC0D8A500E92F39 /* MyPlanViewController.swift */; };
+		2C52EE631EC115A800E92F39 /* MyPlanCollegesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52EE621EC115A800E92F39 /* MyPlanCollegesViewController.swift */; };
 		2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBECF211E7600A400DCC7AD /* StageViewController.swift */; };
 		C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C19EB1E6640D300F253A0 /* BlockViewController.swift */; };
 		F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */; };
@@ -33,6 +34,7 @@
 		2C462BFA1E5761BF0093BBB9 /* Stage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
 		2C462BFC1E5762950093BBB9 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		2C52EE601EC0D8A500E92F39 /* MyPlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanViewController.swift; sourceTree = "<group>"; };
+		2C52EE621EC115A800E92F39 /* MyPlanCollegesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanCollegesViewController.swift; sourceTree = "<group>"; };
 		2CBECF211E7600A400DCC7AD /* StageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageViewController.swift; sourceTree = "<group>"; };
 		C64C19EB1E6640D300F253A0 /* BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewController.swift; sourceTree = "<group>"; };
 		F93BB56C1DECA5D0000C6C56 /* Oregon GEAR UP App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oregon GEAR UP App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +84,7 @@
 				2CBECF211E7600A400DCC7AD /* StageViewController.swift */,
 				2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */,
 				2C52EE601EC0D8A500E92F39 /* MyPlanViewController.swift */,
+				2C52EE621EC115A800E92F39 /* MyPlanCollegesViewController.swift */,
 				F93BB5731DECA5D0000C6C56 /* Main.storyboard */,
 				F93BB5791DECA5D0000C6C56 /* Assets.xcassets */,
 				F93BB57B1DECA5D0000C6C56 /* LaunchScreen.storyboard */,
@@ -179,6 +182,7 @@
 				2C0F09931EB631E300283A87 /* OverviewViewController.swift in Sources */,
 				F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */,
 				F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */,
+				2C52EE631EC115A800E92F39 /* MyPlanCollegesViewController.swift in Sources */,
 				2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */,
 				C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */,
 				F93BB5851DECAAAA000C6C56 /* Checkpoint.swift in Sources */,

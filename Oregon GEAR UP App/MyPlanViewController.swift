@@ -63,7 +63,13 @@ class MyPlanViewController: UIViewController {
 	
 	dynamic func handleTap(_ button: UIButton) {
 		
-		
+		switch button.tag {
+		case 0:
+			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "colleges") as! MyPlanCollegesViewController
+			self.navigationController?.pushViewController(vc, animated: true)
+		default:
+			break
+		}
 	}
 	
 
