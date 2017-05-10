@@ -118,7 +118,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 			dateButton.setTitleColor(.darkText, for: .normal)
 			
 			if let indexPath = tableView.indexPathForRow(at: dateButton.convert(dateButton.frame.origin, to: tableView)) {
-				UserDefaults.standard.set(strDate, forKey: keyForIndexPath(indexPath))
+				MyPlanManager.shared.colleges[indexPath.section / 3].applicationDate = datePicker.date
 			}
 		}
 	}
@@ -181,9 +181,15 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 		
 		if let indexPath = tableView.indexPathForRow(at: textField.convert(textField.frame.origin, to: tableView)) {
 			if let text = textField.text {
-				UserDefaults.standard.set(text, forKey: keyForIndexPath(indexPath))
-			} else {
-				UserDefaults.standard.removeObject(forKey: keyForIndexPath(indexPath))
+				
+				let collegeSection = indexPath.section % 3
+				switch (collegeSection, indexPath.row) {
+				case (0,0): MyPlanManager.shared.colleges[indexPath.section / 3].name = text
+				case (1,1): MyPlanManager.shared.colleges[indexPath.section / 3].averageNetPriceDescription = text
+				case (2,7): MyPlanManager.shared.colleges[indexPath.section / 3].applicationCostDescription = text
+				default:
+					break
+				}
 			}
 		}
 	}
@@ -194,24 +200,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 	}
 	
 	
-	// MARK: - cell data map
-	
-	private let CellToKeyMap = [ 0: "collegeXXX_name", 100: "collegeXXX_applciation_date", 101: "collegeXXX_avgerage_net_price",
-	                             200: "collegeXXX_essay_done", 201: "collegeXXX_recommendations_done", 202: "collegeXXX_activities_chart_done",
-								 203: "collegeXXX_SAT_ACT_done", 204: "collegeXXX_addl_financial_aid_done", 205: "collegeXXX_addl_scholarship_done",
-								 206: "collegeXXX_fee_deferral_done", 207: "collegeXXX_application_cost", 208: "collegeXXX_application_done" ]
-
-	private func keyForIndexPath(_ indexPath: IndexPath) -> String {
-		
-		let college = (indexPath.section / 3) + 1
-		
-		if let key = CellToKeyMap[(indexPath.section % 3)*100 + indexPath.row] {
-			return key.replacingOccurrences(of: "XXX", with: String(college))
-		}
-		
-		fatalError("bad cell key?")
-	}
-	
+	// MARK: - lifecycle
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -266,7 +255,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 	@IBOutlet var tableViewBottomConstraint: NSLayoutConstraint!
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return 3 // TODO: times the number of colleges
+        return MyPlanManager.shared.colleges.count * 3
     }
 	
 	public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -322,6 +311,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 	
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
+		let college = MyPlanManager.shared.colleges[indexPath.section / 3]
 		let collegeSection = indexPath.section % 3
 		
 		switch collegeSection {
@@ -329,7 +319,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let textField = cell.viewWithTag(100) as? UITextField {
 				textField.placeholder = "College Name"
-				textField.text = UserDefaults.standard.string(forKey: keyForIndexPath(indexPath))
+				textField.text = college.name
 				textField.inputAccessoryView = keyboardAccessoryView
 				textField.delegate = self
 			}
@@ -344,7 +334,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 					dateButton.layer.borderWidth = 0.5
 					dateButton.layer.cornerRadius = 5.0
 					dateButton.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					if let dateText = UserDefaults.standard.string(forKey: keyForIndexPath(indexPath)), !dateText.isEmpty {
+					if let dateText = college.applicationDateDescription {
 						dateButton.setTitle(dateText, for: .normal)
 						dateButton.setTitleColor(.darkText, for: .normal)
 					} else {
@@ -358,7 +348,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let textField = cell.viewWithTag(100) as? UITextField {
 					textField.placeholder = "Average Net Price"
-					textField.text = UserDefaults.standard.string(forKey: keyForIndexPath(indexPath))
+					textField.text = college.averageNetPriceDescription
 					textField.keyboardType = .decimalPad
 					textField.inputAccessoryView = keyboardAccessoryView
 					textField.delegate = self
@@ -383,9 +373,17 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 					}
 				}
 				if let cbImageView = cell.viewWithTag(200) as? UIImageView {
-					let key = keyForIndexPath(indexPath)
-					let checked = UserDefaults.standard.bool(forKey: key)
-					cbImageView.image = checked ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					switch indexPath.row {
+					case 0:	cbImageView.image = college.essayDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 1:	cbImageView.image = college.recommendationsDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 2:	cbImageView.image = college.activitiesChartDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 3:	cbImageView.image = college.testsDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 4:	cbImageView.image = college.addlFinancialAidDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 5:	cbImageView.image = college.addlScholarshipDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 6:	cbImageView.image = college.feeDeferralDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					case 8:	cbImageView.image = college.applicationDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+					default: break
+					}
 				}
 				cell.selectionStyle = .none
 				return cell
@@ -393,7 +391,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let textField = cell.viewWithTag(100) as? UITextField {
 					textField.placeholder = "Cost to Apply"
-					textField.text = UserDefaults.standard.string(forKey: keyForIndexPath(indexPath))
+					textField.text = college.applicationCostDescription
 					textField.keyboardType = .decimalPad
 					textField.inputAccessoryView = keyboardAccessoryView
 					textField.delegate = self
@@ -413,10 +411,21 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 		if let cell = tableView.cellForRow(at: indexPath),
 			let cbImageView = cell.viewWithTag(200) as? UIImageView {
 			
-			let key = keyForIndexPath(indexPath)
-			let checked = UserDefaults.standard.bool(forKey: key)
-			cbImageView.image = checked ? #imageLiteral(resourceName: "Checkbox") : #imageLiteral(resourceName: "Checkbox_Checked")
-			UserDefaults.standard.set(!checked, forKey: key)
+			var college = MyPlanManager.shared.colleges[indexPath.section / 3]
+			
+			switch indexPath.row {
+			case 0:	college.essayDone = !college.essayDone;							cbImageView.image = college.essayDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 1:	college.recommendationsDone = !college.recommendationsDone;		cbImageView.image = college.recommendationsDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 2:	college.activitiesChartDone = !college.activitiesChartDone;		cbImageView.image = college.activitiesChartDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 3:	college.testsDone = !college.testsDone;							cbImageView.image = college.testsDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 4:	college.addlFinancialAidDone = !college.addlFinancialAidDone;	cbImageView.image = college.addlFinancialAidDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 5:	college.addlScholarshipDone = !college.addlScholarshipDone;		cbImageView.image = college.addlScholarshipDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 6:	college.feeDeferralDone = !college.feeDeferralDone;				cbImageView.image = college.feeDeferralDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			case 8:	college.applicationDone = !college.applicationDone;				cbImageView.image = college.applicationDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+			default: break
+			}
+			
+			MyPlanManager.shared.colleges[indexPath.section / 3] = college
 		}
 	}
 }
