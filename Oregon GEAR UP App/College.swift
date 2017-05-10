@@ -78,6 +78,7 @@ struct College {
 		set {
 			if let costString = newValue {
 				let formatter = NumberFormatter()
+				formatter.numberStyle = .currency
 				if let number = formatter.number(from: costString) {
 					applicationCost = number.doubleValue
 				} else {
