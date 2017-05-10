@@ -14,6 +14,8 @@ class BlockViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
+	let buttonColor = UIColor(red: 0xc8/255.0, green: 0xf0/255.0, blue: 0xf8/255.0, alpha: 1.0)
+	
 	private var firstAppearance = true
 	
 	var blockIndex = -1
@@ -104,11 +106,11 @@ class BlockViewController: UIViewController {
 			button.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
 			button.titleLabel?.numberOfLines = 0
 			button.titleLabel?.textAlignment = .center
-			button.setTitleColor(.white, for: .normal)
+			button.setTitleColor(.darkText, for: .normal)
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = UIColor.cyan.withAlphaComponent(0.3).cgColor
+			button.layer.backgroundColor = buttonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			

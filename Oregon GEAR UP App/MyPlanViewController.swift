@@ -12,6 +12,8 @@ class MyPlanViewController: UIViewController {
 	
 	@IBOutlet weak var stackView: UIStackView!
 	
+	let buttonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 1.0)
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,7 +37,7 @@ class MyPlanViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = UIColor.magenta.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
+			button.layer.backgroundColor = buttonColor.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
 			
 			stackView.addArrangedSubview(button)
 			

@@ -16,6 +16,8 @@ class OverviewViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
+	let buttonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -99,7 +101,7 @@ class OverviewViewController: UIViewController {
 			
 			let button = UIButton(type: .custom)
 			button.tag = index
-			button.setTitle(blockInfo.title, for: .normal)
+			button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
 			button.addTarget(self, action: #selector(self.handleBlockTap(_:)), for: .touchUpInside)
 			button.isEnabled = blockInfo.available
 			
@@ -110,7 +112,7 @@ class OverviewViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = UIColor.green.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
+			button.layer.backgroundColor = buttonColor.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
 			
 			stackView.addArrangedSubview(button)
 			
@@ -130,9 +132,9 @@ class OverviewViewController: UIViewController {
 				}
 				
 				let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
-				button.setTitle(blockInfo.title, for: .normal)
+				button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
 				button.isEnabled = blockInfo.available
-				button.layer.backgroundColor = UIColor.green.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
+				button.layer.backgroundColor = buttonColor.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
 			}
 		}
 	}
@@ -146,9 +148,9 @@ class OverviewViewController: UIViewController {
 	
 	@IBAction private func dismissWelcomeOverlay() {
 		
-		if CheckpointManager.shared.blockIndex >= 0 {
-			self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: true)
-		}
+//		if CheckpointManager.shared.blockIndex >= 0 {
+//			self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: true)
+//		}
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { 
 			self.welcomeOverlay.alpha = 0.0

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,36 +22,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oregon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="99N-Is-3is">
-                                <rect key="frame" x="26" y="271" width="268" height="83"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="70"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GOES TO COLLEGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0n-wC-ZJO">
-                                <rect key="frame" x="26" y="366.5" width="268" height="119.5"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="50"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hat" translatesAutoresizingMaskIntoConstraints="NO" id="42I-67-kkV">
-                                <rect key="frame" x="10" y="49" width="300" height="300"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IAP_logo" translatesAutoresizingMaskIntoConstraints="NO" id="42I-67-kkV">
+                                <rect key="frame" x="22.5" y="104" width="275" height="275"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="BCv-TY-YKF"/>
-                                    <constraint firstAttribute="height" constant="300" id="y9N-GD-cUs"/>
+                                    <constraint firstAttribute="width" secondItem="42I-67-kkV" secondAttribute="height" multiplier="1:1" id="j4U-Eh-Yo3"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="Q0n-wC-ZJO" secondAttribute="trailing" constant="10" id="2EA-T8-8rV"/>
-                            <constraint firstItem="42I-67-kkV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.7" id="3lV-76-s8a"/>
-                            <constraint firstItem="99N-Is-3is" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="1.1" id="9We-OL-LoM"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="99N-Is-3is" secondAttribute="leading" constant="-10" id="Ius-YL-OAr"/>
+                            <constraint firstItem="42I-67-kkV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.85" id="3lV-76-s8a"/>
                             <constraint firstItem="42I-67-kkV" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="OXP-Io-aVK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="99N-Is-3is" secondAttribute="trailing" constant="10" id="Zdb-XQ-eB7"/>
-                            <constraint firstItem="Q0n-wC-ZJO" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="1.5" id="a1E-gv-SAW"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="Q0n-wC-ZJO" secondAttribute="leading" constant="-10" id="eEL-lG-tao"/>
+                            <constraint firstItem="42I-67-kkV" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.86" id="fRA-mD-9IN"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -62,6 +43,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="hat" width="400" height="400"/>
+        <image name="IAP_logo" width="500" height="500"/>
     </resources>
 </document>

@@ -28,9 +28,20 @@ class MyPlanManager {
 			}
 		}
 		
-		// TODO: need to load from check list ids here
+		
+		// try to make first college from the checkpoint entries
 		if colleges.count == 0 {
-			colleges.append(College(withCollegeName: "my first choice"))
+			
+			if let collegeName = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_text") {
+				colleges.append(College(withCollegeName: collegeName))
+				
+				if let applicationDate = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date") {
+					colleges[0].applicationDateDescription = applicationDate
+				}
+				
+			} else {
+				colleges.append(College(withCollegeName: "my first choice"))
+			}
 		}
 		
 		

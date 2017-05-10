@@ -277,13 +277,13 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 		
 		if collegeSection == 0 {
 			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 30.0))
-			headerView.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 1.0, alpha: 1.0)
+			headerView.backgroundColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 1.0)
 			
 			let titleLabel = UILabel()
 			titleLabel.translatesAutoresizingMaskIntoConstraints = false
 			titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
 			titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-			titleLabel.textColor = .darkText
+			titleLabel.textColor = .white
 			headerView.addSubview(titleLabel)
 			
 			titleLabel.heightAnchor.constraint(equalToConstant: 30.0).isActive = true

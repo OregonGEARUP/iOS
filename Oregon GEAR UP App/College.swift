@@ -24,13 +24,25 @@ struct College {
 	var applicationDone = false
 	
 	var applicationDateDescription: String? {
-		if let appDate = applicationDate {
-			let dateFormatter = DateFormatter()
-			dateFormatter.dateStyle = .long
-			dateFormatter.timeStyle = .none
-			return dateFormatter.string(from: appDate)
+		get {
+			if let appDate = applicationDate {
+				let dateFormatter = DateFormatter()
+				dateFormatter.dateStyle = .long
+				dateFormatter.timeStyle = .none
+				return dateFormatter.string(from: appDate)
+			}
+			return nil
 		}
-		return nil
+		set {
+			if let dateString = newValue {
+				let dateFormatter = DateFormatter()
+				dateFormatter.dateStyle = .long
+				dateFormatter.timeStyle = .none
+				applicationDate = dateFormatter.date(from: dateString)
+			} else {
+				applicationDate = nil
+			}
+		}
 	}
 	
 	var averageNetPriceDescription: String? {
