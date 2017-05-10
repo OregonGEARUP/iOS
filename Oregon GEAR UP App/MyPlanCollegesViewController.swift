@@ -190,6 +190,8 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 				default:
 					break
 				}
+				
+				tableView.reloadRows(at: [indexPath], with: .automatic)
 			}
 		}
 	}
@@ -197,6 +199,71 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 	private dynamic func doneWithKeyboard(btn: UIButton?) {
 		
 		self.view.endEditing(true)
+	}
+	
+	
+	// MARK: - add/remove college
+	
+	private dynamic func addCollege() {
+		
+		let alertController = UIAlertController(title: "Add College", message: "Please enter the name of the college.", preferredStyle: .alert)
+		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		alertController.addAction(cancelAction)
+		
+		let addAction = UIAlertAction(title: "Add", style: .default, handler: { (action) in
+			if let name = alertController.textFields?[0].text {
+				
+				MyPlanManager.shared.addCollege(withName: name)
+				self.tableView.reloadData()
+				
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+					self.tableView.scrollToRow(at: IndexPath.init(row: 0, section: (MyPlanManager.shared.colleges.count-1) * 3), at: .top, animated: true)
+				}
+			}
+		})
+		addAction.isEnabled = false
+		alertController.addAction(addAction)
+		
+		alertController.addTextField(configurationHandler: { (textField) in
+			textField.placeholder = "College Name"
+			
+			NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main, using: { (notification) in
+				if let text = textField.text {
+					addAction.isEnabled = !text.isEmpty
+				} else {
+					addAction.isEnabled = false
+				}
+			})
+		})
+		
+		present(alertController, animated: true, completion: nil)
+	}
+	
+	private dynamic func removeCollege(_ button: UIButton) {
+		
+		if let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
+			
+			let alertController = UIAlertController(title: "Remove College", message: "Confirm removing this college.", preferredStyle: .alert)
+			
+			let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+			alertController.addAction(cancelAction)
+			
+			let removeAction = UIAlertAction(title: "Remove", style: .destructive, handler: { (action) in
+				
+				let collegeIndex = indexPath.section/3
+				MyPlanManager.shared.removeCollege(at: collegeIndex)
+				self.tableView.reloadData()
+				
+				let scrollToIndex = collegeIndex > 0 ? collegeIndex-1 : collegeIndex
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+					self.tableView.scrollToRow(at: IndexPath.init(row: 0, section: scrollToIndex * 3), at: .top, animated: true)
+				}
+			})
+			alertController.addAction(removeAction)
+			
+			present(alertController, animated: true, completion: nil)
+		}
 	}
 	
 	
@@ -212,6 +279,9 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 		
 		tableView.delegate = self
 		tableView.dataSource = self
+		
+		let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addCollege))
+		self.navigationItem.setRightBarButton(addBtn, animated: false)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -260,10 +330,11 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 	
 	public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		
+		let collegeNumber = (section / 3) + 1
 		let collegeSection = section % 3
 		
 		switch collegeSection {
-		case 0:	return "College #1"
+		case 0:	return "College #\(collegeNumber)"
 		case 1: return "Application Deadline"
 		case 2: return "What I Need to Apply"
 		default:
@@ -303,7 +374,7 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 		switch collegeSection {
 		case 0:	return 1
 		case 1: return 2
-		case 2: return 9
+		case 2: return MyPlanManager.shared.colleges.count > 1 ? 10 : 9		// no Remove button when just one college
 		default:
 			return 0
 		}
@@ -357,7 +428,26 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 				return cell
 			}
 		case 2:
-			if indexPath.row != 7 {
+			if indexPath.row == 7 {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+				if let textField = cell.viewWithTag(100) as? UITextField {
+					textField.placeholder = "Cost to Apply"
+					textField.text = college.applicationCostDescription
+					textField.keyboardType = .decimalPad
+					textField.inputAccessoryView = keyboardAccessoryView
+					textField.delegate = self
+				}
+				cell.selectionStyle = .none
+				return cell
+			} else if indexPath.row == 9 {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "button", for: indexPath)
+				if let button = cell.viewWithTag(400) as? UIButton {
+					button.setTitle("Remove This College", for: .normal)
+					button.addTarget(self, action: #selector(removeCollege(_:)), for: .touchUpInside)
+				}
+				cell.selectionStyle = .none
+				return cell
+			} else {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "checkbox", for: indexPath)
 				if let label = cell.viewWithTag(201) as? UILabel {
 					switch indexPath.row {
@@ -384,17 +474,6 @@ class MyPlanCollegesViewController: UIViewController, UITableViewDelegate, UITab
 					case 8:	cbImageView.image = college.applicationDone ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
 					default: break
 					}
-				}
-				cell.selectionStyle = .none
-				return cell
-			} else {
-				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
-				if let textField = cell.viewWithTag(100) as? UITextField {
-					textField.placeholder = "Cost to Apply"
-					textField.text = college.applicationCostDescription
-					textField.keyboardType = .decimalPad
-					textField.inputAccessoryView = keyboardAccessoryView
-					textField.delegate = self
 				}
 				cell.selectionStyle = .none
 				return cell

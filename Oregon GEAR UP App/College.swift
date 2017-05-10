@@ -56,7 +56,12 @@ struct College {
 			if let priceString = newValue {
 				let formatter = NumberFormatter()
 				formatter.numberStyle = .currency
-				averageNetPrice = formatter.number(from: priceString)?.doubleValue
+				if let number = formatter.number(from: priceString) {
+					averageNetPrice = number.doubleValue
+				} else {
+					formatter.numberStyle = .decimal
+					averageNetPrice = formatter.number(from: priceString)?.doubleValue
+				}
 			} else {
 				averageNetPrice = nil
 			}
@@ -73,15 +78,19 @@ struct College {
 		set {
 			if let costString = newValue {
 				let formatter = NumberFormatter()
-				formatter.numberStyle = .currency
-				applicationCost = formatter.number(from: costString)?.doubleValue
+				if let number = formatter.number(from: costString) {
+					applicationCost = number.doubleValue
+				} else {
+					formatter.numberStyle = .decimal
+					applicationCost = formatter.number(from: costString)?.doubleValue
+				}
 			} else {
 				applicationCost = nil
 			}
 		}
 	}
 	
-	public init(withCollegeName name: String) {
+	public init(withName name: String) {
 		self.name = name
 	}
 	

@@ -33,14 +33,14 @@ class MyPlanManager {
 		if colleges.count == 0 {
 			
 			if let collegeName = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_text") {
-				colleges.append(College(withCollegeName: collegeName))
+				colleges.append(College(withName: collegeName))
 				
 				if let applicationDate = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date") {
 					colleges[0].applicationDateDescription = applicationDate
 				}
 				
 			} else {
-				colleges.append(College(withCollegeName: "my first choice"))
+				colleges.append(College(withName: "my first choice"))
 			}
 		}
 		
@@ -54,5 +54,15 @@ class MyPlanManager {
 			
 			UserDefaults.standard.set(collegArray, forKey: "colleges")
 		}
+	}
+	
+	public func addCollege(withName name: String) {
+		
+		colleges.append(College(withName: name))
+	}
+	
+	public func removeCollege(at index: Int) {
+		
+		colleges.remove(at: index)
 	}
 }
