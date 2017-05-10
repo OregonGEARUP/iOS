@@ -15,7 +15,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	private var locked = true
 
 	@IBOutlet weak var ssnTextField: UITextField!
-	@IBOutlet weak var lockButton: UIButton!
+	//private var lockButton: UIBarButtonItem!
 	
 	@IBOutlet weak var pinPadView: UIView!
 	@IBOutlet weak var pinTextField: UITextField!
@@ -45,6 +45,9 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		ssnTextField.delegate = self
 		ssnTextField.inputAccessoryView = keyboardAccessoryView
 		ssnTextField.text = isSetup ? KeychainWrapper.standard.string(forKey: "ssn") : ""
+		
+		let lockButton = UIBarButtonItem(title: "Unlock", style: .plain, target: self, action: #selector(toggleLock(_:)))
+		self.navigationItem.setRightBarButton(lockButton, animated: false)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(lockInfo), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
     }
@@ -217,7 +220,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 			KeychainWrapper.standard.removeObject(forKey: "ssn")
 		}
 		
-		lockButton.setTitle(NSLocalizedString("Unlock Info", comment: "unlock button title"), for: .normal)
+		let lockButton = UIBarButtonItem(title: NSLocalizedString("Unlock", comment: "unlock button title"), style: .plain, target: self, action: #selector(toggleLock(_:)))
+		self.navigationItem.setRightBarButton(lockButton, animated: false)
 		
 		locked = true
 	}
@@ -228,7 +232,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		ssnTextField.isSecureTextEntry = false
 		ssnTextField.isEnabled = true
 		
-		lockButton.setTitle(NSLocalizedString("Lock Info", comment: "lock button title"), for: .normal)
+		let lockButton = UIBarButtonItem(title: NSLocalizedString("Lock", comment: "lock button title"), style: .plain, target: self, action: #selector(toggleLock(_:)))
+		self.navigationItem.setRightBarButton(lockButton, animated: false)
 	}
 	
 	public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

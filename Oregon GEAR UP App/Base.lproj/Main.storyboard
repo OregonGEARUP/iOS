@@ -146,13 +146,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fzv-g0-MjU">
-                                <rect key="frame" x="149" y="571" width="78" height="30"/>
-                                <state key="normal" title="Unlock Info"/>
-                                <connections>
-                                    <action selector="toggleLock:" destination="lNA-EA-cqA" eventType="touchUpInside" id="AOs-no-S6j"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6pX-Z9-xAW">
                                 <rect key="frame" x="68" y="197" width="240" height="140"/>
                                 <subviews>
@@ -193,7 +186,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="wXH-YH-liQ" firstAttribute="top" secondItem="6pX-Z9-xAW" secondAttribute="top" constant="23" id="7pH-eQ-afb"/>
                                     <constraint firstItem="jp4-7f-h8U" firstAttribute="centerX" secondItem="6pX-Z9-xAW" secondAttribute="centerX" id="8Ek-hj-b5b"/>
@@ -212,10 +205,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="top" secondItem="LNI-CC-zFx" secondAttribute="bottom" constant="8" id="3T9-ox-6pK"/>
-                            <constraint firstItem="Fzv-g0-MjU" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="Bl8-Dk-aCq"/>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="KFg-T1-JJs"/>
                             <constraint firstItem="Jv7-LK-h3N" firstAttribute="centerX" secondItem="ch1-Qk-Ln8" secondAttribute="centerX" id="UEe-ma-8al"/>
-                            <constraint firstItem="W08-4p-p1d" firstAttribute="top" secondItem="Fzv-g0-MjU" secondAttribute="bottom" constant="17" id="VbB-Tn-jGY"/>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="top" secondItem="J8O-9T-w1T" secondAttribute="bottom" constant="73" id="XaM-eX-eJL"/>
                             <constraint firstItem="nW5-Wb-ZhJ" firstAttribute="leading" secondItem="LNI-CC-zFx" secondAttribute="leading" id="jXC-Qs-khQ"/>
                             <constraint firstItem="6pX-Z9-xAW" firstAttribute="centerY" secondItem="ch1-Qk-Ln8" secondAttribute="centerY" multiplier="0.8" id="pCt-j6-4Wk"/>
@@ -226,7 +217,6 @@
                     <connections>
                         <outlet property="badPINLabel" destination="ZVo-TY-zm6" id="ssY-b9-mRs"/>
                         <outlet property="cancelPINButton" destination="Jv7-LK-h3N" id="g09-oP-nRQ"/>
-                        <outlet property="lockButton" destination="Fzv-g0-MjU" id="A1B-QZ-tGl"/>
                         <outlet property="pinPadView" destination="6pX-Z9-xAW" id="j08-DV-uVK"/>
                         <outlet property="pinTextField" destination="Pz6-nK-1xu" id="Wyt-mL-vhQ"/>
                         <outlet property="setPINButton" destination="jp4-7f-h8U" id="zs8-7b-9Uc"/>
