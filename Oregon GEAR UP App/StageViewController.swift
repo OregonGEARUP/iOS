@@ -993,16 +993,35 @@ class StageViewController: UIViewController {
 	}
 }
 
-class WebViewController: UIViewController {
-	var url: URL?
+class WebViewController: UIViewController, UIWebViewDelegate {
+	var url = URL(string: "https://oregongoestocollege.org/5-things")
 	@IBOutlet weak var webView: UIWebView!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		title = "Information"
+		
 		if let ulr = url {
 			let request = URLRequest(url: ulr)
-			self.webView.loadRequest(request)
+			webView.loadRequest(request)
+		}
+		
+		webView.delegate = self
+	}
+	
+	private dynamic func goBack() {
+		
+		webView.goBack()
+	}
+	
+	public func webViewDidFinishLoad(_ webView: UIWebView) {
+		
+		if webView.canGoBack {
+			let backButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(goBack))
+			navigationItem.leftBarButtonItem = backButton
+		} else {
+			navigationItem.leftBarButtonItem = nil
 		}
 	}
 }

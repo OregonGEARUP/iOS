@@ -443,6 +443,23 @@
             </objects>
             <point key="canvasLocation" x="2399" y="116"/>
         </scene>
+        <!--Info-->
+        <scene sceneID="1Q5-9o-1CB">
+            <objects>
+                <navigationController id="cxk-Rp-4wP" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Info" image="tab_info" id="x4b-1J-Pc9"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oDa-6y-vwE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="jEZ-tc-QPf" kind="relationship" relationship="rootViewController" id="xOI-Fh-Qbq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iUr-fH-t8b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1734" y="1379"/>
+        </scene>
         <!--Web View Controller-->
         <scene sceneID="axJ-kn-qbb">
             <objects>
@@ -455,26 +472,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XuT-VB-iPT">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jEm-bw-VQd">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XuT-VB-iPT" firstAttribute="top" secondItem="ThT-8n-ceg" secondAttribute="top" id="7Hg-ac-9YJ"/>
-                            <constraint firstItem="XuT-VB-iPT" firstAttribute="leading" secondItem="ThT-8n-ceg" secondAttribute="leading" id="NdM-qK-eaV"/>
-                            <constraint firstItem="JjO-PN-Bdl" firstAttribute="top" secondItem="XuT-VB-iPT" secondAttribute="bottom" id="cNJ-JG-S3J"/>
-                            <constraint firstAttribute="trailing" secondItem="XuT-VB-iPT" secondAttribute="trailing" id="paE-ko-bi2"/>
+                            <constraint firstItem="JjO-PN-Bdl" firstAttribute="top" secondItem="jEm-bw-VQd" secondAttribute="bottom" constant="-49" id="aDe-h7-Xd0"/>
+                            <constraint firstAttribute="trailing" secondItem="jEm-bw-VQd" secondAttribute="trailing" id="gCI-vx-F4K"/>
+                            <constraint firstItem="jEm-bw-VQd" firstAttribute="top" secondItem="egf-TG-3Bf" secondAttribute="bottom" constant="-64" id="vTT-tz-Ip4"/>
+                            <constraint firstItem="jEm-bw-VQd" firstAttribute="leading" secondItem="ThT-8n-ceg" secondAttribute="leading" id="yI8-dg-wQW"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="1bd-vc-cVe"/>
                     <connections>
-                        <outlet property="webView" destination="XuT-VB-iPT" id="DjM-Zs-kSY"/>
+                        <outlet property="webView" destination="jEm-bw-VQd" id="UJ1-W6-6GL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4er-KG-EQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3044" y="116"/>
+            <point key="canvasLocation" x="-1010.4" y="1378.56071964018"/>
         </scene>
         <!--Checkpoints-->
         <scene sceneID="NrF-7u-Xjv">
@@ -509,6 +527,7 @@
                         <segue destination="YYv-yI-MYJ" kind="relationship" relationship="viewControllers" id="Xh8-cX-Vgc"/>
                         <segue destination="Esl-Xg-SLO" kind="relationship" relationship="viewControllers" id="xHF-7p-Nbe"/>
                         <segue destination="YfL-mo-ZLn" kind="relationship" relationship="viewControllers" id="nbQ-Fv-jY0"/>
+                        <segue destination="cxk-Rp-4wP" kind="relationship" relationship="viewControllers" id="srh-4q-jtK"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gp9-i0-R0h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -591,6 +610,7 @@
     <resources>
         <image name="Checkbox" width="22" height="22"/>
         <image name="tab_checkpoints" width="30" height="30"/>
+        <image name="tab_info" width="30" height="30"/>
         <image name="tab_myplan" width="30" height="30"/>
         <image name="tab_secure" width="30" height="30"/>
     </resources>

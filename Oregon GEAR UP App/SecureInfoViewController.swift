@@ -40,6 +40,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		setPINButton.alpha = 0.0
 		badPINLabel.alpha = 0.0
 		pinTextField.delegate = self
+		pinTextField.inputAccessoryView = keyboardAccessoryView
 		NotificationCenter.default.addObserver(self, selector: #selector(checkPIN), name: Notification.Name.UITextFieldTextDidChange, object: pinTextField)
 		
 		ssnTextField.delegate = self
@@ -97,6 +98,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	private func promptForPIN() {
+		
+		if pinPadView.alpha == 1.0 {
+			return
+		}
 		
 		pinTextField.text = ""
 		setPINButton.alpha = 0.0
@@ -176,6 +181,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
+		view.endEditing(true)
 		lockInfo()
 	}
 	
@@ -282,7 +288,13 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	
 	private dynamic func doneWithKeyboard(btn: UIButton) {
 		
-		self.view.endEditing(true)
+		view.endEditing(true)
+		
+		if pinPadView.alpha == 1.0 {
+			UIView.animate(withDuration: 0.3, animations: {
+				self.pinPadView.alpha = 0.0
+			})
+		}
 	}
 	
 	private func createKeyboardAccessoryView() {
