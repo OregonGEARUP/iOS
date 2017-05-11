@@ -69,10 +69,11 @@ class MyPlanViewController: UIViewController {
 		case 0:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "colleges") as! MyPlanCollegesViewController
 			self.navigationController?.pushViewController(vc, animated: true)
+		case 1:
+			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "scholarships") as! MyPlanScholarshipsViewController
+			self.navigationController?.pushViewController(vc, animated: true)
 		default:
 			break
 		}
 	}
-	
-
 }

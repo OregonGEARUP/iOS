@@ -19,6 +19,8 @@
 		2C65D9AE1EC3771C0083CEA7 /* MyPlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9AD1EC3771C0083CEA7 /* MyPlanManager.swift */; };
 		2C65D9B01EC4CE920083CEA7 /* MyPlanTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9AF1EC4CE920083CEA7 /* MyPlanTableViewCells.swift */; };
 		2C65D9B21EC4E34C0083CEA7 /* MyPlanBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9B11EC4E34C0083CEA7 /* MyPlanBaseViewController.swift */; };
+		2C65D9B41EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9B31EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift */; };
+		2C65D9B61EC50FAD0083CEA7 /* Scholarship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9B51EC50FAD0083CEA7 /* Scholarship.swift */; };
 		2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBECF211E7600A400DCC7AD /* StageViewController.swift */; };
 		C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C19EB1E6640D300F253A0 /* BlockViewController.swift */; };
 		F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */; };
@@ -43,6 +45,8 @@
 		2C65D9AD1EC3771C0083CEA7 /* MyPlanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanManager.swift; sourceTree = "<group>"; };
 		2C65D9AF1EC4CE920083CEA7 /* MyPlanTableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanTableViewCells.swift; sourceTree = "<group>"; };
 		2C65D9B11EC4E34C0083CEA7 /* MyPlanBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanBaseViewController.swift; sourceTree = "<group>"; };
+		2C65D9B31EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanScholarshipsViewController.swift; sourceTree = "<group>"; };
+		2C65D9B51EC50FAD0083CEA7 /* Scholarship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scholarship.swift; sourceTree = "<group>"; };
 		2CBECF211E7600A400DCC7AD /* StageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageViewController.swift; sourceTree = "<group>"; };
 		C64C19EB1E6640D300F253A0 /* BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewController.swift; sourceTree = "<group>"; };
 		F93BB56C1DECA5D0000C6C56 /* Oregon GEAR UP App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oregon GEAR UP App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +97,7 @@
 				2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */,
 				2C52EE601EC0D8A500E92F39 /* MyPlanViewController.swift */,
 				2C52EE621EC115A800E92F39 /* MyPlanCollegesViewController.swift */,
+				2C65D9B31EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift */,
 				2C65D9B11EC4E34C0083CEA7 /* MyPlanBaseViewController.swift */,
 				2C65D9AF1EC4CE920083CEA7 /* MyPlanTableViewCells.swift */,
 				F93BB5731DECA5D0000C6C56 /* Main.storyboard */,
@@ -105,6 +110,7 @@
 				F93BB5841DECAAAA000C6C56 /* Checkpoint.swift */,
 				F93BB5861DECAB32000C6C56 /* CheckpointManager.swift */,
 				2C65D9AB1EC36DF10083CEA7 /* College.swift */,
+				2C65D9B51EC50FAD0083CEA7 /* Scholarship.swift */,
 				2C65D9AD1EC3771C0083CEA7 /* MyPlanManager.swift */,
 				2C1DAC301E9D331200D2C1BF /* KeychainItemAccessibility.swift */,
 				2C1DAC311E9D331200D2C1BF /* KeychainWrapper.swift */,
@@ -197,9 +203,11 @@
 				F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */,
 				2C52EE631EC115A800E92F39 /* MyPlanCollegesViewController.swift in Sources */,
 				2C65D9AE1EC3771C0083CEA7 /* MyPlanManager.swift in Sources */,
+				2C65D9B41EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift in Sources */,
 				2C65D9B01EC4CE920083CEA7 /* MyPlanTableViewCells.swift in Sources */,
 				2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */,
 				C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */,
+				2C65D9B61EC50FAD0083CEA7 /* Scholarship.swift in Sources */,
 				F93BB5851DECAAAA000C6C56 /* Checkpoint.swift in Sources */,
 				2C1DAC2F1E9D1F2500D2C1BF /* SecureInfoViewController.swift in Sources */,
 				2C65D9AC1EC36DF10083CEA7 /* College.swift in Sources */,

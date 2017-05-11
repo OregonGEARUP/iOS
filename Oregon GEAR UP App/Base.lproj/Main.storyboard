@@ -619,6 +619,157 @@
             </objects>
             <point key="canvasLocation" x="305" y="1498"/>
         </scene>
+        <!--My Plan Scholarships View Controller-->
+        <scene sceneID="Q6y-n4-JyQ">
+            <objects>
+                <viewController storyboardIdentifier="scholarships" id="6Dw-Xa-aRH" customClass="MyPlanScholarshipsViewController" customModule="Oregon_GEAR_UP_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jDH-cI-rpA"/>
+                        <viewControllerLayoutGuide type="bottom" id="bke-V9-T0v"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="r0B-zu-Kvo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3de-3N-Qv1">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="textentry" id="3vV-N8-EZt" customClass="TextFieldCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3vV-N8-EZt" id="yZP-o6-LXL">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GIO-7O-hdl">
+                                                    <rect key="frame" x="19" y="7" width="337.5" height="30"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="GIO-7O-hdl" firstAttribute="width" secondItem="yZP-o6-LXL" secondAttribute="width" multiplier="0.9" id="D16-Ob-wSl"/>
+                                                <constraint firstItem="GIO-7O-hdl" firstAttribute="centerX" secondItem="yZP-o6-LXL" secondAttribute="centerX" id="yAC-8s-dAf"/>
+                                                <constraint firstItem="GIO-7O-hdl" firstAttribute="centerY" secondItem="yZP-o6-LXL" secondAttribute="centerY" id="yKZ-0k-bSM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="GIO-7O-hdl" id="JeB-vF-3Ue"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateentry" id="cM7-cv-PlZ" customClass="DateFieldCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cM7-cv-PlZ" id="el3-le-zBh">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" tag="300" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctJ-Rh-OHh">
+                                                    <rect key="frame" x="19" y="7" width="337.5" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="ocR-XH-R3w"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ctJ-Rh-OHh" firstAttribute="centerY" secondItem="el3-le-zBh" secondAttribute="centerY" id="IiO-Y4-ao1"/>
+                                                <constraint firstItem="ctJ-Rh-OHh" firstAttribute="centerX" secondItem="el3-le-zBh" secondAttribute="centerX" id="gOU-FW-1Ld"/>
+                                                <constraint firstItem="ctJ-Rh-OHh" firstAttribute="width" secondItem="el3-le-zBh" secondAttribute="width" multiplier="0.9" id="uQ9-jP-t48"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateField" destination="ctJ-Rh-OHh" id="wmy-Gj-PkT"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="checkbox" id="EKB-rA-DrZ" customClass="CheckboxCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EKB-rA-DrZ" id="nb4-zP-3DL">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohc-AL-f4c">
+                                                    <rect key="frame" x="19" y="0.0" width="337.5" height="43.5"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" tag="200" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checkbox" translatesAutoresizingMaskIntoConstraints="NO" id="iTE-Uk-7B0">
+                                                            <rect key="frame" x="0.0" y="11" width="22" height="22"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional scholarship application" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PJ-k2-UP6">
+                                                            <rect key="frame" x="30" y="11" width="256.5" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="6PJ-k2-UP6" firstAttribute="centerY" secondItem="ohc-AL-f4c" secondAttribute="centerY" id="B9D-9i-WNk"/>
+                                                        <constraint firstItem="iTE-Uk-7B0" firstAttribute="centerY" secondItem="ohc-AL-f4c" secondAttribute="centerY" id="W8z-5H-rIM"/>
+                                                        <constraint firstItem="iTE-Uk-7B0" firstAttribute="leading" secondItem="ohc-AL-f4c" secondAttribute="leading" id="oIK-SY-wqq"/>
+                                                        <constraint firstItem="6PJ-k2-UP6" firstAttribute="leading" secondItem="iTE-Uk-7B0" secondAttribute="trailing" constant="8" id="x9r-Os-tlp"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ohc-AL-f4c" firstAttribute="width" secondItem="nb4-zP-3DL" secondAttribute="width" multiplier="0.9" id="Jtb-PH-SdB"/>
+                                                <constraint firstItem="ohc-AL-f4c" firstAttribute="height" secondItem="nb4-zP-3DL" secondAttribute="height" id="Pql-tW-eW1"/>
+                                                <constraint firstItem="ohc-AL-f4c" firstAttribute="centerY" secondItem="nb4-zP-3DL" secondAttribute="centerY" id="azH-5l-nei"/>
+                                                <constraint firstItem="ohc-AL-f4c" firstAttribute="centerX" secondItem="nb4-zP-3DL" secondAttribute="centerX" id="jsa-If-Sd8"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cbImage" destination="iTE-Uk-7B0" id="PNa-US-fKx"/>
+                                            <outlet property="label" destination="6PJ-k2-UP6" id="Ry9-yg-tKU"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="button" id="YRi-0A-50g" customClass="ButtonCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="160" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YRi-0A-50g" id="XKr-0P-Oba">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" tag="400" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QR0-DO-07N">
+                                                    <rect key="frame" x="164" y="7" width="46" height="30"/>
+                                                    <state key="normal" title="Button"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="QR0-DO-07N" firstAttribute="centerY" secondItem="XKr-0P-Oba" secondAttribute="centerY" id="1m1-Uv-wgu"/>
+                                                <constraint firstItem="QR0-DO-07N" firstAttribute="centerX" secondItem="XKr-0P-Oba" secondAttribute="centerX" id="pbq-kh-YvU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="button" destination="QR0-DO-07N" id="FhQ-6e-obc"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="3de-3N-Qv1" secondAttribute="bottom" id="5IA-Xo-dPS"/>
+                            <constraint firstAttribute="trailing" secondItem="3de-3N-Qv1" secondAttribute="trailing" id="Lw6-La-vz1"/>
+                            <constraint firstAttribute="top" secondItem="3de-3N-Qv1" secondAttribute="top" id="qZT-mj-xYi"/>
+                            <constraint firstItem="3de-3N-Qv1" firstAttribute="leading" secondItem="r0B-zu-Kvo" secondAttribute="leading" id="wfE-ms-dbT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="3de-3N-Qv1" id="TEO-n6-x4u"/>
+                        <outlet property="tableViewBottomConstraint" destination="5IA-Xo-dPS" id="TLa-cq-ha8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sLH-MP-aO8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2462" y="1496"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Checkbox" width="22" height="22"/>
