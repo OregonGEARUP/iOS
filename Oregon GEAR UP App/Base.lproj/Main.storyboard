@@ -275,7 +275,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="textentry" id="ofK-BR-ARm">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="textentry" id="ofK-BR-ARm" customClass="TextFieldCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ofK-BR-ARm" id="gr2-Xc-Qrl">
@@ -295,8 +295,11 @@
                                                 <constraint firstItem="s9j-3d-aWJ" firstAttribute="centerX" secondItem="gr2-Xc-Qrl" secondAttribute="centerX" id="heE-lT-gdA"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="s9j-3d-aWJ" id="aBK-4C-2vO"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateentry" id="H5U-1y-8c0">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateentry" id="H5U-1y-8c0" customClass="DateFieldCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H5U-1y-8c0" id="Zpg-ma-VjM">
@@ -321,8 +324,11 @@
                                                 <constraint firstItem="PsB-Zn-E6G" firstAttribute="centerY" secondItem="Zpg-ma-VjM" secondAttribute="centerY" id="cPM-R2-Z7c"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateField" destination="PsB-Zn-E6G" id="Wns-PF-W1a"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="checkbox" id="I9f-tW-1Dq">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="checkbox" id="I9f-tW-1Dq" customClass="CheckboxCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="116" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I9f-tW-1Dq" id="53V-pB-mGg">
@@ -358,8 +364,12 @@
                                                 <constraint firstItem="zNg-Qn-mrF" firstAttribute="height" secondItem="53V-pB-mGg" secondAttribute="height" id="wak-77-UCJ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cbImage" destination="LJk-bR-RRV" id="NZB-Lv-3Db"/>
+                                            <outlet property="label" destination="RhC-71-BgC" id="Bql-GP-m8y"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="button" id="Zjf-uW-KcW">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="button" id="Zjf-uW-KcW" customClass="ButtonCell" customModule="Oregon_GEAR_UP_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="160" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zjf-uW-KcW" id="MUN-Wu-oqI">
@@ -376,6 +386,9 @@
                                                 <constraint firstItem="kuw-cU-b1g" firstAttribute="centerX" secondItem="MUN-Wu-oqI" secondAttribute="centerX" id="jmx-cr-LwN"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="button" destination="kuw-cU-b1g" id="S3S-lc-Gce"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
