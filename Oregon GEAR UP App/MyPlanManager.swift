@@ -15,11 +15,11 @@ class MyPlanManager {
 	
 	public var colleges: [College]!
 	public var scholarships: [Scholarship]!
+	public var testResults: TestResults
 	
 	private init() {
 		
 		colleges = [College]()
-		scholarships = [Scholarship]()
 		
 		if let collegeDictionaries = UserDefaults.standard.array(forKey: "colleges") as? [[String: Any]] {
 			for collegeDictionary in collegeDictionaries {
@@ -44,6 +44,9 @@ class MyPlanManager {
 			}
 		}
 		
+		
+		scholarships = [Scholarship]()
+
 		if let scholarshipDictionaries = UserDefaults.standard.array(forKey: "scholarships") as? [[String: Any]] {
 			for scholarshipDictionary in scholarshipDictionaries {
 				if let scholarship = Scholarship(fromDictionary: scholarshipDictionary) {
@@ -54,6 +57,15 @@ class MyPlanManager {
 		
 		if scholarships.count == 0 {
 			scholarships.append(Scholarship(withName: "my first scholarship"))
+		}
+		
+		
+		testResults = TestResults()
+		
+		if let testResultDictionary = UserDefaults.standard.dictionary(forKey: "testresults") {
+			if let results = TestResults(fromDictionary: testResultDictionary) {
+				testResults = results
+			}
 		}
 		
 		
@@ -69,7 +81,8 @@ class MyPlanManager {
 				scholarship.serializeToDictionary()
 			}
 			UserDefaults.standard.set(scholarshipArray, forKey: "scholarships")
-
+			
+			UserDefaults.standard.set(self.testResults.serializeToDictionary(), forKey: "testresults")
 		}
 	}
 	

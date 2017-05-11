@@ -38,7 +38,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 				switch (scholarshipSection, indexPath.row) {
 				case (0,0): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].name = text
 				case (1,1): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].website = text
-				case (2,4): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].otherInfo = text
+				case (2,7): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].otherInfo = text
 				default:
 					break
 				}

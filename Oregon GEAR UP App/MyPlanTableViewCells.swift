@@ -91,3 +91,24 @@ class CheckboxCell: UITableViewCell {
 		}
 	}
 }
+
+
+class LabelCell: UITableViewCell {
+	
+	@IBOutlet private var label: UILabel!
+	
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		
+		selectionStyle = .none
+	}
+	
+	public var labelText: String? {
+		get {
+			return label.text
+		}
+		set {
+			label.text = newValue
+		}
+	}
+}
