@@ -35,8 +35,8 @@ class MyPlanManager {
 			if let collegeName = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_text") {
 				colleges.append(College(withName: collegeName))
 				
-				if let applicationDate = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date") {
-					colleges[0].applicationDateDescription = applicationDate
+				if let dateStr = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date") {
+					colleges[0].applicationDate = Date(longDescription: dateStr)
 				}
 				
 			} else {

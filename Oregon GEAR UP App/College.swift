@@ -23,28 +23,6 @@ struct College {
 	var feeDeferralDone = false
 	var applicationDone = false
 	
-	var applicationDateDescription: String? {
-		get {
-			if let appDate = applicationDate {
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .long
-				dateFormatter.timeStyle = .none
-				return dateFormatter.string(from: appDate)
-			}
-			return nil
-		}
-		set {
-			if let dateString = newValue {
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .long
-				dateFormatter.timeStyle = .none
-				applicationDate = dateFormatter.date(from: dateString)
-			} else {
-				applicationDate = nil
-			}
-		}
-	}
-	
 	var averageNetPriceDescription: String? {
 		get {
 			if let averageNetPrice = averageNetPrice {
@@ -144,7 +122,7 @@ struct College {
 		
 		dictionary["name"] = name
 		
-		if let applicationDateDescription = applicationDateDescription {
+		if let applicationDateDescription = applicationDate?.longDescription {
 			dictionary["applicationDate"] = applicationDateDescription
 		}
 		if let averageNetPrice = averageNetPrice {

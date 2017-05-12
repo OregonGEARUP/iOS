@@ -246,7 +246,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					dfCell.setDate(college.applicationDateDescription)
+					dfCell.setDate(college.applicationDate?.longDescription)
 				}
 				return cell
 			} else {
