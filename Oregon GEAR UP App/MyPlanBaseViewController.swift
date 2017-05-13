@@ -80,9 +80,9 @@ class MyPlanBaseViewController: UIViewController {
 		doneWithKeyboard(btn: nil)
 		
 		// track whether picker will become visible
-		let datePickerVisible = (datePickerTopConstraint.constant == 0)
+		let dateBecomingPickerVisible = (datePickerTopConstraint.constant == 0)
 		
-		if datePickerVisible,
+		if dateBecomingPickerVisible,
 			let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)),
 			let dfCell = tableView.cellForRow(at: indexPath) as? DateFieldCell {
 			
@@ -91,23 +91,50 @@ class MyPlanBaseViewController: UIViewController {
 		
 		view.layoutIfNeeded()
 		UIView.animate(withDuration: 0.3, animations: {
-			self.datePickerTopConstraint.constant = (self.datePickerTopConstraint.constant == 0 ? -(self.datePickerPaletteHeight + 50.0) : 0.0)
+			self.datePickerTopConstraint.constant = (dateBecomingPickerVisible ? -(self.datePickerPaletteHeight + 50.0) : 0.0)
+			self.tableViewBottomConstraint.constant = (dateBecomingPickerVisible ? self.datePickerPaletteHeight : 0.0)
 			self.view.layoutIfNeeded()
 		})
 		
+		if !dateBecomingPickerVisible {
+			currentInputDate?.layer.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
+			currentInputDate?.layer.borderWidth = 0.5
+		}
+		
 		// keep track of which button triggered the date picker
-		currentInputDate = (datePickerVisible ? button : nil)
+		currentInputDate = (dateBecomingPickerVisible ? button : nil)
+		
+		if dateBecomingPickerVisible {
+			currentInputDate?.layer.borderColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 0.5).cgColor
+			currentInputDate?.layer.borderWidth = 1.0
+		}
+		
+		// scroll cell to be visible
+		if dateBecomingPickerVisible,
+			let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+			}
+		}
 	}
 	
 	public dynamic func doneWithDatePicker() {
 		
-		view.layoutIfNeeded()
-		UIView.animate(withDuration: 0.3, animations: {
-			self.datePickerTopConstraint.constant = 0.0
-			self.view.layoutIfNeeded()
-		})
+		if datePickerTopConstraint.constant == 0 || currentInputDate == nil {
+			return
+		}
 		
-		currentInputDate = nil
+		toggleDatePicker(currentInputDate!)
+		
+//		view.layoutIfNeeded()
+//		UIView.animate(withDuration: 0.3, animations: {
+//			self.datePickerTopConstraint.constant = 0.0
+//			self.tableViewBottomConstraint.constant = 0.0
+//			self.view.layoutIfNeeded()
+//		})
+//		
+//		currentInputDate = nil
 	}
 	
 	private dynamic func datePickerChanged(_ datePicker: UIDatePicker) {

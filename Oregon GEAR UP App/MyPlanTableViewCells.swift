@@ -62,6 +62,21 @@ class DateFieldCell: UITableViewCell {
 		setDate(nil)
 	}
 	
+	override func prepareForReuse() {
+		dateField.layer.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
+		dateField.layer.borderWidth = 0.5
+	}
+	
+	public var active: Bool {
+		get {
+			return dateField.layer.borderWidth == 1.0
+		}
+		set {
+			dateField.layer.borderColor = newValue ? UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 0.5).cgColor : UIColor(white: 0.8, alpha: 1.0).cgColor
+			dateField.layer.borderWidth = newValue ? 1.0 : 0.5
+		}
+	}
+	
 	public func setDate(_ date: Date?, type: DateFieldType? = nil) {
 		
 		if let type = type {
