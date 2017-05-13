@@ -134,6 +134,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
 				labelCell.labelText = "If you apply to an Oregon public university you will need to answer questions about how long you and your parent/guardian have lived in the state."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
 			}
 			return cell
 			
@@ -149,7 +151,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 2:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Residency Start"
+				dfCell.placeholderText = "residency start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.residencyStart, type: .monthYear)
 			}
@@ -157,7 +160,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 3:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Residency End"
+				dfCell.placeholderText = "residency end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.residencyEnd, type: .monthYear)
 			}
@@ -175,7 +179,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 5:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Residency Start"
+				dfCell.placeholderText = "residency start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentResidencyStart, type: .monthYear)
 			}
@@ -183,7 +188,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 6:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Residency End"
+				dfCell.placeholderText = "residency end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentResidencyEnd, type: .monthYear)
 			}
@@ -201,7 +207,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 8:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Register to vote"
+				dfCell.placeholderText = "registration date"
+				dfCell.prompt = "Date"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.registerToVote, type: .monthYear)
 			}
@@ -219,7 +226,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 10:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Register to vote"
+				dfCell.placeholderText = "registration date"
+				dfCell.prompt = "Date"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentsRegisterToVote, type: .monthYear)
 			}
@@ -237,7 +245,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 12:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Military Service Start"
+				dfCell.placeholderText = "service start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.militaryServiceStart, type: .monthYear)
 			}
@@ -245,7 +254,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 13:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Military Service End"
+				dfCell.placeholderText = "service end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.militaryServiceEnd, type: .monthYear)
 			}
@@ -263,7 +273,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 15:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Military Service Start"
+				dfCell.placeholderText = "service start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentMilitaryServiceStart, type: .monthYear)
 			}
@@ -271,7 +282,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 16:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Military Service End"
+				dfCell.placeholderText = "service end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentMilitaryServiceEnd, type: .monthYear)
 			}
@@ -289,7 +301,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 18:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Tax year"
+				dfCell.placeholderText = "tax year"
+				dfCell.prompt = "Year 1"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.fileOregonTaxesYear1, type: .year)
 			}
@@ -297,7 +310,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 19:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Tax year"
+				dfCell.placeholderText = "tax year"
+				dfCell.prompt = "Year 2"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.fileOregonTaxesYear2, type: .year)
 			}
@@ -315,7 +329,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 21:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Tax year"
+				dfCell.placeholderText = "tax year"
+				dfCell.prompt = "Year 1"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentsFileOregonTaxesYear1, type: .year)
 			}
@@ -323,7 +338,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 22:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Tax year"
+				dfCell.placeholderText = "tax year"
+				dfCell.prompt = "Year 2"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentsFileOregonTaxesYear2, type: .year)
 			}
@@ -341,7 +357,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 24:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "Employer"
+				tfCell.textField.placeholder = "employer name"
+				tfCell.prompt = "Name"
 				tfCell.textField.text = residency.nameEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -351,7 +368,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 25:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "City"
+				tfCell.textField.placeholder = "employer city"
+				tfCell.prompt = "City"
 				tfCell.textField.text = residency.cityEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -361,7 +379,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 26:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Start Date"
+				dfCell.placeholderText = "employment start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.startEmployer1, type: .monthYear)
 			}
@@ -369,7 +388,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 27:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "End Date"
+				dfCell.placeholderText = "employment end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.endEmployer1, type: .monthYear)
 			}
@@ -387,7 +407,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 29:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "Employer"
+				tfCell.textField.placeholder = "employer name"
+				tfCell.prompt = "Name"
 				tfCell.textField.text = residency.nameEmployer2
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -397,7 +418,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 30:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "City"
+				tfCell.textField.placeholder = "employer city"
+				tfCell.prompt = "City"
 				tfCell.textField.text = residency.cityEmployer2
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -407,7 +429,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 31:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Start Date"
+				dfCell.placeholderText = "employment start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.startEmployer2, type: .monthYear)
 			}
@@ -415,7 +438,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 32:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "End Date"
+				dfCell.placeholderText = "employment end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.endEmployer2, type: .monthYear)
 			}
@@ -433,7 +457,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 34:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "Employer"
+				tfCell.textField.placeholder = "employer name"
+				tfCell.prompt = "Name"
 				tfCell.textField.text = residency.parentNameEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -443,7 +468,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 35:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "City"
+				tfCell.textField.placeholder = "employer city"
+				tfCell.prompt = "City"
 				tfCell.textField.text = residency.parentCityEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -453,7 +479,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 36:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Start Date"
+				dfCell.placeholderText = "employment start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentStartEmployer1, type: .monthYear)
 			}
@@ -461,7 +488,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 37:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "End Date"
+				dfCell.placeholderText = "employment end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentEndEmployer1, type: .monthYear)
 			}
@@ -479,7 +507,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 39:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "Employer"
+				tfCell.textField.placeholder = "employer name"
+				tfCell.prompt = "Name"
 				tfCell.textField.text = residency.parentNameEmployer2
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -489,7 +518,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 40:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "City"
+				tfCell.textField.placeholder = "employer city"
+				tfCell.prompt = "City"
 				tfCell.textField.text = residency.parentCityEmployer2
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -499,7 +529,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 41:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "Start Date"
+				dfCell.placeholderText = "employment start date"
+				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentStartEmployer2, type: .monthYear)
 			}
@@ -507,7 +538,8 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 42:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "End Date"
+				dfCell.placeholderText = "employment end date"
+				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				dfCell.setDate(residency.parentEndEmployer2, type: .monthYear)
 			}

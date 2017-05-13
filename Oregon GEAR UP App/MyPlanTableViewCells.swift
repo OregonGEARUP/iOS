@@ -10,6 +10,8 @@ import UIKit
 
 class TextFieldCell: UITableViewCell {
 	
+	@IBOutlet var label: UILabel!
+	@IBOutlet var labelWidthContraint: NSLayoutConstraint!
 	@IBOutlet var textField: UITextField!
 	
     override func awakeFromNib() {
@@ -17,6 +19,15 @@ class TextFieldCell: UITableViewCell {
 		
 		selectionStyle = .none
     }
+	
+	public var prompt: String? {
+		get {
+			return label.text
+		}
+		set {
+			label.text = newValue
+		}
+	}
 }
 
 
@@ -28,7 +39,8 @@ enum DateFieldType {
 
 class DateFieldCell: UITableViewCell {
 	
-	
+	@IBOutlet var label: UILabel!
+	@IBOutlet var labelWidthContraint: NSLayoutConstraint!
 	@IBOutlet var dateField: UIButton!
 	
 	public var type: DateFieldType = .longDate
@@ -70,6 +82,15 @@ class DateFieldCell: UITableViewCell {
 			
 			dateField.setTitle(placeholderText, for: .normal)
 			dateField.setTitleColor(UIColor(white: 0.8, alpha: 1.0), for: .normal)
+		}
+	}
+	
+	public var prompt: String? {
+		get {
+			return label.text
+		}
+		set {
+			label.text = newValue
 		}
 	}
 }
