@@ -24,50 +24,6 @@ struct TestResults {
 	var satMath: Int?
 	var satEssay: Int?
 	
-	var actDateDescription: String? {
-		get {
-			if let actDate = actDate {
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .long
-				dateFormatter.timeStyle = .none
-				return dateFormatter.string(from: actDate)
-			}
-			return nil
-		}
-		set {
-			if let dateString = newValue {
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .long
-				dateFormatter.timeStyle = .none
-				actDate = dateFormatter.date(from: dateString)
-			} else {
-				actDate = nil
-			}
-		}
-	}
-	
-	var satDateDescription: String? {
-		get {
-			if let satDate = satDate {
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .long
-				dateFormatter.timeStyle = .none
-				return dateFormatter.string(from: satDate)
-			}
-			return nil
-		}
-		set {
-			if let dateString = newValue {
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .long
-				dateFormatter.timeStyle = .none
-				satDate = dateFormatter.date(from: dateString)
-			} else {
-				satDate = nil
-			}
-		}
-	}
-	
 	public init() {
 		
 	}
@@ -75,10 +31,7 @@ struct TestResults {
 	public init?(fromDictionary dictionary: [String: Any]) {
 		
 		if let actDateStr = dictionary["actDate"] as? String {
-			let dateFormatter = DateFormatter()
-			dateFormatter.dateStyle = .long
-			dateFormatter.timeStyle = .none
-			self.actDate = dateFormatter.date(from: actDateStr)
+			self.actDate = Date(longDescription: actDateStr)
 		}
 		if let actComposite = dictionary["actComposite"] as? Int {
 			self.actComposite = actComposite
@@ -97,10 +50,7 @@ struct TestResults {
 		}
 		
 		if let satDateStr = dictionary["satDate"] as? String {
-			let dateFormatter = DateFormatter()
-			dateFormatter.dateStyle = .long
-			dateFormatter.timeStyle = .none
-			self.satDate = dateFormatter.date(from: satDateStr)
+			self.satDate = Date(longDescription: satDateStr)
 		}
 		if let satTotal = dictionary["satTotal"] as? Int {
 			self.satTotal = satTotal
@@ -120,7 +70,7 @@ struct TestResults {
 		
 		var dictionary = [String: Any]()
 		
-		if let actDateDescription = actDateDescription {
+		if let actDateDescription = actDate?.longDescription {
 			dictionary["actDate"] = actDateDescription
 		}
 		if let actComposite = actComposite {
@@ -139,7 +89,7 @@ struct TestResults {
 			dictionary["actWriting"] = actWriting
 		}
 		
-		if let satDateDescription = satDateDescription {
+		if let satDateDescription = satDate?.longDescription {
 			dictionary["satDate"] = satDateDescription
 		}
 		if let satTotal = satTotal {

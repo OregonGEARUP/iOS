@@ -168,7 +168,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					dfCell.setDate(testResults.actDateDescription)
+					dfCell.setDate(testResults.actDate?.longDescription)
 				}
 				return cell
 			case 2:
@@ -237,7 +237,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					dfCell.setDate(testResults.satDateDescription)
+					dfCell.setDate(testResults.satDate?.longDescription)
 				}
 				return cell
 			case 2:

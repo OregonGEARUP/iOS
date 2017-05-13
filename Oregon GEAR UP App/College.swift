@@ -82,10 +82,7 @@ struct College {
 		}
 		
 		if let applicationDateStr = dictionary["applicationDate"] as? String {
-			let dateFormatter = DateFormatter()
-			dateFormatter.dateStyle = .long
-			dateFormatter.timeStyle = .none
-			self.applicationDate = dateFormatter.date(from: applicationDateStr)
+			self.applicationDate = Date(longDescription: applicationDateStr)
 		}
 		if let averageNetPrice = dictionary["averageNetPrice"] as? Double {
 			self.averageNetPrice = averageNetPrice
