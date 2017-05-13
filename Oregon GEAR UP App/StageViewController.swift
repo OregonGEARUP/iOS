@@ -201,7 +201,7 @@ class StageViewController: UIViewController {
 				
 				let spacer = UIView()
 				cpView.stackView.addArrangedSubview(spacer)
-				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 8.0)
+				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// no height spacer still incurs stack view spacing
 				hc2.priority = UILayoutPriorityRequired - 1
 				hc2.isActive = true
 			}
@@ -237,7 +237,7 @@ class StageViewController: UIViewController {
 				
 				let spacer = UIView()
 				cpView.stackView.addArrangedSubview(spacer)
-				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 8.0)
+				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// no height spacer still incurs stack view spacing
 				hc2.priority = UILayoutPriorityRequired - 1
 				hc2.isActive = true
 			}
@@ -264,11 +264,13 @@ class StageViewController: UIViewController {
 		}
 		
 		cpView.moreInfoButton.translatesAutoresizingMaskIntoConstraints = false
+		cpView.moreInfoButton.titleLabel?.numberOfLines = 0
 		cpView.moreInfoButton.addTarget(self, action: #selector(showMoreInfo), for: .touchUpInside)
 		cpView.addSubview(cpView.moreInfoButton)
 		NSLayoutConstraint.activate([
 			cpView.moreInfoButton.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: -18.0),
 			cpView.moreInfoButton.centerXAnchor.constraint(equalTo: cpView.centerXAnchor),
+			cpView.moreInfoButton.widthAnchor.constraint(equalTo: cpView.widthAnchor, multiplier: 0.8),
 		])
 		
 		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false

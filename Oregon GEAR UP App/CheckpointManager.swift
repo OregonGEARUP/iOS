@@ -160,7 +160,6 @@ class CheckpointManager {
 	private func resumeCheckpointsInternal(completion: @escaping (_ success: Bool) -> Void) {
 		
 		let defaults = UserDefaults.standard
-		let filename = defaults.string(forKey: "currentBlockFilename") ?? "block1.json"
 		
 		if defaults.object(forKey: "currentBlockIndex") != nil {
 			blockIndex = defaults.integer(forKey: "currentBlockIndex")
@@ -180,7 +179,21 @@ class CheckpointManager {
 			checkpointIndex = -1
 		}
 		
-		fetchBlock(fromFile: filename, completion: completion)
+		var filename = defaults.string(forKey: "currentBlockFilename")
+		
+		// handle intial startup case with first block
+		if filename == nil && blockInfos.count > 0 {
+			filename = blockInfos[0]["blockFileName"]
+			blockIndex = -1
+			stageIndex = -1
+			checkpointIndex = -1
+		}
+		
+		if let filename = filename {
+			fetchBlock(fromFile: filename, completion: completion)
+		} else {
+			fatalError("no block filename in resumeCheckpointsInternal")
+		}
 	}
 	
 	public func loadBlock(atIndex index: Int, completion: @escaping (_ success: Bool) -> Void) {
