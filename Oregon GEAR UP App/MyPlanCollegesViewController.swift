@@ -63,7 +63,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		alertController.addAction(addAction)
 		
 		alertController.addTextField(configurationHandler: { (textField) in
-			textField.placeholder = "College Name"
+			textField.placeholder = "college name"
 			
 			NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main, using: { (notification) in
 				if let text = textField.text {
@@ -222,7 +222,8 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		case 0:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "College Name"
+				tfCell.textField.placeholder = "college name"
+				tfCell.prompt = "Name"
 				tfCell.textField.text = college.name
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -235,12 +236,14 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 					dfCell.setDate(college.applicationDate)
+					dfCell.prompt = "Date"
 				}
 				return cell
 			} else {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Average Net Price"
+					tfCell.textField.placeholder = "average net price"
+					tfCell.prompt = "Price"
 					tfCell.textField.text = college.averageNetPriceDescription
 					tfCell.textField.keyboardType = .decimalPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -252,7 +255,8 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 			if indexPath.row == 7 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Cost to Apply"
+					tfCell.textField.placeholder = "cost to apply"
+					tfCell.prompt = "Cost"
 					tfCell.textField.text = college.applicationCostDescription
 					tfCell.textField.keyboardType = .decimalPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView

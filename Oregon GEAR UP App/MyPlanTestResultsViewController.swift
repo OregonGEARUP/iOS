@@ -112,7 +112,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 	public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		
 		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 30.0))
-		headerView.backgroundColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 1.0)
+		headerView.backgroundColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 0.5)
 		
 		let titleLabel = UILabel()
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -156,12 +156,15 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 					dfCell.setDate(testResults.actDate)
+					dfCell.placeholderText = "ACT date"
+					dfCell.prompt = "Date"
 				}
 				return cell
 			case 2:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Composite Score"
+					tfCell.textField.placeholder = "composite score"
+					tfCell.prompt = "Comp"
 					tfCell.textField.text = testResults.actComposite != nil ? "\(testResults.actComposite!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -171,7 +174,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 3:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Math Score"
+					tfCell.textField.placeholder = "math score"
+					tfCell.prompt = "Math"
 					tfCell.textField.text = testResults.actMath != nil ? "\(testResults.actMath!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -181,7 +185,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 4:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Science Score"
+					tfCell.textField.placeholder = "science score"
+					tfCell.prompt = "Science"
 					tfCell.textField.text = testResults.actScience != nil ? "\(testResults.actScience!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -191,7 +196,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 5:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Reading Score"
+					tfCell.textField.placeholder = "reading score"
+					tfCell.prompt = "Reading"
 					tfCell.textField.text = testResults.actReading != nil ? "\(testResults.actReading!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -201,7 +207,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 6:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Writing Score"
+					tfCell.textField.placeholder = "writing score"
+					tfCell.prompt = "Writing"
 					tfCell.textField.text = testResults.actWriting != nil ? "\(testResults.actWriting!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -225,12 +232,15 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 					dfCell.setDate(testResults.satDate)
+					dfCell.placeholderText = "SAT date"
+					dfCell.prompt = "Date"
 				}
 				return cell
 			case 2:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Total Score"
+					tfCell.textField.placeholder = "total score"
+					tfCell.prompt = "Total"
 					tfCell.textField.text = testResults.satTotal != nil ? "\(testResults.satTotal!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -240,7 +250,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 3:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Reading/Writing Score"
+					tfCell.textField.placeholder = "reading/writing score"
+					tfCell.prompt = "R/W"
 					tfCell.textField.text = testResults.satReadingWriting != nil ? "\(testResults.satReadingWriting!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -250,7 +261,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 4:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Math Score"
+					tfCell.textField.placeholder = "math score"
+					tfCell.prompt = "Math"
 					tfCell.textField.text = testResults.satMath != nil ? "\(testResults.satMath!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -260,7 +272,8 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 5:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Essay Score"
+					tfCell.textField.placeholder = "essay score"
+					tfCell.prompt = "Essay"
 					tfCell.textField.text = testResults.satEssay != nil ? "\(testResults.satEssay!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView

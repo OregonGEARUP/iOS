@@ -63,7 +63,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		alertController.addAction(addAction)
 		
 		alertController.addTextField(configurationHandler: { (textField) in
-			textField.placeholder = "Scholarship Name"
+			textField.placeholder = "scholarship name"
 			
 			NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main, using: { (notification) in
 				if let text = textField.text {
@@ -222,7 +222,8 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		case 0:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "Scholarship Name"
+				tfCell.textField.placeholder = "scholarship name"
+				tfCell.prompt = "Name"
 				tfCell.textField.text = scholarship.name
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -235,12 +236,14 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 					dfCell.setDate(scholarship.applicationDate)
+					dfCell.prompt = "Date"
 				}
 				return cell
 			} else {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Website"
+					tfCell.textField.placeholder = "website URL"
+					tfCell.prompt = "Website"
 					tfCell.textField.text = scholarship.website
 					tfCell.textField.keyboardType = .URL
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -252,7 +255,8 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 			if indexPath.row == 4 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.placeholder = "Other"
+					tfCell.textField.placeholder = "other information"
+					tfCell.prompt = "Other"
 					tfCell.textField.text = scholarship.otherInfo
 					tfCell.textField.keyboardType = .default
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
