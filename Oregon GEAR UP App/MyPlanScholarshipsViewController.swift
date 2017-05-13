@@ -14,19 +14,9 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 	private let sectionsPerScholarship = 3
 	
 	
-	override func dateChanged(_ date: Date, forButton dateButton: UIButton) {
+	override func dateChanged(_ date: Date, forIndexPath indexPath: IndexPath) {
 		
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .long
-		dateFormatter.timeStyle = .none
-		let strDate = dateFormatter.string(from: date)
-		
-		dateButton.setTitle(strDate, for: .normal)
-		dateButton.setTitleColor(.darkText, for: .normal)
-		
-		if let indexPath = tableView.indexPathForRow(at: dateButton.convert(dateButton.frame.origin, to: tableView)) {
-			MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].applicationDate = date
-		}
+		MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].applicationDate = date
 	}
 	
 	public func textFieldDidEndEditing(_ textField: UITextField) {
@@ -167,9 +157,6 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 	
     // MARK: - Table view data source
 	
-	@IBOutlet var tableView: UITableView!
-	@IBOutlet var tableViewBottomConstraint: NSLayoutConstraint!
-
     public func numberOfSections(in tableView: UITableView) -> Int {
         return MyPlanManager.shared.scholarships.count * sectionsPerScholarship
     }
@@ -247,7 +234,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					dfCell.setDate(scholarship.applicationDate?.longDescription)
+					dfCell.setDate(scholarship.applicationDate)
 				}
 				return cell
 			} else {

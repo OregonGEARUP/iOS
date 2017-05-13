@@ -20,9 +20,19 @@ class TextFieldCell: UITableViewCell {
 }
 
 
+enum DateFieldType {
+	case longDate
+	case monthYear
+	case year
+}
+
 class DateFieldCell: UITableViewCell {
 	
+	
 	@IBOutlet var dateField: UIButton!
+	
+	public var type: DateFieldType = .longDate
+	public var date = Date()
 	public var placeholderText: String?
 	
 	override func awakeFromNib() {
@@ -40,12 +50,24 @@ class DateFieldCell: UITableViewCell {
 		setDate(nil)
 	}
 	
-	public func setDate(_ dateText: String?) {
+	public func setDate(_ date: Date?, type: DateFieldType? = nil) {
 		
-		if let dateText = dateText {
-			dateField.setTitle(dateText, for: .normal)
+		if let type = type {
+			self.type = type
+		}
+		
+		if let date = date {
+			self.date = date
+			
+			switch self.type {
+			case .longDate:		dateField.setTitle(date.longDescription, for: .normal)
+			case .monthYear:	dateField.setTitle(date.monthYearDescription, for: .normal)
+			case .year:			dateField.setTitle(date.yearDescription, for: .normal)
+			}
 			dateField.setTitleColor(.darkText, for: .normal)
 		} else {
+			self.date = Date()
+			
 			dateField.setTitle(placeholderText, for: .normal)
 			dateField.setTitleColor(UIColor(white: 0.8, alpha: 1.0), for: .normal)
 		}
@@ -109,6 +131,15 @@ class LabelCell: UITableViewCell {
 		}
 		set {
 			label.text = newValue
+		}
+	}
+	
+	public var labelTextColor: UIColor? {
+		get {
+			return label.textColor
+		}
+		set {
+			label.textColor = newValue ?? .darkText
 		}
 	}
 }

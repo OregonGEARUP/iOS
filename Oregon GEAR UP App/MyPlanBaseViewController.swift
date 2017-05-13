@@ -10,6 +10,9 @@ import UIKit
 
 class MyPlanBaseViewController: UIViewController {
 
+	@IBOutlet var tableView: UITableView!
+	@IBOutlet var tableViewBottomConstraint: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +41,7 @@ class MyPlanBaseViewController: UIViewController {
 			datePickerPaletteView.heightAnchor.constraint(equalToConstant: datePickerPaletteHeight),
 			datePickerPaletteView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			datePickerTopConstraint
-			])
+		])
 		
 		let topLine = UIView()
 		topLine.translatesAutoresizingMaskIntoConstraints = false
@@ -48,7 +51,7 @@ class MyPlanBaseViewController: UIViewController {
 			topLine.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor),
 			topLine.widthAnchor.constraint(equalTo: datePickerPaletteView.widthAnchor),
 			topLine.heightAnchor.constraint(equalToConstant: 0.5)
-			])
+		])
 		
 		datePicker = UIDatePicker()
 		datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +61,7 @@ class MyPlanBaseViewController: UIViewController {
 		NSLayoutConstraint.activate([
 			datePicker.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor, constant: 16.0),
 			datePicker.centerXAnchor.constraint(equalTo: datePickerPaletteView.centerXAnchor)
-			])
+		])
 		
 		let doneBtn = UIButton(type: .system)
 		doneBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +71,7 @@ class MyPlanBaseViewController: UIViewController {
 		NSLayoutConstraint.activate([
 			doneBtn.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor, constant: 2.0),
 			doneBtn.rightAnchor.constraint(equalTo: datePickerPaletteView.rightAnchor, constant: -20.0)
-			])
+		])
 	}
 	
 	public dynamic func toggleDatePicker(_ button: UIButton) {
@@ -79,17 +82,11 @@ class MyPlanBaseViewController: UIViewController {
 		// track whether picker will become visible
 		let datePickerVisible = (datePickerTopConstraint.constant == 0)
 		
-		if datePickerVisible {
+		if datePickerVisible,
+			let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)),
+			let dfCell = tableView.cellForRow(at: indexPath) as? DateFieldCell {
 			
-			let dateFormatter = DateFormatter()
-			dateFormatter.dateStyle = .long
-			dateFormatter.timeStyle = .none
-			
-			if let dateStr = button.title(for: .normal),
-				let date = dateFormatter.date(from: dateStr) {
-				
-				datePicker.date = date
-			}
+			datePicker.date = dfCell.date
 		}
 		
 		view.layoutIfNeeded()
@@ -115,12 +112,18 @@ class MyPlanBaseViewController: UIViewController {
 	
 	private dynamic func datePickerChanged(_ datePicker: UIDatePicker) {
 		
-		if let button = currentInputDate {
-			dateChanged(datePicker.date, forButton: button)
+		if let button = currentInputDate,
+			let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
+			
+			if let dfCell = tableView.cellForRow(at: indexPath) as? DateFieldCell {
+				dfCell.setDate(datePicker.date)
+			}
+			
+			dateChanged(datePicker.date, forIndexPath: indexPath)
 		}
 	}
 	
-	public func dateChanged(_ date: Date, forButton button: UIButton) {
+	public func dateChanged(_ date: Date, forIndexPath indexPath: IndexPath) {
 		
 		// override point
 	}
@@ -141,17 +144,17 @@ class MyPlanBaseViewController: UIViewController {
 		topLine.backgroundColor = .gray
 		keyboardAccessoryView.addSubview(topLine)
 		
-		//		let prevBtn = UIButton(type: .system)
-		//		prevBtn.translatesAutoresizingMaskIntoConstraints = false
-		//		prevBtn.setTitle("<", for: .normal)
-		//		prevBtn.addTarget(self, action: #selector(previousField(btn:)), for: .touchUpInside)
-		//		keyboardAccessoryView.addSubview(prevBtn)
-		//
-		//		let nextBtn = UIButton(type: .system)
-		//		nextBtn.translatesAutoresizingMaskIntoConstraints = false
-		//		nextBtn.setTitle(">", for: .normal)
-		//		nextBtn.addTarget(self, action: #selector(nextField(btn:)), for: .touchUpInside)
-		//		keyboardAccessoryView.addSubview(nextBtn)
+//		let prevBtn = UIButton(type: .system)
+//		prevBtn.translatesAutoresizingMaskIntoConstraints = false
+//		prevBtn.setTitle("<", for: .normal)
+//		prevBtn.addTarget(self, action: #selector(previousField(btn:)), for: .touchUpInside)
+//		keyboardAccessoryView.addSubview(prevBtn)
+//
+//		let nextBtn = UIButton(type: .system)
+//		nextBtn.translatesAutoresizingMaskIntoConstraints = false
+//		nextBtn.setTitle(">", for: .normal)
+//		nextBtn.addTarget(self, action: #selector(nextField(btn:)), for: .touchUpInside)
+//		keyboardAccessoryView.addSubview(nextBtn)
 		
 		let doneBtn = UIButton(type: .system)
 		doneBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -163,21 +166,20 @@ class MyPlanBaseViewController: UIViewController {
 			topLine.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			topLine.widthAnchor.constraint(equalTo: keyboardAccessoryView.widthAnchor),
 			topLine.heightAnchor.constraint(equalToConstant: 0.5),
-			//			prevBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
-			//			prevBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
-			//			prevBtn.leadingAnchor.constraint(equalTo: keyboardAccessoryView.leadingAnchor, constant: 20.0),
-			//			nextBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
-			//			nextBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
-			//			nextBtn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 20.0),
+//			prevBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
+//			prevBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
+//			prevBtn.leadingAnchor.constraint(equalTo: keyboardAccessoryView.leadingAnchor, constant: 20.0),
+//			nextBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
+//			nextBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
+//			nextBtn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 20.0),
 			doneBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			doneBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
 			doneBtn.trailingAnchor.constraint(equalTo: keyboardAccessoryView.trailingAnchor, constant: -20.0)
-			])
+		])
 	}
 	
 	public dynamic func doneWithKeyboard(btn: UIButton?) {
 		
 		view.endEditing(true)
 	}
-
 }

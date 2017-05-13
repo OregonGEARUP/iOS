@@ -16,6 +16,18 @@ fileprivate var longDateFormatter: DateFormatter = {
 	return formatter
 }()
 
+fileprivate var monthYearFormatter: DateFormatter = {
+	let formatter = DateFormatter()
+	formatter.setLocalizedDateFormatFromTemplate("MMMM YYYY")
+	return formatter
+}()
+
+fileprivate var yearFormatter: DateFormatter = {
+	let formatter = DateFormatter()
+	formatter.setLocalizedDateFormatFromTemplate("YYYY")
+	return formatter
+}()
+
 extension Date {
 	
 	public init(longDescription dateStr: String) {
@@ -31,6 +43,16 @@ extension Date {
 			if let date = longDateFormatter.date(from: newValue) {
 				self = date
 			}
+		}
+	}
+	public var monthYearDescription: String {
+		get {
+			return monthYearFormatter.string(from: self)
+		}
+	}
+	public var yearDescription: String {
+		get {
+			return yearFormatter.string(from: self)
 		}
 	}
 }

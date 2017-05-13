@@ -11,22 +11,12 @@ import UIKit
 
 class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 	
-	override func dateChanged(_ date: Date, forButton dateButton: UIButton) {
+	override func dateChanged(_ date: Date, forIndexPath indexPath: IndexPath) {
 		
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .long
-		dateFormatter.timeStyle = .none
-		let strDate = dateFormatter.string(from: date)
-		
-		dateButton.setTitle(strDate, for: .normal)
-		dateButton.setTitleColor(.darkText, for: .normal)
-		
-		if let indexPath = tableView.indexPathForRow(at: dateButton.convert(dateButton.frame.origin, to: tableView)) {
-			switch indexPath.section {
-			case 0:	MyPlanManager.shared.testResults.actDate = date
-			case 1:	MyPlanManager.shared.testResults.satDate = date
-			default: break
-			}
+		switch indexPath.section {
+		case 0:	MyPlanManager.shared.testResults.actDate = date
+		case 1:	MyPlanManager.shared.testResults.satDate = date
+		default: break
 		}
 	}
 	
@@ -105,9 +95,6 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 	
     // MARK: - Table view data source
 	
-	@IBOutlet var tableView: UITableView!
-	@IBOutlet var tableViewBottomConstraint: NSLayoutConstraint!
-
     public func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -168,7 +155,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					dfCell.setDate(testResults.actDate?.longDescription)
+					dfCell.setDate(testResults.actDate)
 				}
 				return cell
 			case 2:
@@ -237,7 +224,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-					dfCell.setDate(testResults.satDate?.longDescription)
+					dfCell.setDate(testResults.satDate)
 				}
 				return cell
 			case 2:

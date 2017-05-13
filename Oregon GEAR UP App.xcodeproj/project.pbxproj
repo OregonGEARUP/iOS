@@ -25,6 +25,7 @@
 		2C65D9BA1EC526930083CEA7 /* MyPlanTestResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9B91EC526930083CEA7 /* MyPlanTestResultsViewController.swift */; };
 		2C65D9BC1EC574590083CEA7 /* Date+longDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9BB1EC574590083CEA7 /* Date+longDescription.swift */; };
 		2C65D9BE1EC7450A0083CEA7 /* Residency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9BD1EC7450A0083CEA7 /* Residency.swift */; };
+		2C65D9C01EC7540D0083CEA7 /* MyPlanResidencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65D9BF1EC7540D0083CEA7 /* MyPlanResidencyViewController.swift */; };
 		2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBECF211E7600A400DCC7AD /* StageViewController.swift */; };
 		C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C19EB1E6640D300F253A0 /* BlockViewController.swift */; };
 		F93BB5701DECA5D0000C6C56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BB56F1DECA5D0000C6C56 /* AppDelegate.swift */; };
@@ -55,6 +56,7 @@
 		2C65D9B91EC526930083CEA7 /* MyPlanTestResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanTestResultsViewController.swift; sourceTree = "<group>"; };
 		2C65D9BB1EC574590083CEA7 /* Date+longDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+longDescription.swift"; sourceTree = "<group>"; };
 		2C65D9BD1EC7450A0083CEA7 /* Residency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Residency.swift; sourceTree = "<group>"; };
+		2C65D9BF1EC7540D0083CEA7 /* MyPlanResidencyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlanResidencyViewController.swift; sourceTree = "<group>"; };
 		2CBECF211E7600A400DCC7AD /* StageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageViewController.swift; sourceTree = "<group>"; };
 		C64C19EB1E6640D300F253A0 /* BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewController.swift; sourceTree = "<group>"; };
 		F93BB56C1DECA5D0000C6C56 /* Oregon GEAR UP App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oregon GEAR UP App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 				2C52EE621EC115A800E92F39 /* MyPlanCollegesViewController.swift */,
 				2C65D9B31EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift */,
 				2C65D9B91EC526930083CEA7 /* MyPlanTestResultsViewController.swift */,
+				2C65D9BF1EC7540D0083CEA7 /* MyPlanResidencyViewController.swift */,
 				2C65D9B11EC4E34C0083CEA7 /* MyPlanBaseViewController.swift */,
 				2C65D9AF1EC4CE920083CEA7 /* MyPlanTableViewCells.swift */,
 				F93BB5731DECA5D0000C6C56 /* Main.storyboard */,
@@ -218,6 +221,7 @@
 				F93BB5781DECA5D0000C6C56 /* Oregon_GEAR_UP_App.xcdatamodeld in Sources */,
 				2C52EE631EC115A800E92F39 /* MyPlanCollegesViewController.swift in Sources */,
 				2C65D9AE1EC3771C0083CEA7 /* MyPlanManager.swift in Sources */,
+				2C65D9C01EC7540D0083CEA7 /* MyPlanResidencyViewController.swift in Sources */,
 				2C65D9B41EC50F1E0083CEA7 /* MyPlanScholarshipsViewController.swift in Sources */,
 				2C65D9B01EC4CE920083CEA7 /* MyPlanTableViewCells.swift in Sources */,
 				2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */,

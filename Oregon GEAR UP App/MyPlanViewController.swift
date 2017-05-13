@@ -12,7 +12,7 @@ class MyPlanViewController: UIViewController {
 	
 	@IBOutlet weak var stackView: UIStackView!
 	
-	let buttonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 1.0)
+	let buttonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 0.5)
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class MyPlanViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = buttonColor.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
+			button.layer.backgroundColor = buttonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
@@ -74,6 +74,9 @@ class MyPlanViewController: UIViewController {
 			self.navigationController?.pushViewController(vc, animated: true)
 		case 2:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "testresults") as! MyPlanTestResultsViewController
+			self.navigationController?.pushViewController(vc, animated: true)
+		case 3:
+			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "residency") as! MyPlanResidencyViewController
 			self.navigationController?.pushViewController(vc, animated: true)
 		default:
 			break
