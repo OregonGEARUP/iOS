@@ -77,9 +77,9 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 			
 			var message: String? = nil
 			if haveBiometrics {
-				message = NSLocalizedString("You can either use your fingerprint or setup a PIN for accessing your secure information.", comment: "secure info fingerprint or PIN message")
+				message = NSLocalizedString("You can either use your fingerprint or setup a PIN for accessing your passwords.", comment: "secure info fingerprint or PIN message")
 			} else {
-				message = NSLocalizedString("You need to setup a PIN for accessing your secure information.", comment: "secure info PIN message")
+				message = NSLocalizedString("You need to setup a PIN for accessing your passwords.", comment: "secure info PIN message")
 			}
 			
 			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -157,7 +157,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	
 	@IBAction func setPIN() {
 		
-		if let pin = pinTextField.text {
+		if let pin = pinTextField.text, pin.characters.count == 4 {
 			KeychainWrapper.standard.set(pin, forKey: "pin")
 			UserDefaults.standard.set(true, forKey: "initialsecuresetup")
 			
@@ -192,7 +192,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 			let context = LAContext()
 			if UserDefaults.standard.bool(forKey: "securewithfingerprint") && context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
 				
-				let reason = NSLocalizedString("Unlock your secure information.", comment: "biometrics unlock reason")
+				let reason = NSLocalizedString("Unlock your passwords.", comment: "biometrics unlock reason")
 				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
 					[unowned self] (success, authenticationError) in
 					
@@ -289,6 +289,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	private dynamic func doneWithKeyboard(btn: UIButton) {
 		
 		view.endEditing(true)
+		
+		if setPINButton.alpha == 1.0 {
+			setPIN()
+		}
 		
 		if pinPadView.alpha == 1.0 {
 			UIView.animate(withDuration: 0.3, animations: {

@@ -237,6 +237,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "Scholarship Name"
 				tfCell.textField.text = scholarship.name
+				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -254,7 +255,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "Website"
 					tfCell.textField.text = scholarship.website
-					tfCell.textField.keyboardType = .decimalPad
+					tfCell.textField.keyboardType = .URL
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
 				}
@@ -266,7 +267,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "Other"
 					tfCell.textField.text = scholarship.otherInfo
-					tfCell.textField.keyboardType = .decimalPad
+					tfCell.textField.keyboardType = .default
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
 				}

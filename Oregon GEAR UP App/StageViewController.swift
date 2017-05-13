@@ -10,7 +10,7 @@ import UIKit
 
 
 class CheckpointView: UIView {
-	public let maxInstances = 3
+	public let maxInstances = 4
 	
 	public let titleLabel = UILabel()
 	public let descriptionLabel = UILabel()
@@ -25,23 +25,23 @@ class InfoCheckpointView: CheckpointView {
 }
 
 class FieldsCheckpointView: CheckpointView {
-	public let fieldLabels = [UILabel(), UILabel(), UILabel()]
-	public let textFields = [UITextField(), UITextField(), UITextField()]
+	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel()]
+	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField()]
 }
 
 class DatesCheckpointView: CheckpointView {
-	public let fieldLabels = [UILabel(), UILabel(), UILabel()]
-	public let textFields = [UITextField(), UITextField(), UITextField()]
-	public let dateButtons = [UIButton(), UIButton(), UIButton()]
+	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel()]
+	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField()]
+	public let dateButtons = [UIButton(), UIButton(), UIButton(), UIButton()]
 	public let dateTextPlaceholder = NSLocalizedString("tap here to select date", comment: "date text placeholder")
 }
 
 class CheckboxesCheckpointView: CheckpointView {
-	public let checkboxes = [UIButton(), UIButton(), UIButton()]
+	public let checkboxes = [UIButton(), UIButton(), UIButton(), UIButton()]
 }
 
 class RadiosCheckpointView: CheckpointView {
-	public let radios = [UIButton(), UIButton(), UIButton()]
+	public let radios = [UIButton(), UIButton(), UIButton(), UIButton()]
 }
 
 class RouteCheckpointView: CheckpointView {
@@ -463,14 +463,13 @@ class StageViewController: UIViewController {
 			return true
 			
 		case .checkboxEntry:
-//			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
-//			for i in 0..<checkPoint.instances.count {
-//				if checkboxesCPView.checkboxes[i].isSelected {
-//					return true
-//				}
-//			}
-//			return false
-			return true
+			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
+			for i in 0..<checkPoint.instances.count {
+				if checkboxesCPView.checkboxes[i].isSelected {
+					return true
+				}
+			}
+			return false
 			
 		case .radioEntry:
 			let radiosCPView = checkpointView as! RadiosCheckpointView

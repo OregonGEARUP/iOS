@@ -237,6 +237,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "College Name"
 				tfCell.textField.text = college.name
+				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
