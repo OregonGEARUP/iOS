@@ -40,6 +40,16 @@ class MyPlanManager {
 					colleges[0].applicationDate = Date(longDescription: dateStr)
 				}
 				
+				if let priceStr = UserDefaults.standard.string(forKey: "b3citizen_s1_cp3_i1") {
+					colleges[0].averageNetPrice = Double(priceStr)
+				}
+				if let priceStr = UserDefaults.standard.string(forKey: "b3undoc_s1_cp3_i1") {
+					colleges[0].averageNetPrice = Double(priceStr)
+				}
+				if let priceStr = UserDefaults.standard.string(forKey: "b3visa_s1_cp3_i1") {
+					colleges[0].averageNetPrice = Double(priceStr)
+				}
+				
 			} else {
 				colleges.append(College(withName: "my first choice"))
 			}
@@ -53,6 +63,36 @@ class MyPlanManager {
 				if let scholarship = Scholarship(fromDictionary: scholarshipDictionary) {
 					scholarships.append(scholarship)
 				}
+			}
+		}
+		
+		if scholarships.count == 0,
+			let scholarshipName = UserDefaults.standard.string(forKey: "b3citizen_s3_cp2_i1_text") {
+			
+			scholarships.append(Scholarship(withName: scholarshipName))
+			
+			if let dateStr = UserDefaults.standard.string(forKey: "b3citizen_s3_cp2_i1_date") {
+				scholarships[0].applicationDate = Date(longDescription: dateStr)
+			}
+		}
+		
+		if scholarships.count == 0,
+			let scholarshipName = UserDefaults.standard.string(forKey: "b3undoc_s3_cp2_i1_text") {
+			
+			scholarships.append(Scholarship(withName: scholarshipName))
+			
+			if let dateStr = UserDefaults.standard.string(forKey: "b3undoc_s3_cp2_i1_date") {
+				scholarships[0].applicationDate = Date(longDescription: dateStr)
+			}
+		}
+		
+		if scholarships.count == 0,
+			let scholarshipName = UserDefaults.standard.string(forKey: "b3visa_s3_cp2_i1_text") {
+			
+			scholarships.append(Scholarship(withName: scholarshipName))
+			
+			if let dateStr = UserDefaults.standard.string(forKey: "b3visa_s3_cp2_i1_date") {
+				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 		}
 		
