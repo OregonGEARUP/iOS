@@ -621,9 +621,56 @@ class StageViewController: UIViewController {
 	}
 	
 	func showMoreInfo() {
-		let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
-		vc.url = checkpoints[checkpointIndex].moreInfoURL!
-		self.navigationController?.pushViewController(vc, animated: true)
+		
+		// check for special app destination URLs first
+		if let url = checkpoints[checkpointIndex].moreInfoURL {
+			
+			let urlstr = url.absoluteString
+			if urlstr.hasPrefix("itsaplan://myplan/") {
+				
+				if let tbc = tabBarController, let vcs = tbc.viewControllers, let nc = vcs[1] as? UINavigationController {
+					
+					// pop back to root
+					nc.popToRootViewController(animated: false)
+					
+					// then setup the section of My Plan to show
+					if let myplanController = nc.visibleViewController as? MyPlanViewController {
+						
+						if urlstr.hasSuffix("colleges") {
+							myplanController.planIndexToShow = 0
+						} else if urlstr.hasSuffix("scholarships") {
+							myplanController.planIndexToShow = 1
+						} else if urlstr.hasSuffix("tests") {
+							myplanController.planIndexToShow = 2
+						} else if urlstr.hasSuffix("residency") {
+							myplanController.planIndexToShow = 3
+						} else {
+							myplanController.planIndexToShow = -1
+						}
+					}
+					
+					// switch to My Plan tab
+					tbc.selectedIndex = 1
+				}
+				
+			} else if urlstr == "itsaplan://passwords" {
+				
+				// switch to Passwords tab
+				tabBarController?.selectedIndex = 2
+				
+			} else if urlstr == "itsaplan://info" {
+				
+				// switch to Info tab
+				tabBarController?.selectedIndex = 3
+				
+			} else {
+				
+				// open web page for URL
+				let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
+				vc.url = url
+				self.navigationController?.pushViewController(vc, animated: true)
+			}
+		}
 	}
 	
 	@IBAction func handleCheckbox(_ sender: UIButton) {

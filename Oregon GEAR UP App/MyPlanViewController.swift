@@ -12,6 +12,8 @@ class MyPlanViewController: UIViewController {
 	
 	@IBOutlet weak var stackView: UIStackView!
 	
+	public var planIndexToShow = -1
+	
 	let buttonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255, blue: 0x3f/255.0, alpha: 0.5)
 	
     override func viewDidLoad() {
@@ -46,6 +48,15 @@ class MyPlanViewController: UIViewController {
 		}
 		
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		if planIndexToShow >= 0 {
+			showPlan(atIndex: planIndexToShow, animated: false)
+			planIndexToShow = -1
+		}
+	}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -64,20 +75,23 @@ class MyPlanViewController: UIViewController {
     */
 	
 	dynamic func handleTap(_ button: UIButton) {
-		
-		switch button.tag {
+		showPlan(atIndex: button.tag)
+	}
+	
+	private func showPlan(atIndex index: Int, animated: Bool = true) {
+		switch index {
 		case 0:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "colleges") as! MyPlanCollegesViewController
-			self.navigationController?.pushViewController(vc, animated: true)
+			self.navigationController?.pushViewController(vc, animated: animated)
 		case 1:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "scholarships") as! MyPlanScholarshipsViewController
-			self.navigationController?.pushViewController(vc, animated: true)
+			self.navigationController?.pushViewController(vc, animated: animated)
 		case 2:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "testresults") as! MyPlanTestResultsViewController
-			self.navigationController?.pushViewController(vc, animated: true)
+			self.navigationController?.pushViewController(vc, animated: animated)
 		case 3:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "residency") as! MyPlanResidencyViewController
-			self.navigationController?.pushViewController(vc, animated: true)
+			self.navigationController?.pushViewController(vc, animated: animated)
 		default:
 			break
 		}
