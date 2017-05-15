@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 
 class CheckpointView: UIView {
@@ -48,7 +49,7 @@ class RouteCheckpointView: CheckpointView {
 }
 
 
-class StageViewController: UIViewController {
+class StageViewController: UIViewController, MFMailComposeViewControllerDelegate {
 	
 	enum CheckpointAnimation {
 		case none
@@ -496,7 +497,10 @@ class StageViewController: UIViewController {
 		case .fieldEntry:
 			let fieldsCPView = checkpointView as! FieldsCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				defaults.set(fieldsCPView.textFields[i].text, forKey: keyForInstanceIndex(i))
+				let key = keyForInstanceIndex(i)
+				defaults.set(fieldsCPView.textFields[i].text, forKey: key)
+				let value = fieldsCPView.textFields[i].text ?? ""
+				CheckpointManager.shared.addTrace("saved '\(value)' for '\(key)'")
 			}
 			
 		case .dateAndTextEntry,
@@ -506,10 +510,13 @@ class StageViewController: UIViewController {
 				let key = keyForInstanceIndex(i)
 				if checkPoint.type == .dateAndTextEntry {
 					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
+					let value = datesCPView.textFields[i].text ?? ""
+					CheckpointManager.shared.addTrace("saved '\(value)' for '\(key)_text'")
 				}
 				
 				if let text = datesCPView.dateButtons[i].title(for: .normal), text != datesCPView.dateTextPlaceholder {
 					defaults.set(text, forKey: "\(key)_date")
+					CheckpointManager.shared.addTrace("saved '\(text)' for '\(key)_date'")
 				} else {
 					defaults.removeObject(forKey: "\(key)_date")
 				}
@@ -518,13 +525,17 @@ class StageViewController: UIViewController {
 		case .checkboxEntry:
 			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: keyForInstanceIndex(i))
+				let key = keyForInstanceIndex(i)
+				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
+				CheckpointManager.shared.addTrace("saved '\(checkboxesCPView.checkboxes[i].isSelected)' for '\(key)'")
 			}
 			
 		case .radioEntry:
 			let radiosCPView = checkpointView as! RadiosCheckpointView
 			for i in 0..<checkPoint.instances.count {
-				defaults.set(radiosCPView.radios[i].isSelected, forKey: keyForInstanceIndex(i))
+				let key = keyForInstanceIndex(i)
+				defaults.set(radiosCPView.radios[i].isSelected, forKey: key)
+				CheckpointManager.shared.addTrace("saved '\(radiosCPView.radios[i].isSelected)' for '\(key)'")
 			}
 		}
 	}
@@ -845,17 +856,26 @@ class StageViewController: UIViewController {
 			UIView.animate(withDuration: 0.3, animations: { 
 				self.checkpointView.incompeteLabel.alpha = 1.0
 			})
+			
+			CheckpointManager.shared.addTrace("nextCheckpoint incomplete")
 			return
 		}
+		
+		CheckpointManager.shared.addTrace("nextCheckpoint")
 		
 		saveCheckpointEntries()
 		
 		// if current checkpoint is a route entry, then do the navigation
 		if checkpoints[checkpointIndex].type == .routeEntry {
 			
-			routeFilename = checkpoints[checkpointIndex].routeFileName
-			performSegue(withIdentifier: "unwindToNewBlock", sender: self)
-			return
+			if let routeFilename = checkpoints[checkpointIndex].routeFileName {
+				
+				CheckpointManager.shared.addTrace("nextCheckpoint routing to: \(routeFilename)")
+				
+				self.routeFilename = routeFilename
+				performSegue(withIdentifier: "unwindToNewBlock", sender: self)
+				return
+			}
 		}
 		
 		
@@ -865,13 +885,16 @@ class StageViewController: UIViewController {
 			if checkpoints[nextIndex].type == .routeEntry {
 				
 				let meetsCriteria = checkpoints[nextIndex].meetsCriteria
+				
 				print("meetsCriteria: \(meetsCriteria)")
 				if meetsCriteria {
 					if let filename = checkpoints[nextIndex].routeFileName {
-						print("will nav to on next: \(filename)")
+						CheckpointManager.shared.addTrace("nextCheckpoint does meets criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), will route to \(filename)")
 					} else {
-						print("MISSING routeFileName for route checkpoint")
+						CheckpointManager.shared.addTrace("nextCheckpoint does meets criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), MISSING routeFileName for route checkpoint")
 					}
+				} else {
+					CheckpointManager.shared.addTrace("nextCheckpoint does NOT meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex))")
 				}
 				
 				if (!meetsCriteria) {
@@ -898,6 +921,8 @@ class StageViewController: UIViewController {
 		let nextStageIndex = stageIndex + 1
 		if nextStageIndex < CheckpointManager.shared.block.stages.count {
 			
+			CheckpointManager.shared.addTrace("nextCheckpoint proposing next stage \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: nextStageIndex, checkpointIndex: 0))")
+			
 			let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
 			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Keep Going!", comment: "Keep Going! button title"), style: .default, handler: { (action) in
@@ -915,9 +940,12 @@ class StageViewController: UIViewController {
 		
 		// getting here is an error
 		//fatalError("ran out of checkpoints in block: \(blockIndex)  stage: \(stageIndex)")
+		CheckpointManager.shared.addTrace("nextCheckpoint ran out of checkpoints in block: \(blockIndex) stage: \(stageIndex)")
 	}
 	
 	@IBAction func previousCheckpoint(_ button: UIButton) {
+		
+		CheckpointManager.shared.addTrace("previousCheckpoint")
 		
 		saveCheckpointEntries()
 		
@@ -929,6 +957,8 @@ class StageViewController: UIViewController {
 	}
 	
 	private func loadCheckpointAtIndex(_ index: Int, withAnimation animation: CheckpointAnimation = .none) {
+		
+		CheckpointManager.shared.addTrace("loadCheckpoint \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: index))")
 		
 		checkpointIndex = index
 		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
@@ -1036,9 +1066,24 @@ class StageViewController: UIViewController {
 				let alert = UIAlertController(title: "Instance Key", message: hitKey, preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 				present(alert, animated: true, completion: nil)
+			} else {
+				
+				let traces = CheckpointManager.shared.allTraces()
+				
+				let mailComposerVC = MFMailComposeViewController()
+				mailComposerVC.mailComposeDelegate = self
+				mailComposerVC.setSubject("It's A Plan debug info")
+				mailComposerVC.setMessageBody("Here is debug info for your session in the app:\n\n\(traces)", isHTML: false)
+				
+				self.present(mailComposerVC, animated: true, completion: nil)
 			}
 		}
 	}
+	
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+		controller.dismiss(animated: true, completion: nil)
+	}
+
 }
 
 class WebViewController: UIViewController, UIWebViewDelegate {

@@ -56,7 +56,7 @@ class CheckpointManager {
 			fatalError("persistState called before first block file was loaded")
 		}
 		
-		print("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
+		//addTrace("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
 		
 		blockIndex = block
 		stageIndex = stage
@@ -99,35 +99,6 @@ class CheckpointManager {
 			resumeCheckpointsInternal(completion: completion)
 			return
 		}
-		
-		
-//		// TEMPORARY in place of loading blocks info below
-//		let b1 = ["ids": "b1", "title": "Explore your options.", "blockFileName": "block1.json"]
-//		blockInfos.append(b1)
-//		let b2 = ["ids": "b2", "title": "Be prepared.", "blockFileName": ""]
-//		blockInfos.append(b2)
-//		let b3 = ["ids": "b3citizen,b3undocumented,b3visa", "title": "Learn how to pay.", "blockFileName": ""]
-//		blockInfos.append(b3)
-//		let b4 = ["ids": "b4", "title": "Get Organized.", "blockFileName": ""]
-//		blockInfos.append(b4)
-//		let b5 = ["ids": "b5citizen,b5undocumented,b5visa", "title": "Get paid.", "blockFileName": ""]
-//		blockInfos.append(b5)
-//		let b6 = ["ids": "b6cc,b6cc,b6cc", "title": "Get set for college applications.", "blockFileName": ""]
-//		blockInfos.append(b6)
-//		let b7 = ["ids": "b7citizen,b7undocumented,b7visa", "title": "Follow up.", "blockFileName": ""]
-//		blockInfos.append(b7)
-//		let b8 = ["ids": "b8cc,b8noncc", "title": "Apply!", "blockFileName": ""]
-//		blockInfos.append(b8)
-//		let b9 = ["ids": "b9citizen,b9noncitizen", "title": "Look ahead.", "blockFileName": ""]
-//		blockInfos.append(b9)
-//		let b10 = ["ids": "b10", "title": "Make your choice.", "blockFileName": ""]
-//		blockInfos.append(b10)
-//		let b11 = ["ids": "b11", "title": "Tie up loose ends.", "blockFileName": ""]
-//		blockInfos.append(b11)
-//		let b12 = ["ids": "b12", "title": "Get ready to go.", "blockFileName": ""]
-//		blockInfos.append(b12)
-//		
-//		resumeCheckpointsInternal(completion: completion)
 		
 		
 		// load the block info
@@ -384,7 +355,8 @@ class CheckpointManager {
 	}
 	
 	
-	// MARK: block info
+	// MARK: - block info
+	
 	public func countOfBlocks() -> Int {
 		
 		return blockInfos.count
@@ -402,7 +374,8 @@ class CheckpointManager {
 	}
 	
 	
-	// MARK: completed
+	// MARK: - completed
+	
 	public func blockCompleted() -> Bool {
 		
 		var completed = true
@@ -433,5 +406,21 @@ class CheckpointManager {
 		// check to see if checkpoint is completed
 		let cp = block.stages[stageIndex].checkpoints[cpIndex]
 		return cp.isCompleted(forBlockIndex: 0, stageIndex:stageIndex, checkpointIndex: cpIndex)
+	}
+	
+	
+	// MARK: - traces
+	
+	private var traces = [String]()
+	
+	public func addTrace(_ trace: String) {
+		traces.append("\(Date()): \(trace)")
+		
+		print(traces.last!)
+	}
+	
+	public func allTraces() -> String {
+		
+		return traces.joined(separator: "\n")
 	}
 }
