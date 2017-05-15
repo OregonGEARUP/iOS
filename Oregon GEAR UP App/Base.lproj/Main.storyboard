@@ -146,7 +146,7 @@
                                                     <rect key="frame" x="19" y="7" width="337.5" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51b-E7-YqG">
-                                                            <rect key="frame" x="0.0" y="0.0" width="67.5" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="101.5" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="AiB-OT-pzN"/>
                                                             </constraints>
@@ -155,7 +155,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" clipsSubviews="YES" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l7O-e7-4Wa">
-                                                            <rect key="frame" x="70.5" y="0.0" width="267" height="30"/>
+                                                            <rect key="frame" x="104.5" y="0.0" width="233" height="30"/>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
@@ -169,7 +169,7 @@
                                                         <constraint firstAttribute="height" constant="30" id="XJa-q3-CYZ"/>
                                                         <constraint firstItem="51b-E7-YqG" firstAttribute="centerY" secondItem="LWn-MK-D1I" secondAttribute="centerY" id="cjN-CV-fs7"/>
                                                         <constraint firstItem="51b-E7-YqG" firstAttribute="leading" secondItem="LWn-MK-D1I" secondAttribute="leading" id="fzv-Nl-j7R"/>
-                                                        <constraint firstItem="51b-E7-YqG" firstAttribute="width" secondItem="LWn-MK-D1I" secondAttribute="width" multiplier="0.2" id="lTN-M1-a0t"/>
+                                                        <constraint firstItem="51b-E7-YqG" firstAttribute="width" secondItem="LWn-MK-D1I" secondAttribute="width" multiplier="0.3" id="lTN-M1-a0t"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>

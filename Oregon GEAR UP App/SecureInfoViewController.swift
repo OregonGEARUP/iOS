@@ -36,7 +36,15 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 50
 		
-//		let isSetup = UserDefaults.standard.bool(forKey: "initialsecuresetup")
+		// clear all leftover values
+		let isSetup = UserDefaults.standard.bool(forKey: "initialsecuresetup")
+		if !isSetup {
+			
+			for key in tagFieldMap.values {
+				KeychainWrapper.standard.removeObject(forKey: key)
+			}
+			KeychainWrapper.standard.removeObject(forKey: "pin")
+		}
 		
 		pinPadView.layer.cornerRadius = 6.0
 		pinPadView.layer.borderWidth = 0.5
@@ -65,6 +73,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			}
 		}
 		
+		tableView.reloadData()
+		
 		if haveSecureInfo {
 			lockInfo()
 		} else {
@@ -79,13 +89,6 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		super.viewDidAppear(animated)
 		
 		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
-			
-			// clear all leftover values
-			for key in tagFieldMap.values {
-				KeychainWrapper.standard.removeObject(forKey: key)
-			}
-			KeychainWrapper.standard.removeObject(forKey: "pin")
-			
 			
 			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
 			
@@ -384,7 +387,14 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		])
 	}
 	
-	private let tagFieldMap = [1000: "mySSN", 1001: "parent1SSN", 1002: "parent2SSN"]
+	private let tagFieldMap = [1000: "mySSN", 1001: "parent1SSN", 1002: "parent2SSN", 1003: "driverlicense",
+	                           2000: "fsaUsername", 2001: "fsaPassword", 2002: "ORSAAusername", 2003: "ORSAApassword", 2004: "CSSusername", 2005: "CSSpassword",
+	                           3000: "emailUsername", 3001: "emailPassword", 3002: "OSACusername", 3003: "OSACpassword",
+	                           4000: "college1Username", 4001: "college1Password", 4002: "college2Username", 4003: "college2Password", 4004: "college3Username", 4005: "college3Password",
+	                           4006: "college4Username", 4007: "college4Password", 4008: "college5Username", 4009: "college5Password", 4010: "college6Username", 4011: "college6Password",
+	                           4012: "college7Username", 4013: "college7Password", 4014: "college8Username", 4015: "college8Password", 4016: "college9Username", 4017: "college9Password",
+	                           4018: "college10Username", 4019: "college10Password", 4020: "college11Username", 4021: "college11Password", 4022: "college12Username", 4023: "college12Password",
+	                           4024: "college13Username", 4025: "college13Password", 4026: "college14Username", 4027: "college14Password", 4028: "college15Username", 4029: "college15Password"]
 	
 	private func isSSNTag(_ tag: Int) -> Bool {
 		return tag == 1000 || tag == 1001 || tag == 1002
@@ -411,7 +421,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	}
 	
 	public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 5
+		return 23 + MyPlanManager.shared.colleges.count * 3
 	}
 	
 	private let bgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.5)
@@ -430,7 +440,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 1:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Enter your Social Security number. And the numbers for your parent/gaurdians."
+				labelCell.labelText = "Enter your Social Security number. And the numbers for your parent/gaurdians. Then enter your driver license number."
 				labelCell.contentView.backgroundColor = bgColor
 				labelCell.labelTextColor = .white
 			}
@@ -440,11 +450,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 1000
 				tfCell.textField.placeholder = "my SSN"
-				tfCell.prompt = "Mine"
+				tfCell.prompt = "My SSN"
+				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = !locked
-				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -455,10 +465,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.tag = 1001
 				tfCell.textField.placeholder = "parent/guardian SSN"
 				tfCell.prompt = "Parent 1"
+				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = !locked
-				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -469,17 +479,271 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.tag = 1002
 				tfCell.textField.placeholder = "parent/guardian SSN"
 				tfCell.prompt = "Parent 2"
+				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = !locked
-				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
 			return cell
+		case 5:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 1003
+				tfCell.textField.placeholder = "driver license number"
+				tfCell.prompt = "License"
+				tfCell.textField.keyboardType = .numberPad
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 6:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "Financial Aid Information"
+				labelCell.contentView.backgroundColor = bgColor
+				labelCell.labelTextColor = .white
+			}
+			return cell
+		case 7:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "FSA ID username and password."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = .darkText
+			}
+			return cell
+		case 8:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 2000
+				tfCell.textField.placeholder = "FSA username"
+				tfCell.prompt = "Username"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 9:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 2001
+				tfCell.textField.placeholder = "FSA password"
+				tfCell.prompt = "Password"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 10:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "ORSAA username and password."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = .darkText
+			}
+			return cell
+		case 11:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 2002
+				tfCell.textField.placeholder = "ORSAA username"
+				tfCell.prompt = "Username"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 12:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 2003
+				tfCell.textField.placeholder = "ORSAA password"
+				tfCell.prompt = "Password"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 13:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "CSS Profile username and password."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = .darkText
+			}
+			return cell
+		case 14:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 2004
+				tfCell.textField.placeholder = "CSS username"
+				tfCell.prompt = "Username"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 15:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 2005
+				tfCell.textField.placeholder = "CSS password"
+				tfCell.prompt = "Password"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 16:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "College and Scholarship Applications"
+				labelCell.contentView.backgroundColor = bgColor
+				labelCell.labelTextColor = .white
+			}
+			return cell
+		case 17:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "The email address and password you will use for applications."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = .darkText
+			}
+			return cell
+		case 18:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 3000
+				tfCell.textField.placeholder = "email username"
+				tfCell.prompt = "Email"
+				tfCell.textField.keyboardType = .emailAddress
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 19:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 3001
+				tfCell.textField.placeholder = "email password"
+				tfCell.prompt = "Password"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 20:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "OSAC username and password."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = .darkText
+			}
+			return cell
+		case 21:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 3002
+				tfCell.textField.placeholder = "OSAC username"
+				tfCell.prompt = "Username"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 22:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 3003
+				tfCell.textField.placeholder = "OSAC password"
+				tfCell.prompt = "Password"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+			
 		default:
-			fatalError()
+			let collegeIndex = (indexPath.row - 23) / 3
+			let college = MyPlanManager.shared.colleges[collegeIndex]
+			
+			let collegeRow = (indexPath.row - 23) % 3
+			switch collegeRow {
+			case 0:
+				let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+				if let labelCell = cell as? LabelCell {
+					labelCell.labelText = college.name
+					labelCell.contentView.backgroundColor = bgColor
+					labelCell.labelTextColor = .white
+				}
+				return cell
+			case 1:
+				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+				if let tfCell = cell as? TextFieldCell {
+					tfCell.textField.tag = 4000 + collegeIndex * 2
+					tfCell.textField.placeholder = "college website username"
+					tfCell.prompt = "Username"
+					tfCell.textField.keyboardType = .default
+					tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+					tfCell.textField.isSecureTextEntry = locked
+					tfCell.textField.isEnabled = !locked
+					tfCell.textField.inputAccessoryView = keyboardAccessoryView
+					tfCell.textField.delegate = self
+				}
+				return cell
+			case 2:
+				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+				if let tfCell = cell as? TextFieldCell {
+					tfCell.textField.tag = 4000 + collegeIndex * 2 + 1
+					tfCell.textField.placeholder = "college website password"
+					tfCell.prompt = "Password"
+					tfCell.textField.keyboardType = .default
+					tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+					tfCell.textField.isSecureTextEntry = locked
+					tfCell.textField.isEnabled = !locked
+					tfCell.textField.inputAccessoryView = keyboardAccessoryView
+					tfCell.textField.delegate = self
+				}
+				return cell
+				
+			default:
+				fatalError()
+			}
 		}
 	}
-
 }
