@@ -10,12 +10,12 @@ import UIKit
 import LocalAuthentication
 
 
-class SecureInfoViewController: UIViewController, UITextFieldDelegate {
+class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 	
 	private var locked = true
-
-	@IBOutlet weak var ssnTextField: UITextField!
-	//private var lockButton: UIBarButtonItem!
+	
+	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet var tableViewBottomConstraint: NSLayoutConstraint!
 	
 	@IBOutlet weak var pinPadView: UIView!
 	@IBOutlet weak var pinTextField: UITextField!
@@ -31,7 +31,12 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 
 		createKeyboardAccessoryView()
 		
-		let isSetup = UserDefaults.standard.bool(forKey: "initialsecuresetup")
+		tableView.delegate = self
+		tableView.dataSource = self
+		tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.estimatedRowHeight = 50
+		
+//		let isSetup = UserDefaults.standard.bool(forKey: "initialsecuresetup")
 		
 		pinPadView.layer.cornerRadius = 6.0
 		pinPadView.layer.borderWidth = 0.5
@@ -43,24 +48,31 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		pinTextField.inputAccessoryView = keyboardAccessoryView
 		NotificationCenter.default.addObserver(self, selector: #selector(checkPIN), name: Notification.Name.UITextFieldTextDidChange, object: pinTextField)
 		
-		ssnTextField.delegate = self
-		ssnTextField.inputAccessoryView = keyboardAccessoryView
-		ssnTextField.text = isSetup ? KeychainWrapper.standard.string(forKey: "ssn") : ""
-		
 		let lockButton = UIBarButtonItem(title: "Unlock", style: .plain, target: self, action: #selector(toggleLock(_:)))
 		self.navigationItem.setRightBarButton(lockButton, animated: false)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(lockInfo), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
     }
-
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		if let ssn = ssnTextField.text, !ssn.isEmpty {
+		var haveSecureInfo = false
+		for tag in tagFieldMap.keys {
+			if let info = informationForField(withTag: tag), !info.isEmpty {
+				haveSecureInfo = true
+				break
+			}
+		}
+		
+		if haveSecureInfo {
 			lockInfo()
 		} else {
 			unlockInfo()
 		}
+		
+		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -69,8 +81,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
 			
 			// clear all leftover values
+			for key in tagFieldMap.values {
+				KeychainWrapper.standard.removeObject(forKey: key)
+			}
 			KeychainWrapper.standard.removeObject(forKey: "pin")
-			KeychainWrapper.standard.removeObject(forKey: "ssn")
 			
 			
 			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
@@ -95,6 +109,31 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 			
 			present(alertController, animated: true, completion: nil)
 		}
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+		view.endEditing(true)
+		lockInfo()
+		
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+	}
+	
+	private dynamic func keyboardDidShow(_ notification: Notification) {
+		
+		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] else {
+			return
+		}
+		
+		let kbHeight = (r as AnyObject).cgRectValue.size.height
+		tableViewBottomConstraint.constant = kbHeight - 40.0	// allow for tab bar height
+	}
+	
+	private dynamic func keyboardDidHide(_ notification: Notification) {
+		
+		tableViewBottomConstraint.constant = 0.0
 	}
 	
 	private func promptForPIN() {
@@ -178,13 +217,6 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		})
 	}
 	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		
-		view.endEditing(true)
-		lockInfo()
-	}
-	
 	@IBAction func toggleLock(_ sender: UIButton) {
 		
 		if locked {
@@ -217,13 +249,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	
 	private dynamic func lockInfo() {
 		
-		ssnTextField.isSecureTextEntry = true
-		ssnTextField.isEnabled = false
-		
-		if let ssn = ssnTextField.text {
-			KeychainWrapper.standard.set(ssn, forKey: "ssn")
-		} else {
-			KeychainWrapper.standard.removeObject(forKey: "ssn")
+		for cell in tableView.visibleCells {
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.isSecureTextEntry = true
+				tfCell.textField.isEnabled = false
+			}
 		}
 		
 		let lockButton = UIBarButtonItem(title: NSLocalizedString("Unlock", comment: "unlock button title"), style: .plain, target: self, action: #selector(toggleLock(_:)))
@@ -235,8 +265,13 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	private dynamic func unlockInfo() {
 
 		locked = false
-		ssnTextField.isSecureTextEntry = false
-		ssnTextField.isEnabled = true
+		
+		for cell in tableView.visibleCells {
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.isSecureTextEntry = false
+				tfCell.textField.isEnabled = true
+			}
+		}
 		
 		let lockButton = UIBarButtonItem(title: NSLocalizedString("Lock", comment: "lock button title"), style: .plain, target: self, action: #selector(toggleLock(_:)))
 		self.navigationItem.setRightBarButton(lockButton, animated: false)
@@ -259,7 +294,13 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 	
 	public func textFieldDidEndEditing(_ textField: UITextField) {
 		
-		if textField == ssnTextField {
+		if textField == pinTextField {
+			return
+		}
+		
+		
+		var goodToSave = true
+		if isSSNTag(textField.tag) {
 			
 			var ssn = textField.text
 			if ssn != nil {
@@ -276,6 +317,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 				textField.text = ssn
 				
 			} else {
+				goodToSave = false
 				
 				// give guidance
 				let message = NSLocalizedString("Social security numbers have nine numbers.", comment: "SSN hint")
@@ -283,6 +325,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 				alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 				self.present(alertController, animated: true, completion: nil)
 			}
+		}
+		
+		if goodToSave {
+			setInformation(textField.text, forFieldWithTag: textField.tag)
 		}
 	}
 	
@@ -338,4 +384,102 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate {
 		])
 	}
 	
+	private let tagFieldMap = [1000: "mySSN", 1001: "parent1SSN", 1002: "parent2SSN"]
+	
+	private func isSSNTag(_ tag: Int) -> Bool {
+		return tag == 1000 || tag == 1001 || tag == 1002
+	}
+	
+	private func informationForField(withTag tag: Int) -> String? {
+		
+		if let key = tagFieldMap[tag] {
+			return KeychainWrapper.standard.string(forKey: key)
+		}
+		
+		return nil
+	}
+	
+	private func setInformation(_ info: String?, forFieldWithTag tag: Int) {
+		
+		if let key = tagFieldMap[tag] {
+			if let info = info {
+				KeychainWrapper.standard.set(info, forKey: key)
+			} else {
+				KeychainWrapper.standard.removeObject(forKey: key)
+			}
+		}
+	}
+	
+	public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return 5
+	}
+	
+	private let bgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.5)
+	
+	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		switch indexPath.row {
+		case 0:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "The information that you enter in this section will be securely stored on your phone. It will not be shared with anyone or any organization."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
+			}
+			return cell
+		case 1:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "Enter your Social Security number. And the numbers for your parent/gaurdians."
+				labelCell.contentView.backgroundColor = bgColor
+				labelCell.labelTextColor = .white
+			}
+			return cell
+		case 2:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 1000
+				tfCell.textField.placeholder = "my SSN"
+				tfCell.prompt = "Mine"
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.keyboardType = .numberPad
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 3:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 1001
+				tfCell.textField.placeholder = "parent/guardian SSN"
+				tfCell.prompt = "Parent 1"
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.keyboardType = .numberPad
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 4:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 1002
+				tfCell.textField.placeholder = "parent/guardian SSN"
+				tfCell.prompt = "Parent 2"
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = !locked
+				tfCell.textField.keyboardType = .numberPad
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		default:
+			fatalError()
+		}
+	}
+
 }
