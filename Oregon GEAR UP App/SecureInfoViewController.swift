@@ -23,6 +23,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	@IBOutlet weak var cancelPINButton: UIButton!
 	@IBOutlet weak var badPINLabel: UILabel!
 	
+	private weak var fieldToEditAfterUnlock: UITextField?
+	
 	private var keyboardAccessoryView: UIView!
 	
 	
@@ -56,7 +58,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		pinTextField.inputAccessoryView = keyboardAccessoryView
 		NotificationCenter.default.addObserver(self, selector: #selector(checkPIN), name: Notification.Name.UITextFieldTextDidChange, object: pinTextField)
 		
-		let lockButton = UIBarButtonItem(title: "Unlock", style: .plain, target: self, action: #selector(toggleLock(_:)))
+		let lockButton = UIBarButtonItem(title: "Unlock", style: .plain, target: self, action: #selector(toggleLock))
 		self.navigationItem.setRightBarButton(lockButton, animated: false)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(lockInfo), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
@@ -218,9 +220,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		UIView.animate(withDuration: 0.3, animations: {
 			self.pinPadView.alpha = 0.0
 		})
+		
+		fieldToEditAfterUnlock = nil
 	}
 	
-	@IBAction func toggleLock(_ sender: UIButton) {
+	@IBAction func toggleLock() {
 		
 		if locked {
 			var error: NSError?
@@ -238,6 +242,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 							if let error = authenticationError {
 								print(error)
 							}
+							
+							self.fieldToEditAfterUnlock = nil
 						}
 					}
 				}
@@ -255,11 +261,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		for cell in tableView.visibleCells {
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.isSecureTextEntry = true
-				tfCell.textField.isEnabled = false
+				//tfCell.textField.isEnabled = false
 			}
 		}
 		
-		let lockButton = UIBarButtonItem(title: NSLocalizedString("Unlock", comment: "unlock button title"), style: .plain, target: self, action: #selector(toggleLock(_:)))
+		let lockButton = UIBarButtonItem(title: NSLocalizedString("Unlock", comment: "unlock button title"), style: .plain, target: self, action: #selector(toggleLock))
 		self.navigationItem.setRightBarButton(lockButton, animated: false)
 		
 		locked = true
@@ -276,8 +282,32 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			}
 		}
 		
-		let lockButton = UIBarButtonItem(title: NSLocalizedString("Lock", comment: "lock button title"), style: .plain, target: self, action: #selector(toggleLock(_:)))
+		let lockButton = UIBarButtonItem(title: NSLocalizedString("Lock", comment: "lock button title"), style: .plain, target: self, action: #selector(toggleLock))
 		self.navigationItem.setRightBarButton(lockButton, animated: false)
+		
+		if let fieldToEdit = fieldToEditAfterUnlock {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				fieldToEdit.becomeFirstResponder()
+			}
+		}
+		
+		fieldToEditAfterUnlock = nil
+	}
+	
+	public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+		
+		if textField == pinTextField {
+			return true
+		}
+		
+		// prompt to unlock
+		if locked {
+			fieldToEditAfterUnlock = textField
+			toggleLock()
+			return false
+		}
+		
+		return true
 	}
 	
 	public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -454,7 +484,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -468,7 +498,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -482,7 +512,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -496,7 +526,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -526,7 +556,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -540,7 +570,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -562,7 +592,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -576,7 +606,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -598,7 +628,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -612,7 +642,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -642,7 +672,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .emailAddress
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -656,7 +686,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -678,7 +708,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -692,7 +722,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = !locked
+				tfCell.textField.isEnabled = true
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
 			}
@@ -721,7 +751,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 					tfCell.textField.keyboardType = .default
 					tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 					tfCell.textField.isSecureTextEntry = locked
-					tfCell.textField.isEnabled = !locked
+					tfCell.textField.isEnabled = true
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
 				}
@@ -735,7 +765,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 					tfCell.textField.keyboardType = .default
 					tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 					tfCell.textField.isSecureTextEntry = locked
-					tfCell.textField.isEnabled = !locked
+					tfCell.textField.isEnabled = true
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
 				}
