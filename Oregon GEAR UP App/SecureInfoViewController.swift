@@ -23,7 +23,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	@IBOutlet weak var cancelPINButton: UIButton!
 	@IBOutlet weak var badPINLabel: UILabel!
 	
-	private weak var fieldToEditAfterUnlock: UITextField?
+	private var tagToEditAfterUnlock = -1
 	
 	private var keyboardAccessoryView: UIView!
 	
@@ -70,6 +70,16 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		var haveSecureInfo = false
 		for tag in tagFieldMap.keys {
 			if let info = informationForField(withTag: tag), !info.isEmpty {
+				haveSecureInfo = true
+				break
+			}
+		}
+		for college in MyPlanManager.shared.colleges {
+			if let un = college.username, !un.isEmpty {
+				haveSecureInfo = true
+				break
+			}
+			if let pw = college.username, !pw.isEmpty {
 				haveSecureInfo = true
 				break
 			}
@@ -221,7 +231,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			self.pinPadView.alpha = 0.0
 		})
 		
-		fieldToEditAfterUnlock = nil
+		tagToEditAfterUnlock = -1
 	}
 	
 	@IBAction func toggleLock() {
@@ -243,7 +253,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 								print(error)
 							}
 							
-							self.fieldToEditAfterUnlock = nil
+							self.tagToEditAfterUnlock = -1
 						}
 					}
 				}
@@ -257,6 +267,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	}
 	
 	private dynamic func lockInfo() {
+		
+		doneWithKeyboard()
 		
 		for cell in tableView.visibleCells {
 			if let tfCell = cell as? TextFieldCell {
@@ -285,13 +297,18 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		let lockButton = UIBarButtonItem(title: NSLocalizedString("Lock", comment: "lock button title"), style: .plain, target: self, action: #selector(toggleLock))
 		self.navigationItem.setRightBarButton(lockButton, animated: false)
 		
-		if let fieldToEdit = fieldToEditAfterUnlock {
+		if tagToEditAfterUnlock >= 0 {
+			
+			let tagToEdit = tagToEditAfterUnlock
+			tagToEditAfterUnlock = -1
+			
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-				fieldToEdit.becomeFirstResponder()
+				
+				if let tfCell = self.tableView.cellForRow(at: IndexPath(row: tagToEdit, section: 0)) as? TextFieldCell {
+					tfCell.textField.becomeFirstResponder()
+				}
 			}
 		}
-		
-		fieldToEditAfterUnlock = nil
 	}
 	
 	public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -302,7 +319,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		
 		// prompt to unlock
 		if locked {
-			fieldToEditAfterUnlock = textField
+			tagToEditAfterUnlock = textField.tag
 			toggleLock()
 			return false
 		}
@@ -352,20 +369,36 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			} else {
 				goodToSave = false
 				
-				// give guidance
-				let message = NSLocalizedString("Social security numbers have nine numbers.", comment: "SSN hint")
-				let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-				alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-				self.present(alertController, animated: true, completion: nil)
+				// give guidance for bad SSN
+				if let ssn = ssn, !ssn.isEmpty {
+					let message = NSLocalizedString("Social security numbers have nine numbers.", comment: "SSN hint")
+					let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+					alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+					self.present(alertController, animated: true, completion: nil)
+				}
 			}
 		}
 		
 		if goodToSave {
-			setInformation(textField.text, forFieldWithTag: textField.tag)
+			
+			if textField.tag < 23 {
+				setInformation(textField.text, forFieldWithTag: textField.tag)
+			} else {
+				
+				// college username/password cases
+				let collegeIndex = (textField.tag - 23) / 3
+				let collegeRow = (textField.tag - 23) % 3
+				switch collegeRow {
+				case 1:	MyPlanManager.shared.colleges[collegeIndex].username = textField.text
+				case 2:	MyPlanManager.shared.colleges[collegeIndex].password = textField.text
+				default: break
+				}
+				
+			}
 		}
 	}
 	
-	private dynamic func doneWithKeyboard(btn: UIButton) {
+	private dynamic func doneWithKeyboard() {
 		
 		view.endEditing(true)
 		
@@ -401,7 +434,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		let doneBtn = UIButton(type: .system)
 		doneBtn.translatesAutoresizingMaskIntoConstraints = false
 		doneBtn.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
-		doneBtn.addTarget(self, action: #selector(doneWithKeyboard(btn:)), for: .touchUpInside)
+		doneBtn.addTarget(self, action: #selector(doneWithKeyboard), for: .touchUpInside)
 		keyboardAccessoryView.addSubview(doneBtn)
 		
 		NSLayoutConstraint.activate([
@@ -417,17 +450,12 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		])
 	}
 	
-	private let tagFieldMap = [1000: "mySSN", 1001: "parent1SSN", 1002: "parent2SSN", 1003: "driverlicense",
-	                           2000: "fsaUsername", 2001: "fsaPassword", 2002: "ORSAAusername", 2003: "ORSAApassword", 2004: "CSSusername", 2005: "CSSpassword",
-	                           3000: "emailUsername", 3001: "emailPassword", 3002: "OSACusername", 3003: "OSACpassword",
-	                           4000: "college1Username", 4001: "college1Password", 4002: "college2Username", 4003: "college2Password", 4004: "college3Username", 4005: "college3Password",
-	                           4006: "college4Username", 4007: "college4Password", 4008: "college5Username", 4009: "college5Password", 4010: "college6Username", 4011: "college6Password",
-	                           4012: "college7Username", 4013: "college7Password", 4014: "college8Username", 4015: "college8Password", 4016: "college9Username", 4017: "college9Password",
-	                           4018: "college10Username", 4019: "college10Password", 4020: "college11Username", 4021: "college11Password", 4022: "college12Username", 4023: "college12Password",
-	                           4024: "college13Username", 4025: "college13Password", 4026: "college14Username", 4027: "college14Password", 4028: "college15Username", 4029: "college15Password"]
+	private let tagFieldMap = [2: "mySSN", 3: "parent1SSN", 4: "parent2SSN", 5: "driverlicense",
+	                           8: "fsaUsername", 9: "fsaPassword", 11: "ORSAAusername", 12: "ORSAApassword", 14: "CSSusername", 15: "CSSpassword",
+	                           18: "emailUsername", 19: "emailPassword", 21: "OSACusername", 22: "OSACpassword"]
 	
 	private func isSSNTag(_ tag: Int) -> Bool {
-		return tag == 1000 || tag == 1001 || tag == 1002
+		return tag == 2 || tag == 3 || tag == 4
 	}
 	
 	private func informationForField(withTag tag: Int) -> String? {
@@ -478,7 +506,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 2:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 1000
+				tfCell.textField.tag = 2
 				tfCell.textField.placeholder = "my SSN"
 				tfCell.prompt = "My SSN"
 				tfCell.textField.keyboardType = .numberPad
@@ -492,7 +520,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 3:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 1001
+				tfCell.textField.tag = 3
 				tfCell.textField.placeholder = "parent/guardian SSN"
 				tfCell.prompt = "Parent 1"
 				tfCell.textField.keyboardType = .numberPad
@@ -506,7 +534,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 4:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 1002
+				tfCell.textField.tag = 4
 				tfCell.textField.placeholder = "parent/guardian SSN"
 				tfCell.prompt = "Parent 2"
 				tfCell.textField.keyboardType = .numberPad
@@ -520,7 +548,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 5:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 1003
+				tfCell.textField.tag = 5
 				tfCell.textField.placeholder = "driver license number"
 				tfCell.prompt = "License"
 				tfCell.textField.keyboardType = .numberPad
@@ -550,7 +578,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 8:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2000
+				tfCell.textField.tag = 8
 				tfCell.textField.placeholder = "FSA username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -564,7 +592,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 9:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2001
+				tfCell.textField.tag = 9
 				tfCell.textField.placeholder = "FSA password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -586,7 +614,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 11:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2002
+				tfCell.textField.tag = 11
 				tfCell.textField.placeholder = "ORSAA username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -600,7 +628,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 12:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2003
+				tfCell.textField.tag = 12
 				tfCell.textField.placeholder = "ORSAA password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -622,7 +650,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 14:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2004
+				tfCell.textField.tag = 14
 				tfCell.textField.placeholder = "CSS username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -636,7 +664,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 15:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2005
+				tfCell.textField.tag = 15
 				tfCell.textField.placeholder = "CSS password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -666,7 +694,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 18:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 3000
+				tfCell.textField.tag = 18
 				tfCell.textField.placeholder = "email username"
 				tfCell.prompt = "Email"
 				tfCell.textField.keyboardType = .emailAddress
@@ -680,7 +708,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 19:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 3001
+				tfCell.textField.tag = 19
 				tfCell.textField.placeholder = "email password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -702,7 +730,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 21:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 3002
+				tfCell.textField.tag = 21
 				tfCell.textField.placeholder = "OSAC username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -716,7 +744,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 22:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 3003
+				tfCell.textField.tag = 22
 				tfCell.textField.placeholder = "OSAC password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -745,11 +773,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			case 1:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.tag = 4000 + collegeIndex * 2
+					tfCell.textField.tag = indexPath.row
 					tfCell.textField.placeholder = "college website username"
 					tfCell.prompt = "Username"
 					tfCell.textField.keyboardType = .default
-					tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+					tfCell.textField.text = college.username
 					tfCell.textField.isSecureTextEntry = locked
 					tfCell.textField.isEnabled = true
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -759,11 +787,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			case 2:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
-					tfCell.textField.tag = 4000 + collegeIndex * 2 + 1
+					tfCell.textField.tag = indexPath.row
 					tfCell.textField.placeholder = "college website password"
 					tfCell.prompt = "Password"
 					tfCell.textField.keyboardType = .default
-					tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+					tfCell.textField.text = college.password
 					tfCell.textField.isSecureTextEntry = locked
 					tfCell.textField.isEnabled = true
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
