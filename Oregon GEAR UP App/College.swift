@@ -10,6 +10,7 @@ import Foundation
 
 
 struct College {
+	var uuid: String
 	var name: String
 	var applicationDate: Date?
 	var averageNetPrice: Double?
@@ -23,59 +24,42 @@ struct College {
 	var feeDeferralDone = false
 	var applicationDone = false
 	
-	var averageNetPriceDescription: String? {
+	var username: String? {
 		get {
-			if let averageNetPrice = averageNetPrice {
-				return NumberFormatter.localizedString(from: NSNumber(value: averageNetPrice), number: .currency)
-			}
-			return nil
+			return KeychainWrapper.standard.string(forKey: uuid+"_username")
 		}
 		set {
-			if let priceString = newValue {
-				let formatter = NumberFormatter()
-				formatter.numberStyle = .currency
-				if let number = formatter.number(from: priceString) {
-					averageNetPrice = number.doubleValue
-				} else {
-					formatter.numberStyle = .decimal
-					averageNetPrice = formatter.number(from: priceString)?.doubleValue
-				}
+			if let username = newValue {
+				KeychainWrapper.standard.set(username, forKey: uuid+"_username")
 			} else {
-				averageNetPrice = nil
+				KeychainWrapper.standard.removeObject(forKey: uuid+"_username")
 			}
 		}
 	}
 	
-	var applicationCostDescription: String? {
+	var password: String? {
 		get {
-			if let applicationCost = applicationCost {
-				return NumberFormatter.localizedString(from: NSNumber(value: applicationCost), number: .currency)
-			}
-			return nil
+			return KeychainWrapper.standard.string(forKey: uuid+"_password")
 		}
 		set {
-			if let costString = newValue {
-				let formatter = NumberFormatter()
-				formatter.numberStyle = .currency
-				if let number = formatter.number(from: costString) {
-					applicationCost = number.doubleValue
-				} else {
-					formatter.numberStyle = .decimal
-					applicationCost = formatter.number(from: costString)?.doubleValue
-				}
+			if let username = newValue {
+				KeychainWrapper.standard.set(username, forKey: uuid+"_password")
 			} else {
-				applicationCost = nil
+				KeychainWrapper.standard.removeObject(forKey: uuid+"_password")
 			}
 		}
 	}
 	
 	public init(withName name: String) {
+		self.uuid = UUID().uuidString
 		self.name = name
 	}
 	
 	public init?(fromDictionary dictionary: [String: Any]) {
 		
-		if let name = dictionary["name"] as? String {
+		if let uuid = dictionary["uuid"] as? String,
+			let name = dictionary["name"] as? String {
+			self.uuid = uuid
 			self.name = name
 		} else {
 			return nil
@@ -117,6 +101,7 @@ struct College {
 		
 		var dictionary = [String: Any]()
 		
+		dictionary["uuid"] = uuid
 		dictionary["name"] = name
 		
 		if let applicationDateDescription = applicationDate?.longDescription {

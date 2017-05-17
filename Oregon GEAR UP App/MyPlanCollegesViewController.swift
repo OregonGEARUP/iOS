@@ -27,8 +27,8 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 				let collegeSection = indexPath.section % sectionsPerCollege
 				switch (collegeSection, indexPath.row) {
 				case (0,0): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].name = text
-				case (1,1): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].averageNetPriceDescription = text
-				case (2,7): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].applicationCostDescription = text
+				case (1,1): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].averageNetPrice = Double(currencyDescription: text)
+				case (2,7): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].applicationCost = Double(currencyDescription: text)
 				default:
 					break
 				}
@@ -244,7 +244,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "average net price"
 					tfCell.prompt = "Price"
-					tfCell.textField.text = college.averageNetPriceDescription
+					tfCell.textField.text = college.averageNetPrice?.currencyDescription
 					tfCell.textField.keyboardType = .decimalPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
@@ -257,7 +257,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "cost to apply"
 					tfCell.prompt = "Cost"
-					tfCell.textField.text = college.applicationCostDescription
+					tfCell.textField.text = college.applicationCost?.currencyDescription
 					tfCell.textField.keyboardType = .decimalPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
