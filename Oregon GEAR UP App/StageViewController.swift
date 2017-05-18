@@ -11,7 +11,7 @@ import MessageUI
 
 
 class CheckpointView: UIView {
-	public let maxInstances = 4
+	public let maxInstances = 5
 	
 	public let titleLabel = UILabel()
 	public let descriptionLabel = UILabel()
@@ -26,23 +26,23 @@ class InfoCheckpointView: CheckpointView {
 }
 
 class FieldsCheckpointView: CheckpointView {
-	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel()]
-	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField()]
+	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel(), UILabel()]
+	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField(), UITextField()]
 }
 
 class DatesCheckpointView: CheckpointView {
-	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel()]
-	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField()]
-	public let dateButtons = [UIButton(), UIButton(), UIButton(), UIButton()]
+	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel(), UILabel()]
+	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField(), UITextField()]
+	public let dateButtons = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
 	public let dateTextPlaceholder = NSLocalizedString("tap here to select date", comment: "date text placeholder")
 }
 
 class CheckboxesCheckpointView: CheckpointView {
-	public let checkboxes = [UIButton(), UIButton(), UIButton(), UIButton()]
+	public let checkboxes = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
 }
 
 class RadiosCheckpointView: CheckpointView {
-	public let radios = [UIButton(), UIButton(), UIButton(), UIButton()]
+	public let radios = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
 }
 
 class RouteCheckpointView: CheckpointView {
@@ -430,7 +430,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .fieldEntry:
 			let fieldsCPView = checkpointView as! FieldsCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				if let text = fieldsCPView.textFields[i].text {
 					if text.isEmpty {
 						return false
@@ -444,7 +444,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		case .dateAndTextEntry,
 		     .dateOnlyEntry:
 			let datesCPView = checkpointView as! DatesCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				if checkPoint.type == .dateAndTextEntry {
 					if let text = datesCPView.textFields[i].text {
 						if text.isEmpty {
@@ -467,7 +467,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .checkboxEntry:
 			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				if checkboxesCPView.checkboxes[i].isSelected {
 					return true
 				}
@@ -476,7 +476,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .radioEntry:
 			let radiosCPView = checkpointView as! RadiosCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				if radiosCPView.radios[i].isSelected {
 					return true
 				}
@@ -496,7 +496,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .fieldEntry:
 			let fieldsCPView = checkpointView as! FieldsCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				defaults.set(fieldsCPView.textFields[i].text, forKey: key)
 				let value = fieldsCPView.textFields[i].text ?? ""
@@ -506,7 +506,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		case .dateAndTextEntry,
 		     .dateOnlyEntry:
 			let datesCPView = checkpointView as! DatesCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				if checkPoint.type == .dateAndTextEntry {
 					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
@@ -524,7 +524,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .checkboxEntry:
 			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
 				CheckpointManager.shared.addTrace("saved '\(checkboxesCPView.checkboxes[i].isSelected)' for '\(key)'")
@@ -532,7 +532,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .radioEntry:
 			let radiosCPView = checkpointView as! RadiosCheckpointView
-			for i in 0..<checkPoint.instances.count {
+			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				defaults.set(radiosCPView.radios[i].isSelected, forKey: key)
 				CheckpointManager.shared.addTrace("saved '\(radiosCPView.radios[i].isSelected)' for '\(key)'")
