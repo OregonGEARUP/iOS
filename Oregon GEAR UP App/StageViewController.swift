@@ -11,7 +11,7 @@ import MessageUI
 
 
 class CheckpointView: UIView {
-	public let maxInstances = 5
+	public let maxInstances = 6
 	
 	public let titleLabel = UILabel()
 	public let descriptionLabel = UILabel()
@@ -26,23 +26,23 @@ class InfoCheckpointView: CheckpointView {
 }
 
 class FieldsCheckpointView: CheckpointView {
-	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel(), UILabel()]
-	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField(), UITextField()]
+	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel(), UILabel(), UILabel()]
+	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField(), UITextField(), UITextField()]
 }
 
 class DatesCheckpointView: CheckpointView {
-	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel(), UILabel()]
-	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField(), UITextField()]
-	public let dateButtons = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
+	public let fieldLabels = [UILabel(), UILabel(), UILabel(), UILabel(), UILabel(), UILabel()]
+	public let textFields = [UITextField(), UITextField(), UITextField(), UITextField(), UITextField(), UITextField()]
+	public let dateButtons = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
 	public let dateTextPlaceholder = NSLocalizedString("tap here to select date", comment: "date text placeholder")
 }
 
 class CheckboxesCheckpointView: CheckpointView {
-	public let checkboxes = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
+	public let checkboxes = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
 }
 
 class RadiosCheckpointView: CheckpointView {
-	public let radios = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
+	public let radios = [UIButton(), UIButton(), UIButton(), UIButton(), UIButton(), UIButton()]
 }
 
 class RouteCheckpointView: CheckpointView {
@@ -62,6 +62,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	var checkpointIndex = 0
 	
 	var routeFilename: String?
+	
+	@IBOutlet var prevButton: UIButton!
+	@IBOutlet var nextButton: UIButton!
 	
 	private var keyboardAccessoryView: UIView!
 	
@@ -151,7 +154,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		cpView.titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
 		cpView.titleLabel.textAlignment = .center
-		cpView.titleLabel.numberOfLines = 1
+		cpView.titleLabel.numberOfLines = 0
 		cpView.addSubview(cpView.titleLabel)
 		NSLayoutConstraint.activate([
 			cpView.titleLabel.topAnchor.constraint(equalTo: cpView.topAnchor, constant: 20.0),
@@ -192,7 +195,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				fieldsCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
 				fieldsCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0)
 				fieldsCPView.fieldLabels[i].textAlignment = .left
-				fieldsCPView.fieldLabels[i].numberOfLines = 1
+				fieldsCPView.fieldLabels[i].numberOfLines = 0
 				cpView.stackView.addArrangedSubview(fieldsCPView.fieldLabels[i])
 				
 				fieldsCPView.textFields[i].translatesAutoresizingMaskIntoConstraints = false
@@ -214,7 +217,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				datesCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
 				datesCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0)
 				datesCPView.fieldLabels[i].textAlignment = .left
-				datesCPView.fieldLabels[i].numberOfLines = 1
+				datesCPView.fieldLabels[i].numberOfLines = 0
 				cpView.stackView.addArrangedSubview(datesCPView.fieldLabels[i])
 				
 				datesCPView.textFields[i].translatesAutoresizingMaskIntoConstraints = false
@@ -495,7 +498,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			break
 			
 		case .fieldEntry:
-			let fieldsCPView = checkpointView as! FieldsCheckpointView
+			guard let fieldsCPView = checkpointView as? FieldsCheckpointView else {
+				return
+			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				defaults.set(fieldsCPView.textFields[i].text, forKey: key)
@@ -505,7 +510,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 		case .dateAndTextEntry,
 		     .dateOnlyEntry:
-			let datesCPView = checkpointView as! DatesCheckpointView
+			guard let datesCPView = checkpointView as? DatesCheckpointView else {
+				return
+			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				if checkPoint.type == .dateAndTextEntry {
@@ -523,7 +530,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			}
 			
 		case .checkboxEntry:
-			let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
+			guard let checkboxesCPView = checkpointView as? CheckboxesCheckpointView else {
+				return
+			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
@@ -531,7 +540,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			}
 			
 		case .radioEntry:
-			let radiosCPView = checkpointView as! RadiosCheckpointView
+			guard let radiosCPView = checkpointView as? RadiosCheckpointView else {
+				return
+			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = keyForInstanceIndex(i)
 				defaults.set(radiosCPView.radios[i].isSelected, forKey: key)
@@ -678,6 +689,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				
 				// open web page for URL
 				let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "webview") as! WebViewController
+				self.navigationItem.backBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Back", comment: "Back button"), style: .plain, target: nil, action: nil)
 				vc.url = url
 				self.navigationController?.pushViewController(vc, animated: true)
 			}
@@ -861,6 +873,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			return
 		}
 		
+		nextButton.isEnabled = false
+		
 		CheckpointManager.shared.addTrace("nextCheckpoint")
 		
 		saveCheckpointEntries()
@@ -884,20 +898,21 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 			if checkpoints[nextIndex].type == .routeEntry {
 				
-				let meetsCriteria = checkpoints[nextIndex].meetsCriteria
+				var meetsCriteria = checkpoints[nextIndex].meetsCriteria
 				
 				print("meetsCriteria: \(meetsCriteria)")
 				if meetsCriteria {
 					if let filename = checkpoints[nextIndex].routeFileName {
-						CheckpointManager.shared.addTrace("nextCheckpoint does meets criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), will route to \(filename)")
+						CheckpointManager.shared.addTrace("nextCheckpoint does meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), will route to \(filename)")
 					} else {
-						CheckpointManager.shared.addTrace("nextCheckpoint does meets criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), MISSING routeFileName for route checkpoint")
+						CheckpointManager.shared.addTrace("nextCheckpoint does meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), but is MISSING a routeFileName for route checkpoint")
+						meetsCriteria = false
 					}
 				} else {
 					CheckpointManager.shared.addTrace("nextCheckpoint does NOT meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex))")
 				}
 				
-				if (!meetsCriteria) {
+				if !meetsCriteria {
 					
 					// skip this checkpoint
 					if nextIndex + 1 < checkpoints.count {
@@ -905,8 +920,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 						continue
 					} else {
 						
-						// ran out of checkpoints, nothing more to do
-						return
+						// ran out of checkpoints, fall through to see if we have more stages
+						break
 					}
 				}
 			}
@@ -930,11 +945,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
 				self.loadCheckpointAtIndex(0, withAnimation: .fromRight)
 			}))
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Home", comment: "Home button title"), style: .cancel, handler: { (action) in
-				self.navigationController?.popViewController(animated: true)
-			}))
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .cancel, handler: nil))
 			self.present(alertController, animated: true, completion: nil)
 			
+			nextButton.isEnabled = true
 			return
 		}
 		
@@ -944,6 +958,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	}
 	
 	@IBAction func previousCheckpoint(_ button: UIButton) {
+		
+		prevButton.isEnabled = false
 		
 		CheckpointManager.shared.addTrace("previousCheckpoint")
 		
@@ -961,7 +977,6 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		CheckpointManager.shared.addTrace("loadCheckpoint \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: index))")
 		
 		checkpointIndex = index
-		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 		
 		switch animation {
 		case .none:
@@ -1007,7 +1022,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			})
 		}
 		
+		prevButton.isEnabled = true
+		nextButton.isEnabled = true
+		
 		CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
+		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 	}
 	
 	private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {

@@ -21,7 +21,7 @@ class OverviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		title = NSLocalizedString("It's A Plan!", comment: "overview title")
+		title = NSLocalizedString("Checklist", comment: "overview title")
 		
 		welcomeOverlay.alpha = 0.0
 		welcomeOverlay.layer.borderColor = UIColor.lightGray.cgColor
@@ -118,6 +118,21 @@ class OverviewViewController: UIViewController {
 			
 			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
 			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+		}
+		
+		// add in label with app version info
+		if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName"),
+			let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString"),
+			let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") {
+			
+			let versionLabel = UILabel()
+			versionLabel.text = "\(name), v\(version) (\(build))\n\nOregon GEAR UP"
+			versionLabel.numberOfLines = 0
+			versionLabel.textAlignment = .center
+			versionLabel.textColor = .lightGray
+			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightThin)
+			stackView.addArrangedSubview(versionLabel)
+			versionLabel.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
 		}
 	}
 	

@@ -150,7 +150,7 @@ private func stringWithSubstitutions(_ string: String) -> String {
 	let matches = re.matches(in: string, options: [], range: NSMakeRange(0, string.characters.count))
 	
 	var newString = string
-	for match in matches {
+	for match in matches.reversed() {
 		let keyRange = NSMakeRange(match.range.location+2, match.range.length-4)
 		let key = (string as NSString).substring(with: keyRange)
 		var replacement = UserDefaults.standard.object(forKey: key)

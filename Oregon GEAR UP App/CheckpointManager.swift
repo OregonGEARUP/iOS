@@ -327,7 +327,7 @@ class CheckpointManager {
 			let moreInfo = jsonDict["urlText"] as? String
 			var moreInfoURL: URL? = nil
 			if let moreInfoURLStr = jsonDict["url"] as? String {
-				moreInfoURL = URL(string: moreInfoURLStr)
+				moreInfoURL = URL(string: moreInfoURLStr.trimmingCharacters(in: CharacterSet.whitespaces))
 			}
 			
 			// optional route fields

@@ -92,9 +92,8 @@ class BlockViewController: UIViewController {
 		
 		prepareForNewBlock()
 
-		title = block.title
-		
-		self.blockIndex = CheckpointManager.shared.blockIndex
+		blockIndex = CheckpointManager.shared.blockIndex
+		title = "\(blockIndex+1). \(block.title)"
 		
 		for (index, stage) in block.stages.enumerated() {
 			
