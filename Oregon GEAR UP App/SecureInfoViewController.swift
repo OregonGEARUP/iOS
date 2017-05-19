@@ -381,13 +381,13 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		
 		if goodToSave {
 			
-			if textField.tag < 23 {
+			if textField.tag < 24 {
 				setInformation(textField.text, forFieldWithTag: textField.tag)
 			} else {
 				
 				// college username/password cases
-				let collegeIndex = (textField.tag - 23) / 3
-				let collegeRow = (textField.tag - 23) % 3
+				let collegeIndex = (textField.tag - 24) / 3
+				let collegeRow = (textField.tag - 24) % 3
 				switch collegeRow {
 				case 1:	MyPlanManager.shared.colleges[collegeIndex].username = textField.text
 				case 2:	MyPlanManager.shared.colleges[collegeIndex].password = textField.text
@@ -450,9 +450,9 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		])
 	}
 	
-	private let tagFieldMap = [2: "mySSN", 3: "parent1SSN", 4: "parent2SSN", 5: "driverlicense",
-	                           8: "fsaUsername", 9: "fsaPassword", 11: "ORSAAusername", 12: "ORSAApassword", 14: "CSSusername", 15: "CSSpassword",
-	                           18: "emailUsername", 19: "emailPassword", 21: "OSACusername", 22: "OSACpassword"]
+	private let tagFieldMap = [3: "mySSN", 4: "parent1SSN", 5: "parent2SSN", 7: "driverlicense",
+	                           9: "fsaUsername", 10: "fsaPassword", 12: "ORSAAusername", 13: "ORSAApassword", 15: "CSSusername", 16: "CSSpassword",
+	                           19: "emailUsername", 20: "emailPassword", 22: "OSACusername", 23: "OSACpassword"]
 	
 	private func isSSNTag(_ tag: Int) -> Bool {
 		return tag == 2 || tag == 3 || tag == 4
@@ -479,10 +479,13 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	}
 	
 	public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 23 + MyPlanManager.shared.colleges.count * 3
+		return 24 + MyPlanManager.shared.colleges.count * 3
 	}
 	
-	private let bgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.5)
+	private let headerBgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.5)
+	private let headerTextColor = UIColor.white
+	private let subheadBgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.1)
+	private let subheadTextColor = UIColor.lightGray
 	
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
@@ -490,39 +493,33 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 0:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "The information that you enter in this section will be securely stored on your phone. It will not be shared with anyone or any organization."
+				labelCell.labelText = "The information that you enter in this section will be securely stored on your phone and will not be shared."
 				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = nil
+				labelCell.labelTextColor = .darkText
 			}
 			return cell
 		case 1:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Enter your Social Security number. And the numbers for your parent/gaurdians. Then enter your driver license number."
-				labelCell.contentView.backgroundColor = bgColor
-				labelCell.labelTextColor = .white
+				labelCell.labelText = "Financial Aid Information"
+				labelCell.contentView.backgroundColor = headerBgColor
+				labelCell.labelTextColor = headerTextColor
 			}
 			return cell
 		case 2:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
-			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 2
-				tfCell.textField.placeholder = "my SSN"
-				tfCell.prompt = "My SSN"
-				tfCell.textField.keyboardType = .numberPad
-				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
-				tfCell.textField.isSecureTextEntry = locked
-				tfCell.textField.isEnabled = true
-				tfCell.textField.inputAccessoryView = keyboardAccessoryView
-				tfCell.textField.delegate = self
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "Enter your Social Security number. And the numbers for your parent/gaurdians."
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
 			}
 			return cell
 		case 3:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 3
-				tfCell.textField.placeholder = "parent/guardian SSN"
-				tfCell.prompt = "Parent 1"
+				tfCell.textField.placeholder = "my SSN"
+				tfCell.prompt = "My SSN"
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
@@ -536,7 +533,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 4
 				tfCell.textField.placeholder = "parent/guardian SSN"
-				tfCell.prompt = "Parent 2"
+				tfCell.prompt = "Parent 1"
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
@@ -549,8 +546,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 5
-				tfCell.textField.placeholder = "driver license number"
-				tfCell.prompt = "License"
+				tfCell.textField.placeholder = "parent/guardian SSN"
+				tfCell.prompt = "Parent 2"
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
@@ -562,23 +559,37 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 6:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Financial Aid Information"
-				labelCell.contentView.backgroundColor = bgColor
-				labelCell.labelTextColor = .white
+				labelCell.labelText = "Enter your driver license number."
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
 			}
 			return cell
 		case 7:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
-			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "FSA ID username and password."
-				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = .darkText
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.tag = 7
+				tfCell.textField.placeholder = "driver license number"
+				tfCell.prompt = "License"
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
+				tfCell.textField.isSecureTextEntry = locked
+				tfCell.textField.isEnabled = true
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
 			}
 			return cell
 		case 8:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "FSA ID"
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
+			}
+			return cell
+		case 9:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 8
+				tfCell.textField.tag = 9
 				tfCell.textField.placeholder = "FSA username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -589,10 +600,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 9:
+		case 10:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 9
+				tfCell.textField.tag = 10
 				tfCell.textField.placeholder = "FSA password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -603,18 +614,18 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 10:
+		case 11:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "ORSAA username and password."
-				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = .darkText
+				labelCell.labelText = "ORSAA"
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
 			}
 			return cell
-		case 11:
+		case 12:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 11
+				tfCell.textField.tag = 12
 				tfCell.textField.placeholder = "ORSAA username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -625,10 +636,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 12:
+		case 13:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 12
+				tfCell.textField.tag = 13
 				tfCell.textField.placeholder = "ORSAA password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -639,18 +650,18 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 13:
+		case 14:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "CSS Profile username and password."
-				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = .darkText
+				labelCell.labelText = "CSS Profile"
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
 			}
 			return cell
-		case 14:
+		case 15:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 14
+				tfCell.textField.tag = 15
 				tfCell.textField.placeholder = "CSS username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -661,10 +672,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 15:
+		case 16:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 15
+				tfCell.textField.tag = 16
 				tfCell.textField.placeholder = "CSS password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -675,26 +686,26 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 16:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
-			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "College and Scholarship Applications"
-				labelCell.contentView.backgroundColor = bgColor
-				labelCell.labelTextColor = .white
-			}
-			return cell
 		case 17:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "The email address and password you will use for applications."
-				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = .darkText
+				labelCell.labelText = "College and Scholarship Applications"
+				labelCell.contentView.backgroundColor = headerBgColor
+				labelCell.labelTextColor = headerTextColor
 			}
 			return cell
 		case 18:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "The email address and password you will use for applications."
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
+			}
+			return cell
+		case 19:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 18
+				tfCell.textField.tag = 19
 				tfCell.textField.placeholder = "email username"
 				tfCell.prompt = "Email"
 				tfCell.textField.keyboardType = .emailAddress
@@ -705,10 +716,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 19:
+		case 20:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 19
+				tfCell.textField.tag = 20
 				tfCell.textField.placeholder = "email password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -719,18 +730,18 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 20:
+		case 21:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "OSAC username and password."
-				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = .darkText
+				labelCell.labelText = "OSAC"
+				labelCell.contentView.backgroundColor = subheadBgColor
+				labelCell.labelTextColor = subheadTextColor
 			}
 			return cell
-		case 21:
+		case 22:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 21
+				tfCell.textField.tag = 22
 				tfCell.textField.placeholder = "OSAC username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
@@ -741,10 +752,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 22:
+		case 23:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.tag = 22
+				tfCell.textField.tag = 23
 				tfCell.textField.placeholder = "OSAC password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
@@ -757,17 +768,17 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			return cell
 			
 		default:
-			let collegeIndex = (indexPath.row - 23) / 3
+			let collegeIndex = (indexPath.row - 24) / 3
 			let college = MyPlanManager.shared.colleges[collegeIndex]
 			
-			let collegeRow = (indexPath.row - 23) % 3
+			let collegeRow = (indexPath.row - 24) % 3
 			switch collegeRow {
 			case 0:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 				if let labelCell = cell as? LabelCell {
 					labelCell.labelText = college.name
-					labelCell.contentView.backgroundColor = bgColor
-					labelCell.labelTextColor = .white
+					labelCell.contentView.backgroundColor = subheadBgColor
+					labelCell.labelTextColor = subheadTextColor
 				}
 				return cell
 			case 1:

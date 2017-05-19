@@ -67,31 +67,31 @@ class MyPlanManager {
 		}
 		
 		if scholarships.count == 0,
-			let scholarshipName = UserDefaults.standard.string(forKey: "b3citizen_s3_cp2_i1_text") {
+			let scholarshipName = UserDefaults.standard.string(forKey: "b3citizen_s2_cp2_i1_text") {
 			
 			scholarships.append(Scholarship(withName: scholarshipName))
 			
-			if let dateStr = UserDefaults.standard.string(forKey: "b3citizen_s3_cp2_i1_date") {
+			if let dateStr = UserDefaults.standard.string(forKey: "b3citizen_s2_cp2_i1_date") {
 				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 		}
 		
 		if scholarships.count == 0,
-			let scholarshipName = UserDefaults.standard.string(forKey: "b3undoc_s3_cp2_i1_text") {
+			let scholarshipName = UserDefaults.standard.string(forKey: "b3undoc_s2_cp2_i1_text") {
 			
 			scholarships.append(Scholarship(withName: scholarshipName))
 			
-			if let dateStr = UserDefaults.standard.string(forKey: "b3undoc_s3_cp2_i1_date") {
+			if let dateStr = UserDefaults.standard.string(forKey: "b3undoc_s2_cp2_i1_date") {
 				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 		}
 		
 		if scholarships.count == 0,
-			let scholarshipName = UserDefaults.standard.string(forKey: "b3visa_s3_cp2_i1_text") {
+			let scholarshipName = UserDefaults.standard.string(forKey: "b3visa_s2_cp2_i1_text") {
 			
 			scholarships.append(Scholarship(withName: scholarshipName))
 			
-			if let dateStr = UserDefaults.standard.string(forKey: "b3visa_s3_cp2_i1_date") {
+			if let dateStr = UserDefaults.standard.string(forKey: "b3visa_s2_cp2_i1_date") {
 				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 		}
