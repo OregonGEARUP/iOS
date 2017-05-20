@@ -155,6 +155,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
 		cpView.titleLabel.textAlignment = .center
 		cpView.titleLabel.numberOfLines = 0
+		cpView.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
 		cpView.addSubview(cpView.titleLabel)
 		NSLayoutConstraint.activate([
 			cpView.titleLabel.topAnchor.constraint(equalTo: cpView.topAnchor, constant: 20.0),
@@ -166,6 +167,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		cpView.descriptionLabel.font = UIFont.systemFont(ofSize: 18.0)
 		cpView.descriptionLabel.textAlignment = .left
 		cpView.descriptionLabel.numberOfLines = 0
+		cpView.descriptionLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
 		cpView.addSubview(cpView.descriptionLabel)
 		NSLayoutConstraint.activate([
 			cpView.descriptionLabel.topAnchor.constraint(equalTo: cpView.titleLabel.bottomAnchor, constant: 8.0),
@@ -281,17 +283,27 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		cpView.incompeteLabel.text = NSLocalizedString("You must complete this before proceeding.", comment:"incomplete checkpoint message")
 		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 18.0)
 		cpView.incompeteLabel.textColor = .red
+		cpView.incompeteLabel.layer.cornerRadius = 3.0
+		cpView.incompeteLabel.layer.backgroundColor = UIColor(colorLiteralRed: 1.0, green: 0.97, blue: 0.97, alpha: 1.0).cgColor
 		cpView.incompeteLabel.textAlignment = .center
 		cpView.incompeteLabel.numberOfLines = 0
 		cpView.incompeteLabel.alpha = 0.0
+		cpView.incompeteLabel.isUserInteractionEnabled = true
+		cpView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissIncomplete)))
 		cpView.addSubview(cpView.incompeteLabel)
 		NSLayoutConstraint.activate([
-			cpView.incompeteLabel.bottomAnchor.constraint(equalTo: cpView.moreInfoButton.topAnchor, constant: -20.0),
+			cpView.incompeteLabel.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: -12.0),
 			cpView.incompeteLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
 			cpView.incompeteLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
 		])
 
 		return cpView
+	}
+	
+	private dynamic func dismissIncomplete() {
+		UIView.animate(withDuration: 0.2) { 
+			self.checkpointView.incompeteLabel.alpha = 0.0
+		}
 	}
 	
 	private func setupButton(_ button: UIButton, withText text: String, image: UIImage?) {
@@ -320,6 +332,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		label.rightAnchor.constraint(equalTo: button.rightAnchor, constant: 0.0).isActive = true
 		label.topAnchor.constraint(equalTo: button.topAnchor, constant: 0.0).isActive = true
 		label.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: 0.0).isActive = true
+		label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
 	}
 	
 	private func populateCheckpointView(_ cpView: CheckpointView, with checkPoint: Checkpoint) {
@@ -1106,8 +1119,12 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 }
 
 class WebViewController: UIViewController, UIWebViewDelegate {
+	
 	var url = URL(string: "https://oregongoestocollege.org/5-things")
+	
 	@IBOutlet weak var webView: UIWebView!
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+	var firstAppearance = true
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -1122,12 +1139,23 @@ class WebViewController: UIViewController, UIWebViewDelegate {
 		webView.delegate = self
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		if firstAppearance {
+			activityIndicator.startAnimating()
+			firstAppearance = false
+		}
+	}
+	
 	private dynamic func goBack() {
 		
 		webView.goBack()
 	}
 	
 	public func webViewDidFinishLoad(_ webView: UIWebView) {
+		
+		activityIndicator.stopAnimating()
 		
 		if webView.canGoBack {
 			let backButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(goBack))

@@ -524,17 +524,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="5Hc-AY-seU">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="5Hc-AY-seU" firstAttribute="centerY" secondItem="ThT-8n-ceg" secondAttribute="centerY" id="X6V-HD-ZTi"/>
                             <constraint firstItem="JjO-PN-Bdl" firstAttribute="top" secondItem="jEm-bw-VQd" secondAttribute="bottom" constant="-49" id="aDe-h7-Xd0"/>
                             <constraint firstAttribute="trailing" secondItem="jEm-bw-VQd" secondAttribute="trailing" id="gCI-vx-F4K"/>
+                            <constraint firstItem="5Hc-AY-seU" firstAttribute="centerX" secondItem="ThT-8n-ceg" secondAttribute="centerX" id="sd5-xk-gTq"/>
                             <constraint firstItem="jEm-bw-VQd" firstAttribute="top" secondItem="egf-TG-3Bf" secondAttribute="bottom" constant="-64" id="vTT-tz-Ip4"/>
                             <constraint firstItem="jEm-bw-VQd" firstAttribute="leading" secondItem="ThT-8n-ceg" secondAttribute="leading" id="yI8-dg-wQW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1bd-vc-cVe"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="5Hc-AY-seU" id="dzd-00-6pu"/>
                         <outlet property="webView" destination="jEm-bw-VQd" id="UJ1-W6-6GL"/>
                     </connections>
                 </viewController>
