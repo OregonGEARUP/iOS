@@ -927,6 +927,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				
 				if !meetsCriteria {
 					
+					// unmet criteria == visited
+					CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: nextIndex)
+					
 					// skip this checkpoint
 					if nextIndex + 1 < checkpoints.count {
 						nextIndex += 1
