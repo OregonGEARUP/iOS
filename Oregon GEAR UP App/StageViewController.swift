@@ -16,6 +16,7 @@ class CheckpointView: UIView {
 	public let titleLabel = UILabel()
 	public let descriptionLabel = UILabel()
 	public let moreInfoButton = UIButton(type: .system)
+	public let moreInfoShareButton = UIButton(type: .custom)
 	
 	public let stackView = UIStackView()
 	
@@ -276,7 +277,20 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		NSLayoutConstraint.activate([
 			cpView.moreInfoButton.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: -18.0),
 			cpView.moreInfoButton.centerXAnchor.constraint(equalTo: cpView.centerXAnchor),
-			cpView.moreInfoButton.widthAnchor.constraint(equalTo: cpView.widthAnchor, multiplier: 0.8),
+			cpView.moreInfoButton.widthAnchor.constraint(equalTo: cpView.widthAnchor, multiplier: 0.75),
+		])
+		
+		cpView.moreInfoShareButton.translatesAutoresizingMaskIntoConstraints = false
+		cpView.moreInfoShareButton.setImage(#imageLiteral(resourceName: "action").withRenderingMode(.alwaysTemplate), for: .normal)
+		cpView.moreInfoShareButton.imageView?.tintColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)	// button blue
+		cpView.moreInfoShareButton.adjustsImageWhenHighlighted = true
+		cpView.moreInfoShareButton.addTarget(self, action: #selector(shareMoreInfo), for: .touchUpInside)
+		cpView.addSubview(cpView.moreInfoShareButton)
+		NSLayoutConstraint.activate([
+			cpView.moreInfoShareButton.heightAnchor.constraint(equalToConstant: 40.0),
+			cpView.moreInfoShareButton.widthAnchor.constraint(equalToConstant: 40.0),
+			cpView.moreInfoShareButton.centerYAnchor.constraint(equalTo: cpView.moreInfoButton.centerYAnchor, constant: -3.0),
+			cpView.moreInfoShareButton.rightAnchor.constraint(equalTo: cpView.rightAnchor, constant: -2.0)
 		])
 		
 		cpView.incompeteLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -296,7 +310,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			cpView.incompeteLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
 			cpView.incompeteLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
 		])
-
+		
 		return cpView
 	}
 	
@@ -347,8 +361,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				cpView.moreInfoButton.setTitle(url.absoluteString, for: .normal)
 			}
 			cpView.moreInfoButton.isHidden = false
+			cpView.moreInfoShareButton.isHidden = url.absoluteString.hasPrefix("itsaplan:")
 		} else {
 			cpView.moreInfoButton.isHidden = true
+			cpView.moreInfoShareButton.isHidden = true
 		}
 		
 		let defaults = UserDefaults.standard
@@ -655,7 +671,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		])
 	}
 	
-	func showMoreInfo() {
+	private dynamic func showMoreInfo() {
 		
 		// check for special app destination URLs first
 		if let url = checkpoints[checkpointIndex].moreInfoURL {
@@ -706,6 +722,15 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				vc.url = url
 				self.navigationController?.pushViewController(vc, animated: true)
 			}
+		}
+	}
+	
+	private dynamic func shareMoreInfo() {
+		
+		if let url = checkpoints[checkpointIndex].moreInfoURL {
+			let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+			activityController.popoverPresentationController?.sourceView = checkpointView.moreInfoShareButton
+			present(activityController, animated: true, completion: nil)
 		}
 	}
 	
