@@ -1007,7 +1007,22 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		saveCheckpointEntries()
 		
 		if checkpointIndex > 0 {
-			loadCheckpointAtIndex(checkpointIndex - 1, withAnimation: .fromLeft)
+			
+			// skip over route cps when going back (we skipped them going forward)
+			var prevIndex = checkpointIndex - 1
+			while prevIndex >= 0 {
+				if checkpoints[prevIndex].type != .routeEntry {
+					break
+				}
+				
+				prevIndex -= 1
+			}
+			
+			if prevIndex >= 0 {
+				loadCheckpointAtIndex(prevIndex, withAnimation: .fromLeft)
+			} else {
+				navigationController?.popViewController(animated: true)
+			}
 		} else if checkpointIndex == 0 {
 			navigationController?.popViewController(animated: true)
 		}
