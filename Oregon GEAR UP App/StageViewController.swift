@@ -62,6 +62,18 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	var stageIndex = 0
 	var checkpointIndex = 0
 	
+	var checkpointView: CheckpointView!
+	var currentXConstraint: NSLayoutConstraint!
+	
+	var nextCheckpointView: CheckpointView?
+	var nextXConstraint: NSLayoutConstraint?
+	var nextXConstant: CGFloat = 0.0
+	
+	var prevCheckpointView: CheckpointView?
+	var prevXConstraint: NSLayoutConstraint?
+	var prevXConstant: CGFloat = 0.0
+	
+	
 	var routeFilename: String?
 	
 	@IBOutlet var prevButton: UIButton!
@@ -75,15 +87,16 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	private var datePickerTopConstraint: NSLayoutConstraint!
 	private var currentInputDate: UIButton?
 	
-	var checkpointView: CheckpointView!
-	var checkpointCenterXConstraint: NSLayoutConstraint!
-	
 	private var checkpoints: [Checkpoint] {
 		return CheckpointManager.shared.block.stages[stageIndex].checkpoints
 	}
 	
 	private func keyForInstanceIndex(_ instanceIndex: Int) -> String {
 		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
+	}
+	
+	private func keyForCheckpointIndex(_ cpIndex: Int, instanceIndex: Int) -> String {
+		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: cpIndex, instanceIndex: instanceIndex)
 	}
 	
 	
@@ -95,7 +108,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		createKeyboardAccessoryView()
 		createDatePickerPaletteView()
 		
-		loadCheckpointAtIndex(checkpointIndex);
+		checkpointIndex = 1		// TEMPORARY
+		loadCheckpointAtIndex(checkpointIndex)
+		
+		let pgr = UIPanGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+		view.addGestureRecognizer(pgr)
 		
 		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidShow(_:)), name:NSNotification.Name.UIKeyboardDidShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -349,7 +366,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
 	}
 	
-	private func populateCheckpointView(_ cpView: CheckpointView, with checkPoint: Checkpoint) {
+	private func populateCheckpointView(_ cpView: CheckpointView, withCheckpointAtIndex cpIndex: Int) {
+		
+		let checkPoint = checkpoints[cpIndex]
 		
 		cpView.titleLabel.text = checkPoint.titleSubstituted
 		cpView.descriptionLabel.text = checkPoint.descriptionSubstituted
@@ -381,7 +400,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					fieldsCPView.textFields[i].isHidden = false
 					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
 					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
-					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForInstanceIndex(i))
+					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForCheckpointIndex(cpIndex, instanceIndex: i))
 				} else {
 					fieldsCPView.fieldLabels[i].isHidden = true
 					fieldsCPView.textFields[i].isHidden = true
@@ -399,7 +418,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					datesCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
 					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
 					
-					let key = keyForInstanceIndex(i)
+					let key = keyForCheckpointIndex(cpIndex, instanceIndex: i)
 					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_text")
 					if let dateStr = defaults.string(forKey: "\(key)_date") {
 						datesCPView.dateButtons[i].setTitle(dateStr, for: .normal)
@@ -424,7 +443,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					if let label = checkboxesCPView.checkboxes[i].viewWithTag(101) as? UILabel {
 						label.text = checkPoint.instances[i].promptSubstituted
 					}
-					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
+					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForCheckpointIndex(cpIndex, instanceIndex: i))
 					if let imageView = checkboxesCPView.checkboxes[i].viewWithTag(100) as? UIImageView {
 						imageView.image = checkboxesCPView.checkboxes[i].isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
 					}
@@ -442,7 +461,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					if let label = radiosCPView.radios[i].viewWithTag(101) as? UILabel {
 						label.text = checkPoint.instances[i].promptSubstituted
 					}
-					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForInstanceIndex(i))
+					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForCheckpointIndex(cpIndex, instanceIndex: i))
 					if let imageView = radiosCPView.radios[i].viewWithTag(100) as? UIImageView {
 						imageView.image = radiosCPView.radios[i].isSelected ? #imageLiteral(resourceName: "Radio_On") : #imageLiteral(resourceName: "Radio")
 					}
@@ -898,6 +917,101 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		currentInputDate?.setTitleColor(.darkText, for: .normal)
 	}
 	
+	
+	private dynamic func handleSwipe(_ gr: UIPanGestureRecognizer) {
+		
+		enum SwipeResult {
+			case noChange
+			case nextCheckpoint
+			case prevCheckpoint
+		}
+		
+		let translation = gr.translation(in: view).x
+		
+		if gr.state == .began || gr.state == .changed {
+			
+			currentXConstraint.constant = translation
+			nextXConstraint?.constant = nextXConstant + translation
+			prevXConstraint?.constant = prevXConstant + translation
+			
+			view.layoutIfNeeded()
+			
+		} else if gr.state == .ended || gr.state == .failed || gr.state == .cancelled {
+			
+			let highVelocity = fabs(gr.velocity(in: view).x) > 700
+			let farEnough = fabs(translation) > nextXConstant * 0.6
+			var result = SwipeResult.noChange
+			
+			view.layoutIfNeeded()
+			UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseOut, animations: {
+				
+				if gr.state == .ended && (highVelocity || farEnough) {
+					
+					if translation < 0.0 {
+						
+						// Next
+						result = .nextCheckpoint
+						self.currentXConstraint.constant = self.prevXConstant
+						self.nextXConstraint?.constant = 0.0
+						self.prevXConstraint?.constant = -10000.0
+						
+					} else {
+						
+						// Previous
+						result = .prevCheckpoint
+						self.currentXConstraint.constant = self.nextXConstant
+						self.nextXConstraint?.constant = 10000.0
+						self.prevXConstraint?.constant = 0.0
+					}
+					
+				} else {
+					// put everyone back
+					self.currentXConstraint.constant = 0.0
+					self.nextXConstraint?.constant = self.nextXConstant
+					self.prevXConstraint?.constant = self.prevXConstant
+				}
+				
+				
+				self.view.layoutIfNeeded()
+
+			}, completion: { (finished) in
+				
+				switch result {
+				case .nextCheckpoint:
+					
+					self.prevCheckpointView = self.checkpointView
+					self.prevXConstraint = self.currentXConstraint
+					
+					self.checkpointView = self.nextCheckpointView
+					self.currentXConstraint = self.nextXConstraint
+					
+					self.nextCheckpointView = nil
+					self.nextXConstraint = nil
+					
+					self.checkpointIndex += 1			// TODO: need real logic here
+					self.loadNextCheckpointAfterIndex(self.checkpointIndex)
+					
+				case .prevCheckpoint:
+					
+					self.nextCheckpointView = self.checkpointView
+					self.nextXConstraint = self.currentXConstraint
+					
+					self.checkpointView = self.prevCheckpointView
+					self.currentXConstraint = self.prevXConstraint
+					
+					self.prevCheckpointView = nil
+					self.prevXConstraint = nil
+					
+					self.checkpointIndex -= 1			// TODO: need real logic here
+					self.loadPrevCheckpointBeforeIndex(self.checkpointIndex)
+					
+				case .noChange:
+					break
+				}
+			})
+		}
+	}
+	
 	@IBAction func nextCheckpoint(_ button: UIButton) {
 		
 		// check to see if required entry checkpoint is completed
@@ -1037,28 +1151,32 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		switch animation {
 		case .none:
 			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
-			populateCheckpointView(checkpointView, with: checkpoints[checkpointIndex])
+			populateCheckpointView(checkpointView, withCheckpointAtIndex: checkpointIndex)
 			view.insertSubview(checkpointView, at: 0)
 			
-			checkpointCenterXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+			currentXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 			NSLayoutConstraint.activate([
 				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
-				checkpointCenterXConstraint,
+				currentXConstraint,
 				checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 				checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
 			])
 			
+			loadNextCheckpointAfterIndex(checkpointIndex)
+			loadPrevCheckpointBeforeIndex(checkpointIndex)
+			
+			
 		case .fromLeft, .fromRight:
 			let newCheckpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
-			populateCheckpointView(newCheckpointView, with: checkpoints[checkpointIndex])
+			populateCheckpointView(newCheckpointView, withCheckpointAtIndex: checkpointIndex)
 			view.insertSubview(newCheckpointView, at: 0)
 			
 			// offset new checkpoint view horizontally and then animate it into center postion
 			let offset: CGFloat = (animation == .fromRight ? 400.0 : -400.0)
-			let newCheckpointCenterXConstraint = newCheckpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: offset)
+			let newCurrentXConstraint = newCheckpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: offset)
 			NSLayoutConstraint.activate([
 				newCheckpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
-				newCheckpointCenterXConstraint,
+				newCurrentXConstraint,
 				newCheckpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 				newCheckpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
 			])
@@ -1067,12 +1185,12 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 			view.layoutIfNeeded()
 			UIView.animate(withDuration: 0.3, animations: {
-				self.checkpointCenterXConstraint.constant = -offset
-				newCheckpointCenterXConstraint.constant = 0.0
+				self.currentXConstraint.constant = -offset
+				newCurrentXConstraint.constant = 0.0
 				newCheckpointView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				self.view.layoutIfNeeded()
 			}, completion: { (complete) in
-				self.checkpointCenterXConstraint = newCheckpointCenterXConstraint
+				self.currentXConstraint = newCurrentXConstraint
 				self.checkpointView.removeFromSuperview()
 				self.checkpointView = newCheckpointView
 				
@@ -1083,6 +1201,63 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
+	}
+	
+	
+	private let prevNextXFrameFactor: CGFloat = 0.84
+	
+	private func loadNextCheckpointAfterIndex(_ index: Int) {
+		
+		if let nextCPV = nextCheckpointView {
+			nextCPV.removeFromSuperview()
+		}
+		
+		nextCheckpointView = nil
+		nextXConstraint = nil
+		
+		
+		nextXConstant = view.frame.width * prevNextXFrameFactor
+		if index+1 < checkpoints.count {
+			
+			nextCheckpointView = createCheckpointView(forType: checkpoints[index+1].type)
+			populateCheckpointView(nextCheckpointView!, withCheckpointAtIndex: index+1)
+			view.insertSubview(nextCheckpointView!, at: 1)
+			
+			nextXConstraint = nextCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: nextXConstant)
+			NSLayoutConstraint.activate([
+				nextCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
+				nextXConstraint!,
+				nextCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
+				nextCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
+			])
+		}
+	}
+	
+	private func loadPrevCheckpointBeforeIndex(_ index: Int) {
+		
+		if let prevCPV = prevCheckpointView {
+			prevCPV.removeFromSuperview()
+		}
+		
+		prevCheckpointView = nil
+		prevXConstraint = nil
+		
+		
+		prevXConstant = -view.frame.width * prevNextXFrameFactor
+		if index-1 >= 0 {
+			
+			prevCheckpointView = createCheckpointView(forType: checkpoints[index-1].type)
+			populateCheckpointView(prevCheckpointView!, withCheckpointAtIndex: index-1)
+			view.insertSubview(prevCheckpointView!, at: 1)
+			
+			prevXConstraint = prevCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: prevXConstant)
+			NSLayoutConstraint.activate([
+				prevCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
+				prevXConstraint!,
+				prevCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
+				prevCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
+			])
+		}
 	}
 	
 	private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {
