@@ -1075,11 +1075,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				self.checkpointCenterXConstraint = newCheckpointCenterXConstraint
 				self.checkpointView.removeFromSuperview()
 				self.checkpointView = newCheckpointView
+				
+				self.prevButton.isEnabled = true
+				self.nextButton.isEnabled = true
 			})
 		}
-		
-		prevButton.isEnabled = true
-		nextButton.isEnabled = true
 		
 		CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
