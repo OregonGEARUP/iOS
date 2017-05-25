@@ -105,10 +105,12 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		title = CheckpointManager.shared.block.stages[stageIndex].title
 		
+		nextButton.alpha = 0.0
+		prevButton.alpha = 0.0
+		
 		createKeyboardAccessoryView()
 		createDatePickerPaletteView()
 		
-		checkpointIndex = 1		// TEMPORARY
 		loadCheckpointAtIndex(checkpointIndex)
 		
 		let pgr = UIPanGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
@@ -123,6 +125,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		
+		checkpointView?.alpha = 1.0
+		nextCheckpointView?.alpha = 1.0
+		prevCheckpointView?.alpha = 1.0
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -130,6 +136,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		doneWithKeyboard(btn: nil)
 		doneWithDatePicker()
+		
+		checkpointView?.alpha = 0.0
+		nextCheckpointView?.alpha = 0.0
+		prevCheckpointView?.alpha = 0.0
 		
 		saveCheckpointEntries()
 		
@@ -940,37 +950,42 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 			let highVelocity = fabs(gr.velocity(in: view).x) > 700
 			let farEnough = fabs(translation) > nextXConstant * 0.6
+			let completed = !checkpoints[checkpointIndex].required || isCurrentCheckpointCompleted()
+			
+			saveCheckpointEntries()
+			
 			var result = SwipeResult.noChange
+			if gr.state == .ended && translation < 0.0 && completed && (highVelocity || farEnough) {
+				result = .nextCheckpoint
+			} else if gr.state == .ended && translation > 0.0 && prevCheckpointView != nil && (highVelocity || farEnough) {
+				result = .prevCheckpoint
+			}
 			
 			view.layoutIfNeeded()
 			UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseOut, animations: {
 				
-				if gr.state == .ended && (highVelocity || farEnough) {
+				switch result {
+				case .nextCheckpoint:
+					self.currentXConstraint.constant = self.prevXConstant
+					self.nextXConstraint?.constant = 0.0
+					self.prevXConstraint?.constant = -10000.0
+				
+				case .prevCheckpoint:
+					self.currentXConstraint.constant = self.nextXConstant
+					self.nextXConstraint?.constant = 10000.0
+					self.prevXConstraint?.constant = 0.0
 					
-					if translation < 0.0 {
-						
-						// Next
-						result = .nextCheckpoint
-						self.currentXConstraint.constant = self.prevXConstant
-						self.nextXConstraint?.constant = 0.0
-						self.prevXConstraint?.constant = -10000.0
-						
-					} else {
-						
-						// Previous
-						result = .prevCheckpoint
-						self.currentXConstraint.constant = self.nextXConstant
-						self.nextXConstraint?.constant = 10000.0
-						self.prevXConstraint?.constant = 0.0
+				case .noChange:
+					
+					if !completed {
+						self.checkpointView.incompeteLabel.alpha = 1.0
 					}
 					
-				} else {
 					// put everyone back
 					self.currentXConstraint.constant = 0.0
 					self.nextXConstraint?.constant = self.nextXConstant
 					self.prevXConstraint?.constant = self.prevXConstant
 				}
-				
 				
 				self.view.layoutIfNeeded()
 
@@ -979,17 +994,54 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				switch result {
 				case .nextCheckpoint:
 					
-					self.prevCheckpointView = self.checkpointView
-					self.prevXConstraint = self.currentXConstraint
-					
-					self.checkpointView = self.nextCheckpointView
-					self.currentXConstraint = self.nextXConstraint
-					
-					self.nextCheckpointView = nil
-					self.nextXConstraint = nil
-					
-					self.checkpointIndex += 1			// TODO: need real logic here
-					self.loadNextCheckpointAfterIndex(self.checkpointIndex)
+					if self.nextCheckpointView != nil {
+						
+						self.prevCheckpointView = self.checkpointView
+						self.prevXConstraint = self.currentXConstraint
+						
+						self.checkpointView = self.nextCheckpointView
+						self.currentXConstraint = self.nextXConstraint
+						
+						self.nextCheckpointView = nil
+						self.nextXConstraint = nil
+						
+						self.checkpointIndex += 1			// TODO: need real logic here
+						self.loadNextCheckpointAfterIndex(self.checkpointIndex)
+						
+					} else if self.stageIndex+1 < CheckpointManager.shared.block.stages.count  {
+						
+						// handle transition to next stage
+						
+						let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
+						let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+						alertController.addAction(UIAlertAction(title: NSLocalizedString("Keep Going!", comment: "Keep Going! button title"), style: .default, handler: { (action) in
+							
+							self.nextCheckpointView?.removeFromSuperview()
+							self.nextCheckpointView = nil
+							self.prevCheckpointView?.removeFromSuperview()
+							self.prevCheckpointView = nil
+							self.checkpointView?.removeFromSuperview()
+							self.checkpointView = nil
+							
+							self.stageIndex = self.stageIndex+1
+							self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
+							self.loadCheckpointAtIndex(0)
+						}))
+						alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .cancel, handler: { (action) in
+							
+							// put everyone back		TODO: animation does not seem to be working here?
+							UIView.animate(withDuration: 0.15, delay: 0.2, options: .curveEaseOut, animations: {
+								self.currentXConstraint.constant = 0.0
+								self.nextXConstraint?.constant = self.nextXConstant
+								self.prevXConstraint?.constant = self.prevXConstant
+							}, completion: nil)
+						}))
+						self.present(alertController, animated: true, completion: nil)
+					} else if self.checkpoints[self.checkpointIndex].type == .routeEntry {
+						
+						// TODO: segue to next block
+						
+					}
 					
 				case .prevCheckpoint:
 					
@@ -1008,6 +1060,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				case .noChange:
 					break
 				}
+				
+				CheckpointManager.shared.markVisited(forBlock: self.blockIndex, stage: self.stageIndex, checkpoint: self.checkpointIndex)
+				CheckpointManager.shared.persistState(forBlock: self.blockIndex, stage: self.stageIndex, checkpoint: self.checkpointIndex)
 			})
 		}
 	}
@@ -1159,13 +1214,13 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				currentXConstraint,
 				checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
+				checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
 			])
 			
 			loadNextCheckpointAfterIndex(checkpointIndex)
 			loadPrevCheckpointBeforeIndex(checkpointIndex)
 			
-			
+	// TODO: this is going away
 		case .fromLeft, .fromRight:
 			let newCheckpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(newCheckpointView, withCheckpointAtIndex: checkpointIndex)
@@ -1228,7 +1283,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				nextCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				nextXConstraint!,
 				nextCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				nextCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
+				nextCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
 			])
 		}
 	}
@@ -1255,7 +1310,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				prevCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				prevXConstraint!,
 				prevCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				prevCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
+				prevCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
 			])
 		}
 	}
