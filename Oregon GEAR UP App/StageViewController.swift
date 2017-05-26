@@ -65,10 +65,12 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	var checkpointView: CheckpointView!
 	var currentXConstraint: NSLayoutConstraint!
 	
+	var nextCheckpointIndex: Int?
 	var nextCheckpointView: CheckpointView?
 	var nextXConstraint: NSLayoutConstraint?
 	var nextXConstant: CGFloat = 0.0
 	
+	var prevCheckpointIndex: Int?
 	var prevCheckpointView: CheckpointView?
 	var prevXConstraint: NSLayoutConstraint?
 	var prevXConstant: CGFloat = 0.0
@@ -957,7 +959,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			var result = SwipeResult.noChange
 			if gr.state == .ended && translation < 0.0 && completed && (highVelocity || farEnough) {
 				result = .nextCheckpoint
-			} else if gr.state == .ended && translation > 0.0 && prevCheckpointView != nil && (highVelocity || farEnough) {
+			} else if gr.state == .ended && translation > 0.0 && prevCheckpointView != nil && prevCheckpointIndex != nil && (highVelocity || farEnough) {
 				result = .prevCheckpoint
 			}
 			
@@ -994,23 +996,24 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				switch result {
 				case .nextCheckpoint:
 					
-					if self.nextCheckpointView != nil {
+					if self.nextCheckpointView != nil && self.nextCheckpointIndex != nil {
 						
+						self.prevCheckpointIndex = self.checkpointIndex
 						self.prevCheckpointView = self.checkpointView
 						self.prevXConstraint = self.currentXConstraint
 						
+						self.checkpointIndex = self.nextCheckpointIndex!
 						self.checkpointView = self.nextCheckpointView
 						self.currentXConstraint = self.nextXConstraint
 						
 						self.nextCheckpointView = nil
 						self.nextXConstraint = nil
 						
-						self.checkpointIndex += 1			// TODO: need real logic here
 						self.loadNextCheckpointAfterIndex(self.checkpointIndex)
 						
 					} else if self.stageIndex+1 < CheckpointManager.shared.block.stages.count  {
 						
-						// handle transition to next stage
+						// handle transition to next stage		// TODO: need handle this with panel that slides in next w/ button
 						
 						let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
 						let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -1045,16 +1048,17 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					
 				case .prevCheckpoint:
 					
+					self.nextCheckpointIndex = self.checkpointIndex
 					self.nextCheckpointView = self.checkpointView
 					self.nextXConstraint = self.currentXConstraint
 					
+					self.checkpointIndex = self.prevCheckpointIndex!
 					self.checkpointView = self.prevCheckpointView
 					self.currentXConstraint = self.prevXConstraint
 					
 					self.prevCheckpointView = nil
 					self.prevXConstraint = nil
 					
-					self.checkpointIndex -= 1			// TODO: need real logic here
 					self.loadPrevCheckpointBeforeIndex(self.checkpointIndex)
 					
 				case .noChange:
@@ -1261,6 +1265,49 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	
 	private let prevNextXFrameFactor: CGFloat = 0.84
 	
+	private func nextIndexAfterIndex(_ index: Int) -> Int? {
+		
+		var nextIndex = index + 1
+		while nextIndex < checkpoints.count {
+			
+			if checkpoints[nextIndex].type == .routeEntry {
+				
+				var meetsCriteria = checkpoints[nextIndex].meetsCriteria
+				
+				if meetsCriteria {
+					if let filename = checkpoints[nextIndex].routeFileName {
+						CheckpointManager.shared.addTrace("nextCheckpoint does meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), will route to \(filename)")
+					} else {
+						CheckpointManager.shared.addTrace("nextCheckpoint does meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), but is MISSING a routeFileName for route checkpoint")
+						meetsCriteria = false
+					}
+				} else {
+					CheckpointManager.shared.addTrace("nextCheckpoint does NOT meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex))")
+				}
+				
+				if !meetsCriteria {
+					
+					// unmet criteria == visited
+					CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: nextIndex)
+					
+					// skip this checkpoint
+					if nextIndex + 1 < checkpoints.count {
+						nextIndex += 1
+						continue
+					} else {
+						
+						// ran out of checkpoints
+						break
+					}
+				}
+			}
+			
+			return nextIndex
+		}
+		
+		return nil
+	}
+	
 	private func loadNextCheckpointAfterIndex(_ index: Int) {
 		
 		if let nextCPV = nextCheckpointView {
@@ -1269,13 +1316,14 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		nextCheckpointView = nil
 		nextXConstraint = nil
-		
-		
+
 		nextXConstant = view.frame.width * prevNextXFrameFactor
-		if index+1 < checkpoints.count {
+		
+		nextCheckpointIndex = nextIndexAfterIndex(index)
+		if let nextIndex = nextCheckpointIndex {
 			
-			nextCheckpointView = createCheckpointView(forType: checkpoints[index+1].type)
-			populateCheckpointView(nextCheckpointView!, withCheckpointAtIndex: index+1)
+			nextCheckpointView = createCheckpointView(forType: checkpoints[nextIndex].type)
+			populateCheckpointView(nextCheckpointView!, withCheckpointAtIndex: nextIndex)
 			view.insertSubview(nextCheckpointView!, at: 1)
 			
 			nextXConstraint = nextCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: nextXConstant)
@@ -1288,6 +1336,25 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		}
 	}
 	
+	private func prevIndexBeforeIndex(_ index: Int) -> Int? {
+		
+		// skip over route cps when going back (we skipped them going forward)
+		var prevIndex = index - 1
+		while prevIndex >= 0 {
+			if checkpoints[prevIndex].type != .routeEntry {
+				break
+			}
+			
+			prevIndex -= 1
+		}
+		
+		if prevIndex >= 0 {
+			return prevIndex
+		}
+		
+		return nil
+	}
+	
 	private func loadPrevCheckpointBeforeIndex(_ index: Int) {
 		
 		if let prevCPV = prevCheckpointView {
@@ -1297,12 +1364,13 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		prevCheckpointView = nil
 		prevXConstraint = nil
 		
-		
 		prevXConstant = -view.frame.width * prevNextXFrameFactor
-		if index-1 >= 0 {
+		
+		prevCheckpointIndex = prevIndexBeforeIndex(index)
+		if let prevIndex = prevCheckpointIndex {
 			
-			prevCheckpointView = createCheckpointView(forType: checkpoints[index-1].type)
-			populateCheckpointView(prevCheckpointView!, withCheckpointAtIndex: index-1)
+			prevCheckpointView = createCheckpointView(forType: checkpoints[prevIndex].type)
+			populateCheckpointView(prevCheckpointView!, withCheckpointAtIndex: prevIndex)
 			view.insertSubview(prevCheckpointView!, at: 1)
 			
 			prevXConstraint = prevCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: prevXConstant)
