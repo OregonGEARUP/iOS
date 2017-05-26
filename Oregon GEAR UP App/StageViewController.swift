@@ -47,6 +47,7 @@ class RadiosCheckpointView: CheckpointView {
 }
 
 class RouteCheckpointView: CheckpointView {
+	public let nextBlockButton = UIButton()
 }
 
 
@@ -218,8 +219,19 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		])
 		
 		switch type {
-		case .infoEntry, .routeEntry:
+		case .infoEntry:
 			break
+		
+		case .routeEntry:
+			let routeCPView = cpView as! RouteCheckpointView
+			let spacer = UIView()
+			spacer.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
+			cpView.stackView.addArrangedSubview(spacer)
+			routeCPView.nextBlockButton.setTitle("Let's Keep Going!", for: .normal)
+			routeCPView.nextBlockButton.setTitleColor(view.tintColor, for: .normal)		// button blue
+			routeCPView.nextBlockButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
+			routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
+			cpView.stackView.addArrangedSubview(routeCPView.nextBlockButton)
 			
 		case .fieldEntry:
 			let fieldsCPView = cpView as! FieldsCheckpointView
@@ -311,7 +323,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		cpView.moreInfoShareButton.translatesAutoresizingMaskIntoConstraints = false
 		cpView.moreInfoShareButton.setImage(#imageLiteral(resourceName: "action").withRenderingMode(.alwaysTemplate), for: .normal)
-		cpView.moreInfoShareButton.imageView?.tintColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)	// button blue
+		cpView.moreInfoShareButton.imageView?.tintColor = view.tintColor	// button blue
 		cpView.moreInfoShareButton.adjustsImageWhenHighlighted = true
 		cpView.moreInfoShareButton.addTarget(self, action: #selector(shareMoreInfo), for: .touchUpInside)
 		cpView.addSubview(cpView.moreInfoShareButton)
@@ -953,11 +965,12 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			let highVelocity = fabs(gr.velocity(in: view).x) > 700
 			let farEnough = fabs(translation) > nextXConstant * 0.6
 			let completed = !checkpoints[checkpointIndex].required || isCurrentCheckpointCompleted()
+			let routeCP = checkpoints[checkpointIndex].type == .routeEntry		// TODO: temporary hack to support route CP
 			
 			saveCheckpointEntries()
 			
 			var result = SwipeResult.noChange
-			if gr.state == .ended && translation < 0.0 && completed && (highVelocity || farEnough) {
+			if gr.state == .ended && translation < 0.0 && completed && !routeCP && (highVelocity || farEnough) {
 				result = .nextCheckpoint
 			} else if gr.state == .ended && translation > 0.0 && prevCheckpointView != nil && prevCheckpointIndex != nil && (highVelocity || farEnough) {
 				result = .prevCheckpoint
@@ -1069,6 +1082,17 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				CheckpointManager.shared.persistState(forBlock: self.blockIndex, stage: self.stageIndex, checkpoint: self.checkpointIndex)
 			})
 		}
+	}
+	
+	private dynamic func routeToNextBlock() {
+		guard checkpoints[checkpointIndex].type == .routeEntry, let blockFileName = checkpoints[checkpointIndex].routeFileName else {
+			return
+		}
+		
+		CheckpointManager.shared.addTrace("routeToNextBlock routing to: \(blockFileName)")
+		
+		self.routeFilename = blockFileName
+		performSegue(withIdentifier: "unwindToNewBlock", sender: self)
 	}
 	
 	@IBAction func nextCheckpoint(_ button: UIButton) {
