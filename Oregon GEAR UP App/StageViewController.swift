@@ -21,6 +21,10 @@ class CheckpointView: UIView {
 		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
 	}
 	
+	public func key() -> String {
+		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex)
+	}
+	
 	public let titleLabel = UILabel()
 	public let descriptionLabel = UILabel()
 	public let moreInfoButton = UIButton(type: .system)
@@ -975,10 +979,14 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			let farEnough = fabs(translation) > nextXConstant * 0.6
 			let completed = !checkpoints[checkpointIndex].required || isCurrentCheckpointCompleted()
 			
+			if !completed {
+				CheckpointManager.shared.addTrace("handleSwipe curent checkpoint incomplete")
+			}
+			
 			saveCheckpointEntries()
 			
 			var result = SwipeResult.noChange
-			if gr.state == .ended && translation < 0.0 && completed && nextCheckpointView != nil && (highVelocity || farEnough) {
+			if gr.state == .ended && translation < 0.0 && nextCheckpointView != nil && self.nextCheckpointIndex != nil && completed && (highVelocity || farEnough) {
 				result = .nextCheckpoint
 			} else if gr.state == .ended && translation > 0.0 && prevCheckpointView != nil && prevCheckpointIndex != nil && (highVelocity || farEnough) {
 				result = .prevCheckpoint
@@ -1017,22 +1025,20 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				switch result {
 				case .nextCheckpoint:
 					
-					if self.nextCheckpointView != nil && self.nextCheckpointIndex != nil {
-						
-						self.prevCheckpointIndex = self.checkpointIndex
-						self.prevCheckpointView = self.checkpointView
-						self.prevXConstraint = self.currentXConstraint
-						
-						self.checkpointIndex = self.nextCheckpointIndex!
-						self.checkpointView = self.nextCheckpointView
-						self.currentXConstraint = self.nextXConstraint
-						
-						self.nextCheckpointView = nil
-						self.nextXConstraint = nil
-						
-						self.loadNextCheckpointAfterIndex(self.checkpointIndex)
-						
-					}
+					self.prevCheckpointIndex = self.checkpointIndex
+					self.prevCheckpointView = self.checkpointView
+					self.prevXConstraint = self.currentXConstraint
+					
+					self.checkpointIndex = self.nextCheckpointIndex!
+					self.checkpointView = self.nextCheckpointView
+					self.currentXConstraint = self.nextXConstraint
+					
+					self.nextCheckpointView = nil
+					self.nextXConstraint = nil
+					
+					CheckpointManager.shared.addTrace("nextCheckpoint: \(self.checkpointView.key())")
+					
+					self.loadNextCheckpointAfterIndex(self.checkpointIndex)
 					
 				case .prevCheckpoint:
 					
@@ -1046,6 +1052,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					
 					self.prevCheckpointView = nil
 					self.prevXConstraint = nil
+					
+					CheckpointManager.shared.addTrace("prevCheckpoint: \(self.checkpointView.key())")
 					
 					self.loadPrevCheckpointBeforeIndex(self.checkpointIndex)
 					
@@ -1073,6 +1081,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		self.checkpointView = nil
 		
 		self.stageIndex = self.stageIndex+1
+
+		CheckpointManager.shared.addTrace("loadNextStage loading: \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: 0))")
+		
 		self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
 		self.loadCheckpointAtIndex(0)
 	}
@@ -1280,7 +1291,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	}
 	
 	
-	private let prevNextXFrameFactor: CGFloat = 0.84
+	private let prevNextXFrameFactor: CGFloat = 0.84	// this controls how much peek of prev/next checkpoint view shows, lower value shows more (1.0 shows none)
 	
 	private func nextIndexAfterIndex(_ index: Int) -> Int? {
 		
@@ -1320,6 +1331,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			}
 			
 			return nextIndex
+		}
+		
+		let curType = checkpoints[checkpointIndex].type
+		if curType != .nextStage && curType != .routeEntry {
+			CheckpointManager.shared.addTrace("nextCheckpoint ran out of checkpoints in block: \(blockIndex) stage: \(stageIndex)")
 		}
 		
 		return nil
@@ -1524,7 +1540,7 @@ class WebViewController: UIViewController, UIWebViewDelegate {
 		activityIndicator.stopAnimating()
 		
 		if webView.canGoBack {
-			let backButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(goBack))
+			let backButton = UIBarButtonItem(title: NSLocalizedString("< Back", comment: "webview back button title"), style: .plain, target: self, action: #selector(goBack))
 			navigationItem.leftBarButtonItem = backButton
 		} else {
 			navigationItem.leftBarButtonItem = nil
