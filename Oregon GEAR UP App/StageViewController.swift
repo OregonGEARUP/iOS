@@ -13,6 +13,14 @@ import MessageUI
 class CheckpointView: UIView {
 	public let maxInstances = 6
 	
+	var blockIndex = -1
+	var stageIndex = -1
+	var checkpointIndex = -1
+	
+	public func keyForInstanceIndex(_ instanceIndex: Int) -> String {
+		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
+	}
+	
 	public let titleLabel = UILabel()
 	public let descriptionLabel = UILabel()
 	public let moreInfoButton = UIButton(type: .system)
@@ -92,14 +100,6 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	
 	private var checkpoints: [Checkpoint] {
 		return CheckpointManager.shared.block.stages[stageIndex].checkpoints
-	}
-	
-	private func keyForInstanceIndex(_ instanceIndex: Int) -> String {
-		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: instanceIndex)
-	}
-	
-	private func keyForCheckpointIndex(_ cpIndex: Int, instanceIndex: Int) -> String {
-		return CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: cpIndex, instanceIndex: instanceIndex)
 	}
 	
 	
@@ -227,7 +227,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			let spacer = UIView()
 			spacer.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
 			cpView.stackView.addArrangedSubview(spacer)
-			routeCPView.nextBlockButton.setTitle("Let's Keep Going!", for: .normal)
+			routeCPView.nextBlockButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
 			routeCPView.nextBlockButton.setTitleColor(view.tintColor, for: .normal)		// button blue
 			routeCPView.nextBlockButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
 			routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
@@ -249,7 +249,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				
 				let spacer = UIView()
 				cpView.stackView.addArrangedSubview(spacer)
-				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// no height spacer still incurs stack view spacing
+				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// zero height spacer still incurs stack view spacing
 				hc2.priority = UILayoutPriorityRequired - 1
 				hc2.isActive = true
 			}
@@ -285,7 +285,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				
 				let spacer = UIView()
 				cpView.stackView.addArrangedSubview(spacer)
-				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// no height spacer still incurs stack view spacing
+				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// zero height spacer still incurs stack view spacing
 				hc2.priority = UILayoutPriorityRequired - 1
 				hc2.isActive = true
 			}
@@ -392,6 +392,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	
 	private func populateCheckpointView(_ cpView: CheckpointView, withCheckpointAtIndex cpIndex: Int) {
 		
+		cpView.blockIndex = blockIndex
+		cpView.stageIndex = stageIndex
+		cpView.checkpointIndex = cpIndex
+		
 		let checkPoint = checkpoints[cpIndex]
 		
 		cpView.titleLabel.text = checkPoint.titleSubstituted
@@ -424,7 +428,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					fieldsCPView.textFields[i].isHidden = false
 					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
 					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
-					fieldsCPView.textFields[i].text = defaults.string(forKey: keyForCheckpointIndex(cpIndex, instanceIndex: i))
+					fieldsCPView.textFields[i].text = defaults.string(forKey: cpView.keyForInstanceIndex(i))
 				} else {
 					fieldsCPView.fieldLabels[i].isHidden = true
 					fieldsCPView.textFields[i].isHidden = true
@@ -442,7 +446,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 					datesCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
 					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
 					
-					let key = keyForCheckpointIndex(cpIndex, instanceIndex: i)
+					let key = cpView.keyForInstanceIndex(i)
 					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_text")
 					if let dateStr = defaults.string(forKey: "\(key)_date") {
 						datesCPView.dateButtons[i].setTitle(dateStr, for: .normal)
@@ -463,11 +467,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					checkboxesCPView.checkboxes[i].isHidden = false
-					//checkboxesCPView.checkboxes[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
 					if let label = checkboxesCPView.checkboxes[i].viewWithTag(101) as? UILabel {
 						label.text = checkPoint.instances[i].promptSubstituted
 					}
-					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: keyForCheckpointIndex(cpIndex, instanceIndex: i))
+					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: cpView.keyForInstanceIndex(i))
 					if let imageView = checkboxesCPView.checkboxes[i].viewWithTag(100) as? UIImageView {
 						imageView.image = checkboxesCPView.checkboxes[i].isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
 					}
@@ -481,11 +484,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			for i in 0..<cpView.maxInstances {
 				if (i < checkPoint.instances.count) {
 					radiosCPView.radios[i].isHidden = false
-					//radiosCPView.radios[i].setTitle(checkPoint.instances[i].promptSubstituted, for: .normal)
 					if let label = radiosCPView.radios[i].viewWithTag(101) as? UILabel {
 						label.text = checkPoint.instances[i].promptSubstituted
 					}
-					radiosCPView.radios[i].isSelected = defaults.bool(forKey: keyForCheckpointIndex(cpIndex, instanceIndex: i))
+					radiosCPView.radios[i].isSelected = defaults.bool(forKey: cpView.keyForInstanceIndex(i))
 					if let imageView = radiosCPView.radios[i].viewWithTag(100) as? UIImageView {
 						imageView.image = radiosCPView.radios[i].isSelected ? #imageLiteral(resourceName: "Radio_On") : #imageLiteral(resourceName: "Radio")
 					}
@@ -574,7 +576,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				return
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
-				let key = keyForInstanceIndex(i)
+				let key = checkpointView.keyForInstanceIndex(i)
 				defaults.set(fieldsCPView.textFields[i].text, forKey: key)
 				let value = fieldsCPView.textFields[i].text ?? ""
 				CheckpointManager.shared.addTrace("saved '\(value)' for '\(key)'")
@@ -586,7 +588,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				return
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
-				let key = keyForInstanceIndex(i)
+				let key = checkpointView.keyForInstanceIndex(i)
 				if checkPoint.type == .dateAndTextEntry {
 					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
 					let value = datesCPView.textFields[i].text ?? ""
@@ -606,7 +608,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				return
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
-				let key = keyForInstanceIndex(i)
+				let key = checkpointView.keyForInstanceIndex(i)
 				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
 				CheckpointManager.shared.addTrace("saved '\(checkboxesCPView.checkboxes[i].isSelected)' for '\(key)'")
 			}
@@ -616,7 +618,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				return
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
-				let key = keyForInstanceIndex(i)
+				let key = checkpointView.keyForInstanceIndex(i)
 				defaults.set(radiosCPView.radios[i].isSelected, forKey: key)
 				CheckpointManager.shared.addTrace("saved '\(radiosCPView.radios[i].isSelected)' for '\(key)'")
 			}
@@ -1424,7 +1426,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				let fieldsCPView = checkpointView as! FieldsCheckpointView
 				for (index, field) in fieldsCPView.textFields.enumerated() {
 					if field == hitView {
-						hitKey = keyForInstanceIndex(index)
+						hitKey = checkpointView.keyForInstanceIndex(index)
 					}
 				}
 			
@@ -1433,12 +1435,12 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				let datesCPView = checkpointView as! DatesCheckpointView
 				for (index, field) in datesCPView.textFields.enumerated() {
 					if field == hitView {
-						hitKey = keyForInstanceIndex(index) + "_text"
+						hitKey = checkpointView.keyForInstanceIndex(index) + "_text"
 					}
 				}
 				for (index, button) in datesCPView.dateButtons.enumerated() {
 					if button == hitView {
-						hitKey = keyForInstanceIndex(index) + "_date"
+						hitKey = checkpointView.keyForInstanceIndex(index) + "_date"
 					}
 				}
 			
@@ -1446,7 +1448,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				let checkboxesCPView = checkpointView as! CheckboxesCheckpointView
 				for (index, checkbox) in checkboxesCPView.checkboxes.enumerated() {
 					if checkbox == hitView {
-						hitKey = keyForInstanceIndex(index)
+						hitKey = checkpointView.keyForInstanceIndex(index)
 					}
 				}
 				
@@ -1454,7 +1456,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				let radiosCPView = checkpointView as! RadiosCheckpointView
 				for (index, radio) in radiosCPView.radios.enumerated() {
 					if radio == hitView {
-						hitKey = keyForInstanceIndex(index)
+						hitKey = checkpointView.keyForInstanceIndex(index)
 					}
 				}
 			}
