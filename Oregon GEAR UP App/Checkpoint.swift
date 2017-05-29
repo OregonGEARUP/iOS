@@ -16,6 +16,7 @@ enum EntryType: String {
     case checkboxEntry = "checkbox"
 	case infoEntry = "info"
 	case routeEntry = "route"
+	case nextStage = "nextstage"
 }
 
 struct Instance {
@@ -93,7 +94,7 @@ struct Checkpoint {
 		let defaults = UserDefaults.standard
 		
 		switch type {
-		case .infoEntry, .checkboxEntry, .routeEntry:
+		case .infoEntry, .checkboxEntry, .routeEntry, .nextStage:
 			return true
 			
 		case .radioEntry:

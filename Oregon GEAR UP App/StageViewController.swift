@@ -171,7 +171,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			cpView = CheckboxesCheckpointView()
 		case .radioEntry:
 			cpView = RadiosCheckpointView()
-		case .routeEntry:
+		case .routeEntry, .nextStage:
 			cpView = RouteCheckpointView()
 		}
 		
@@ -222,7 +222,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		case .infoEntry:
 			break
 		
-		case .routeEntry:
+		case .routeEntry, .nextStage:
 			let routeCPView = cpView as! RouteCheckpointView
 			let spacer = UIView()
 			spacer.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
@@ -230,7 +230,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			routeCPView.nextBlockButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
 			routeCPView.nextBlockButton.setTitleColor(view.tintColor, for: .normal)		// button blue
 			routeCPView.nextBlockButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
-			routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
+			if type == .routeEntry {
+				routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
+			} else {
+				routeCPView.nextBlockButton.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
+			}
 			cpView.stackView.addArrangedSubview(routeCPView.nextBlockButton)
 			
 		case .fieldEntry:
@@ -420,6 +424,9 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		case .infoEntry, .routeEntry:
 			break
 			
+		case .nextStage:
+			cpView.descriptionLabel.text = "You have reached the end of this section."
+			
 		case .fieldEntry:
 			let fieldsCPView = cpView as! FieldsCheckpointView
 			for i in 0..<cpView.maxInstances {
@@ -502,7 +509,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		let checkPoint = checkpoints[checkpointIndex]
 		switch checkPoint.type {
-		case .infoEntry, .routeEntry:
+		case .infoEntry, .routeEntry, .nextStage:
 			return true
 			
 		case .fieldEntry:
@@ -568,7 +575,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		let checkPoint = checkpoints[checkpointIndex]
 		switch checkPoint.type {
-		case .infoEntry, .routeEntry:
+		case .infoEntry, .routeEntry, .nextStage:
 			break
 			
 		case .fieldEntry:
@@ -967,12 +974,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			let highVelocity = fabs(gr.velocity(in: view).x) > 700
 			let farEnough = fabs(translation) > nextXConstant * 0.6
 			let completed = !checkpoints[checkpointIndex].required || isCurrentCheckpointCompleted()
-			let routeCP = checkpoints[checkpointIndex].type == .routeEntry		// TODO: temporary hack to support route CP
 			
 			saveCheckpointEntries()
 			
 			var result = SwipeResult.noChange
-			if gr.state == .ended && translation < 0.0 && completed && !routeCP && (highVelocity || farEnough) {
+			if gr.state == .ended && translation < 0.0 && completed && nextCheckpointView != nil && (highVelocity || farEnough) {
 				result = .nextCheckpoint
 			} else if gr.state == .ended && translation > 0.0 && prevCheckpointView != nil && prevCheckpointIndex != nil && (highVelocity || farEnough) {
 				result = .prevCheckpoint
@@ -1026,39 +1032,6 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 						
 						self.loadNextCheckpointAfterIndex(self.checkpointIndex)
 						
-					} else if self.stageIndex+1 < CheckpointManager.shared.block.stages.count  {
-						
-						// handle transition to next stage		// TODO: need handle this with panel that slides in next w/ button
-						
-						let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
-						let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-						alertController.addAction(UIAlertAction(title: NSLocalizedString("Keep Going!", comment: "Keep Going! button title"), style: .default, handler: { (action) in
-							
-							self.nextCheckpointView?.removeFromSuperview()
-							self.nextCheckpointView = nil
-							self.prevCheckpointView?.removeFromSuperview()
-							self.prevCheckpointView = nil
-							self.checkpointView?.removeFromSuperview()
-							self.checkpointView = nil
-							
-							self.stageIndex = self.stageIndex+1
-							self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
-							self.loadCheckpointAtIndex(0)
-						}))
-						alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .cancel, handler: { (action) in
-							
-							// put everyone back		TODO: animation does not seem to be working here?
-							UIView.animate(withDuration: 0.15, delay: 0.2, options: .curveEaseOut, animations: {
-								self.currentXConstraint.constant = 0.0
-								self.nextXConstraint?.constant = self.nextXConstant
-								self.prevXConstraint?.constant = self.prevXConstant
-							}, completion: nil)
-						}))
-						self.present(alertController, animated: true, completion: nil)
-					} else if self.checkpoints[self.checkpointIndex].type == .routeEntry {
-						
-						// TODO: segue to next block
-						
 					}
 					
 				case .prevCheckpoint:
@@ -1084,6 +1057,24 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				CheckpointManager.shared.persistState(forBlock: self.blockIndex, stage: self.stageIndex, checkpoint: self.checkpointIndex)
 			})
 		}
+	}
+	
+	private dynamic func loadNextStage() {
+		
+		guard self.stageIndex+1 < CheckpointManager.shared.block.stages.count else {
+			return
+		}
+		
+		self.nextCheckpointView?.removeFromSuperview()
+		self.nextCheckpointView = nil
+		self.prevCheckpointView?.removeFromSuperview()
+		self.prevCheckpointView = nil
+		self.checkpointView?.removeFromSuperview()
+		self.checkpointView = nil
+		
+		self.stageIndex = self.stageIndex+1
+		self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
+		self.loadCheckpointAtIndex(0)
 	}
 	
 	private dynamic func routeToNextBlock() {
@@ -1419,7 +1410,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			
 			var hitKey: String? = nil
 			switch checkpoints[checkpointIndex].type {
-			case .infoEntry, .routeEntry:
+			case .infoEntry, .routeEntry, .nextStage:
 				break
 			
 			case .fieldEntry:
@@ -1467,14 +1458,22 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				present(alert, animated: true, completion: nil)
 			} else {
 				
-				let traces = CheckpointManager.shared.allTraces()
+				hitKey = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex)
 				
-				let mailComposerVC = MFMailComposeViewController()
-				mailComposerVC.mailComposeDelegate = self
-				mailComposerVC.setSubject("It's A Plan debug info")
-				mailComposerVC.setMessageBody("Here is debug info for your session in the app:\n\n\(traces)", isHTML: false)
+				let alert = UIAlertController(title: "Checkpoint Key", message: hitKey, preferredStyle: .alert)
+				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+				alert.addAction(UIAlertAction(title: "Debug Info", style: .default, handler: { (action) in
+					let traces = CheckpointManager.shared.allTraces()
+					
+					let mailComposerVC = MFMailComposeViewController()
+					mailComposerVC.mailComposeDelegate = self
+					mailComposerVC.setSubject("It's A Plan debug info")
+					mailComposerVC.setMessageBody("Here is debug info for your session in the app:\n\n\(traces)", isHTML: false)
+					
+					self.present(mailComposerVC, animated: true, completion: nil)
+				}))
 				
-				self.present(mailComposerVC, animated: true, completion: nil)
+				present(alert, animated: true, completion: nil)
 			}
 		}
 	}
