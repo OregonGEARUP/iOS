@@ -796,6 +796,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		if let imageView = sender.viewWithTag(100) as? UIImageView {
 			imageView.image = sender.isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
 		}
+		
+		checkpointView.incompeteLabel.alpha = 0.0
 	}
 
 	@IBAction func handleRadio(_ sender: UIButton) {
@@ -812,6 +814,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		if let imageView = sender.viewWithTag(100) as? UIImageView {
 			imageView.image = #imageLiteral(resourceName: "Radio_On")
 		}
+		
+		checkpointView.incompeteLabel.alpha = 0.0
 	}
 
 	private dynamic func doneWithKeyboard(btn: UIButton?) {
@@ -955,6 +959,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	}
 	
 	
+	private let prevNextScale: CGFloat = 0.9
+	
 	private dynamic func handleSwipe(_ gr: UIPanGestureRecognizer) {
 		
 		enum SwipeResult {
@@ -965,11 +971,22 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		let translation = gr.translation(in: view).x
 		
+		let pnScale = prevNextScale + (fabs(translation) / nextXConstant) * (1.0 - prevNextScale)
+		let curScale = 1.0 - (fabs(translation) / nextXConstant) * (1.0 - prevNextScale)
+		
 		if gr.state == .began || gr.state == .changed {
 			
 			currentXConstraint.constant = translation
+			
 			nextXConstraint?.constant = nextXConstant + translation
 			prevXConstraint?.constant = prevXConstant + translation
+			
+			checkpointView.transform = CGAffineTransform(scaleX: 1.0, y: curScale)
+			if translation < 0.0 {
+				nextCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: pnScale)
+			} else {
+				prevCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: pnScale)
+			}
 			
 			view.layoutIfNeeded()
 			
@@ -978,10 +995,6 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			let highVelocity = fabs(gr.velocity(in: view).x) > 700
 			let farEnough = fabs(translation) > nextXConstant * 0.6
 			let completed = !checkpoints[checkpointIndex].required || isCurrentCheckpointCompleted()
-			
-			if !completed {
-				CheckpointManager.shared.addTrace("handleSwipe curent checkpoint incomplete")
-			}
 			
 			saveCheckpointEntries()
 			
@@ -998,24 +1011,34 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				switch result {
 				case .nextCheckpoint:
 					self.currentXConstraint.constant = self.prevXConstant
+					self.checkpointView.transform = CGAffineTransform(scaleX: 1.0, y: self.prevNextScale)
+					self.checkpointView.incompeteLabel.alpha = 0.0
 					self.nextXConstraint?.constant = 0.0
+					self.nextCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 					self.prevXConstraint?.constant = -10000.0
 				
 				case .prevCheckpoint:
 					self.currentXConstraint.constant = self.nextXConstant
+					self.checkpointView.transform = CGAffineTransform(scaleX: 1.0, y: self.prevNextScale)
+					self.checkpointView.incompeteLabel.alpha = 0.0
 					self.nextXConstraint?.constant = 10000.0
 					self.prevXConstraint?.constant = 0.0
+					self.prevCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 					
 				case .noChange:
 					
 					if !completed {
+						CheckpointManager.shared.addTrace("handleSwipe curent checkpoint incomplete")
 						self.checkpointView.incompeteLabel.alpha = 1.0
 					}
 					
 					// put everyone back
 					self.currentXConstraint.constant = 0.0
+					self.checkpointView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 					self.nextXConstraint?.constant = self.nextXConstant
+					self.nextCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: self.prevNextScale)
 					self.prevXConstraint?.constant = self.prevXConstant
+					self.prevCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: self.prevNextScale)
 				}
 				
 				self.view.layoutIfNeeded()
@@ -1359,6 +1382,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			populateCheckpointView(nextCheckpointView!, withCheckpointAtIndex: nextIndex)
 			view.insertSubview(nextCheckpointView!, at: 1)
 			
+			nextCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: prevNextScale)
+			
 			nextXConstraint = nextCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: nextXConstant)
 			NSLayoutConstraint.activate([
 				nextCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
@@ -1405,6 +1430,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			prevCheckpointView = createCheckpointView(forType: checkpoints[prevIndex].type)
 			populateCheckpointView(prevCheckpointView!, withCheckpointAtIndex: prevIndex)
 			view.insertSubview(prevCheckpointView!, at: 1)
+			
+			prevCheckpointView?.transform = CGAffineTransform(scaleX: 1.0, y: prevNextScale)
 			
 			prevXConstraint = prevCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: prevXConstant)
 			NSLayoutConstraint.activate([
