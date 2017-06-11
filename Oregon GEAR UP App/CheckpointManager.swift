@@ -286,7 +286,8 @@ class CheckpointManager {
 	private func parseStages(from jsonArray: [[String: Any]]) -> [Stage] {
 		
 		var stages = [Stage]()
-		for jsonDict in jsonArray {
+		let stageCount = jsonArray.count
+		for (index, jsonDict) in jsonArray.enumerated() {
 			
 			guard let identifier = jsonDict["id"] as? String,
 				let title = jsonDict["title"] as? String,
@@ -296,7 +297,14 @@ class CheckpointManager {
 				continue
 			}
 			
-			let checkpoints = parseCheckpoints(from: jsonArray)
+			var checkpoints = parseCheckpoints(from: jsonArray)
+			
+			// add a next stage cp at the end of each stage (except the last one)
+			if index < stageCount - 1 {
+				let nextStageCP = Checkpoint(identifier: "ns", required: false, title: "", description: "", moreInfo: nil, moreInfoURL: nil, type: .nextStage, instances: [], criteria: [], routeFileName: nil)
+				checkpoints.append(nextStageCP)
+			}
+			
 			let stage = Stage(identifier: identifier, title: title, image: image, checkpoints: checkpoints)
 			stages.append(stage)
 		}
