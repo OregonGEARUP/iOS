@@ -123,6 +123,9 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		MyPlanManager.shared.checkFirstCollegeName()
+		tableView.reloadData()
+		
 		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
 	}

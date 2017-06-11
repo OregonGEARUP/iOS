@@ -55,7 +55,8 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VAB-YF-NN7">
-                                        <rect key="frame" x="99" y="449" width="117" height="30"/>
+                                        <rect key="frame" x="75" y="440" width="165" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="Let's get started!"/>
                                         <connections>
                                             <action selector="dismissWelcomeOverlay" destination="oiw-ma-sQV" eventType="touchUpInside" id="037-n5-6uZ"/>
