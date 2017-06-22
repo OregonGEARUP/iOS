@@ -21,7 +21,7 @@ class MyPlanViewController: UIViewController {
 
 		title = NSLocalizedString("My Plan", comment: "my plan title")
 		
-		let buttonTitles = [NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title")]
+		let buttonTitles = [NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title"), NSLocalizedString("Calendar", comment: "Calendar title")]
 		
 		
 		for (index, title) in buttonTitles.enumerated() {
@@ -91,6 +91,9 @@ class MyPlanViewController: UIViewController {
 			self.navigationController?.pushViewController(vc, animated: animated)
 		case 3:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "residency") as! MyPlanResidencyViewController
+			self.navigationController?.pushViewController(vc, animated: animated)
+		case 4:
+			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "calendar") as! MyPlanCalendarViewController
 			self.navigationController?.pushViewController(vc, animated: animated)
 		default:
 			break
