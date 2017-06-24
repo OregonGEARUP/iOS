@@ -34,6 +34,14 @@ public protocol JBDatePickerViewDelegate: class {
      */
     func shouldAllowSelectionOfDay(_ date: Date?) -> Bool
 
+	/**
+	 Is called to check if any particular date is selectable by the picker
+	 - parameter date: the date to check if allowed
+	 - note:
+	 Implementing this method is optional.
+	 */
+	func hasEventsForDay(_ date: Date?) -> Bool
+
     /**
      Is called when setting up the calendar view as an override point for customization of weekday labels
      - parameter calendar: calendar instance used by the calendar view
@@ -193,13 +201,14 @@ public extension JBDatePickerViewDelegate {
     
     public func didPresentOtherMonth(_ monthView: JBDatePickerMonthView) {}
     public func shouldAllowSelectionOfDay(_ date: Date?) -> Bool { return true }
+	public func hasEventsForDay(_ date: Date?) -> Bool { return false }
     public func weekdaySymbols(for calendar: Calendar) -> [String] { return calendar.shortStandaloneWeekdaySymbols }
     
     // MARK: - General defaults
     
     public var dateToShow: Date { return Date()}
     public var firstWeekDay: JBWeekDay {
-        
+		
         if let calendarValue = JBWeekDay(rawValue: Calendar.current.firstWeekday){
             return calendarValue
         }

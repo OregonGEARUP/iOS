@@ -24,6 +24,7 @@ public final class JBDatePickerDayView: UIView {
     
     private var textLabel: UILabel!
     private weak var selectionView: JBDatePickerSelectionView?
+	private weak var eventsView: UIView?
     
     private let longPressArea: CGFloat = 40
     private var longPressAreaMaxX: CGFloat { return bounds.width + longPressArea }
@@ -95,6 +96,8 @@ public final class JBDatePickerDayView: UIView {
             datePickerView.selectedDateView = self
             //self.backgroundColor = randomColor()
         }
+		
+		setupEventsIndicator()
 
         //add tapgesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dayViewTapped))
@@ -266,6 +269,30 @@ public final class JBDatePickerDayView: UIView {
             textLabel.textColor = dayInfo.isInMonth ? datePickerView.delegate?.colorForDayLabelInMonth : datePickerView.delegate?.colorForDayLabelOutOfMonth
         }
     }
+	
+	func setupEventsIndicator() {
+		
+		if datePickerView.delegate?.hasEventsForDay(date) ?? false {
+			
+			let eView = UIView()
+			eView.translatesAutoresizingMaskIntoConstraints = false
+			eView.backgroundColor = .lightGray
+			eView.layer.cornerRadius = 2.0
+			addSubview(eView)
+			
+			eView.heightAnchor.constraint(equalToConstant: 4.0).isActive = true
+			eView.widthAnchor.constraint(equalToConstant: 4.0).isActive = true
+			eView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+			eView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 4.0).isActive = true
+			
+			eventsView = eView
+			
+		} else if let eView = eventsView {
+			
+			eView.removeFromSuperview()
+			eventsView = nil
+		}
+	}
     
     /**
      creates and shows a selection circle with a semi selected color

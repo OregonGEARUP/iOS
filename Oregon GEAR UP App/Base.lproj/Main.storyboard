@@ -901,23 +901,8 @@
                     <view key="view" contentMode="scaleToFill" id="yk1-Cv-G1l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="June 2017" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boC-a8-Nxm">
-                                <rect key="frame" x="148" y="36" width="79" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="boC-a8-Nxm" firstAttribute="centerX" secondItem="yk1-Cv-G1l" secondAttribute="centerX" id="B8G-Ow-Pq8"/>
-                            <constraint firstItem="boC-a8-Nxm" firstAttribute="top" secondItem="s5g-jr-0BS" secondAttribute="bottom" constant="16" id="Mmc-YY-Cgb"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="titleLabel" destination="boC-a8-Nxm" id="3Xp-Qj-Vqu"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrO-V7-fIG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

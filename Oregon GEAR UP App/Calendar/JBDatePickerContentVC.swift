@@ -59,9 +59,25 @@ class JBDatePickerContentVC: UIViewController, UIScrollViewDelegate {
    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+	
+	
+	public func setupMonthForDate(_ date: Date) {
+		
+		for (_, monthView) in monthViews {
+			monthView.removeFromSuperview()
+		}
+		monthViews = [MonthViewIdentifier : MonthView]()
+		
+		presentedMonthView = MonthView(datePickerView: datePickerView, date: date, isPresented: true)
+		presentedMonthView.createWeekViews()
+		
+		addInitialMonthViews(for: presentedMonthView.date)
+		updateScrollViewFrame(scrollView.frame)
+	}
+	
+	
     // MARK: - Adding of MonthViews
-    
+	
     /**
      Fills the scrollView of the contentController
      with the initial three monthViews
@@ -324,14 +340,14 @@ class JBDatePickerContentVC: UIViewController, UIScrollViewDelegate {
     }
     
     
-    func presentPreviousView() {
+	func presentPreviousView(animateFast: Bool = false) {
         if !isPresenting {
             
             guard let previous = monthViews[.previous], let presented = monthViews[.presented], let next = monthViews[.next] else { return }
             
             isPresenting = true
             
-            UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions(), animations: {
+			UIView.animate(withDuration: animateFast ? 0.1 : 0.5, delay: 0, options: UIViewAnimationOptions(), animations: {
                 
                 //animate positions of monthViews
                 previous.frame.origin.x += self.scrollView.frame.width
