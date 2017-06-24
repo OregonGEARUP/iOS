@@ -40,6 +40,7 @@
 		2C93494D1EFB1F2100E537C0 /* JBDatePickerWeekDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9349401EFB1F2100E537C0 /* JBDatePickerWeekDaysView.swift */; };
 		2C93494E1EFB1F2100E537C0 /* JBDatePickerWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9349411EFB1F2100E537C0 /* JBDatePickerWeekView.swift */; };
 		2C93494F1EFB1F2100E537C0 /* JBFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9349421EFB1F2100E537C0 /* JBFont.swift */; };
+		2C9349511EFECD0C00E537C0 /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9349501EFECD0C00E537C0 /* CalendarEvent.swift */; };
 		2C93A7AF1ECBDF77004D4B85 /* Double+currencyDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93A7AE1ECBDF77004D4B85 /* Double+currencyDescription.swift */; };
 		2CBECF221E7600A400DCC7AD /* StageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBECF211E7600A400DCC7AD /* StageViewController.swift */; };
 		C64C19EC1E6640D300F253A0 /* BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C19EB1E6640D300F253A0 /* BlockViewController.swift */; };
@@ -85,6 +86,7 @@
 		2C9349401EFB1F2100E537C0 /* JBDatePickerWeekDaysView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JBDatePickerWeekDaysView.swift; sourceTree = "<group>"; };
 		2C9349411EFB1F2100E537C0 /* JBDatePickerWeekView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JBDatePickerWeekView.swift; sourceTree = "<group>"; };
 		2C9349421EFB1F2100E537C0 /* JBFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JBFont.swift; sourceTree = "<group>"; };
+		2C9349501EFECD0C00E537C0 /* CalendarEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
 		2C93A7AE1ECBDF77004D4B85 /* Double+currencyDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+currencyDescription.swift"; sourceTree = "<group>"; };
 		2CBECF211E7600A400DCC7AD /* StageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageViewController.swift; sourceTree = "<group>"; };
 		C64C19EB1E6640D300F253A0 /* BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				2C65D9B51EC50FAD0083CEA7 /* Scholarship.swift */,
 				2C65D9B71EC519300083CEA7 /* TestResults.swift */,
 				2C65D9BD1EC7450A0083CEA7 /* Residency.swift */,
+				2C9349501EFECD0C00E537C0 /* CalendarEvent.swift */,
 				2C65D9AD1EC3771C0083CEA7 /* MyPlanManager.swift */,
 				2C65D9BB1EC574590083CEA7 /* Date+longDescription.swift */,
 				2C93A7AE1ECBDF77004D4B85 /* Double+currencyDescription.swift */,
@@ -266,6 +269,7 @@
 				2C1DAC321E9D331200D2C1BF /* KeychainItemAccessibility.swift in Sources */,
 				2C9349441EFB1F2100E537C0 /* JBDateExtension.swift in Sources */,
 				2C52EE611EC0D8A500E92F39 /* MyPlanViewController.swift in Sources */,
+				2C9349511EFECD0C00E537C0 /* CalendarEvent.swift in Sources */,
 				2C65D9B21EC4E34C0083CEA7 /* MyPlanBaseViewController.swift in Sources */,
 				2C93A7AF1ECBDF77004D4B85 /* Double+currencyDescription.swift in Sources */,
 				2C9349461EFB1F2100E537C0 /* JBDatePickerDayView.swift in Sources */,

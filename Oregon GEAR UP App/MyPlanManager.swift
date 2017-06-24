@@ -17,6 +17,7 @@ class MyPlanManager {
 	public var scholarships: [Scholarship]!
 	public var testResults: TestResults
 	public var residency: Residency
+	public var calendar: [DateComponents: [CalendarEvent]]
 	
 	private init() {
 		
@@ -70,8 +71,19 @@ class MyPlanManager {
 		}
 		
 		
+		calendar = [DateComponents: [CalendarEvent]]()
+		
+		// TEMPORARY data for calendar
+		let date1 = Calendar.current.date(from: DateComponents(year: 1962, month: 7, day: 11))!
+		calendar[DateComponents(month: 7, day: 11)] = [CalendarEvent(date: date1, description: "Cathy's Birthday!", key: nil)]
+		let date2 = Calendar.current.date(from: DateComponents(year: 1962, month: 12, day: 22))!
+		calendar[DateComponents(month: 12, day: 22)] = [CalendarEvent(date: date2, description: "Steve's Birthday!", key: nil)]
+		
+		
+		
 		checkFirstCollegeName()
 		checkFirstScholarshipName()
+		
 		
 		
 		// serialize out data
@@ -186,5 +198,16 @@ class MyPlanManager {
 	public func removeScholarship(at index: Int) {
 		
 		scholarships.remove(at: index)
+	}
+	
+	public func hasCalendarEventsForDate(_ date: Date) -> Bool {
+		
+		return calendarEventsForDate(date) != nil
+	}
+	
+	public func calendarEventsForDate(_ date: Date) -> [CalendarEvent]? {
+		
+		let comps = Calendar.current.dateComponents(Set([.month, .day]), from: date)
+		return calendar[comps]
 	}
 }

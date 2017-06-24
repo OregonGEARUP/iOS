@@ -59,7 +59,14 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
 	}
 	
 	func didSelectDay(_ dayView: JBDatePickerDayView) {
-		print(dayView.date!)
+		
+		guard let date = dayView.date else {
+			return
+		}
+		
+		if let events = MyPlanManager.shared.calendarEventsForDate(date) {
+			print(events)
+		}
 	}
 	
 	func didPresentOtherMonth(_ monthView: JBDatePickerMonthView) {
@@ -71,9 +78,7 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
 			return false
 		}
 		
-		// TEMPORARY for testing
-		let comps = Calendar.current.dateComponents(Set([.month, .day]), from: date)
-		return (comps.month == 7 && comps.day == 11) || (comps.month == 12 && comps.day == 22)
+		return MyPlanManager.shared.hasCalendarEventsForDate(date)
 	}
 	
 	var colorForWeekDaysViewBackground: UIColor {
