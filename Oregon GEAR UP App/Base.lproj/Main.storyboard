@@ -25,15 +25,15 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP0-cB-eVZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WsF-Uz-Mfj">
-                                        <rect key="frame" x="0.0" y="0.0" width="73" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WsF-Uz-Mfj">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                     </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="WsF-Uz-Mfj" firstAttribute="leading" secondItem="zP0-cB-eVZ" secondAttribute="leading" id="O07-fg-vKY"/>
                                     <constraint firstAttribute="bottom" secondItem="WsF-Uz-Mfj" secondAttribute="bottom" id="RdR-GF-tYQ"/>
                                     <constraint firstItem="WsF-Uz-Mfj" firstAttribute="width" secondItem="zP0-cB-eVZ" secondAttribute="width" id="XSV-sh-DOT"/>
-                                    <constraint firstItem="WsF-Uz-Mfj" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="top" id="aov-yb-Uj2"/>
+                                    <constraint firstItem="WsF-Uz-Mfj" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="top" constant="-44" id="aov-yb-Uj2"/>
                                 </constraints>
                             </scrollView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="MoL-OB-pNu">
@@ -431,7 +431,7 @@
                         <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="WRK-Mz-Cww" secondAttribute="trailing" id="3SQ-IX-KHK"/>
-                            <constraint firstItem="WRK-Mz-Cww" firstAttribute="top" secondItem="ule-7n-VHZ" secondAttribute="bottom" constant="64" id="Gfl-v3-OFG"/>
+                            <constraint firstItem="WRK-Mz-Cww" firstAttribute="top" secondItem="ule-7n-VHZ" secondAttribute="bottom" constant="20" id="Gfl-v3-OFG"/>
                             <constraint firstItem="WRK-Mz-Cww" firstAttribute="leading" secondItem="DPa-1S-6Cd" secondAttribute="leading" id="bNF-Eo-Ijv"/>
                         </constraints>
                     </view>
@@ -611,7 +611,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rVZ-QH-44k" firstAttribute="width" secondItem="Sig-D7-DQq" secondAttribute="width" id="EVr-Ar-zY1"/>
-                                    <constraint firstItem="rVZ-QH-44k" firstAttribute="top" secondItem="Sig-D7-DQq" secondAttribute="top" id="KZz-rR-my4"/>
+                                    <constraint firstItem="rVZ-QH-44k" firstAttribute="top" secondItem="Sig-D7-DQq" secondAttribute="top" constant="-44" id="KZz-rR-my4"/>
                                     <constraint firstAttribute="bottom" secondItem="rVZ-QH-44k" secondAttribute="bottom" id="LIJ-17-KTg"/>
                                     <constraint firstItem="rVZ-QH-44k" firstAttribute="leading" secondItem="Sig-D7-DQq" secondAttribute="leading" id="z3K-0h-TFO"/>
                                 </constraints>

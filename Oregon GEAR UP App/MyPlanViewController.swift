@@ -32,7 +32,7 @@ class MyPlanViewController: UIViewController {
 			button.addTarget(self, action: #selector(self.handleTap(_:)), for: .touchUpInside)
 			button.isEnabled = true
 			
-			button.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
+			button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
 			button.titleLabel?.numberOfLines = 0
 			button.titleLabel?.textAlignment = .center
 			button.setTitleColor(.white, for: .normal)

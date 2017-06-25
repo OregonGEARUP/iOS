@@ -105,9 +105,11 @@ class OverviewViewController: UIViewController {
 			button.addTarget(self, action: #selector(self.handleBlockTap(_:)), for: .touchUpInside)
 			button.isEnabled = blockInfo.available
 			
-			button.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
+			button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 40)
+			button.contentHorizontalAlignment = .left
+			
+			button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
 			button.titleLabel?.numberOfLines = 0
-			button.titleLabel?.textAlignment = .center
 			button.setTitleColor(.white, for: .normal)
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
@@ -132,7 +134,7 @@ class OverviewViewController: UIViewController {
 			versionLabel.textColor = .lightGray
 			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightThin)
 			stackView.addArrangedSubview(versionLabel)
-			versionLabel.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+			//versionLabel.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
 		}
 	}
 	
