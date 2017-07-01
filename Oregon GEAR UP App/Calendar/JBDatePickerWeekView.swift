@@ -15,7 +15,22 @@ final class JBDatePickerWeekView: UIStackView {
     private weak var monthView: JBDatePickerMonthView!
     private var index: Int!
     private var dayViews: [JBDatePickerDayView]!
-    
+	
+	public var firstDayView: JBDatePickerDayView? {
+		
+		guard dayViews != nil else {
+			return nil
+		}
+		
+		for dayView in dayViews {
+			if dayView.isInMonth {
+				return dayView
+			}
+		}
+		
+		return nil
+	}
+	
 
     // MARK: - Initialization
     init(datePickerView: JBDatePickerView, monthView: JBDatePickerMonthView, index: Int) {

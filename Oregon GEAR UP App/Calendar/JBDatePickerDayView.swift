@@ -21,6 +21,10 @@ public final class JBDatePickerDayView: UIView {
     var isToday: Bool {
         return date == Date().stripped()
     }
+	
+	var isInMonth: Bool {
+		return dayInfo.isInMonth
+	}
     
     private var textLabel: UILabel!
     private weak var selectionView: JBDatePickerSelectionView?
@@ -283,7 +287,7 @@ public final class JBDatePickerDayView: UIView {
 			eView.heightAnchor.constraint(equalToConstant: 4.0).isActive = true
 			eView.widthAnchor.constraint(equalToConstant: 4.0).isActive = true
 			eView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-			eView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 4.0).isActive = true
+			eView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5.0).isActive = true
 			
 			eventsView = eView
 			

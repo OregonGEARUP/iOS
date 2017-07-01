@@ -49,6 +49,18 @@ public final class JBDatePickerView: UIView {
             dateToPresent = selectedDateView.date
         }
     }
+	
+	public func selectFirstDay() {
+		
+		guard let weekViews = presentedMonthView.weekViews,
+			  let firstWeek = weekViews.first,
+			  let firstDayView = firstWeek.firstDayView
+		else {
+			return
+		}
+		
+		selectedDateView = firstDayView
+	}
     
     
     // MARK: - Initialization

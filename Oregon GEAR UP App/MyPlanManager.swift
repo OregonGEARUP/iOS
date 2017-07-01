@@ -75,9 +75,12 @@ class MyPlanManager {
 		
 		// TEMPORARY data for calendar
 		let date1 = Calendar.current.date(from: DateComponents(year: 1962, month: 7, day: 11))!
-		calendar[DateComponents(month: 7, day: 11)] = [CalendarEvent(date: date1, description: "Cathy's Birthday!", key: nil)]
-		let date2 = Calendar.current.date(from: DateComponents(year: 1962, month: 12, day: 22))!
-		calendar[DateComponents(month: 12, day: 22)] = [CalendarEvent(date: date2, description: "Steve's Birthday!", key: nil)]
+		let date1a = Calendar.current.date(from: DateComponents(year: 1962, month: 7, day: 11))!
+		calendar[DateComponents(month: 7, day: 11)] = [CalendarEvent(date: date1, description: "Cathy's Birthday! With more text to test that it will wrap onto multiple lines.", key: nil), CalendarEvent(date: date1a, description: "Another event for testing", key: nil)]
+		let date2 = Calendar.current.date(from: DateComponents(year: 1994, month: 9, day: 30))!
+		calendar[DateComponents(month: 9, day: 30)] = [CalendarEvent(date: date2, description: "Kristen's Birthday!", key: nil)]
+		let date3 = Calendar.current.date(from: DateComponents(year: 1962, month: 12, day: 22))!
+		calendar[DateComponents(month: 12, day: 22)] = [CalendarEvent(date: date3, description: "Steve's Birthday!", key: nil)]
 		
 		
 		

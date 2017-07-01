@@ -20,10 +20,11 @@ class FadeTransitionLabel: UILabel {
 }
 
 
-class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
+class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, UITableViewDataSource {
 	
 	var monthLabel: FadeTransitionLabel!
 	var calendarView: JBDatePickerView!
+	var eventsTableView: UITableView!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +39,49 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
 		monthLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 16.0).isActive = true
 		
 		calendarView = JBDatePickerView()
-		calendarView.translatesAutoresizingMaskIntoConstraints = false
+		calendarView.delegate = self
 		view.addSubview(calendarView)
 		
+		calendarView.translatesAutoresizingMaskIntoConstraints = false
 		calendarView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 10.0).isActive = true
 		calendarView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor).isActive = true
 		calendarView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor).isActive = true
 		calendarView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
 		
-		calendarView.delegate = self
+		let divider = UIView()
+		view.addSubview(divider)
+		
+		divider.translatesAutoresizingMaskIntoConstraints = false
+		divider.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 8.0).isActive = true
+		divider.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+		divider.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+		divider.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+		
+		eventsTableView = UITableView()
+		eventsTableView.backgroundColor = .clear
+		eventsTableView.rowHeight = UITableViewAutomaticDimension
+		eventsTableView.estimatedRowHeight = 30.0
+		eventsTableView.separatorInset = UIEdgeInsets.zero
+		eventsTableView.dataSource = self
+		eventsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "eventcell")
+		view.addSubview(eventsTableView)
+		
+		eventsTableView.translatesAutoresizingMaskIntoConstraints = false
+		eventsTableView.topAnchor.constraint(equalTo: divider.bottomAnchor).isActive = true
+		eventsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+		eventsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+		eventsTableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
+		
+		divider.backgroundColor = eventsTableView.separatorColor
+
 		
 		let tgr = UITapGestureRecognizer(target: self, action: #selector(showCurrentMonth))
 		monthLabel.addGestureRecognizer(tgr)
 		monthLabel.isUserInteractionEnabled = true
     }
+	
+	
+	// MARK: - calendar delegate
 	
 	func showCurrentMonth() {
 		
@@ -59,6 +89,8 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
 	}
 	
 	func didSelectDay(_ dayView: JBDatePickerDayView) {
+		
+		eventsTableView.reloadData()
 		
 		guard let date = dayView.date else {
 			return
@@ -70,7 +102,13 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
 	}
 	
 	func didPresentOtherMonth(_ monthView: JBDatePickerMonthView) {
+		
+		calendarView.selectFirstDay()
 		monthLabel.text = monthView.monthDescription
+		
+		if eventsTableView != nil {
+			eventsTableView.reloadData()
+		}
 	}
 	
 	func hasEventsForDay(_ date: Date?) -> Bool {
@@ -96,5 +134,41 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate {
 	var selectionShape: JBSelectionShape {
 		return .circle
 	}
-
+	
+	
+	// MARK: - event table data source
+	
+	public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		
+		guard let date = calendarView.selectedDateView.date else {
+			return 0
+		}
+		
+		if let events = MyPlanManager.shared.calendarEventsForDate(date) {
+			return events.count
+		}
+		
+		return 1
+	}
+	
+	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		let cell = UITableViewCell(style: .default, reuseIdentifier: "eventcell")
+		cell.backgroundColor = .clear
+		cell.textLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+		cell.textLabel?.textColor = .darkText
+		cell.textLabel?.numberOfLines = 0
+		cell.selectionStyle = .none
+		
+		if let date = calendarView.selectedDateView.date,
+		   let events = MyPlanManager.shared.calendarEventsForDate(date)
+		{
+			cell.textLabel?.text = events[indexPath.row].description
+		} else {
+			cell.textLabel?.textColor = .gray
+			cell.textLabel?.text = "no events"
+		}
+		
+		return cell
+	}
 }
