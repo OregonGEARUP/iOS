@@ -276,11 +276,11 @@ public final class JBDatePickerDayView: UIView {
 	
 	func setupEventsIndicator() {
 		
-		if datePickerView.delegate?.hasEventsForDay(date) ?? false {
+		if isInMonth && datePickerView.delegate?.hasEventsForDay(date) ?? false {
 			
 			let eView = UIView()
 			eView.translatesAutoresizingMaskIntoConstraints = false
-			eView.backgroundColor = .lightGray
+			eView.backgroundColor = .red
 			eView.layer.cornerRadius = 2.0
 			addSubview(eView)
 			

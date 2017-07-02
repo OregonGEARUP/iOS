@@ -86,6 +86,9 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 	func showCurrentMonth() {
 		
 		calendarView.contentController.setupMonthForDate(Date())
+		
+		calendarView.selectFirstDay()	// TODO: should select today!
+		eventsTableView?.reloadData()
 	}
 	
 	func didSelectDay(_ dayView: JBDatePickerDayView) {
@@ -103,12 +106,10 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 	
 	func didPresentOtherMonth(_ monthView: JBDatePickerMonthView) {
 		
-		calendarView.selectFirstDay()
 		monthLabel.text = monthView.monthDescription
 		
-		if eventsTableView != nil {
-			eventsTableView.reloadData()
-		}
+		calendarView.selectFirstDay()
+		eventsTableView?.reloadData()
 	}
 	
 	func hasEventsForDay(_ date: Date?) -> Bool {

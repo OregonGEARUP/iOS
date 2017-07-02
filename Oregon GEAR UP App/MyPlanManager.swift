@@ -6,7 +6,7 @@
 //  Copyright © 2017 Oregon GEAR UP. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
 class MyPlanManager {
@@ -17,7 +17,7 @@ class MyPlanManager {
 	public var scholarships: [Scholarship]!
 	public var testResults: TestResults
 	public var residency: Residency
-	public var calendar: [DateComponents: [CalendarEvent]]
+	public var calendar: [Date: [CalendarEvent]]
 	
 	private init() {
 		
@@ -71,17 +71,28 @@ class MyPlanManager {
 		}
 		
 		
-		calendar = [DateComponents: [CalendarEvent]]()
+		calendar = [Date: [CalendarEvent]]()
 		
-		// TEMPORARY data for calendar
-		let date1 = Calendar.current.date(from: DateComponents(year: 1962, month: 7, day: 11))!
-		let date1a = Calendar.current.date(from: DateComponents(year: 1962, month: 7, day: 11))!
-		calendar[DateComponents(month: 7, day: 11)] = [CalendarEvent(date: date1, description: "Cathy's Birthday! With more text to test that it will wrap onto multiple lines.", key: nil), CalendarEvent(date: date1a, description: "Another event for testing", key: nil)]
-		let date2 = Calendar.current.date(from: DateComponents(year: 1994, month: 9, day: 30))!
-		calendar[DateComponents(month: 9, day: 30)] = [CalendarEvent(date: date2, description: "Kristen's Birthday!", key: nil)]
-		let date3 = Calendar.current.date(from: DateComponents(year: 1962, month: 12, day: 22))!
-		calendar[DateComponents(month: 12, day: 22)] = [CalendarEvent(date: date3, description: "Steve's Birthday!", key: nil)]
-		
+		// build up calendar from JSON data file
+		if	let calendarAsset = NSDataAsset(name: "calendar"),
+			let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
+			let eventArray = json as? [[String:[String]]] {
+			
+			for eventDictionary in eventArray {
+				
+				if let event = CalendarEvent(from: eventDictionary) {
+					print(event)
+					
+					if var events = calendar[event.date] {
+						events.append(event)
+						calendar[event.date] = events
+					} else {
+						calendar[event.date] = [event]
+					}
+				}
+				
+			}
+		}
 		
 		
 		checkFirstCollegeName()
@@ -210,7 +221,7 @@ class MyPlanManager {
 	
 	public func calendarEventsForDate(_ date: Date) -> [CalendarEvent]? {
 		
-		let comps = Calendar.current.dateComponents(Set([.month, .day]), from: date)
-		return calendar[comps]
+//		let comps = Calendar.current.dateComponents(Set([.month, .day]), from: date)
+		return calendar[date]
 	}
 }
