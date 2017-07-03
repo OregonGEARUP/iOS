@@ -61,6 +61,9 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		MyPlanManager.shared.checkTestDates()
+		tableView.reloadData()
+		
 		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector:#selector(keyboardDidHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
 	}

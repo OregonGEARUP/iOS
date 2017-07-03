@@ -71,34 +71,15 @@ class MyPlanManager {
 		}
 		
 		
+		// empty calendar will get setup in setupCalendarEvents below
 		calendar = [Date: [CalendarEvent]]()
-		
-		// build up calendar from JSON data file
-		if	let calendarAsset = NSDataAsset(name: "calendar"),
-			let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
-			let eventArray = json as? [[String:[String]]] {
-			
-			for eventDictionary in eventArray {
-				
-				if let event = CalendarEvent(from: eventDictionary) {
-					print(event)
-					
-					if var events = calendar[event.date] {
-						events.append(event)
-						calendar[event.date] = events
-					} else {
-						calendar[event.date] = [event]
-					}
-				}
-				
-			}
-		}
 		
 		
 		checkFirstCollegeName()
 		checkFirstScholarshipName()
-		
-		
+		checkTestDates()
+		setupCalendarEvents()
+
 		
 		// serialize out data
 		NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { (note) in
@@ -194,6 +175,17 @@ class MyPlanManager {
 		}
 	}
 	
+	public func checkTestDates() {
+		
+		if testResults.satDate == nil, let dateStr = UserDefaults.standard.string(forKey: "b4_s1_cp4_i1_date") {
+			testResults.satDate = Date(longDescription: dateStr)
+		}
+		
+		if testResults.actDate == nil, let dateStr = UserDefaults.standard.string(forKey: "b4_s1_cp3_i1_date") {
+			testResults.actDate = Date(longDescription: dateStr)
+		}
+	}
+	
 	public func addCollege(withName name: String) {
 		
 		colleges.append(College(withName: name))
@@ -212,6 +204,60 @@ class MyPlanManager {
 	public func removeScholarship(at index: Int) {
 		
 		scholarships.remove(at: index)
+	}
+	
+	public func setupCalendarEvents() {
+		
+		calendar = [Date: [CalendarEvent]]()
+		
+		// build up calendar from JSON data file
+		if	let calendarAsset = NSDataAsset(name: "calendar"),
+			let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
+			let eventArray = json as? [[String:[String]]] {
+			
+			for eventDictionary in eventArray {
+				if let event = CalendarEvent(from: eventDictionary) {
+					addEventToCalendar(event)
+				}
+			}
+		}
+		
+		// add college application deadlines
+		for college in colleges {
+			if let date = college.applicationDate {
+				let event = CalendarEvent.init(date: date, description: "\(college.name) application deadline")
+				addEventToCalendar(event)
+			}
+		}
+		
+		// add scholarship application deadlines
+		for scholarship in scholarships {
+			if let date = scholarship.applicationDate {
+				let event = CalendarEvent.init(date: date, description: "\(scholarship.name) application deadline")
+				addEventToCalendar(event)
+			}
+		}
+		
+		// add test dates
+		if let date = testResults.actDate {
+			let event = CalendarEvent.init(date: date, description: "ACT test")
+			addEventToCalendar(event)
+		}
+		if let date = testResults.satDate {
+			let event = CalendarEvent.init(date: date, description: "SAT test")
+			addEventToCalendar(event)
+		}
+	}
+	
+	private func addEventToCalendar(_ event: CalendarEvent) {
+		print(event)
+		
+		if var events = calendar[event.date] {
+			events.append(event)
+			calendar[event.date] = events
+		} else {
+			calendar[event.date] = [event]
+		}
 	}
 	
 	public func hasCalendarEventsForDate(_ date: Date) -> Bool {

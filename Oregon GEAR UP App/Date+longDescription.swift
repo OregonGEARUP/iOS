@@ -30,9 +30,14 @@ fileprivate var yearFormatter: DateFormatter = {
 
 extension Date {
 	
-	public init(longDescription dateStr: String) {
+	public init?(longDescription dateStr: String) {
 		self.init()
-		self.longDescription = dateStr
+		
+		if let date = longDateFormatter.date(from: dateStr) {
+			self = date
+		} else {
+			return nil
+		}
 	}
 	
 	public var longDescription: String {

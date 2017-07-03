@@ -65,7 +65,7 @@
   },
   {
     "date": [
-      "##b1_s2_cp3_i1##"
+      "##b1_s2_cp3_i1_date##"
     ],
     "description": [
       "Register for Selective Service"
@@ -73,10 +73,135 @@
   },
   {
     "date": [
-      "##b2_s2_cp2_i1##"
+      "##b2_s2_cp2_i1_date##"
     ],
     "description": [
       "Counselor Meeting"
+    ]
+  },
+  {
+    "date": [
+      "##b5citizen_s1_cp1_i1_date##",
+      "##b5undoc_s1_cp1_i1_date##",
+      "##b5visa_s1_cp1_i1_date##"
+    ],
+    "description": [
+      "##b5citizen_s1_cp1_i1_text##",
+      "##b5undoc_s1_cp1_i1_text##",
+      "##b5visa_s1_cp1_i1_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b5citizen_s1_cp2_i1_date##",
+      "##b5undoc_s1_cp2_i1_date##",
+      "##b5visa_s1_cp2_i1_date##"
+    ],
+    "description": [
+      "##b5citizen_s1_cp2_i1_text##",
+      "##b5undoc_s1_cp2_i1_text##",
+      "##b5visa_s1_cp2_i1_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b5citizen_s1_cp2_i2_date##",
+      "##b5undoc_s1_cp2_i2_date##",
+      "##b5visa_s1_cp2_i2_date##"
+    ],
+    "description": [
+      "##b5citizen_s1_cp2_i2_text##",
+      "##b5undoc_s1_cp2_i2_text##",
+      "##b5visa_s1_cp2_i2_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b5citizen_s4_cp1_i1##",
+      "##b5undoc_s4_cp1_i1##"
+    ],
+    "description": [
+      "Financial Aid Workshop"
+    ]
+  },
+  {
+    "date": [
+      "##b8citizen_s1_cp2_i1_date##",
+      "##b8noncitizen_s1_cp2_i1_date##"
+    ],
+    "description": [
+      "##b8citizen_s1_cp2_i1_text##",
+      "##b8noncitizen_s1_cp2_i1_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b8citizen_s1_cp2_i2_date##",
+      "##b8noncitizen_s1_cp2_i2_date##"
+    ],
+    "description": [
+      "##b8citizen_s1_cp2_i2_text##",
+      "##b8noncitizen_s1_cp2_i2_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b8citizen_s2_cp3_i1_date##",
+      "##b8noncitizen_s2_cp3_i1_date##"
+    ],
+    "description": [
+      "##b8citizen_s2_cp3_i1_text##",
+      "##b8noncitizen_s2_cp3_i1_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b8citizen_s2_cp3_i2_date##",
+      "##b8noncitizen_s2_cp3_i2_date##"
+    ],
+    "description": [
+      "##b8citizen_s2_cp3_i2_text##",
+      "##b8noncitizen_s2_cp3_i2_text##"
+    ]
+  },
+  {
+    "date": [
+      "##b9_s3_cp4_i1_date##"
+    ],
+    "description": [
+      "Doctor’s Appointment"
+    ]
+  },
+  {
+    "date": [
+      "##b10_s1_cp3_i1_date##"
+    ],
+    "description": [
+      "Placement Test"
+    ]
+  },
+  {
+    "date": [
+      "##b10_s3_cp1_i1_date##"
+    ],
+    "description": [
+      "Date of Orientation"
+    ]
+  },
+  {
+    "date": [
+      "##b10_s4_cp1_i1_date##"
+    ],
+    "description": [
+      "First day of classes"
+    ]
+  },
+  {
+    "date": [
+      "##b10_s4_cp2_i1_date##"
+    ],
+    "description": [
+      "Date to meet with advisor"
     ]
   }
 ]

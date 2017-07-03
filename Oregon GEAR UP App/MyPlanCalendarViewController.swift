@@ -31,6 +31,8 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 
         title = "Calendar"
 		
+		MyPlanManager.shared.setupCalendarEvents()
+		
 		monthLabel = FadeTransitionLabel()
 		monthLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(monthLabel)

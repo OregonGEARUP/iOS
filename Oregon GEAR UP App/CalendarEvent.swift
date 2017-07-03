@@ -14,6 +14,11 @@ struct CalendarEvent {
 	let date: Date
 	let description: String
 	
+	public init(date: Date, description: String) {
+		self.date = date
+		self.description = description
+	}
+	
 	public init?(from dictionary: [String: [String]]) {
 		
 		guard let dateArray = dictionary["date"], dateArray.count > 0,
@@ -22,22 +27,54 @@ struct CalendarEvent {
 			return nil
 		}
 		
-		if dateArray[0].hasPrefix("##") || dateArray[0].hasSuffix("##") {
+		// date
+		var eventDate: Date?
+		for dateStr in dateArray {
 			
-			// TODO: add support for keyed dates
-			
+			if dateStr.hasPrefix("##") && dateStr.hasSuffix("##") {
+				let keyRange = NSMakeRange(2, dateStr.characters.count-4)
+				let key = (dateStr as NSString).substring(with: keyRange)
+				if let replacement = UserDefaults.standard.object(forKey: key) as? String {
+					eventDate = Date(longDescription: replacement)
+					break
+				}
+				
+			} else {
+				eventDate = Date(longDescription: dateStr)
+				break
+			}
+		}
+		
+		if eventDate == nil {
 			return nil
 		}
 		
-		date = Date(longDescription: dateArray[0])
+		date = eventDate!
 		
-		if descArray[0].hasPrefix("##") || descArray[0].hasSuffix("##") {
+		
+		// description
+		var eventDescription: String?
+		for descStr in descArray {
 			
-			// TODO: add support for keyed descriptions
+			if descStr.hasPrefix("##") && descStr.hasSuffix("##") {
+				let keyRange = NSMakeRange(2, descStr.characters.count-4)
+				let key = (descStr as NSString).substring(with: keyRange)
+				if let replacement = UserDefaults.standard.object(forKey: key) as? String {
+					eventDescription = replacement
+					break
+				}
+				
+			} else {
+				eventDescription = descStr
+				break
+			}
 			
-			return nil
 		}
 		
-		description = descArray[0]
+		if eventDescription == nil || eventDescription!.isEmpty {
+			return nil
+		}
+			
+		description = eventDescription!
 	}
 }
