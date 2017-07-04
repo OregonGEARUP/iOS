@@ -53,10 +53,11 @@ class CheckpointManager {
 	public func persistState(forBlock block: Int, stage: Int, checkpoint: Int) {
 		
 		guard let blockFilename = blockFilename else {
-			fatalError("persistState called before first block file was loaded")
+			print("persistState called before first block file was loaded")
+			return
 		}
 		
-		//addTrace("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
+		addTrace("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
 		
 		blockIndex = block
 		stageIndex = stage

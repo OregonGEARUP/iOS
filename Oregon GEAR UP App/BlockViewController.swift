@@ -14,7 +14,8 @@ class BlockViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
-	let buttonColor = UIColor(red: 0xc8/255.0, green: 0xf0/255.0, blue: 0xf8/255.0, alpha: 1.0)
+	private let completeButtonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255.0, blue: 0x3f/255.0, alpha: 1.0)
+	private let inprogressButtonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
 	
 	private var firstAppearance = true
 	
@@ -22,26 +23,7 @@ class BlockViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//		// load the JSON checkpoint information
-//		activityIndicator.startAnimating()
-//		CheckpointManager.shared.resumeCheckpoints { (success) in
-//			
-//			if success {
-//				self.blockIndex = CheckpointManager.shared.blockIndex
-//				let block = CheckpointManager.shared.blocks[self.blockIndex]
-//				self.setupForBlock(block)
-//				
-//				self.activityIndicator.stopAnimating()
-//				
-//				if CheckpointManager.shared.stageIndex >= 0 && CheckpointManager.shared.checkpointIndex >= 0 {
-//					self.showStage(forIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
-//				}
-//				
-//			} else {
-//				// TODO: show error here?
-//			}
-//		}
+		
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +43,7 @@ class BlockViewController: UIViewController {
 		
 		firstAppearance = false
 	}
-
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -107,11 +89,11 @@ class BlockViewController: UIViewController {
 			
 			button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
 			button.titleLabel?.numberOfLines = 0
-			button.setTitleColor(.darkText, for: .normal)
+			button.setTitleColor(.white, for: .normal)
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = buttonColor.cgColor
+			button.layer.backgroundColor = completeButtonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
@@ -141,6 +123,10 @@ class BlockViewController: UIViewController {
 		for (index, _) in block.stages.enumerated() {
 			
 			let completed = CheckpointManager.shared.stageCompleted(atIndex: index)
+			
+			if let button = view.viewWithTag(index) as? UIButton {
+				button.layer.backgroundColor = completed ? completeButtonColor.cgColor : inprogressButtonColor.cgColor
+			}
 			
 			if let statusView = view.viewWithTag(100 + index) {
 				statusView.alpha = completed ? 1.0 : 0.0

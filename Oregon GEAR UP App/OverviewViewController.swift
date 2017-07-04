@@ -16,8 +16,12 @@ class OverviewViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
-	let buttonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
+	private let completeButtonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255.0, blue: 0x3f/255.0, alpha: 1.0)
+	private let inprogressButtonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
+	private let inactiveButtonColor = UIColor(red: 0xd3/255.0, green: 0xe4/255.0, blue: 0xeb/255.0, alpha: 1.0)
 	
+	private var firstAppearance = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -56,7 +60,15 @@ class OverviewViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		if firstAppearance {
+			
+		} else {
+			CheckpointManager.shared.persistState(forBlock: -1, stage: -1, checkpoint: -1)
+		}
+		
 		update()
+		
+		firstAppearance = false
 	}
 	
     override func didReceiveMemoryWarning() {
@@ -114,7 +126,7 @@ class OverviewViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = buttonColor.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
+			button.layer.backgroundColor = button.isEnabled ? completeButtonColor.cgColor : inactiveButtonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
@@ -151,7 +163,7 @@ class OverviewViewController: UIViewController {
 				let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
 				button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
 				button.isEnabled = blockInfo.available
-				button.layer.backgroundColor = buttonColor.withAlphaComponent(button.isEnabled ? 0.5 : 0.1).cgColor
+				button.layer.backgroundColor = button.isEnabled ? completeButtonColor.cgColor : inactiveButtonColor.cgColor
 			}
 		}
 	}
