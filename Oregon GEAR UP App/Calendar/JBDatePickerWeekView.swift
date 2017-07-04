@@ -76,5 +76,10 @@ final class JBDatePickerWeekView: UIStackView {
         }
         
     }
-        
+	
+	public func updateEventIndicators() {
+		dayViews.forEach() {
+			$0.setupEventsIndicator()
+		}
+	}
 }

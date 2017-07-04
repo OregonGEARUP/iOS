@@ -31,8 +31,6 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 
         title = "Calendar"
 		
-		MyPlanManager.shared.setupCalendarEvents()
-		
 		monthLabel = FadeTransitionLabel()
 		monthLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(monthLabel)
@@ -81,6 +79,14 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 		monthLabel.addGestureRecognizer(tgr)
 		monthLabel.isUserInteractionEnabled = true
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		MyPlanManager.shared.setupCalendarEvents()
+		calendarView.updateEventIndicators()
+		eventsTableView.reloadData()
+	}
 	
 	
 	// MARK: - calendar delegate

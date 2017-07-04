@@ -274,9 +274,14 @@ public final class JBDatePickerDayView: UIView {
         }
     }
 	
-	func setupEventsIndicator() {
+	public func setupEventsIndicator() {
 		
 		if isInMonth && datePickerView.delegate?.hasEventsForDay(date) ?? false {
+			
+			if let oldView = eventsView {
+				oldView.removeFromSuperview()
+				eventsView = nil
+			}
 			
 			let eView = UIView()
 			eView.translatesAutoresizingMaskIntoConstraints = false

@@ -50,6 +50,11 @@ public final class JBDatePickerView: UIView {
         }
     }
 	
+	public func updateEventIndicators() {
+		
+		contentController.updateEventIndicators()
+	}
+	
 	public func selectFirstDay() {
 		
 		guard let weekViews = presentedMonthView.weekViews,

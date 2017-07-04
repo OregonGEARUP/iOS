@@ -86,7 +86,9 @@ public final class JBDatePickerMonthView: UIStackView {
         }
     }
     
-    
-
-
+	public func updateEventIndicators() {
+		weekViews.forEach() {
+			$0.updateEventIndicators()
+		}
+	}
 }

@@ -56,7 +56,7 @@ class JBDatePickerContentVC: UIViewController, UIScrollViewDelegate {
         addInitialMonthViews(for: presentedMonthView.date)
     }
     
-   required init?(coder aDecoder: NSCoder) {
+	required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 	
@@ -73,6 +73,13 @@ class JBDatePickerContentVC: UIViewController, UIScrollViewDelegate {
 		
 		addInitialMonthViews(for: presentedMonthView.date)
 		updateScrollViewFrame(scrollView.frame)
+	}
+	
+	public func updateEventIndicators() {
+		
+		for monthView in monthViews.values {
+			monthView.updateEventIndicators()
+		}
 	}
 	
 	
