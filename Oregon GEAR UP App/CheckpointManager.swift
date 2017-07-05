@@ -9,11 +9,59 @@
 import Foundation
 
 
+struct BlockInfo {
+	let ids: String
+	let title: String
+	var blockFileName: String?
+	var stageCount: Int?
+	var stagesComplete: Int?
+	
+	public init?(fromDictionary dictionary: [String: Any]) {
+		
+		if let ids = dictionary["ids"] as? String,
+			let title = dictionary["title"] as? String {
+			self.ids = ids
+			self.title = title
+		} else {
+			return nil
+		}
+		
+		self.blockFileName = dictionary["blockFileName"] as? String
+		if self.blockFileName == "" {
+			self.blockFileName = nil
+		}
+		
+		self.stageCount = dictionary["stageCount"] as? Int
+		self.stagesComplete = dictionary["stagesComplete"] as? Int
+	}
+	
+	public func serializeToDictionary() -> [String: Any] {
+		
+		var dictionary = [String: Any]()
+		
+		dictionary["ids"] = ids
+		dictionary["title"] = title
+		
+		if let blockFileName = blockFileName {
+			dictionary["blockFileName"] = blockFileName
+		}
+		if let stageCount = stageCount {
+			dictionary["stageCount"] = stageCount
+		}
+		if let stagesComplete = stagesComplete {
+			dictionary["stagesComplete"] = stagesComplete
+		}
+		
+		return dictionary
+	}
+}
+
+
 class CheckpointManager {
     
     static let shared = CheckpointManager()
 	
-	private var blockInfos = [[String: String]]()
+	private var blockInfos = [BlockInfo]()
     
 	private var internalBlock: Block?
 	
@@ -95,8 +143,8 @@ class CheckpointManager {
 	
 	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
-		if let blockInfo = UserDefaults.standard.array(forKey: "blockInfo") as? [[String: String]] {
-			self.blockInfos = blockInfo
+		if let blockInfo = UserDefaults.standard.array(forKey: "blockInfo") as? [[String: Any]] {
+			self.blockInfos = blockInfo.map({ BlockInfo(fromDictionary: $0) }).flatMap({ $0 })
 			resumeCheckpointsInternal(completion: completion)
 			return
 		}
@@ -109,9 +157,9 @@ class CheckpointManager {
 			var success = false
 			if let data = data {
 				
-				if let jsonArray = try? JSONSerialization.jsonObject(with: data), let blockInfos = jsonArray as? [[String: String]] {
-			
-					self.blockInfos = blockInfos
+				if let jsonArray = try? JSONSerialization.jsonObject(with: data), let blockInfo = jsonArray as? [[String: Any]] {
+					
+					self.blockInfos = blockInfo.map({ BlockInfo(fromDictionary: $0) }).flatMap({ $0 })
 					success = true
 				}
 			}
@@ -155,7 +203,7 @@ class CheckpointManager {
 		
 		// handle intial startup case with first block
 		if filename == nil && blockInfos.count > 0 {
-			filename = blockInfos[0]["blockFileName"]
+			filename = blockInfos[0].blockFileName
 			blockIndex = -1
 			stageIndex = -1
 			checkpointIndex = -1
@@ -176,17 +224,18 @@ class CheckpointManager {
 		
 		let block = blockInfo(forIndex: index)
 		
-		guard block.available else {
+		guard let filename = block.filename, block.available else {
 			fatalError("loadBlock: unknown block file")
 		}
 		
 		// see if the block is already loaded
 		if block.filename == blockFilename {
+			blockIndex = index
 			completion(true)
 			return
 		}
 		
-		loadNextBlock(fromFile: block.filename, completion: completion)
+		loadNextBlock(fromFile: filename, completion: completion)
 	}
 	
 	public func loadNextBlock(fromFile filename: String, completion: @escaping (_ success: Bool) -> Void) {
@@ -236,17 +285,16 @@ class CheckpointManager {
 					// update the blockIndex for the newly loaded block
 					for (index, blockInfo) in self.blockInfos.enumerated() {
 						
-						if let blockIds = blockInfo["ids"] {
+						let ids = blockInfo.ids.characters.split{$0 == ","}.map(String.init)
+						if ids.index(of: self.block.identifier) != nil {
 							
-							let ids = blockIds.characters.split{$0 == ","}.map(String.init)
-							if ids.index(of: self.block.identifier) != nil {
-								
-								self.blockIndex = index
-								self.blockInfos[index]["blockFileName"] = filename
-								UserDefaults.standard.set(self.blockInfos, forKey: "blockInfo")
-								
-								break
-							}
+							self.blockIndex = index
+							self.blockInfos[index].blockFileName = filename
+							
+							let blockInfoArray = self.blockInfos.map { $0.serializeToDictionary() }
+							UserDefaults.standard.set(blockInfoArray, forKey: "blockInfo")
+							
+							break
 						}
 					}
 				}
@@ -371,15 +419,16 @@ class CheckpointManager {
 		return blockInfos.count
 	}
 	
-	public func blockInfo(forIndex index: Int) -> (title: String, filename: String, available: Bool) {
+	// TODO: this is not really needed any more...
+	public func blockInfo(forIndex index: Int) -> (title: String, filename: String?, available: Bool) {
 		
 		let blockInfo = blockInfos[index]
 		
-		guard let title = blockInfo["title"], let filename = blockInfo["blockFileName"] else {
-			fatalError("blockInfo missing elements")
-		}
+//		guard let filename = blockInfo.blockFileName else {
+//			fatalError("blockInfo missing elements")
+//		}
 		
-		return (title, filename, !filename.isEmpty)
+		return (blockInfo.title, blockInfo.blockFileName, blockInfo.blockFileName != nil)
 	}
 	
 	
