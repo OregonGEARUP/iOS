@@ -16,6 +16,17 @@ struct BlockInfo {
 	var stageCount: Int?
 	var stagesComplete: Int?
 	
+	var available: Bool {
+		return blockFileName != nil
+	}
+	
+	var done: Bool {
+		if let complete = stagesComplete, let count = stageCount {
+			return complete == count
+		}
+		return false
+	}
+	
 	public init?(fromDictionary dictionary: [String: Any]) {
 		
 		if let ids = dictionary["ids"] as? String,
@@ -91,55 +102,13 @@ class CheckpointManager {
 			
 			let visitedArray = Array(self.visited)
 			print("visitedArray: \(visitedArray)")
-			
 			UserDefaults.standard.set(visitedArray, forKey: "visited")
+			
+			self.persistBlockCompletionInfo()
 		}
-    }
+	}
 	
 	private let BaseURL = "https://oregongoestocollege.org/mobileApp/json/"
-	
-	public func persistState(forBlock block: Int, stage: Int, checkpoint: Int) {
-		
-		guard let blockFilename = blockFilename else {
-			print("persistState called before first block file was loaded")
-			return
-		}
-		
-		addTrace("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
-		
-		blockIndex = block
-		stageIndex = stage
-		checkpointIndex = checkpoint
-		
-		let defaults = UserDefaults.standard
-		defaults.set(blockFilename, forKey: "currentBlockFilename")
-		defaults.set(block, forKey: "currentBlockIndex")
-		defaults.set(stage, forKey: "currentStageIndex")
-		defaults.set(checkpoint, forKey: "currentCheckpointIndex")
-	}
-	
-	public func markVisited(forBlock block: Int, stage: Int, checkpoint: Int) {
-		
-		visited.insert(keyForBlockIndex(block, stageIndex: stage, checkpointIndex: checkpoint))
-	}
-	
-	public func hasVisited(block: Int, stage: Int, checkpoint: Int) -> Bool {
-		
-		return visited.contains(keyForBlockIndex(block, stageIndex: stage, checkpointIndex: checkpoint))
-	}
-	
-	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
-		let stage = block.stages[stageIndex]
-		let cp = stage.checkpoints[checkpointIndex]
-		let instance = cp.instances[instanceIndex]
-		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)_\(instance.identifier)"
-	}
-	
-	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int) -> String {
-		let stage = block.stages[stageIndex]
-		let cp = stage.checkpoints[checkpointIndex]
-		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)"
-	}
 	
 	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
@@ -224,12 +193,12 @@ class CheckpointManager {
 		
 		let block = blockInfo(forIndex: index)
 		
-		guard let filename = block.filename, block.available else {
+		guard let filename = block.blockFileName, block.available else {
 			fatalError("loadBlock: unknown block file")
 		}
 		
 		// see if the block is already loaded
-		if block.filename == blockFilename {
+		if filename == blockFilename {
 			blockIndex = index
 			completion(true)
 			return
@@ -239,6 +208,10 @@ class CheckpointManager {
 	}
 	
 	public func loadNextBlock(fromFile filename: String, completion: @escaping (_ success: Bool) -> Void) {
+		
+		// persist block status for current block before loading next on
+		persistBlockCompletionInfo()
+		
 		
 		stageIndex = -1
 		checkpointIndex = -1
@@ -289,6 +262,10 @@ class CheckpointManager {
 						if ids.index(of: self.block.identifier) != nil {
 							
 							self.blockIndex = index
+							
+							let status = self.blockStagesStatus()
+							self.blockInfos[index].stagesComplete = status.completed
+							self.blockInfos[index].stageCount = status.total
 							self.blockInfos[index].blockFileName = filename
 							
 							let blockInfoArray = self.blockInfos.map { $0.serializeToDictionary() }
@@ -299,7 +276,7 @@ class CheckpointManager {
 					}
 				}
 				
-                // call the completion block on the main thread
+                // call completion on the main thread
                 DispatchQueue.main.async(execute: {
                     completion(success)
                 })
@@ -419,20 +396,29 @@ class CheckpointManager {
 		return blockInfos.count
 	}
 	
-	// TODO: this is not really needed any more...
-	public func blockInfo(forIndex index: Int) -> (title: String, filename: String?, available: Bool) {
+	public func blockInfo(forIndex index: Int) -> BlockInfo {
 		
-		let blockInfo = blockInfos[index]
-		
-//		guard let filename = blockInfo.blockFileName else {
-//			fatalError("blockInfo missing elements")
-//		}
-		
-		return (blockInfo.title, blockInfo.blockFileName, blockInfo.blockFileName != nil)
+		return blockInfos[index]
 	}
 	
 	
 	// MARK: - completed
+	
+	public func persistBlockCompletionInfo() {
+		
+		guard blockIndex >= 0, let filename = blockFilename else {
+			return
+		}
+		
+		let status = self.blockStagesStatus()
+		blockInfos[blockIndex].stagesComplete = status.completed
+		blockInfos[blockIndex].stageCount = status.total
+		blockInfos[blockIndex].blockFileName = filename
+		
+		let blockInfoArray = blockInfos.map { $0.serializeToDictionary() }
+		UserDefaults.standard.set(blockInfoArray, forKey: "blockInfo")
+
+	}
 	
 	public func blockCompleted() -> Bool {
 		
@@ -442,6 +428,18 @@ class CheckpointManager {
 		}
 		
 		return completed
+	}
+	
+	public func blockStagesStatus() -> (completed: Int, total: Int) {
+		
+		var completed = 0
+		var total = 0
+		for (stageIndex, _) in block.stages.enumerated() {
+			completed += stageCompleted(atIndex: stageIndex) ? 1 : 0
+			total += 1
+		}
+		
+		return (completed, total)
 	}
 	
 	public func stageCompleted(atIndex stageIndex: Int) -> Bool {
@@ -466,6 +464,49 @@ class CheckpointManager {
 		return cp.isCompleted(forBlockIndex: 0, stageIndex:stageIndex, checkpointIndex: cpIndex)
 	}
 	
+	public func persistState(forBlock block: Int, stage: Int, checkpoint: Int) {
+		
+		guard let blockFilename = blockFilename else {
+			print("persistState called before first block file was loaded")
+			return
+		}
+		
+		addTrace("persistState: \(blockFilename)  b:\(block) s:\(stage) cp:\(checkpoint)")
+		
+		blockIndex = block
+		stageIndex = stage
+		checkpointIndex = checkpoint
+		
+		let defaults = UserDefaults.standard
+		defaults.set(blockFilename, forKey: "currentBlockFilename")
+		defaults.set(block, forKey: "currentBlockIndex")
+		defaults.set(stage, forKey: "currentStageIndex")
+		defaults.set(checkpoint, forKey: "currentCheckpointIndex")
+	}
+	
+	public func markVisited(forBlock block: Int, stage: Int, checkpoint: Int) {
+		
+		visited.insert(keyForBlockIndex(block, stageIndex: stage, checkpointIndex: checkpoint))
+	}
+	
+	public func hasVisited(block: Int, stage: Int, checkpoint: Int) -> Bool {
+		
+		return visited.contains(keyForBlockIndex(block, stageIndex: stage, checkpointIndex: checkpoint))
+	}
+
+	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int, instanceIndex: Int) -> String {
+		let stage = block.stages[stageIndex]
+		let cp = stage.checkpoints[checkpointIndex]
+		let instance = cp.instances[instanceIndex]
+		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)_\(instance.identifier)"
+	}
+	
+	public func keyForBlockIndex(_ blockIndex: Int, stageIndex: Int, checkpointIndex: Int) -> String {
+		let stage = block.stages[stageIndex]
+		let cp = stage.checkpoints[checkpointIndex]
+		return "\(block.identifier)_\(stage.identifier)_\(cp.identifier)"
+	}
+
 	
 	// MARK: - traces
 	

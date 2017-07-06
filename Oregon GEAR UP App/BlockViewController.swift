@@ -9,6 +9,9 @@
 import UIKit
 
 class BlockViewController: UIViewController {
+	
+	let buttonTagOffset = 100
+	let statusTagOffset = 200
 
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var stackView: UIStackView!
@@ -51,7 +54,7 @@ class BlockViewController: UIViewController {
 	
 	dynamic func handleStageTap(_ button: UIButton) {
 		
-		showStage(forIndex: button.tag, checkpointIndex: 0)
+		showStage(forIndex: button.tag - buttonTagOffset, checkpointIndex: 0)
 	}
 	
 	private func showStage(forIndex index: Int, checkpointIndex: Int, animated: Bool = true) {
@@ -80,7 +83,7 @@ class BlockViewController: UIViewController {
 		for (index, stage) in block.stages.enumerated() {
 			
 			let button = UIButton(type: .custom)
-			button.tag = index
+			button.tag = buttonTagOffset + index
 			button.setTitle(stage.title, for: .normal)
 			button.addTarget(self, action: #selector(self.handleStageTap(_:)), for: .touchUpInside)
 			
@@ -104,16 +107,16 @@ class BlockViewController: UIViewController {
 			let statusView = UIImageView()
 			statusView.translatesAutoresizingMaskIntoConstraints = false
 			statusView.contentMode = .scaleAspectFit
-			statusView.tag = 100 + index
-			statusView.image = UIImage(named: "tab_checkpoints")!.withRenderingMode(.alwaysTemplate)
-			statusView.tintColor = .gray
+			statusView.tag = statusTagOffset + index
+			statusView.image = UIImage(named: "checkmark_big")!.withRenderingMode(.alwaysTemplate)
+			statusView.tintColor = .white
 			statusView.alpha = 0.0
 			button.addSubview(statusView)
 			
-			statusView.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
-			statusView.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
-			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -6.0).isActive = true
-			statusView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -6.0).isActive = true
+			statusView.widthAnchor.constraint(equalToConstant: 45.0).isActive = true
+			statusView.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10.0).isActive = true
+			statusView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -8.0).isActive = true
 		}
 	}
 	
@@ -124,11 +127,11 @@ class BlockViewController: UIViewController {
 			
 			let completed = CheckpointManager.shared.stageCompleted(atIndex: index)
 			
-			if let button = view.viewWithTag(index) as? UIButton {
+			if let button = view.viewWithTag(buttonTagOffset + index) as? UIButton {
 				button.layer.backgroundColor = completed ? completeButtonColor.cgColor : inprogressButtonColor.cgColor
 			}
 			
-			if let statusView = view.viewWithTag(100 + index) {
+			if let statusView = view.viewWithTag(statusTagOffset + index) {
 				statusView.alpha = completed ? 1.0 : 0.0
 			}
 		}

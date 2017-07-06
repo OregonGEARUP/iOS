@@ -10,6 +10,8 @@ import UIKit
 
 class OverviewViewController: UIViewController {
 	
+	let statusTagOffset = 200
+	
 	@IBOutlet weak var welcomeOverlay: UIView!
 
 	@IBOutlet weak var scrollView: UIScrollView!
@@ -63,6 +65,7 @@ class OverviewViewController: UIViewController {
 		if firstAppearance {
 			
 		} else {
+			CheckpointManager.shared.persistBlockCompletionInfo()
 			CheckpointManager.shared.persistState(forBlock: -1, stage: -1, checkpoint: -1)
 		}
 		
@@ -126,12 +129,27 @@ class OverviewViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = button.isEnabled ? completeButtonColor.cgColor : inactiveButtonColor.cgColor
+			button.layer.backgroundColor = button.isEnabled ? inprogressButtonColor.cgColor : inactiveButtonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
 			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
 			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+			
+			
+			let statusView = UIImageView()
+			statusView.translatesAutoresizingMaskIntoConstraints = false
+			statusView.contentMode = .scaleAspectFit
+			statusView.tag = statusTagOffset + index
+			statusView.image = UIImage(named: "checkmark_big")!.withRenderingMode(.alwaysTemplate)
+			statusView.tintColor = .white
+			statusView.alpha = 0.0
+			button.addSubview(statusView)
+			
+			statusView.widthAnchor.constraint(equalToConstant: 45.0).isActive = true
+			statusView.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10.0).isActive = true
+			statusView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -8.0).isActive = true
 		}
 		
 		// add in label with app version info
@@ -163,7 +181,17 @@ class OverviewViewController: UIViewController {
 				let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
 				button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
 				button.isEnabled = blockInfo.available
-				button.layer.backgroundColor = button.isEnabled ? completeButtonColor.cgColor : inactiveButtonColor.cgColor
+				
+				let statusView = view.viewWithTag(index + statusTagOffset)
+				
+				if button.isEnabled {
+					button.layer.backgroundColor = blockInfo.done ? completeButtonColor.cgColor : inprogressButtonColor.cgColor
+					statusView?.alpha = blockInfo.done ? 1.0 : 0.0
+					
+				} else {
+					button.layer.backgroundColor = inactiveButtonColor.cgColor
+					statusView?.alpha = 0.0
+				}
 			}
 		}
 	}
