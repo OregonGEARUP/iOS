@@ -116,7 +116,7 @@ class BlockViewController: UIViewController {
 			statusView.widthAnchor.constraint(equalToConstant: 45.0).isActive = true
 			statusView.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
 			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10.0).isActive = true
-			statusView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -8.0).isActive = true
+			statusView.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
 		}
 	}
 	

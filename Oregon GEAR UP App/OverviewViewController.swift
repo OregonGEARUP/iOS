@@ -11,6 +11,7 @@ import UIKit
 class OverviewViewController: UIViewController {
 	
 	let statusTagOffset = 200
+	let progressTagOffset = 300
 	
 	@IBOutlet weak var welcomeOverlay: UIView!
 
@@ -149,7 +150,18 @@ class OverviewViewController: UIViewController {
 			statusView.widthAnchor.constraint(equalToConstant: 45.0).isActive = true
 			statusView.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
 			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10.0).isActive = true
-			statusView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -8.0).isActive = true
+			statusView.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+			
+			
+			let progressLabel = UILabel()
+			progressLabel.translatesAutoresizingMaskIntoConstraints = false
+			progressLabel.tag = progressTagOffset + index
+			progressLabel.font = UIFont.systemFont(ofSize: 24.0, weight: UIFontWeightSemibold)
+			progressLabel.textColor = .white
+			button.addSubview(progressLabel)
+			
+			progressLabel.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -14.0).isActive = true
+			progressLabel.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
 		}
 		
 		// add in label with app version info
@@ -183,14 +195,28 @@ class OverviewViewController: UIViewController {
 				button.isEnabled = blockInfo.available
 				
 				let statusView = view.viewWithTag(index + statusTagOffset)
+				let progressLabel = view.viewWithTag(index + progressTagOffset) as? UILabel
 				
 				if button.isEnabled {
-					button.layer.backgroundColor = blockInfo.done ? completeButtonColor.cgColor : inprogressButtonColor.cgColor
-					statusView?.alpha = blockInfo.done ? 1.0 : 0.0
 					
+					if blockInfo.done {
+						button.layer.backgroundColor = completeButtonColor.cgColor
+						statusView?.alpha = 1.0
+						progressLabel?.alpha = 0.0
+					} else {
+						button.layer.backgroundColor = inprogressButtonColor.cgColor
+						
+						if let completed = blockInfo.stagesComplete, let total = blockInfo.stageCount {
+							progressLabel?.text = "\(completed) / \(total)"
+							progressLabel?.alpha = 1.0
+						} else {
+							progressLabel?.alpha = 0.0
+						}
+					}
 				} else {
 					button.layer.backgroundColor = inactiveButtonColor.cgColor
 					statusView?.alpha = 0.0
+					progressLabel?.alpha = 0.0
 				}
 			}
 		}
