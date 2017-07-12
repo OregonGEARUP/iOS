@@ -10,8 +10,9 @@ import UIKit
 
 class OverviewViewController: UIViewController {
 	
-	let statusTagOffset = 200
+	let completedTagOffset = 200
 	let progressTagOffset = 300
+	let progress2TagOffset = 400
 	
 	@IBOutlet weak var welcomeOverlay: UIView!
 
@@ -138,30 +139,41 @@ class OverviewViewController: UIViewController {
 			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
 			
 			
-			let statusView = UIImageView()
-			statusView.translatesAutoresizingMaskIntoConstraints = false
-			statusView.contentMode = .scaleAspectFit
-			statusView.tag = statusTagOffset + index
-			statusView.image = UIImage(named: "checkmark_big")!.withRenderingMode(.alwaysTemplate)
-			statusView.tintColor = .white
-			statusView.alpha = 0.0
-			button.addSubview(statusView)
+			let completedView = UIImageView()
+			completedView.translatesAutoresizingMaskIntoConstraints = false
+			completedView.contentMode = .scaleAspectFit
+			completedView.tag = completedTagOffset + index
+			completedView.image = UIImage(named: "checkmark_big")!.withRenderingMode(.alwaysTemplate)
+			completedView.tintColor = .white
+			completedView.alpha = 0.0
+			button.addSubview(completedView)
 			
-			statusView.widthAnchor.constraint(equalToConstant: 45.0).isActive = true
-			statusView.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
-			statusView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10.0).isActive = true
-			statusView.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+			completedView.widthAnchor.constraint(equalToConstant: 45.0).isActive = true
+			completedView.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+			completedView.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10.0).isActive = true
+			completedView.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
 			
 			
 			let progressLabel = UILabel()
 			progressLabel.translatesAutoresizingMaskIntoConstraints = false
 			progressLabel.tag = progressTagOffset + index
-			progressLabel.font = UIFont.systemFont(ofSize: 24.0, weight: UIFontWeightSemibold)
+			progressLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
 			progressLabel.textColor = .white
 			button.addSubview(progressLabel)
 			
-			progressLabel.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -14.0).isActive = true
-			progressLabel.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+			progressLabel.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -12.0).isActive = true
+			progressLabel.centerYAnchor.constraint(equalTo: button.centerYAnchor, constant: -4.0).isActive = true
+			
+			let progress2Label = UILabel()
+			progress2Label.translatesAutoresizingMaskIntoConstraints = false
+			progress2Label.text = "completed"
+			progress2Label.tag = progress2TagOffset + index
+			progress2Label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFontWeightRegular)
+			progress2Label.textColor = .white
+			button.addSubview(progress2Label)
+			
+			progress2Label.centerXAnchor.constraint(equalTo: progressLabel.centerXAnchor).isActive = true
+			progress2Label.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 0.0).isActive = true
 		}
 		
 		// add in label with app version info
@@ -194,29 +206,31 @@ class OverviewViewController: UIViewController {
 				button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
 				button.isEnabled = blockInfo.available
 				
-				let statusView = view.viewWithTag(index + statusTagOffset)
+				let completedView = view.viewWithTag(index + completedTagOffset)
 				let progressLabel = view.viewWithTag(index + progressTagOffset) as? UILabel
+				let progress2Label = view.viewWithTag(index + progress2TagOffset) as? UILabel
+				
+				completedView?.alpha = 0.0
+				progressLabel?.alpha = 0.0
+				progress2Label?.alpha = 0.0
 				
 				if button.isEnabled {
 					
 					if blockInfo.done {
 						button.layer.backgroundColor = completeButtonColor.cgColor
-						statusView?.alpha = 1.0
-						progressLabel?.alpha = 0.0
+						completedView?.alpha = 1.0
 					} else {
 						button.layer.backgroundColor = inprogressButtonColor.cgColor
 						
 						if let completed = blockInfo.stagesComplete, let total = blockInfo.stageCount {
 							progressLabel?.text = "\(completed) / \(total)"
+							progressLabel?.text = "\(completed) of \(total)"
 							progressLabel?.alpha = 1.0
-						} else {
-							progressLabel?.alpha = 0.0
+							progress2Label?.alpha = 1.0
 						}
 					}
 				} else {
 					button.layer.backgroundColor = inactiveButtonColor.cgColor
-					statusView?.alpha = 0.0
-					progressLabel?.alpha = 0.0
 				}
 			}
 		}
