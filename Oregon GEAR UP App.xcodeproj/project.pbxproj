@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C099B951F1A6E4F00578AC6 /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C099B941F1A6E4F00578AC6 /* StyleGuide.swift */; };
 		2C0F09931EB631E300283A87 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F09921EB631E300283A87 /* OverviewViewController.swift */; };
 		2C1DAC2F1E9D1F2500D2C1BF /* SecureInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */; };
 		2C1DAC321E9D331200D2C1BF /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DAC301E9D331200D2C1BF /* KeychainItemAccessibility.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C099B941F1A6E4F00578AC6 /* StyleGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		2C0F09921EB631E300283A87 /* OverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
 		2C1DAC2E1E9D1F2500D2C1BF /* SecureInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInfoViewController.swift; sourceTree = "<group>"; };
 		2C1DAC301E9D331200D2C1BF /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				2C9349331EFB1BBC00E537C0 /* MyPlanCalendarViewController.swift */,
 				2C65D9B11EC4E34C0083CEA7 /* MyPlanBaseViewController.swift */,
 				2C65D9AF1EC4CE920083CEA7 /* MyPlanTableViewCells.swift */,
+				2C099B941F1A6E4F00578AC6 /* StyleGuide.swift */,
 				2C9349351EFB1F2100E537C0 /* Calendar */,
 				F93BB5731DECA5D0000C6C56 /* Main.storyboard */,
 				F93BB5791DECA5D0000C6C56 /* Assets.xcassets */,
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C099B951F1A6E4F00578AC6 /* StyleGuide.swift in Sources */,
 				2C65D9BE1EC7450A0083CEA7 /* Residency.swift in Sources */,
 				2C65D9B81EC519300083CEA7 /* TestResults.swift in Sources */,
 				2C462BFB1E5761BF0093BBB9 /* Stage.swift in Sources */,

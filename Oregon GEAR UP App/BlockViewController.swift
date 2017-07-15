@@ -17,9 +17,6 @@ class BlockViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
-	private let completeButtonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255.0, blue: 0x3f/255.0, alpha: 1.0)
-	private let inprogressButtonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
-	
 	private var firstAppearance = true
 	
 	var blockIndex = -1
@@ -27,6 +24,7 @@ class BlockViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		StyleGuide.addGradientLayerTo(view)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -96,7 +94,7 @@ class BlockViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = completeButtonColor.cgColor
+			button.layer.backgroundColor = StyleGuide.completeButtonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
@@ -128,7 +126,7 @@ class BlockViewController: UIViewController {
 			let completed = CheckpointManager.shared.stageCompleted(atIndex: index)
 			
 			if let button = view.viewWithTag(buttonTagOffset + index) as? UIButton {
-				button.layer.backgroundColor = completed ? completeButtonColor.cgColor : inprogressButtonColor.cgColor
+				button.layer.backgroundColor = completed ? StyleGuide.completeButtonColor.cgColor : StyleGuide.inprogressButtonColor.cgColor
 			}
 			
 			if let statusView = view.viewWithTag(statusTagOffset + index) {

@@ -20,16 +20,14 @@ class OverviewViewController: UIViewController {
 	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
-	private let completeButtonColor = UIColor(red: 0x8c/255.0, green: 0xc6/255.0, blue: 0x3f/255.0, alpha: 1.0)
-	private let inprogressButtonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
-	private let inactiveButtonColor = UIColor(red: 0xd3/255.0, green: 0xe4/255.0, blue: 0xeb/255.0, alpha: 1.0)
-	
 	private var firstAppearance = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		title = NSLocalizedString("Checklist", comment: "overview title")
+		
+		StyleGuide.addGradientLayerTo(view)
 		
 		welcomeOverlay.alpha = 0.0
 		welcomeOverlay.layer.borderColor = UIColor.lightGray.cgColor
@@ -129,9 +127,10 @@ class OverviewViewController: UIViewController {
 			button.titleLabel?.numberOfLines = 0
 			button.setTitleColor(.white, for: .normal)
 			button.setTitleColor(.lightGray, for: .highlighted)
+			button.setTitleColor(.lightGray, for: .disabled)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = button.isEnabled ? inprogressButtonColor.cgColor : inactiveButtonColor.cgColor
+			button.layer.backgroundColor = button.isEnabled ? StyleGuide.inprogressButtonColor.cgColor : StyleGuide.inactiveButtonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
@@ -159,6 +158,7 @@ class OverviewViewController: UIViewController {
 			progressLabel.tag = progressTagOffset + index
 			progressLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
 			progressLabel.textColor = .white
+			progressLabel.alpha = 0.0
 			button.addSubview(progressLabel)
 			
 			progressLabel.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -12.0).isActive = true
@@ -170,6 +170,7 @@ class OverviewViewController: UIViewController {
 			progress2Label.tag = progress2TagOffset + index
 			progress2Label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFontWeightRegular)
 			progress2Label.textColor = .white
+			progress2Label.alpha = 0.0
 			button.addSubview(progress2Label)
 			
 			progress2Label.centerXAnchor.constraint(equalTo: progressLabel.centerXAnchor).isActive = true
@@ -181,14 +182,18 @@ class OverviewViewController: UIViewController {
 			let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString"),
 			let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") {
 			
+			let spacer = UIView()
+			stackView.addArrangedSubview(spacer)
+			spacer.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+			spacer.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+			
 			let versionLabel = UILabel()
 			versionLabel.text = "\(name), v\(version) (\(build))\n\nOregon GEAR UP"
 			versionLabel.numberOfLines = 0
 			versionLabel.textAlignment = .center
-			versionLabel.textColor = .lightGray
+			versionLabel.textColor = .gray
 			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightThin)
 			stackView.addArrangedSubview(versionLabel)
-			//versionLabel.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
 		}
 	}
 	
@@ -217,10 +222,10 @@ class OverviewViewController: UIViewController {
 				if button.isEnabled {
 					
 					if blockInfo.done {
-						button.layer.backgroundColor = completeButtonColor.cgColor
+						button.layer.backgroundColor = StyleGuide.completeButtonColor.cgColor
 						completedView?.alpha = 1.0
 					} else {
-						button.layer.backgroundColor = inprogressButtonColor.cgColor
+						button.layer.backgroundColor = StyleGuide.inprogressButtonColor.cgColor
 						
 						if let completed = blockInfo.stagesComplete, let total = blockInfo.stageCount {
 							progressLabel?.text = "\(completed) / \(total)"
@@ -230,7 +235,7 @@ class OverviewViewController: UIViewController {
 						}
 					}
 				} else {
-					button.layer.backgroundColor = inactiveButtonColor.cgColor
+					button.layer.backgroundColor = StyleGuide.inactiveButtonColor.cgColor
 				}
 			}
 		}

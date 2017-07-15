@@ -21,6 +21,8 @@ class MyPlanViewController: UIViewController {
 
 		title = NSLocalizedString("My Plan", comment: "my plan title")
 		
+		StyleGuide.addGradientLayerTo(view)
+		
 		let buttonTitles = [NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title"), NSLocalizedString("Calendar", comment: "Calendar title")]
 		
 		
@@ -39,7 +41,7 @@ class MyPlanViewController: UIViewController {
 			button.setTitleColor(.lightGray, for: .highlighted)
 			
 			button.layer.cornerRadius = 5.0
-			button.layer.backgroundColor = buttonColor.cgColor
+			button.layer.backgroundColor = StyleGuide.completeButtonColor.cgColor
 			
 			stackView.addArrangedSubview(button)
 			
