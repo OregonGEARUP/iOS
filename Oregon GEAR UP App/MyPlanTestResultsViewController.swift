@@ -115,7 +115,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 	public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		
 		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 30.0))
-		headerView.backgroundColor = StyleGuide.completeButtonColor
+		headerView.backgroundColor = StyleGuide.myPlanColor
 		
 		let titleLabel = UILabel()
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -123,7 +123,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		return 43
 	}
 	
-	private let bgColor = StyleGuide.completeButtonColor
+	private let bgColor = StyleGuide.myPlanColor
 	
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		

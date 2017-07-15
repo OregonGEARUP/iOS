@@ -133,7 +133,7 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 	}
 	
 	var colorForWeekDaysViewBackground: UIColor {
-		return  StyleGuide.completeButtonColor
+		return  StyleGuide.myPlanColor
 	}
 
 	var weekDaysViewHeightRatio: CGFloat {
