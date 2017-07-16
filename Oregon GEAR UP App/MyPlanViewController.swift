@@ -24,35 +24,14 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		title = NSLocalizedString("My Plan", comment: "my plan title")
 		
 		tableView.rowHeight = 80
+		tableView.bounces = false
 		tableView.delegate = self
 		tableView.dataSource = self
+		tableView.backgroundColor = .clear
+		tableView.separatorStyle = .singleLine
+		tableView.separatorColor = StyleGuide.myPlanColor
 		
 		StyleGuide.addGradientLayerTo(view)
-		
-		tableView.backgroundColor = .clear
-		
-//		for (index, title) in titles.enumerated() {
-//			
-//			let button = UIButton(type: .custom)
-//			button.tag = index
-//			button.setTitle(title, for: .normal)
-//			button.addTarget(self, action: #selector(self.handleTap(_:)), for: .touchUpInside)
-//			button.isEnabled = true
-//			
-//			button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
-//			button.titleLabel?.numberOfLines = 0
-//			button.titleLabel?.textAlignment = .center
-//			button.setTitleColor(.white, for: .normal)
-//			button.setTitleColor(.lightGray, for: .highlighted)
-//			
-//			button.layer.cornerRadius = 5.0
-//			button.layer.backgroundColor = StyleGuide.completeButtonColor.cgColor
-//			
-//			stackView.addArrangedSubview(button)
-//			
-//			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
-//			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
-//		}
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +54,7 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "myplancell", for: indexPath)
+		cell.selectionStyle = .none
 		cell.textLabel?.font = UIFont.systemFont(ofSize: 24.0)
 		cell.textLabel?.textColor = StyleGuide.myPlanColor
 		cell.backgroundColor = .clear
@@ -92,7 +72,6 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		showPlan(atIndex: indexPath.row)
 	}
 
-	
 	private func showPlan(atIndex index: Int, animated: Bool = true) {
 		switch index {
 		case 0:
