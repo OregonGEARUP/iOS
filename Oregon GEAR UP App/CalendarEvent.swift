@@ -14,8 +14,13 @@ struct CalendarEvent {
 	let date: Date
 	let description: String
 	
-	public init(date: Date, description: String) {
-		self.date = date
+	public init?(date: Date, description: String) {
+		
+		guard let strippedDate = date.stripped() else {
+			return nil
+		}
+		
+		self.date = strippedDate
 		self.description = description
 	}
 	
@@ -45,11 +50,11 @@ struct CalendarEvent {
 			}
 		}
 		
-		if eventDate == nil {
+		guard let goodDate = eventDate?.stripped() else {
 			return nil
 		}
 		
-		date = eventDate!
+		date = goodDate
 		
 		
 		// description

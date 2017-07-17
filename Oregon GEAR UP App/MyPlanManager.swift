@@ -97,6 +97,8 @@ class MyPlanManager {
 			UserDefaults.standard.set(self.testResults.serializeToDictionary(), forKey: "testresults")
 			
 			UserDefaults.standard.set(self.residency.serializeToDictionary(), forKey: "residency")
+			
+			print("persisted My Plan info")
 		}
 	}
 	
@@ -225,27 +227,31 @@ class MyPlanManager {
 		// add college application deadlines
 		for college in colleges {
 			if let date = college.applicationDate {
-				let event = CalendarEvent.init(date: date, description: "\(college.name) application deadline")
-				addEventToCalendar(event)
+				if let event = CalendarEvent(date: date, description: "\(college.name) application deadline") {
+					addEventToCalendar(event)
+				}
 			}
 		}
 		
 		// add scholarship application deadlines
 		for scholarship in scholarships {
 			if let date = scholarship.applicationDate {
-				let event = CalendarEvent.init(date: date, description: "\(scholarship.name) application deadline")
-				addEventToCalendar(event)
+				if let event = CalendarEvent(date: date, description: "\(scholarship.name) application deadline") {
+					addEventToCalendar(event)
+				}
 			}
 		}
 		
 		// add test dates
 		if let date = testResults.actDate {
-			let event = CalendarEvent.init(date: date, description: "ACT test")
-			addEventToCalendar(event)
+			if let event = CalendarEvent(date: date, description: "ACT test") {
+				addEventToCalendar(event)
+			}
 		}
 		if let date = testResults.satDate {
-			let event = CalendarEvent.init(date: date, description: "SAT test")
-			addEventToCalendar(event)
+			if let event = CalendarEvent(date: date, description: "SAT test") {
+				addEventToCalendar(event)
+			}
 		}
 	}
 	
@@ -267,7 +273,10 @@ class MyPlanManager {
 	
 	public func calendarEventsForDate(_ date: Date) -> [CalendarEvent]? {
 		
-//		let comps = Calendar.current.dateComponents(Set([.month, .day]), from: date)
-		return calendar[date]
+		guard let strippedDate = date.stripped() else {
+			return nil
+		}
+		
+		return calendar[strippedDate]
 	}
 }
