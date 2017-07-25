@@ -1269,8 +1269,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		case .none:
 			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(checkpointView, withCheckpointAtIndex: checkpointIndex)
-			//view.insertSubview(checkpointView, at: 0)
-			view.addSubview(checkpointView)
+			view.insertSubview(checkpointView, at: 1)
 			
 			currentXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 			NSLayoutConstraint.activate([
