@@ -112,6 +112,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		title = CheckpointManager.shared.block.stages[stageIndex].title
 		
+		StyleGuide.addGradientLayerTo(view)
+		
 		nextButton.alpha = 0.0
 		prevButton.alpha = 0.0
 		
@@ -1267,7 +1269,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		case .none:
 			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
 			populateCheckpointView(checkpointView, withCheckpointAtIndex: checkpointIndex)
-			view.insertSubview(checkpointView, at: 0)
+			//view.insertSubview(checkpointView, at: 0)
+			view.addSubview(checkpointView)
 			
 			currentXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 			NSLayoutConstraint.activate([
