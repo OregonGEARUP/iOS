@@ -827,7 +827,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		doneWithDatePicker()
 		
-		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] else {
+		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
 			return
 		}
 		
@@ -843,10 +843,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			return
 		}
 		
-		let kbHeigth = (r as AnyObject).cgRectValue.size.height
+		let kbHeigth = r.cgRectValue.size.height
 		let textFrame = textField!.convert(textField!.bounds, to: view)
 		let textBottom = textFrame.maxY
-		let kbTop = self.view.frame.maxY - kbHeigth
+		let kbTop = view.frame.height - kbHeigth
 		
 		if (textBottom < kbTop-16)
 		{
@@ -962,6 +962,11 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	private let prevNextScale: CGFloat = 0.9
 	
 	private dynamic func handleSwipe(_ gr: UIPanGestureRecognizer) {
+		
+		if gr.state == .began {
+			doneWithDatePicker()
+			doneWithKeyboard(btn: nil)
+		}
 		
 		enum SwipeResult {
 			case noChange
