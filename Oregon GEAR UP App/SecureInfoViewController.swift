@@ -100,30 +100,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
-			
-			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-			
-			var message: String? = nil
-			if haveBiometrics {
-				message = NSLocalizedString("You can either use your fingerprint or setup a PIN for accessing your passwords.", comment: "secure info fingerprint or PIN message")
-			} else {
-				message = NSLocalizedString("You need to setup a PIN for accessing your passwords.", comment: "secure info PIN message")
-			}
-			
-			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Setup PIN", comment: "Setup PIN button title"), style: .default, handler: { (action) in
-				self.promptForPIN()
-			}))
-			if haveBiometrics {
-				alertController.addAction(UIAlertAction(title: NSLocalizedString("Use Fingerprint", comment: "Use Fingerprint button title"), style: .default, handler: { (action) in
-					UserDefaults.standard.set(true, forKey: "initialsecuresetup")
-					UserDefaults.standard.set(true, forKey: "securewithfingerprint")
-				}))
-			}
-			
-			present(alertController, animated: true, completion: nil)
-		}
+		checkForSecureSetup()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -149,6 +126,39 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	private dynamic func keyboardDidHide(_ notification: Notification) {
 		
 		tableViewBottomConstraint.constant = 0.0
+	}
+	
+	private func hasSecureSetup() -> Bool {
+		
+		return UserDefaults.standard.bool(forKey: "initialsecuresetup")
+	}
+	
+	private func checkForSecureSetup() {
+		
+		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
+			
+			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+			
+			var message: String? = nil
+			if haveBiometrics {
+				message = NSLocalizedString("You can either use your fingerprint or setup a PIN for accessing your passwords.", comment: "secure info fingerprint or PIN message")
+			} else {
+				message = NSLocalizedString("You need to setup a PIN for accessing your passwords.", comment: "secure info PIN message")
+			}
+			
+			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+			alertController.addAction(UIAlertAction(title: NSLocalizedString("Setup PIN", comment: "Setup PIN button title"), style: .default, handler: { (action) in
+				self.promptForPIN()
+			}))
+			if haveBiometrics {
+				alertController.addAction(UIAlertAction(title: NSLocalizedString("Use Fingerprint", comment: "Use Fingerprint button title"), style: .default, handler: { (action) in
+					UserDefaults.standard.set(true, forKey: "initialsecuresetup")
+					UserDefaults.standard.set(true, forKey: "securewithfingerprint")
+				}))
+			}
+			
+			present(alertController, animated: true, completion: nil)
+		}
 	}
 	
 	private func promptForPIN() {
@@ -236,6 +246,12 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	
 	@IBAction func toggleLock() {
 		
+		// make sure we have a PIN established
+		if !hasSecureSetup() {
+			checkForSecureSetup()
+			return
+		}
+
 		if locked {
 			var error: NSError?
 			let context = LAContext()
@@ -315,6 +331,12 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		
 		if textField == pinTextField {
 			return true
+		}
+		
+		// make sure we have a PIN established
+		if !hasSecureSetup() {
+			checkForSecureSetup()
+			return false
 		}
 		
 		// prompt to unlock
@@ -570,7 +592,9 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.tag = 7
 				tfCell.textField.placeholder = "driver license number"
 				tfCell.prompt = "License"
-				tfCell.textField.keyboardType = .default
+				tfCell.textField.keyboardType = .numbersAndPunctuation
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -593,6 +617,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "FSA username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -607,6 +633,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "FSA password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -629,6 +657,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "ORSAA username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -643,6 +673,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "ORSAA password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -665,6 +697,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "CSS username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -679,6 +713,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "CSS password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -709,6 +745,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "email username"
 				tfCell.prompt = "Email"
 				tfCell.textField.keyboardType = .emailAddress
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -723,6 +761,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "email password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -745,6 +785,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "OSAC username"
 				tfCell.prompt = "Username"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -759,6 +801,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				tfCell.textField.placeholder = "OSAC password"
 				tfCell.prompt = "Password"
 				tfCell.textField.keyboardType = .default
+				tfCell.textField.autocorrectionType = .no
+				tfCell.textField.spellCheckingType = .no
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
 				tfCell.textField.isEnabled = true
@@ -788,6 +832,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 					tfCell.textField.placeholder = "college website username"
 					tfCell.prompt = "Username"
 					tfCell.textField.keyboardType = .default
+					tfCell.textField.autocorrectionType = .no
+					tfCell.textField.spellCheckingType = .no
 					tfCell.textField.text = college.username
 					tfCell.textField.isSecureTextEntry = locked
 					tfCell.textField.isEnabled = true
@@ -802,6 +848,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 					tfCell.textField.placeholder = "college website password"
 					tfCell.prompt = "Password"
 					tfCell.textField.keyboardType = .default
+					tfCell.textField.autocorrectionType = .no
+					tfCell.textField.spellCheckingType = .no
 					tfCell.textField.text = college.password
 					tfCell.textField.isSecureTextEntry = locked
 					tfCell.textField.isEnabled = true
