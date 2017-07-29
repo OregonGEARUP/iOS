@@ -59,7 +59,8 @@ class RadiosCheckpointView: CheckpointView {
 }
 
 class RouteCheckpointView: CheckpointView {
-	public let nextBlockButton = UIButton()
+	public let nextBlockButton = UIButton(type: .custom)
+	public let graphicImageView = UIImageView()
 }
 
 
@@ -187,6 +188,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		cpView.layer.cornerRadius = 5.0
 		
 		cpView.translatesAutoresizingMaskIntoConstraints = false
+		cpView.clipsToBounds = true
 		
 		cpView.titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
@@ -230,18 +232,34 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		
 		case .routeEntry, .nextStage:
 			let routeCPView = cpView as! RouteCheckpointView
+			cpView.titleLabel.textColor = StyleGuide.endOfSectionColor
+			cpView.descriptionLabel.textColor = StyleGuide.endOfSectionColor
 			let spacer = UIView()
-			spacer.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
+			spacer.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
 			cpView.stackView.addArrangedSubview(spacer)
+			routeCPView.nextBlockButton.translatesAutoresizingMaskIntoConstraints = false
 			routeCPView.nextBlockButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
-			routeCPView.nextBlockButton.setTitleColor(view.tintColor, for: .normal)		// button blue
+			routeCPView.nextBlockButton.setTitleColor(.white, for: .normal)		// button blue
 			routeCPView.nextBlockButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
+			routeCPView.nextBlockButton.layer.cornerRadius = 4.0
+			routeCPView.nextBlockButton.layer.backgroundColor = StyleGuide.endOfSectionColor.cgColor
+			routeCPView.graphicImageView.translatesAutoresizingMaskIntoConstraints = false
+			routeCPView.graphicImageView.contentMode = .scaleAspectFit
 			if type == .routeEntry {
 				routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
+				routeCPView.graphicImageView.image = #imageLiteral(resourceName: "stars")
 			} else {
 				routeCPView.nextBlockButton.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
+				routeCPView.graphicImageView.image = nil
 			}
 			cpView.stackView.addArrangedSubview(routeCPView.nextBlockButton)
+
+			cpView.addSubview(routeCPView.graphicImageView)
+			NSLayoutConstraint.activate([
+				routeCPView.graphicImageView.leftAnchor.constraint(equalTo: cpView.leftAnchor, constant: 8.0),
+				routeCPView.graphicImageView.rightAnchor.constraint(equalTo: cpView.rightAnchor, constant: -8.0),
+				routeCPView.graphicImageView.bottomAnchor.constraint(equalTo: cpView.bottomAnchor, constant: 90.0)
+			])
 			
 		case .fieldEntry:
 			let fieldsCPView = cpView as! FieldsCheckpointView

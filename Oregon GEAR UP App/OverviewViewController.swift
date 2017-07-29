@@ -15,6 +15,10 @@ class OverviewViewController: UIViewController {
 	let progress2TagOffset = 400
 	
 	@IBOutlet weak var welcomeOverlay: UIView!
+	@IBOutlet weak var welcome1Label: UILabel!
+	@IBOutlet weak var welcome2Label: UILabel!
+	@IBOutlet var numberLabels: [UILabel]!
+	@IBOutlet weak var getStartedButton: UIButton!
 
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var stackView: UIStackView!
@@ -33,6 +37,27 @@ class OverviewViewController: UIViewController {
 		welcomeOverlay.layer.borderColor = UIColor.lightGray.cgColor
 		welcomeOverlay.layer.borderWidth = 0.5
 		welcomeOverlay.layer.cornerRadius = 5.0
+		
+		// change "10" to green text
+		if let text = welcome2Label.text {
+			let attrWelcome = NSMutableAttributedString(string: text)
+			let r = (text as NSString).range(of: "10")
+			if r.location != NSNotFound {
+				attrWelcome.setAttributes([NSForegroundColorAttributeName: StyleGuide.completeButtonColor], range: r)
+			}
+			welcome2Label.attributedText = attrWelcome
+		}
+		
+		// setup the numerals to be green and hidden
+		for label in numberLabels {
+			label.textColor = StyleGuide.completeButtonColor
+			label.alpha = 0.0
+		}
+		
+		getStartedButton.layer.cornerRadius = 4.0
+		getStartedButton.layer.backgroundColor = StyleGuide.completeButtonColor.cgColor
+		getStartedButton.setTitleColor(.white, for: .normal)
+		getStartedButton.alpha = 0.0
 		
 		// load the JSON checkpoint information
 		activityIndicator.startAnimating()
@@ -243,18 +268,32 @@ class OverviewViewController: UIViewController {
 	
 	private func showWelcomeOverlay() {
 		
-		UIView.animate(withDuration: 0.3) {
+		UIView.animate(withDuration: 0.3, animations: {
 			self.welcomeOverlay.alpha = 1.0
+		}) { (finished) in
+			self.showNumberLabel(atIndex: 0)
+		}
+	}
+	
+	private func showNumberLabel(atIndex index: Int) {
+		
+		if index < numberLabels.count {
+			
+			UIView.animate(withDuration: 0.1, animations: {
+				self.numberLabels[index].alpha = 1.0 - CGFloat(index) * 0.1
+			}, completion: { (finished) in
+				self.showNumberLabel(atIndex: index+1)
+			})
+		} else {
+			UIView.animate(withDuration: 0.2) {
+				self.getStartedButton.alpha = 1.0
+			}
 		}
 	}
 	
 	@IBAction private func dismissWelcomeOverlay() {
 		
-//		if CheckpointManager.shared.blockIndex >= 0 {
-//			self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: true)
-//		}
-		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { 
+		UIView.animate(withDuration: 0.3) {
 			self.welcomeOverlay.alpha = 0.0
 			self.scrollView.alpha = 1.0
 		}

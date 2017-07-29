@@ -31,5 +31,7 @@ struct StyleGuide {
 	static let inprogressButtonColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
 	static let inactiveButtonColor = UIColor(red: 0xd3/255.0, green: 0xe4/255.0, blue: 0xeb/255.0, alpha: 1.0)
 	
+	static let endOfSectionColor = UIColor(red: 0x00/255.0, green: 0xae/255.0, blue: 0xef/255.0, alpha: 1.0)
+	
 	static let myPlanColor = UIColor(red: 13.0/255, green: 162.0/255, blue: 218.0/255, alpha: 1.0)
 }
