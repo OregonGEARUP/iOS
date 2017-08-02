@@ -8,11 +8,14 @@
 
 import UIKit
 
-class OverviewViewController: UIViewController {
+class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	
 	let completedTagOffset = 200
 	let progressTagOffset = 300
 	let progress2TagOffset = 400
+	
+	var blockToShow = -1
+	var verticalScrollOffset: CGFloat = -64.0
 	
 	@IBOutlet weak var welcomeOverlay: UIView!
 	@IBOutlet weak var welcome1Label: UILabel!
@@ -59,6 +62,9 @@ class OverviewViewController: UIViewController {
 		getStartedButton.setTitleColor(.white, for: .normal)
 		getStartedButton.alpha = 0.0
 		
+		scrollView.delegate = self
+		
+		
 		// load the JSON checkpoint information
 		activityIndicator.startAnimating()
 		CheckpointManager.shared.resumeCheckpoints { (success) in
@@ -87,6 +93,8 @@ class OverviewViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		blockToShow = CheckpointManager.shared.blockIndex
+		
 		if firstAppearance {
 			
 		} else {
@@ -99,10 +107,24 @@ class OverviewViewController: UIViewController {
 		firstAppearance = false
 	}
 	
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		scrollView.contentOffset = CGPoint(x: 0.0, y: verticalScrollOffset)
+		
+//		// show either the top half or the bottom half
+//		if blockToShow < 5 {
+//			scrollView.setContentOffset(CGPoint(x: 0, y: -64.0), animated: false)
+//		} else {
+//			let offset = scrollView.contentSize.height - scrollView.frame.height + 64.0 /*- 150.0*/
+//			scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: false)
+//		}
+	}
+	
+	public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		
+		verticalScrollOffset = scrollView.contentOffset.y
+	}
 	
 	dynamic func handleBlockTap(_ button: UIButton) {
 		
@@ -257,6 +279,10 @@ class OverviewViewController: UIViewController {
 							progressLabel?.text = "\(completed) of \(total)"
 							progressLabel?.alpha = 1.0
 							progress2Label?.alpha = 1.0
+						}
+						
+						if firstAppearance && blockToShow < 0 {
+							blockToShow = index
 						}
 					}
 				} else {
