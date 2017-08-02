@@ -21,6 +21,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet weak var welcome1Label: UILabel!
 	@IBOutlet weak var welcome2Label: UILabel!
 	@IBOutlet var numberLabels: [UILabel]!
+	@IBOutlet var numberLabelCenterX: [NSLayoutConstraint]!
 	@IBOutlet weak var getStartedButton: UIButton!
 
 	@IBOutlet weak var scrollView: UIScrollView!
@@ -36,10 +37,21 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		StyleGuide.addGradientLayerTo(view)
 		
+		print(UIScreen.main.bounds.height)
+		let smallerScreen = UIScreen.main.bounds.height <= 568.0
+		let plusScreen = UIScreen.main.bounds.height > 667.0
+		
 		welcomeOverlay.alpha = 0.0
 		welcomeOverlay.layer.borderColor = UIColor.lightGray.cgColor
 		welcomeOverlay.layer.borderWidth = 0.5
 		welcomeOverlay.layer.cornerRadius = 5.0
+		
+		welcome1Label.textColor = StyleGuide.completeButtonColor
+		
+		if smallerScreen {
+			welcome1Label.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightMedium)
+			welcome2Label.font = UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightMedium)
+		}
 		
 		// change "10" to green text
 		if let text = welcome2Label.text {
@@ -52,9 +64,18 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		}
 		
 		// setup the numerals to be green and hidden
-		for label in numberLabels {
+		let baseSize: CGFloat = smallerScreen ? 25.0 : plusScreen ? 41.0 : 34.0
+		for (index, label) in numberLabels.enumerated() {
 			label.textColor = StyleGuide.completeButtonColor
+			label.font = UIFont.boldSystemFont(ofSize: baseSize + CGFloat(index))
 			label.alpha = 0.0
+		}
+		
+		// setup the horizontal constraints of the numerals
+		var offset: CGFloat = -12.0
+		for constraint in numberLabelCenterX {
+			constraint.constant = offset
+			offset = offset * -1.0
 		}
 		
 		getStartedButton.layer.cornerRadius = 4.0
@@ -78,7 +99,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 				if UserDefaults.standard.bool(forKey: "welcomedone") == false {
 					self.scrollView.alpha = 0.2
 					self.showWelcomeOverlay()
-					UserDefaults.standard.set(true, forKey: "welcomedone")
+					//UserDefaults.standard.set(true, forKey: "welcomedone")
 				} else {
 					if CheckpointManager.shared.blockIndex >= 0 {
 						self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
@@ -305,7 +326,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		if index < numberLabels.count {
 			
-			UIView.animate(withDuration: 0.1, animations: {
+			UIView.animate(withDuration: 0.07, animations: {
 				self.numberLabels[index].alpha = 1.0 - CGFloat(index) * 0.1
 			}, completion: { (finished) in
 				self.showNumberLabel(atIndex: index+1)
