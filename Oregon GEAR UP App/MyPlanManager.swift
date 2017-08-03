@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 
 class MyPlanManager {
@@ -212,10 +213,16 @@ class MyPlanManager {
 		
 		calendar = [Date: [CalendarEvent]]()
 		
+//		if #available(iOS 10.0, *) {
+//			UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+//			UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//		}
+		
+		
 		// build up calendar from JSON data file
 		if	let calendarAsset = NSDataAsset(name: "calendar"),
 			let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
-			let eventArray = json as? [[String:[String]]] {
+			let eventArray = json as? [[String: Any]] {
 			
 			for eventDictionary in eventArray {
 				if let event = CalendarEvent(from: eventDictionary) {
@@ -227,6 +234,8 @@ class MyPlanManager {
 		// add college application deadlines
 		for college in colleges {
 			if let date = college.applicationDate {
+				
+				// TODO: add reminder info to event
 				if let event = CalendarEvent(date: date, description: "\(college.name) application deadline") {
 					addEventToCalendar(event)
 				}
@@ -236,6 +245,8 @@ class MyPlanManager {
 		// add scholarship application deadlines
 		for scholarship in scholarships {
 			if let date = scholarship.applicationDate {
+				
+				// TODO: add reminder info to event
 				if let event = CalendarEvent(date: date, description: "\(scholarship.name) application deadline") {
 					addEventToCalendar(event)
 				}
@@ -244,19 +255,88 @@ class MyPlanManager {
 		
 		// add test dates
 		if let date = testResults.actDate {
+			
+			// TODO: add reminder info to event
 			if let event = CalendarEvent(date: date, description: "ACT test") {
 				addEventToCalendar(event)
 			}
 		}
 		if let date = testResults.satDate {
+			
+			// TODO: add reminder info to event
 			if let event = CalendarEvent(date: date, description: "SAT test") {
 				addEventToCalendar(event)
 			}
 		}
+		
+		
+		// setup notifications for calendar events
+		if #available(iOS 10.0, *) {
+			
+			UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { (pending) in
+				
+				UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (delivered) in
+					
+					let allEvents = self.calendar.values.flatMap { $0 }
+					for event in allEvents {
+						
+						if  let reminderId = event.reminderId,
+							let reminder = event.reminder,
+							let delta = event.reminderDelta {
+							
+							// check to see if the reminder has been delivered, if so do nothing more
+							let foundDelivered = delivered.filter { (deliveredNotification) -> Bool in
+								return deliveredNotification.request.identifier == reminderId
+							}
+							if foundDelivered.count > 0 {
+								continue
+							}
+							
+							
+							let deltaInterval = (Double(delta) * 60.0 * 60.0 * 24.0) + ((14.0 + 7.0) * 60.0 * 60.0)		// 10am reminders
+							let date = event.date.addingTimeInterval(deltaInterval)
+							let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
+							let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+							
+							// check to see if it is pending
+							let foundPending = pending.filter { (pendingNotification) -> Bool in
+								return pendingNotification.identifier == reminderId
+							}
+							if foundPending.count > 0 {
+								
+								// see if it the trigger date has changed, if not nothing more to do
+								if foundPending[0].trigger == trigger {
+									continue
+								}
+								
+								// remove current notification, it will get updated below
+								UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminderId])
+							}
+							
+							// create new notification
+							let content = UNMutableNotificationContent()
+							content.title = "Reminder"
+							content.body = reminder
+							content.sound = UNNotificationSound.default()
+							
+							let request = UNNotificationRequest(identifier: reminderId, content: content, trigger: trigger)
+							UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+								if let error = error {
+									print("error creating reminder notification: \(error)")
+								} else {
+									print("created reminder notification: \(request)")
+								}
+							})
+						}
+					}
+				})
+			})
+		}
 	}
 	
 	private func addEventToCalendar(_ event: CalendarEvent) {
-		print(event)
+		
+//		print(event)
 		
 		if var events = calendar[event.date] {
 			events.append(event)
@@ -264,6 +344,31 @@ class MyPlanManager {
 		} else {
 			calendar[event.date] = [event]
 		}
+		
+//		// setup reminder
+//		if #available(iOS 10.0, *) {
+//			if  let reminderId = event.reminderId,
+//				let reminder = event.reminder,
+//				let delta = event.reminderDelta {
+//				
+//				let deltaInterval = (Double(delta) * 60.0 * 60.0 * 24.0) + (10.0 * 60.0 * 60.0)		// 10am reminders
+//				let date = event.date.addingTimeInterval(deltaInterval)
+//				let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
+//				let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+//				
+//				let content = UNMutableNotificationContent()
+//				content.title = "Reminder"
+//				content.body = reminder
+//				content.sound = UNNotificationSound.default()
+//				
+//				let request = UNNotificationRequest(identifier: reminderId, content: content, trigger: trigger)
+//				UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+//					if let error = error {
+//						print("error creating reminder notification: \(error)")
+//					}
+//				})
+//			}
+//		}
 	}
 	
 	public func hasCalendarEventsForDate(_ date: Date) -> Bool {

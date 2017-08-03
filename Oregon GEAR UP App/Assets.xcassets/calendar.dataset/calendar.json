@@ -4,24 +4,33 @@
       "October 1, 2017"
     ],
     "description": [
-      "FAFSA\/ORSAA Opens"
-    ]
+      "FAFSA and ORSAA Opens"
+    ],
+    "reminderId": "iap001",
+    "reminder": "The FAFSA and ORSAA are open! Start your financial aid application today.",
+    "reminderDelta": 0
   },
   {
     "date": [
       "February 28, 2018"
     ],
     "description": [
-      "FAFSA\/ORSAA Priority Deadline"
-    ]
+      "FAFSA and ORSAA Priority Deadline"
+    ],
+    "reminderId": "iap002",
+    "reminder": "The FAFSA and ORSAA priority deadline is in one week. Have you submitted your financial aid application?",
+    "reminderDelta": -7
   },
   {
     "date": [
       "June 30, 2018"
     ],
     "description": [
-      "FAFSA\/ORSAA Final Deadline"
-    ]
+      "FAFSA and ORSAA Final Deadline"
+    ],
+    "reminderId": "iap003",
+    "reminder": "The FAFSA and ORSAA final deadline is in one week. Have you submitted your financial aid application yet?",
+    "reminderDelta": -7
   },
   {
     "date": [
@@ -29,7 +38,10 @@
     ],
     "description": [
       "OSAC Scholarship Application Opens"
-    ]
+    ],
+    "reminderId": "iap004",
+    "reminder": "The OSAC Scholarship Application is open. Apply today!",
+    "reminderDelta": 0
   },
   {
     "date": [
@@ -37,7 +49,10 @@
     ],
     "description": [
       "OSAC Scholarship Application Early Bird Deadline"
-    ]
+    ],
+    "reminderId": "iap005",
+    "reminder": "The OSAC Scholarship Application early bird deadline is in one week. Have you submitted it?",
+    "reminderDelta": 0
   },
   {
     "date": [
@@ -45,7 +60,10 @@
     ],
     "description": [
       "OSAC Scholarship Application Final Deadline"
-    ]
+    ],
+    "reminderId": "iap006",
+    "reminder": "It's your last chance to complete the OSAC Scholarship Application - final deadline is in one week!",
+    "reminderDelta": -7
   },
   {
     "date": [
@@ -53,7 +71,10 @@
     ],
     "description": [
       "Oregon Promise Grant Application Due"
-    ]
+    ],
+    "reminderId": "iap007",
+    "reminder": "Are you considering attending an Oregon community college? The Oregon Promise grant application is due in one week.",
+    "reminderDelta": -7
   },
   {
     "date": [
@@ -61,7 +82,10 @@
     ],
     "description": [
       "4-Year College Decision Deadline"
-    ]
+    ],
+    "reminderId": "iap008",
+    "reminder": "Many colleges require a deposit by tomorrow. Make your final decision.",
+    "reminderDelta": -1
   },
   {
     "date": [
@@ -69,7 +93,10 @@
     ],
     "description": [
       "Register for Selective Service"
-    ]
+    ],
+    "reminderId": "iap009",
+    "reminder": "Remember to register for Selective Service anytime in the next two months.",
+    "reminderDelta": -30
   },
   {
     "date": [
@@ -77,7 +104,10 @@
     ],
     "description": [
       "Counselor Meeting"
-    ]
+    ],
+    "reminderId": "iap010",
+    "reminder": "Remember, you've got a meeting with your counselor tomorrow.",
+    "reminderDelta": -1
   },
   {
     "date": [
@@ -122,7 +152,10 @@
     ],
     "description": [
       "Financial Aid Workshop"
-    ]
+    ],
+    "reminderId": "iap011",
+    "reminder": "Remember, you've got a financial aid application workshop tomorrow. Fill out the info in the It's A Plan: Passwords section.",
+    "reminderDelta": -1
   },
   {
     "date": [
@@ -177,8 +210,11 @@
       "##b10_s1_cp3_i1_date##"
     ],
     "description": [
-      "Placement Test"
-    ]
+      "Placement Tests"
+    ],
+    "reminderId": "iap012",
+    "reminder": "Good luck on your placement test tomorrow! Get plenty of rest and eat a good breakfast.",
+    "reminderDelta": -1
   },
   {
     "date": [
@@ -186,7 +222,10 @@
     ],
     "description": [
       "Date of Orientation"
-    ]
+    ],
+    "reminderId": "iap013",
+    "reminder": "Orientation is a week away. Do you have transportation?",
+    "reminderDelta": -7
   },
   {
     "date": [
@@ -194,7 +233,10 @@
     ],
     "description": [
       "First day of classes"
-    ]
+    ],
+    "reminderId": "iap014",
+    "reminder": "The first day of classes is a week away. Do you have transportation?",
+    "reminderDelta": -7
   },
   {
     "date": [

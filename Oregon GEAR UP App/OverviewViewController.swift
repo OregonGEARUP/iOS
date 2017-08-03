@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import UserNotifications
+
 
 class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	
@@ -37,7 +39,6 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		StyleGuide.addGradientLayerTo(view)
 		
-		print(UIScreen.main.bounds.height)
 		let smallerScreen = UIScreen.main.bounds.height <= 568.0
 		let plusScreen = UIScreen.main.bounds.height > 667.0
 		
@@ -99,7 +100,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 				if UserDefaults.standard.bool(forKey: "welcomedone") == false {
 					self.scrollView.alpha = 0.2
 					self.showWelcomeOverlay()
-					//UserDefaults.standard.set(true, forKey: "welcomedone")
+					UserDefaults.standard.set(true, forKey: "welcomedone")
 				} else {
 					if CheckpointManager.shared.blockIndex >= 0 {
 						self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
@@ -140,6 +141,14 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 //			let offset = scrollView.contentSize.height - scrollView.frame.height + 64.0 /*- 150.0*/
 //			scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: false)
 //		}
+		
+		if #available(iOS 10.0, *) {
+			UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+				if !granted {
+					print("user denied notifications")
+				}
+			}
+		}
 	}
 	
 	public func scrollViewDidScroll(_ scrollView: UIScrollView) {
