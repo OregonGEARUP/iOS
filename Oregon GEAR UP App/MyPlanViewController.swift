@@ -10,13 +10,12 @@ import UIKit
 
 class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
-	@IBOutlet weak var stackView: UIStackView!
 	@IBOutlet weak var tableView: UITableView!
 	
 	public var planIndexToShow = -1
 	
-	private let titles = [NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title"), NSLocalizedString("Calendar", comment: "Calendar title")]
-	private let images = [#imageLiteral(resourceName: "Colleges"), #imageLiteral(resourceName: "Scholarships"), #imageLiteral(resourceName: "ACTSAT"), #imageLiteral(resourceName: "Residency"), #imageLiteral(resourceName: "Calendar")]
+	private let titles = ["Store the deadlines and information you need. Start with the checklist; your responses will automatically be transferred.", NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title"), NSLocalizedString("Calendar", comment: "Calendar title")]
+	private let images = [#imageLiteral(resourceName: "Colleges"), #imageLiteral(resourceName: "Colleges"), #imageLiteral(resourceName: "Scholarships"), #imageLiteral(resourceName: "ACTSAT"), #imageLiteral(resourceName: "Residency"), #imageLiteral(resourceName: "Calendar")]
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +23,7 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		title = NSLocalizedString("My Plan", comment: "my plan title")
 		
 		tableView.rowHeight = 80
-		tableView.bounces = false
+//		tableView.bounces = false
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.backgroundColor = .clear
@@ -51,17 +50,22 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		return titles.count
 	}
 	
+	public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return indexPath.row > 0 ? 80 : 120
+	}
+	
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "myplancell", for: indexPath)
 		cell.selectionStyle = .none
-		cell.textLabel?.font = UIFont.systemFont(ofSize: 24.0)
+		cell.textLabel?.font = indexPath.row > 0 ? UIFont.systemFont(ofSize: 24.0) : UIFont.systemFont(ofSize: 19.0)
 		cell.textLabel?.textColor = StyleGuide.myPlanColor
+		cell.textLabel?.numberOfLines = 0
 		cell.backgroundColor = .clear
 		cell.contentView.backgroundColor = .clear
 		
 		cell.textLabel?.text = titles[indexPath.row]
-		cell.imageView?.image = images[indexPath.row]
+		cell.imageView?.image = indexPath.row > 0 ? images[indexPath.row] : nil
 		return cell
 	}
 	
@@ -74,19 +78,19 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	private func showPlan(atIndex index: Int, animated: Bool = true) {
 		switch index {
-		case 0:
+		case 1:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "colleges") as! MyPlanCollegesViewController
 			self.navigationController?.pushViewController(vc, animated: animated)
-		case 1:
+		case 2:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "scholarships") as! MyPlanScholarshipsViewController
 			self.navigationController?.pushViewController(vc, animated: animated)
-		case 2:
+		case 3:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "testresults") as! MyPlanTestResultsViewController
 			self.navigationController?.pushViewController(vc, animated: animated)
-		case 3:
+		case 4:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "residency") as! MyPlanResidencyViewController
 			self.navigationController?.pushViewController(vc, animated: animated)
-		case 4:
+		case 5:
 			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "calendar") as! MyPlanCalendarViewController
 			self.navigationController?.pushViewController(vc, animated: animated)
 		default:

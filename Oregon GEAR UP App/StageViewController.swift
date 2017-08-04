@@ -237,8 +237,8 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			let spacer = UIView()
 			spacer.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
 			cpView.stackView.addArrangedSubview(spacer)
+			
 			routeCPView.nextBlockButton.translatesAutoresizingMaskIntoConstraints = false
-			routeCPView.nextBlockButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
 			routeCPView.nextBlockButton.setTitleColor(.white, for: .normal)		// button blue
 			routeCPView.nextBlockButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
 			routeCPView.nextBlockButton.layer.cornerRadius = 4.0
@@ -246,12 +246,16 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			routeCPView.graphicImageView.translatesAutoresizingMaskIntoConstraints = false
 			routeCPView.graphicImageView.contentMode = .scaleAspectFit
 			if type == .routeEntry {
+				routeCPView.nextBlockButton.setTitle(String(format: "Onward to Step %d", blockIndex+2), for: .normal)
 				routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
 				routeCPView.graphicImageView.image = #imageLiteral(resourceName: "stars")
 			} else {
+				routeCPView.nextBlockButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
 				routeCPView.nextBlockButton.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
 				routeCPView.graphicImageView.image = nil
 			}
+			
+			// TODO: don't add button if route CP for the last block
 			cpView.stackView.addArrangedSubview(routeCPView.nextBlockButton)
 
 			cpView.addSubview(routeCPView.graphicImageView)

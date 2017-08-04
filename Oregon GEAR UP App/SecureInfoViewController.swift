@@ -518,9 +518,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		case 0:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "The information that you enter in this section will be securely stored on your phone and will not be shared."
+				labelCell.labelText = "Store usernames and passwords securely on your phone; this information will not be shared."
 				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = .darkText
+				labelCell.labelTextColor = StyleGuide.myPlanColor
+				labelCell.labelFontSize = 19.0
 			}
 			return cell
 		case 1:

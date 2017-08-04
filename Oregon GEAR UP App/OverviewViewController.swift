@@ -16,7 +16,6 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	let progressTagOffset = 300
 	let progress2TagOffset = 400
 	
-	var blockToShow = -1
 	var verticalScrollOffset: CGFloat = -64.0
 	
 	@IBOutlet weak var welcomeOverlay: UIView!
@@ -115,8 +114,6 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		blockToShow = CheckpointManager.shared.blockIndex
-		
 		if firstAppearance {
 			
 		} else {
@@ -134,14 +131,6 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		scrollView.contentOffset = CGPoint(x: 0.0, y: verticalScrollOffset)
 		
-//		// show either the top half or the bottom half
-//		if blockToShow < 5 {
-//			scrollView.setContentOffset(CGPoint(x: 0, y: -64.0), animated: false)
-//		} else {
-//			let offset = scrollView.contentSize.height - scrollView.frame.height + 64.0 /*- 150.0*/
-//			scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: false)
-//		}
-		
 		if #available(iOS 10.0, *) {
 			UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
 				if !granted {
@@ -158,15 +147,20 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	
 	dynamic func handleBlockTap(_ button: UIButton) {
 		
-		showBlock(forIndex: button.tag, stageIndex: -1, checkpointIndex: -1)
+		showBlock(forIndex: button.tag-1, stageIndex: -1, checkpointIndex: -1)
 	}
 	
 	private func showBlock(forIndex index: Int, stageIndex: Int, checkpointIndex: Int, animated: Bool = true) {
 		
 		activityIndicator.startAnimating()
 		
+		// disable UI to avoid multiple taps
+		UIApplication.shared.beginIgnoringInteractionEvents()
+		
 		CheckpointManager.shared.loadBlock(atIndex: index) { (success) in
 			
+			UIApplication.shared.endIgnoringInteractionEvents()
+
 			if success {
 				self.activityIndicator.stopAnimating()
 				let vc: BlockViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "block") as! BlockViewController
@@ -187,12 +181,27 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		prepareForNewBlocks()
 		
+		let infoLabel = UILabel()
+		infoLabel.text = "Follow the 10 key steps to apply, pay and go to college."
+		infoLabel.numberOfLines = 0
+		infoLabel.textAlignment = .natural
+		infoLabel.textColor = .darkText
+		infoLabel.textColor = StyleGuide.myPlanColor
+		infoLabel.font = UIFont.systemFont(ofSize: 19.0, weight: UIFontWeightRegular)
+		stackView.addArrangedSubview(infoLabel)
+		infoLabel.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.75).isActive = true
+		
+		let spacer = UIView()
+		stackView.addArrangedSubview(spacer)
+		spacer.heightAnchor.constraint(equalToConstant: 0.0).isActive = true
+		spacer.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+		
 		for index in 0..<CheckpointManager.shared.countOfBlocks() {
 			
 			let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
 			
 			let button = UIButton(type: .custom)
-			button.tag = index
+			button.tag = index+1
 			button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
 			button.addTarget(self, action: #selector(self.handleBlockTap(_:)), for: .touchUpInside)
 			button.isEnabled = blockInfo.available
@@ -218,7 +227,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			let completedView = UIImageView()
 			completedView.translatesAutoresizingMaskIntoConstraints = false
 			completedView.contentMode = .scaleAspectFit
-			completedView.tag = completedTagOffset + index
+			completedView.tag = completedTagOffset + index + 1
 			completedView.image = UIImage(named: "checkmark_big")!.withRenderingMode(.alwaysTemplate)
 			completedView.tintColor = .white
 			completedView.alpha = 0.0
@@ -232,7 +241,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			
 			let progressLabel = UILabel()
 			progressLabel.translatesAutoresizingMaskIntoConstraints = false
-			progressLabel.tag = progressTagOffset + index
+			progressLabel.tag = progressTagOffset + index + 1
 			progressLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
 			progressLabel.textColor = .white
 			progressLabel.alpha = 0.0
@@ -244,7 +253,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			let progress2Label = UILabel()
 			progress2Label.translatesAutoresizingMaskIntoConstraints = false
 			progress2Label.text = "completed"
-			progress2Label.tag = progress2TagOffset + index
+			progress2Label.tag = progress2TagOffset + index + 1
 			progress2Label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFontWeightRegular)
 			progress2Label.textColor = .white
 			progress2Label.alpha = 0.0
@@ -276,16 +285,12 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	
 	private func update() {
 		
-		let blockCount = CheckpointManager.shared.countOfBlocks()
-		for (index, button) in stackView.arrangedSubviews.enumerated() {
-			if let button = button as? UIButton {
+		for index in 1...CheckpointManager.shared.countOfBlocks() {
+			
+			if let button = stackView.viewWithTag(index) as? UIButton {
 				
-				if index >= blockCount {
-					break
-				}
-				
-				let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index)
-				button.setTitle("\(index+1). \(blockInfo.title)", for: .normal)
+				let blockInfo = CheckpointManager.shared.blockInfo(forIndex: index-1)
+				button.setTitle("\(index). \(blockInfo.title)", for: .normal)
 				button.isEnabled = blockInfo.available
 				
 				let completedView = view.viewWithTag(index + completedTagOffset)
@@ -309,10 +314,6 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 							progressLabel?.text = "\(completed) of \(total)"
 							progressLabel?.alpha = 1.0
 							progress2Label?.alpha = 1.0
-						}
-						
-						if firstAppearance && blockToShow < 0 {
-							blockToShow = index
 						}
 					}
 				} else {

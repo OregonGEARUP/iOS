@@ -178,4 +178,13 @@ class LabelCell: UITableViewCell {
 			label.textColor = newValue ?? .darkText
 		}
 	}
+	
+	public var labelFontSize: CGFloat {
+		get {
+			return label.font.pointSize
+		}
+		set {
+			label.font = UIFont.systemFont(ofSize: newValue)
+		}
+	}
 }
