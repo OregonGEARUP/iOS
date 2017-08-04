@@ -11,12 +11,12 @@ import UIKit
 
 class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 	
-	private let sectionsPerCollege = 3
+	private let sectionsPerCollege = 2
 	
 	
 	override func dateChanged(_ date: Date, forIndexPath indexPath: IndexPath) {
-		
-		MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].applicationDate = date
+		let collegeIndex = indexPath.section / sectionsPerCollege
+		MyPlanManager.shared.colleges[collegeIndex].applicationDate = date
 	}
 	
 	public func textFieldDidEndEditing(_ textField: UITextField) {
@@ -25,10 +25,14 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 			if let text = textField.text {
 				
 				let collegeSection = indexPath.section % sectionsPerCollege
+				let collegeIndex = indexPath.section / sectionsPerCollege
+				
 				switch (collegeSection, indexPath.row) {
-				case (0,0): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].name = text
-				case (1,1): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].averageNetPrice = Double(currencyDescription: text)
-				case (2,7): MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege].applicationCost = Double(currencyDescription: text)
+				case (0,0):
+					MyPlanManager.shared.colleges[collegeIndex].name = text
+					tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+				case (0,2): MyPlanManager.shared.colleges[collegeIndex].averageNetPrice = Double(currencyDescription: text)
+				case (1,7): MyPlanManager.shared.colleges[collegeIndex].applicationCost = Double(currencyDescription: text)
 				default:
 					break
 				}
@@ -81,7 +85,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		
 		if let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
 			
-			let collegeIndex = indexPath.section / self.sectionsPerCollege
+			let collegeIndex = indexPath.section / sectionsPerCollege
 			let collegeName = MyPlanManager.shared.colleges[collegeIndex].name
 			
 			let alertController = UIAlertController(title: "Remove College", message: "Confirm removing \(collegeName) from your college list.", preferredStyle: .alert)
@@ -115,8 +119,10 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		
 		tableView.delegate = self
 		tableView.dataSource = self
+		//tableView.rowHeight = UITableViewAutomaticDimension
 		
-		let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addCollege))
+		//let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addCollege))
+		let addBtn = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addCollege))
 		self.navigationItem.setRightBarButton(addBtn, animated: false)
     }
 	
@@ -166,13 +172,14 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 	
 	public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		
-		let collegeNumber = (section / sectionsPerCollege) + 1
+		let collegeIndex = (section / sectionsPerCollege)
 		let collegeSection = section % sectionsPerCollege
 		
 		switch collegeSection {
-		case 0:	return "College #\(collegeNumber)"
-		case 1: return "Application Deadline"
-		case 2: return "What I Need to Apply"
+		case 0:
+			let college = MyPlanManager.shared.colleges[collegeIndex]
+			return college.name
+		case 1: return "What I Need to Apply"
 		default:
 			return nil
 		}
@@ -183,17 +190,17 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		let collegeSection = section % sectionsPerCollege
 		
 		if collegeSection == 0 {
-			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 30.0))
+			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 36.0))
 			headerView.backgroundColor = StyleGuide.myPlanColor
 			
 			let titleLabel = UILabel()
 			titleLabel.translatesAutoresizingMaskIntoConstraints = false
-			titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+			titleLabel.font = UIFont.boldSystemFont(ofSize: 19.0)
 			titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
 			titleLabel.textColor = .white
 			headerView.addSubview(titleLabel)
 			
-			titleLabel.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+			titleLabel.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
 			titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 			titleLabel.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 16.0).isActive = true
 			
@@ -208,9 +215,8 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		let collegeSection = section % sectionsPerCollege
 		
 		switch collegeSection {
-		case 0:	return 1
-		case 1: return 2
-		case 2: return MyPlanManager.shared.colleges.count > 1 ? 10 : 9		// no Remove button when just one college
+		case 0:	return 4
+		case 1: return MyPlanManager.shared.colleges.count > 1 ? 9 : 8		// no Remove button when just one college
 		default:
 			return 0
 		}
@@ -223,50 +229,57 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		
 		switch collegeSection {
 		case 0:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
-			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "college name"
-				tfCell.prompt = "Name"
-				tfCell.textField.text = college.name
-				tfCell.textField.keyboardType = .default
-				tfCell.textField.inputAccessoryView = keyboardAccessoryView
-				tfCell.textField.delegate = self
-			}
-			return cell
-		case 1:
 			if indexPath.row == 0 {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+				if let tfCell = cell as? TextFieldCell {
+					tfCell.textField.placeholder = "college name"
+					tfCell.prompt = "Name"
+					tfCell.textField.text = college.name
+					tfCell.textField.keyboardType = .default
+					tfCell.textField.inputAccessoryView = keyboardAccessoryView
+					tfCell.textField.delegate = self
+				}
+				return cell
+			} else if indexPath.row == 1 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 					dfCell.setDate(college.applicationDate)
-					dfCell.prompt = "Date"
+					dfCell.prompt = "Application Deadline"
 				}
 				return cell
-			} else {
+			} else if indexPath.row == 2 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "average net price"
-					tfCell.prompt = "Price"
+					tfCell.prompt = "Net Price"
 					tfCell.textField.text = college.averageNetPrice?.currencyDescription
 					tfCell.textField.keyboardType = .decimalPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
 				}
 				return cell
+			} else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "checkbox", for: indexPath)
+				if let cbCell = cell as? CheckboxCell {
+					cbCell.title = "I applied!"
+					cbCell.checked = college.applicationDone
+				}
+				return cell
 			}
-		case 2:
+		case 1:
 			if indexPath.row == 7 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "cost to apply"
-					tfCell.prompt = "Cost"
+					tfCell.prompt = "Application Cost"
 					tfCell.textField.text = college.applicationCost?.currencyDescription
 					tfCell.textField.keyboardType = .decimalPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
 					tfCell.textField.delegate = self
 				}
 				return cell
-			} else if indexPath.row == 9 {
+			} else if indexPath.row == 8 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "button", for: indexPath)
 				if let btnCell = cell as? ButtonCell {
 					btnCell.button.setTitle("Remove This College", for: .normal)
@@ -298,9 +311,6 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 					case 6:
 						cbCell.title = "Fee deferral or waiver"
 						cbCell.checked = college.feeDeferralDone
-					case 8:
-						cbCell.title = "I applied!"
-						cbCell.checked = college.applicationDone
 					default: break
 					}
 				}
@@ -316,35 +326,39 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		if let cbCell = tableView.cellForRow(at: indexPath) as? CheckboxCell {
+			
+			let collegeSection = indexPath.section % sectionsPerCollege
 			var college = MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege]
 			
-			switch indexPath.row {
-			case 0:
-				college.essayDone = !college.essayDone
-				cbCell.checked = college.essayDone
-			case 1:
-				college.recommendationsDone = !college.recommendationsDone
-				cbCell.checked = college.recommendationsDone
-			case 2:
-				college.activitiesChartDone = !college.activitiesChartDone
-				cbCell.checked = college.activitiesChartDone
-			case 3:
-				college.testsDone = !college.testsDone
-				cbCell.checked = college.testsDone
-			case 4:
-				college.addlFinancialAidDone = !college.addlFinancialAidDone
-				cbCell.checked = college.addlFinancialAidDone
-			case 5:
-				college.addlScholarshipDone = !college.addlScholarshipDone
-				cbCell.checked = college.addlScholarshipDone
-			case 6:
-				college.feeDeferralDone = !college.feeDeferralDone
-				cbCell.checked = college.feeDeferralDone
-			case 8:
+			if collegeSection == 0 {
 				college.applicationDone = !college.applicationDone
 				cbCell.checked = college.applicationDone
-			default:
-				break
+			} else {
+				switch indexPath.row {
+				case 0:
+					college.essayDone = !college.essayDone
+					cbCell.checked = college.essayDone
+				case 1:
+					college.recommendationsDone = !college.recommendationsDone
+					cbCell.checked = college.recommendationsDone
+				case 2:
+					college.activitiesChartDone = !college.activitiesChartDone
+					cbCell.checked = college.activitiesChartDone
+				case 3:
+					college.testsDone = !college.testsDone
+					cbCell.checked = college.testsDone
+				case 4:
+					college.addlFinancialAidDone = !college.addlFinancialAidDone
+					cbCell.checked = college.addlFinancialAidDone
+				case 5:
+					college.addlScholarshipDone = !college.addlScholarshipDone
+					cbCell.checked = college.addlScholarshipDone
+				case 6:
+					college.feeDeferralDone = !college.feeDeferralDone
+					cbCell.checked = college.feeDeferralDone
+				default:
+					break
+				}
 			}
 			
 			MyPlanManager.shared.colleges[indexPath.section / sectionsPerCollege] = college

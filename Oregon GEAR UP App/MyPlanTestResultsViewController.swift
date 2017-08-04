@@ -114,17 +114,17 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 	
 	public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		
-		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 30.0))
+		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 36.0))
 		headerView.backgroundColor = StyleGuide.myPlanColor
 		
 		let titleLabel = UILabel()
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+		titleLabel.font = UIFont.boldSystemFont(ofSize: 19.0)
 		titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
 		titleLabel.textColor = .white
 		headerView.addSubview(titleLabel)
 		
-		titleLabel.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+		titleLabel.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
 		titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 		titleLabel.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 16.0).isActive = true
 		
@@ -167,7 +167,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "composite score"
-					tfCell.prompt = "Comp"
+					tfCell.prompt = "Composite"
 					tfCell.textField.text = testResults.actComposite != nil ? "\(testResults.actComposite!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView
@@ -254,7 +254,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "reading/writing score"
-					tfCell.prompt = "R/W"
+					tfCell.prompt = "Reading/Writing"
 					tfCell.textField.text = testResults.satReadingWriting != nil ? "\(testResults.satReadingWriting!)" : nil
 					tfCell.textField.keyboardType = .numberPad
 					tfCell.textField.inputAccessoryView = keyboardAccessoryView

@@ -504,9 +504,9 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		return 24 + MyPlanManager.shared.colleges.count * 3
 	}
 	
-	private let headerBgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.5)
+	private let headerBgColor = StyleGuide.myPlanColor
 	private let headerTextColor = UIColor.white
-	private let subheadBgColor = UIColor(red: 0.9893, green: 0.4250, blue: 0.0748, alpha: 0.1)
+	private let subheadBgColor = StyleGuide.myPlanColor.withAlphaComponent(0.1)
 	private let subheadTextColor = UIColor.lightGray
 	
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -555,7 +555,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 4
 				tfCell.textField.placeholder = "parent/guardian SSN"
-				tfCell.prompt = "Parent 1"
+				tfCell.prompt = "Parent/Guardian 1 SSN"
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
@@ -569,7 +569,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 5
 				tfCell.textField.placeholder = "parent/guardian SSN"
-				tfCell.prompt = "Parent 2"
+				tfCell.prompt = "Parent/Guardian 2 SSN"
 				tfCell.textField.keyboardType = .numberPad
 				tfCell.textField.text = informationForField(withTag: tfCell.textField.tag)
 				tfCell.textField.isSecureTextEntry = locked
@@ -591,7 +591,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.tag = 7
 				tfCell.textField.placeholder = "driver license number"
-				tfCell.prompt = "License"
+				tfCell.prompt = "Driver License Number"
 				tfCell.textField.keyboardType = .numbersAndPunctuation
 				tfCell.textField.autocorrectionType = .no
 				tfCell.textField.spellCheckingType = .no

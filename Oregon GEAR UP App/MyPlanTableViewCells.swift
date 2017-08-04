@@ -11,7 +11,7 @@ import UIKit
 class TextFieldCell: UITableViewCell {
 	
 	@IBOutlet var label: UILabel!
-	@IBOutlet var labelWidthContraint: NSLayoutConstraint!
+//	@IBOutlet var labelWidthContraint: NSLayoutConstraint!
 	@IBOutlet var textField: UITextField!
 	
     override func awakeFromNib() {
@@ -40,7 +40,7 @@ enum DateFieldType {
 class DateFieldCell: UITableViewCell {
 	
 	@IBOutlet var label: UILabel!
-	@IBOutlet var labelWidthContraint: NSLayoutConstraint!
+//	@IBOutlet var labelWidthContraint: NSLayoutConstraint!
 	@IBOutlet var dateField: UIButton!
 	
 	public var type: DateFieldType = .longDate

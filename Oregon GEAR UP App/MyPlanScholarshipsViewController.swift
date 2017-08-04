@@ -11,12 +11,12 @@ import UIKit
 
 class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 	
-	private let sectionsPerScholarship = 3
+	private let sectionsPerScholarship = 2
 	
 	
 	override func dateChanged(_ date: Date, forIndexPath indexPath: IndexPath) {
-		
-		MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].applicationDate = date
+		let scholarshipIndex = indexPath.section / sectionsPerScholarship
+		MyPlanManager.shared.scholarships[scholarshipIndex].applicationDate = date
 	}
 	
 	public func textFieldDidEndEditing(_ textField: UITextField) {
@@ -25,10 +25,14 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 			if let text = textField.text {
 				
 				let scholarshipSection = indexPath.section % sectionsPerScholarship
+				let scholarshipIndex = indexPath.section / sectionsPerScholarship
+				
 				switch (scholarshipSection, indexPath.row) {
-				case (0,0): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].name = text
-				case (1,1): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].website = text
-				case (2,7): MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship].otherInfo = text
+				case (0,0):
+					MyPlanManager.shared.scholarships[scholarshipIndex].name = text
+					tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+				case (0,2): MyPlanManager.shared.scholarships[scholarshipIndex].website = text
+				case (1,4): MyPlanManager.shared.scholarships[scholarshipIndex].otherInfo = text
 				default:
 					break
 				}
@@ -81,7 +85,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		
 		if let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
 			
-			let scholarshipIndex = indexPath.section / self.sectionsPerScholarship
+			let scholarshipIndex = indexPath.section / sectionsPerScholarship
 			let scholarshipName = MyPlanManager.shared.scholarships[scholarshipIndex].name
 			
 			let alertController = UIAlertController(title: "Remove Scholarship", message: "Confirm removing \(scholarshipName) from your scholarships list.", preferredStyle: .alert)
@@ -116,7 +120,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		tableView.delegate = self
 		tableView.dataSource = self
 		
-		let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addScholarship))
+		let addBtn = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addScholarship))
 		self.navigationItem.setRightBarButton(addBtn, animated: false)
     }
 	
@@ -166,13 +170,14 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 	
 	public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		
-		let scholarshipNumber = (section / sectionsPerScholarship) + 1
+		let scholarshipIndex = (section / sectionsPerScholarship)
 		let scholarshipSection = section % sectionsPerScholarship
 		
 		switch scholarshipSection {
-		case 0:	return "Scholarship #\(scholarshipNumber)"
-		case 1: return "Application Deadline"
-		case 2: return "What I Need to Apply"
+		case 0:
+			let scholarship = MyPlanManager.shared.scholarships[scholarshipIndex]
+			return scholarship.name
+		case 1: return "What I Need to Apply"
 		default:
 			return nil
 		}
@@ -183,17 +188,17 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		let scholarshipSection = section % sectionsPerScholarship
 		
 		if scholarshipSection == 0 {
-			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 30.0))
+			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 36.0))
 			headerView.backgroundColor = StyleGuide.myPlanColor
 			
 			let titleLabel = UILabel()
 			titleLabel.translatesAutoresizingMaskIntoConstraints = false
-			titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+			titleLabel.font = UIFont.boldSystemFont(ofSize: 19.0)
 			titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
 			titleLabel.textColor = .white
 			headerView.addSubview(titleLabel)
 			
-			titleLabel.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+			titleLabel.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
 			titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 			titleLabel.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 16.0).isActive = true
 			
@@ -208,9 +213,8 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		let scholarshipSection = section % sectionsPerScholarship
 		
 		switch scholarshipSection {
-		case 0:	return 1
-		case 1: return 2
-		case 2: return MyPlanManager.shared.scholarships.count > 1 ? 7 : 6		// no Remove button when just one scholarship
+		case 0:	return 4
+		case 1: return MyPlanManager.shared.scholarships.count > 1 ? 6 : 5		// no Remove button when just one scholarship
 		default:
 			return 0
 		}
@@ -223,26 +227,26 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		
 		switch scholarshipSection {
 		case 0:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
-			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "scholarship name"
-				tfCell.prompt = "Name"
-				tfCell.textField.text = scholarship.name
-				tfCell.textField.keyboardType = .default
-				tfCell.textField.inputAccessoryView = keyboardAccessoryView
-				tfCell.textField.delegate = self
-			}
-			return cell
-		case 1:
 			if indexPath.row == 0 {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+				if let tfCell = cell as? TextFieldCell {
+					tfCell.textField.placeholder = "scholarship name"
+					tfCell.prompt = "Name"
+					tfCell.textField.text = scholarship.name
+					tfCell.textField.keyboardType = .default
+					tfCell.textField.inputAccessoryView = keyboardAccessoryView
+					tfCell.textField.delegate = self
+				}
+				return cell
+			} else if indexPath.row == 1 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 				if let dfCell = cell as? DateFieldCell {
 					dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 					dfCell.setDate(scholarship.applicationDate)
-					dfCell.prompt = "Date"
+					dfCell.prompt = "Application Deadline"
 				}
 				return cell
-			} else {
+			} else if indexPath.row == 2 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
 					tfCell.textField.placeholder = "website URL"
@@ -253,8 +257,16 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 					tfCell.textField.delegate = self
 				}
 				return cell
+			} else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: "checkbox", for: indexPath)
+				if let cbCell = cell as? CheckboxCell {
+					cbCell.title = "I applied!"
+					cbCell.checked = scholarship.applicationDone
+				}
+				return cell
 			}
-		case 2:
+			
+		case 1:
 			if indexPath.row == 4 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 				if let tfCell = cell as? TextFieldCell {
@@ -266,7 +278,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 					tfCell.textField.delegate = self
 				}
 				return cell
-			} else if indexPath.row == 6 {
+			} else if indexPath.row == 5 {
 				let cell = tableView.dequeueReusableCell(withIdentifier: "button", for: indexPath)
 				if let btnCell = cell as? ButtonCell {
 					btnCell.button.setTitle("Remove This Scholarship", for: .normal)
@@ -289,9 +301,6 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 					case 3:
 						cbCell.title = "SAT or ACT"
 						cbCell.checked = scholarship.testsDone
-					case 5:
-						cbCell.title = "I applied!"
-						cbCell.checked = scholarship.applicationDone
 					default: break
 					}
 				}
@@ -307,26 +316,30 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		if let cbCell = tableView.cellForRow(at: indexPath) as? CheckboxCell {
+			
+			let scholarshipSection = indexPath.section % sectionsPerScholarship
 			var scholarship = MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship]
 			
-			switch indexPath.row {
-			case 0:
-				scholarship.essayDone = !scholarship.essayDone
-				cbCell.checked = scholarship.essayDone
-			case 1:
-				scholarship.recommendationsDone = !scholarship.recommendationsDone
-				cbCell.checked = scholarship.recommendationsDone
-			case 2:
-				scholarship.activitiesChartDone = !scholarship.activitiesChartDone
-				cbCell.checked = scholarship.activitiesChartDone
-			case 3:
-				scholarship.testsDone = !scholarship.testsDone
-				cbCell.checked = scholarship.testsDone
-			case 5:
+			if scholarshipSection == 0 {
 				scholarship.applicationDone = !scholarship.applicationDone
 				cbCell.checked = scholarship.applicationDone
-			default:
-				break
+			} else {
+				switch indexPath.row {
+				case 0:
+					scholarship.essayDone = !scholarship.essayDone
+					cbCell.checked = scholarship.essayDone
+				case 1:
+					scholarship.recommendationsDone = !scholarship.recommendationsDone
+					cbCell.checked = scholarship.recommendationsDone
+				case 2:
+					scholarship.activitiesChartDone = !scholarship.activitiesChartDone
+					cbCell.checked = scholarship.activitiesChartDone
+				case 3:
+					scholarship.testsDone = !scholarship.testsDone
+					cbCell.checked = scholarship.testsDone
+				default:
+					break
+				}
 			}
 			
 			MyPlanManager.shared.scholarships[indexPath.section / sectionsPerScholarship] = scholarship
