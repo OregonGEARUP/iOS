@@ -285,6 +285,10 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	
 	private func update() {
 		
+		guard CheckpointManager.shared.countOfBlocks() > 0 else {
+			return
+		}
+		
 		for index in 1...CheckpointManager.shared.countOfBlocks() {
 			
 			if let button = stackView.viewWithTag(index) as? UIButton {
