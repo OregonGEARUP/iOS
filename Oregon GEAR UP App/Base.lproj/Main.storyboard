@@ -452,35 +452,9 @@
                     <view key="view" contentMode="scaleToFill" id="3A8-f0-egm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rc2-nj-tnq">
-                                <rect key="frame" x="319" y="601" width="56" height="62"/>
-                                <inset key="contentEdgeInsets" minX="8" minY="32" maxX="16" maxY="12"/>
-                                <state key="normal" title="Next"/>
-                                <connections>
-                                    <action selector="nextCheckpoint:" destination="1sY-m6-8lK" eventType="touchUpInside" id="pIP-Xs-5Bg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0S-Mt-uhK">
-                                <rect key="frame" x="0.0" y="601" width="83" height="62"/>
-                                <inset key="contentEdgeInsets" minX="16" minY="32" maxX="8" maxY="12"/>
-                                <state key="normal" title="Previous"/>
-                                <connections>
-                                    <action selector="previousCheckpoint:" destination="1sY-m6-8lK" eventType="touchUpInside" id="isE-Ge-JCb"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="leading" secondItem="p0S-Mt-uhK" secondAttribute="leading" id="0R4-ht-tV8"/>
-                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="rc2-nj-tnq" secondAttribute="bottom" constant="4" id="a1N-55-cPm"/>
-                            <constraint firstItem="oN9-6r-Pag" firstAttribute="top" secondItem="p0S-Mt-uhK" secondAttribute="bottom" constant="4" id="igQ-rq-VIl"/>
-                            <constraint firstAttribute="trailing" secondItem="rc2-nj-tnq" secondAttribute="trailing" id="p8W-QT-3sR"/>
-                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="nextButton" destination="rc2-nj-tnq" id="uz6-pp-u5g"/>
-                        <outlet property="prevButton" destination="p0S-Mt-uhK" id="nUE-Vg-PF9"/>
                         <segue destination="yeU-1I-dgj" kind="unwind" identifier="unwindToNewBlock" unwindAction="unwindToNewBlockWithUnwindSegue:" id="clb-Ho-YX6"/>
                     </connections>
                 </viewController>

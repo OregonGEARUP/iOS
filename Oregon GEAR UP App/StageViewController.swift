@@ -66,12 +66,6 @@ class RouteCheckpointView: CheckpointView {
 
 class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate {
 	
-	enum CheckpointAnimation {
-		case none
-		case fromLeft
-		case fromRight
-	}
-
 	var blockIndex = 0
 	var stageIndex = 0
 	var checkpointIndex = 0
@@ -92,9 +86,6 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
 	var routeFilename: String?
 	
-	@IBOutlet var prevButton: UIButton!
-	@IBOutlet var nextButton: UIButton!
-	
 	private var keyboardAccessoryView: UIView!
 	
 	private let datePickerPaletteHeight: CGFloat = 200.0
@@ -114,9 +105,6 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		title = CheckpointManager.shared.block.stages[stageIndex].title
 		
 		StyleGuide.addGradientLayerTo(view)
-		
-		nextButton.alpha = 0.0
-		prevButton.alpha = 0.0
 		
 		createKeyboardAccessoryView()
 		createDatePickerPaletteView()
@@ -1176,192 +1164,26 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		performSegue(withIdentifier: "unwindToNewBlock", sender: self)
 	}
 	
-	@IBAction func nextCheckpoint(_ button: UIButton) {
-		
-		// check to see if required entry checkpoint is completed
-		if checkpoints[checkpointIndex].required && !isCurrentCheckpointCompleted() {
-			
-			UIView.animate(withDuration: 0.3, animations: { 
-				self.checkpointView.incompeteLabel.alpha = 1.0
-			})
-			
-			CheckpointManager.shared.addTrace("nextCheckpoint incomplete")
-			return
-		}
-		
-		nextButton.isEnabled = false
-		
-		CheckpointManager.shared.addTrace("nextCheckpoint")
-		
-		saveCheckpointEntries()
-		
-		// if current checkpoint is a route entry, then do the navigation
-		if checkpoints[checkpointIndex].type == .routeEntry {
-			
-			if let routeFilename = checkpoints[checkpointIndex].routeFileName {
-				
-				CheckpointManager.shared.addTrace("nextCheckpoint routing to: \(routeFilename)")
-				
-				self.routeFilename = routeFilename
-				performSegue(withIdentifier: "unwindToNewBlock", sender: self)
-				return
-			}
-		}
-		
-		
-		var nextIndex = checkpointIndex + 1
-		while nextIndex < checkpoints.count {
-			
-			if checkpoints[nextIndex].type == .routeEntry {
-				
-				var meetsCriteria = checkpoints[nextIndex].meetsCriteria
-				
-				print("meetsCriteria: \(meetsCriteria)")
-				if meetsCriteria {
-					if let filename = checkpoints[nextIndex].routeFileName {
-						CheckpointManager.shared.addTrace("nextCheckpoint does meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), will route to \(filename)")
-					} else {
-						CheckpointManager.shared.addTrace("nextCheckpoint does meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex)), but is MISSING a routeFileName for route checkpoint")
-						meetsCriteria = false
-					}
-				} else {
-					CheckpointManager.shared.addTrace("nextCheckpoint does NOT meet criteria for \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: nextIndex))")
-				}
-				
-				if !meetsCriteria {
-					
-					// unmet criteria == visited
-					CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: nextIndex)
-					
-					// skip this checkpoint
-					if nextIndex + 1 < checkpoints.count {
-						nextIndex += 1
-						continue
-					} else {
-						
-						// ran out of checkpoints, fall through to see if we have more stages
-						break
-					}
-				}
-			}
-			
-			loadCheckpointAtIndex(nextIndex, withAnimation: .fromRight)
-			return
-		}
-		
-		// if we get to here, then we have run out of checkpoints
-		
-		// first check to see if there are more stages
-		let nextStageIndex = stageIndex + 1
-		if nextStageIndex < CheckpointManager.shared.block.stages.count {
-			
-			CheckpointManager.shared.addTrace("nextCheckpoint proposing next stage \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: nextStageIndex, checkpointIndex: 0))")
-			
-			let message = NSLocalizedString("You have reached the end of this section.", comment: "end of section message")
-			let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Keep Going!", comment: "Keep Going! button title"), style: .default, handler: { (action) in
-				self.stageIndex = nextStageIndex
-				self.title = CheckpointManager.shared.block.stages[self.stageIndex].title
-				self.loadCheckpointAtIndex(0, withAnimation: .fromRight)
-			}))
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .cancel, handler: nil))
-			self.present(alertController, animated: true, completion: nil)
-			
-			nextButton.isEnabled = true
-			return
-		}
-		
-		// getting here is an error
-		//fatalError("ran out of checkpoints in block: \(blockIndex)  stage: \(stageIndex)")
-		CheckpointManager.shared.addTrace("nextCheckpoint ran out of checkpoints in block: \(blockIndex) stage: \(stageIndex)")
-	}
-	
-	@IBAction func previousCheckpoint(_ button: UIButton) {
-		
-		prevButton.isEnabled = false
-		
-		CheckpointManager.shared.addTrace("previousCheckpoint")
-		
-		saveCheckpointEntries()
-		
-		if checkpointIndex > 0 {
-			
-			// skip over route cps when going back (we skipped them going forward)
-			var prevIndex = checkpointIndex - 1
-			while prevIndex >= 0 {
-				if checkpoints[prevIndex].type != .routeEntry {
-					break
-				}
-				
-				prevIndex -= 1
-			}
-			
-			if prevIndex >= 0 {
-				loadCheckpointAtIndex(prevIndex, withAnimation: .fromLeft)
-			} else {
-				navigationController?.popViewController(animated: true)
-			}
-		} else if checkpointIndex == 0 {
-			navigationController?.popViewController(animated: true)
-		}
-	}
-	
-	private func loadCheckpointAtIndex(_ index: Int, withAnimation animation: CheckpointAnimation = .none) {
+	private func loadCheckpointAtIndex(_ index: Int) {
 		
 		CheckpointManager.shared.addTrace("loadCheckpoint \(CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: index))")
 		
 		checkpointIndex = index
 		
-		switch animation {
-		case .none:
-			checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
-			populateCheckpointView(checkpointView, withCheckpointAtIndex: checkpointIndex)
-			view.insertSubview(checkpointView, at: 1)
-			
-			currentXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-			NSLayoutConstraint.activate([
-				checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
-				currentXConstraint,
-				checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
-			])
-			
-			loadNextCheckpointAfterIndex(checkpointIndex)
-			loadPrevCheckpointBeforeIndex(checkpointIndex)
-			
-	// TODO: this is going away
-		case .fromLeft, .fromRight:
-			let newCheckpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
-			populateCheckpointView(newCheckpointView, withCheckpointAtIndex: checkpointIndex)
-			view.insertSubview(newCheckpointView, at: 0)
-			
-			// offset new checkpoint view horizontally and then animate it into center postion
-			let offset: CGFloat = (animation == .fromRight ? 400.0 : -400.0)
-			let newCurrentXConstraint = newCheckpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: offset)
-			NSLayoutConstraint.activate([
-				newCheckpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
-				newCurrentXConstraint,
-				newCheckpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				newCheckpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -48.0)
-			])
-			
-			//newCheckpointView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-			
-			view.layoutIfNeeded()
-			UIView.animate(withDuration: 0.3, animations: {
-				self.currentXConstraint.constant = -offset
-				newCurrentXConstraint.constant = 0.0
-				newCheckpointView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				self.view.layoutIfNeeded()
-			}, completion: { (complete) in
-				self.currentXConstraint = newCurrentXConstraint
-				self.checkpointView.removeFromSuperview()
-				self.checkpointView = newCheckpointView
-				
-				self.prevButton.isEnabled = true
-				self.nextButton.isEnabled = true
-			})
-		}
+		checkpointView = createCheckpointView(forType: checkpoints[checkpointIndex].type)
+		populateCheckpointView(checkpointView, withCheckpointAtIndex: checkpointIndex)
+		view.insertSubview(checkpointView, at: 1)
+		
+		currentXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+		NSLayoutConstraint.activate([
+			checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
+			currentXConstraint,
+			checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
+			checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
+		])
+		
+		loadNextCheckpointAfterIndex(checkpointIndex)
+		loadPrevCheckpointBeforeIndex(checkpointIndex)
 		
 		CheckpointManager.shared.markVisited(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
 		CheckpointManager.shared.persistState(forBlock: blockIndex, stage: stageIndex, checkpoint: checkpointIndex)
@@ -1371,6 +1193,11 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	private let prevNextXFrameFactor: CGFloat = 0.84	// this controls how much peek of prev/next checkpoint view shows, lower value shows more (1.0 shows none)
 	
 	private func nextIndexAfterIndex(_ index: Int) -> Int? {
+		
+		// check if we are showing a route CP, if so no more to show
+		if checkpoints[checkpointIndex].type == .routeEntry {
+			return nil
+		}
 		
 		var nextIndex = index + 1
 		while nextIndex < checkpoints.count {
