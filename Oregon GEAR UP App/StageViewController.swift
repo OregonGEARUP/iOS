@@ -64,7 +64,7 @@ class RouteCheckpointView: CheckpointView {
 }
 
 
-class StageViewController: UIViewController, MFMailComposeViewControllerDelegate {
+class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate {
 	
 	enum CheckpointAnimation {
 		case none
@@ -277,6 +277,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				fieldsCPView.textFields[i].translatesAutoresizingMaskIntoConstraints = false
 				fieldsCPView.textFields[i].borderStyle = .roundedRect
 				fieldsCPView.textFields[i].inputAccessoryView = keyboardAccessoryView
+				fieldsCPView.textFields[i].delegate = self
 				cpView.stackView.addArrangedSubview(fieldsCPView.textFields[i])
 				
 				let spacer = UIView()
@@ -299,6 +300,7 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 				datesCPView.textFields[i].translatesAutoresizingMaskIntoConstraints = false
 				datesCPView.textFields[i].borderStyle = .roundedRect
 				datesCPView.textFields[i].inputAccessoryView = keyboardAccessoryView
+				datesCPView.textFields[i].delegate = self
 				cpView.stackView.addArrangedSubview(datesCPView.textFields[i])
 				
 				datesCPView.dateButtons[i].translatesAutoresizingMaskIntoConstraints = false
@@ -814,19 +816,32 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 		}
 	}
 	
-	@IBAction func handleCheckbox(_ sender: UIButton) {
+	@IBAction func handleCheckbox(_ button: UIButton) {
 		
-		sender.isSelected = !sender.isSelected
-		if let imageView = sender.viewWithTag(100) as? UIImageView {
-			imageView.image = sender.isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
+		// don't handle clicks checkboxes of previous/next checkpoints
+		guard checkpointView.stackView.arrangedSubviews.contains(button) else {
+			return
+		}
+		
+		button.isSelected = !button.isSelected
+		if let imageView = button.viewWithTag(100) as? UIImageView {
+			imageView.image = button.isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
 		}
 		
 		checkpointView.incompeteLabel.alpha = 0.0
 	}
 
-	@IBAction func handleRadio(_ sender: UIButton) {
+	@IBAction func handleRadio(_ button: UIButton) {
 		
-		let radiosCPView = checkpointView as! RadiosCheckpointView
+		// don't handle clicks radio buttons of previous/next checkpoints
+		guard checkpointView.stackView.arrangedSubviews.contains(button) else {
+			return
+		}
+		
+		guard let radiosCPView = checkpointView as? RadiosCheckpointView else {
+			return
+		}
+		
 		for radio in radiosCPView.radios {
 			radio.isSelected = false
 			if let imageView = radio.viewWithTag(100) as? UIImageView {
@@ -834,14 +849,20 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 			}
 		}
 		
-		sender.isSelected = true
-		if let imageView = sender.viewWithTag(100) as? UIImageView {
+		button.isSelected = true
+		if let imageView = button.viewWithTag(100) as? UIImageView {
 			imageView.image = #imageLiteral(resourceName: "Radio_On")
 		}
 		
 		checkpointView.incompeteLabel.alpha = 0.0
 	}
-
+	
+	public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+		
+		// don't allow editing of fields in previous/next checkpoints
+		return checkpointView.stackView.arrangedSubviews.contains(textField)
+	}
+	
 	private dynamic func doneWithKeyboard(btn: UIButton?) {
 		
 		self.view.endEditing(true)
@@ -930,6 +951,10 @@ class StageViewController: UIViewController, MFMailComposeViewControllerDelegate
 	}
 	
 	private dynamic func toggleDatePicker(_ button: UIButton) {
+		
+		guard checkpointView.stackView.arrangedSubviews.contains(button) else {
+			return
+		}
 		
 		// hide keyboard first
 		doneWithKeyboard(btn: nil)
