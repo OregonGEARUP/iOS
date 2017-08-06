@@ -130,14 +130,6 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		super.viewDidAppear(animated)
 		
 		scrollView.contentOffset = CGPoint(x: 0.0, y: verticalScrollOffset)
-		
-		if #available(iOS 10.0, *) {
-			UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-				if !granted {
-					print("user denied notifications")
-				}
-			}
-		}
 	}
 	
 	public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -190,6 +182,16 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		infoLabel.font = UIFont.systemFont(ofSize: 19.0, weight: UIFontWeightRegular)
 		stackView.addArrangedSubview(infoLabel)
 		infoLabel.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.75).isActive = true
+		
+		// change "10" to green text
+		if let text = infoLabel.text {
+			let attrWelcome = NSMutableAttributedString(string: text)
+			let r = (text as NSString).range(of: "10")
+			if r.location != NSNotFound {
+				attrWelcome.setAttributes([NSForegroundColorAttributeName: StyleGuide.completeButtonColor], range: r)
+			}
+			infoLabel.attributedText = attrWelcome
+		}
 		
 		let spacer = UIView()
 		stackView.addArrangedSubview(spacer)
@@ -357,6 +359,19 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		UIView.animate(withDuration: 0.3) {
 			self.welcomeOverlay.alpha = 0.0
 			self.scrollView.alpha = 1.0
+		}
+		
+		UIView.animate(withDuration: 0.3, animations: { 
+			self.welcomeOverlay.alpha = 0.0
+			self.scrollView.alpha = 1.0
+		}) { (finished) in
+			if #available(iOS 10.0, *) {
+				UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+					if !granted {
+						print("user denied notifications")
+					}
+				}
+			}
 		}
 	}
 }
