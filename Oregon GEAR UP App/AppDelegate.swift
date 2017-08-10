@@ -7,15 +7,21 @@
 //
 
 import UIKit
+import UserNotifications
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+		
+		if #available(iOS 10.0, *) {
+			UNUserNotificationCenter.current().delegate = self
+		}
+		
         return true
     }
     
@@ -40,6 +46,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
+	
+	
+	@available(iOS 10.0, *)
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+	                            willPresent notification: UNNotification,
+	                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		// show the notification
+		completionHandler(UNNotificationPresentationOptions.alert)
+	}
+	
+	@available(iOS 10.0, *)
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+	                            didReceive response: UNNotificationResponse,
+	                            withCompletionHandler completionHandler: @escaping () -> Void) {
+		
+		if response.actionIdentifier == UNNotificationDismissActionIdentifier {
+			print("user dismissed notification \(response.notification.request.identifier)")
+		}
+		else if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+			print("user followed notification \(response.notification.request.identifier)")
+		}
+		
+		completionHandler()
+	}
 }
-
