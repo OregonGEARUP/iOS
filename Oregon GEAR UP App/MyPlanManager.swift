@@ -99,6 +99,8 @@ class MyPlanManager {
 			
 			UserDefaults.standard.set(self.residency.serializeToDictionary(), forKey: "residency")
 			
+			self.setupCalendarEvents()
+			
 			print("persisted My Plan info")
 		}
 	}
