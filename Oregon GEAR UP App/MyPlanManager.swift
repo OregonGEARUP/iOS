@@ -336,7 +336,7 @@ class MyPlanManager {
 //					}
 					
 					
-					let gmtOffset = Double(TimeZone.current.secondsFromGMT()) * -1.0
+					//let gmtOffset = Double(TimeZone.current.secondsFromGMT()) * -1.0
 					
 					let allEvents = self.calendar.values.flatMap { $0 }
 					for event in allEvents {
@@ -357,7 +357,7 @@ class MyPlanManager {
 							}
 							
 							let tenAM = (10.0 * 60.0 * 60.0)
-							let deltaInterval = (Double(delta) * 60.0 * 60.0 * 24.0) + tenAM + gmtOffset		// 10am reminders
+							let deltaInterval = (Double(delta) * 60.0 * 60.0 * 24.0) + tenAM		// 10am reminders
 							let date = event.date.addingTimeInterval(deltaInterval)
 							let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
 							let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
