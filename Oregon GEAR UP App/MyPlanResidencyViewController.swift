@@ -14,33 +14,33 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 	override func dateChanged(_ date: Date, forIndexPath indexPath: IndexPath) {
 		
 		switch indexPath.row {
-		case 2:  MyPlanManager.shared.residency.residencyStart = date
-		case 3:  MyPlanManager.shared.residency.residencyEnd = date
-		case 5:  MyPlanManager.shared.residency.parentResidencyStart = date
-		case 6:  MyPlanManager.shared.residency.parentResidencyEnd = date
+		case 3:  MyPlanManager.shared.residency.residencyStart = date
+		case 4:  MyPlanManager.shared.residency.residencyEnd = date
+		case 6:  MyPlanManager.shared.residency.parentResidencyStart = date
+		case 7:  MyPlanManager.shared.residency.parentResidencyEnd = date
 			
-		case 8:  MyPlanManager.shared.residency.registerToVote = date
-		case 10: MyPlanManager.shared.residency.parentsRegisterToVote = date
+		case 10: MyPlanManager.shared.residency.registerToVote = date
+		case 12: MyPlanManager.shared.residency.parentsRegisterToVote = date
 			
-		case 12: MyPlanManager.shared.residency.militaryServiceStart = date
-		case 13: MyPlanManager.shared.residency.militaryServiceEnd = date
-		case 15: MyPlanManager.shared.residency.parentMilitaryServiceStart = date
-		case 16: MyPlanManager.shared.residency.parentMilitaryServiceEnd = date
+		case 15: MyPlanManager.shared.residency.militaryServiceStart = date
+		case 16: MyPlanManager.shared.residency.militaryServiceEnd = date
+		case 18: MyPlanManager.shared.residency.parentMilitaryServiceStart = date
+		case 19: MyPlanManager.shared.residency.parentMilitaryServiceEnd = date
 			
-		case 18: MyPlanManager.shared.residency.fileOregonTaxesYear1 = date
-		case 19: MyPlanManager.shared.residency.fileOregonTaxesYear2 = date
-		case 21: MyPlanManager.shared.residency.parentsFileOregonTaxesYear1 = date
-		case 22: MyPlanManager.shared.residency.parentsFileOregonTaxesYear2 = date
+		case 22: MyPlanManager.shared.residency.fileOregonTaxesYear1 = date
+		case 23: MyPlanManager.shared.residency.fileOregonTaxesYear2 = date
+		case 25: MyPlanManager.shared.residency.parentsFileOregonTaxesYear1 = date
+		case 26: MyPlanManager.shared.residency.parentsFileOregonTaxesYear2 = date
 			
-		case 26: MyPlanManager.shared.residency.startEmployer1 = date
-		case 27: MyPlanManager.shared.residency.endEmployer1 = date
-		case 31: MyPlanManager.shared.residency.startEmployer2 = date
-		case 32: MyPlanManager.shared.residency.endEmployer2 = date
+		case 31: MyPlanManager.shared.residency.startEmployer1 = date
+		case 32: MyPlanManager.shared.residency.endEmployer1 = date
+		case 36: MyPlanManager.shared.residency.startEmployer2 = date
+		case 37: MyPlanManager.shared.residency.endEmployer2 = date
 			
-		case 36: MyPlanManager.shared.residency.parentStartEmployer1 = date
-		case 37: MyPlanManager.shared.residency.parentEndEmployer1 = date
-		case 41: MyPlanManager.shared.residency.parentStartEmployer2 = date
-		case 42: MyPlanManager.shared.residency.parentEndEmployer2 = date
+		case 41: MyPlanManager.shared.residency.parentStartEmployer1 = date
+		case 42: MyPlanManager.shared.residency.parentEndEmployer1 = date
+		case 46: MyPlanManager.shared.residency.parentStartEmployer2 = date
+		case 47: MyPlanManager.shared.residency.parentEndEmployer2 = date
 			
 		default: break
 		}
@@ -51,15 +51,15 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		if let indexPath = tableView.indexPathForRow(at: textField.convert(textField.frame.origin, to: tableView)) {
 			
 			switch indexPath.row {
-			case 24: MyPlanManager.shared.residency.nameEmployer1 = textField.text
-			case 25: MyPlanManager.shared.residency.cityEmployer1 = textField.text
-			case 29: MyPlanManager.shared.residency.nameEmployer2 = textField.text
-			case 30: MyPlanManager.shared.residency.cityEmployer2 = textField.text
+			case 29: MyPlanManager.shared.residency.nameEmployer1 = textField.text
+			case 30: MyPlanManager.shared.residency.cityEmployer1 = textField.text
+			case 34: MyPlanManager.shared.residency.nameEmployer2 = textField.text
+			case 35: MyPlanManager.shared.residency.cityEmployer2 = textField.text
 				
-			case 34: MyPlanManager.shared.residency.parentNameEmployer1 = textField.text
-			case 35: MyPlanManager.shared.residency.parentCityEmployer1 = textField.text
-			case 39: MyPlanManager.shared.residency.parentNameEmployer2 = textField.text
-			case 40: MyPlanManager.shared.residency.parentCityEmployer2 = textField.text
+			case 39: MyPlanManager.shared.residency.parentNameEmployer1 = textField.text
+			case 40: MyPlanManager.shared.residency.parentCityEmployer1 = textField.text
+			case 44: MyPlanManager.shared.residency.parentNameEmployer2 = textField.text
+			case 45: MyPlanManager.shared.residency.parentCityEmployer2 = textField.text
 			
 			default: break
 			}
@@ -120,7 +120,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 	
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-		return 43
+		return 48
 	}
 	
 	private let bgColor = StyleGuide.myPlanColor
@@ -143,12 +143,20 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 1:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "How long have you lived here? If you were born in Oregon, list the month and year of your birthday."
+				labelCell.labelText = "Residency Info"
 				labelCell.contentView.backgroundColor = bgColor
 				labelCell.labelTextColor = .white
 			}
 			return cell
 		case 2:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "How long have you lived here? If you were born in Oregon, list the month and year of your birthday."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
+			}
+			return cell
+		case 3:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "residency start date"
@@ -157,7 +165,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.setDate(residency.residencyStart, type: .monthYear)
 			}
 			return cell
-		case 3:
+		case 4:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "residency end date"
@@ -168,7 +176,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			return cell
 			
 		// parents Oregon residency
-		case 4:
+		case 5:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
 				labelCell.labelText = "How long has your parent/guardian lived here?"
@@ -176,7 +184,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				labelCell.labelTextColor = nil
 			}
 			return cell
-		case 5:
+		case 6:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "residency start date"
@@ -185,7 +193,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.setDate(residency.parentResidencyStart, type: .monthYear)
 			}
 			return cell
-		case 6:
+		case 7:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "residency end date"
@@ -196,29 +204,18 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			return cell
 			
 		// register to vote
-		case 7:
+		case 8:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "When did you register to vote?"
+				labelCell.labelText = "Voter Registration"
 				labelCell.contentView.backgroundColor = bgColor
 				labelCell.labelTextColor = .white
 			}
 			return cell
-		case 8:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
-			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "registration date"
-				dfCell.prompt = "Date"
-				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.registerToVote, type: .monthYear)
-			}
-			return cell
-		
-		// parents register to vote
 		case 9:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "When did your parent/guardian register to vote?"
+				labelCell.labelText = "When did you register to vote?"
 				labelCell.contentView.backgroundColor = nil
 				labelCell.labelTextColor = nil
 			}
@@ -229,43 +226,42 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "registration date"
 				dfCell.prompt = "Date"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.parentsRegisterToVote, type: .monthYear)
+				dfCell.setDate(residency.registerToVote, type: .monthYear)
 			}
 			return cell
-			
-		// military service
+		
+		// parents register to vote
 		case 11:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Have you entered military service from Oregon?"
-				labelCell.contentView.backgroundColor = bgColor
-				labelCell.labelTextColor = .white
+				labelCell.labelText = "When did your parent/guardian register to vote?"
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
 			}
 			return cell
 		case 12:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "service start date"
-				dfCell.prompt = "Start"
+				dfCell.placeholderText = "registration date"
+				dfCell.prompt = "Date"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.militaryServiceStart, type: .monthYear)
+				dfCell.setDate(residency.parentsRegisterToVote, type: .monthYear)
 			}
 			return cell
+			
+		// military service
 		case 13:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
-			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "service end date"
-				dfCell.prompt = "End"
-				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.militaryServiceEnd, type: .monthYear)
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "Military Service"
+				labelCell.contentView.backgroundColor = bgColor
+				labelCell.labelTextColor = .white
 			}
 			return cell
-		
-		// parents military service
 		case 14:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Has your parent/guardian entered military service from Oregon?"
+				labelCell.labelText = "Have you entered military service from Oregon?"
 				labelCell.contentView.backgroundColor = nil
 				labelCell.labelTextColor = nil
 			}
@@ -276,10 +272,38 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "service start date"
 				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.parentMilitaryServiceStart, type: .monthYear)
+				dfCell.setDate(residency.militaryServiceStart, type: .monthYear)
 			}
 			return cell
 		case 16:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
+			if let dfCell = cell as? DateFieldCell {
+				dfCell.placeholderText = "service end date"
+				dfCell.prompt = "End"
+				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
+				dfCell.setDate(residency.militaryServiceEnd, type: .monthYear)
+			}
+			return cell
+		
+		// parents military service
+		case 17:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "Has your parent/guardian entered military service from Oregon?"
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
+			}
+			return cell
+		case 18:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
+			if let dfCell = cell as? DateFieldCell {
+				dfCell.placeholderText = "service start date"
+				dfCell.prompt = "Start"
+				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
+				dfCell.setDate(residency.parentMilitaryServiceStart, type: .monthYear)
+			}
+			return cell
+		case 19:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "service end date"
@@ -290,15 +314,23 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			return cell
 		
 		// Oregon taxes
-		case 17:
+		case 20:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "What are the last two years you filed Oregon income taxes?"
+				labelCell.labelText = "Taxes"
 				labelCell.contentView.backgroundColor = bgColor
 				labelCell.labelTextColor = .white
 			}
 			return cell
-		case 18:
+		case 21:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "What are the last two years you filed Oregon income taxes?"
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
+			}
+			return cell
+		case 22:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "tax year"
@@ -307,7 +339,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.setDate(residency.fileOregonTaxesYear1, type: .year)
 			}
 			return cell
-		case 19:
+		case 23:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "tax year"
@@ -318,7 +350,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			return cell
 			
 		// parents Oregon taxes
-		case 20:
+		case 24:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
 				labelCell.labelText = "What are the last two years your parent/guardian filed Oregon income taxes?"
@@ -326,7 +358,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				labelCell.labelTextColor = nil
 			}
 			return cell
-		case 21:
+		case 25:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "tax year"
@@ -335,7 +367,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.setDate(residency.parentsFileOregonTaxesYear1, type: .year)
 			}
 			return cell
-		case 22:
+		case 26:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "tax year"
@@ -346,15 +378,23 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			return cell
 		
 		// current job
-		case 23:
+		case 27:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Do you or did you have a job? List your most recent or current job."
+				labelCell.labelText = "Employment"
 				labelCell.contentView.backgroundColor = bgColor
 				labelCell.labelTextColor = .white
 			}
 			return cell
-		case 24:
+		case 28:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "Do you or did you have a job? List your most recent or current job."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
+			}
+			return cell
+		case 29:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "employer name"
@@ -365,62 +405,12 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				tfCell.textField.delegate = self
 			}
 			return cell
-		case 25:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
-			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "employer city"
-				tfCell.prompt = "City"
-				tfCell.textField.text = residency.cityEmployer1
-				tfCell.textField.keyboardType = .default
-				tfCell.textField.inputAccessoryView = keyboardAccessoryView
-				tfCell.textField.delegate = self
-			}
-			return cell
-		case 26:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
-			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "employment start date"
-				dfCell.prompt = "Start"
-				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.startEmployer1, type: .monthYear)
-			}
-			return cell
-		case 27:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
-			if let dfCell = cell as? DateFieldCell {
-				dfCell.placeholderText = "employment end date"
-				dfCell.prompt = "End"
-				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.endEmployer1, type: .monthYear)
-			}
-			return cell
-		
-		// previous job
-		case 28:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
-			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "List your previous job, if any."
-				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = nil
-			}
-			return cell
-		case 29:
-			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
-			if let tfCell = cell as? TextFieldCell {
-				tfCell.textField.placeholder = "employer name"
-				tfCell.prompt = "Name"
-				tfCell.textField.text = residency.nameEmployer2
-				tfCell.textField.keyboardType = .default
-				tfCell.textField.inputAccessoryView = keyboardAccessoryView
-				tfCell.textField.delegate = self
-			}
-			return cell
 		case 30:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "employer city"
 				tfCell.prompt = "City"
-				tfCell.textField.text = residency.cityEmployer2
+				tfCell.textField.text = residency.cityEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
@@ -432,7 +422,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "employment start date"
 				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.startEmployer2, type: .monthYear)
+				dfCell.setDate(residency.startEmployer1, type: .monthYear)
 			}
 			return cell
 		case 32:
@@ -441,17 +431,17 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "employment end date"
 				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.endEmployer2, type: .monthYear)
+				dfCell.setDate(residency.endEmployer1, type: .monthYear)
 			}
 			return cell
 		
-		// parent's current job
+		// previous job
 		case 33:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "List your parent/guardian's most recent or current job."
-				labelCell.contentView.backgroundColor = bgColor
-				labelCell.labelTextColor = .white
+				labelCell.labelText = "List your previous job, if any."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
 			}
 			return cell
 		case 34:
@@ -459,7 +449,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "employer name"
 				tfCell.prompt = "Name"
-				tfCell.textField.text = residency.parentNameEmployer1
+				tfCell.textField.text = residency.nameEmployer2
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
@@ -470,7 +460,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "employer city"
 				tfCell.prompt = "City"
-				tfCell.textField.text = residency.parentCityEmployer1
+				tfCell.textField.text = residency.cityEmployer2
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
@@ -482,7 +472,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "employment start date"
 				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.parentStartEmployer1, type: .monthYear)
+				dfCell.setDate(residency.startEmployer2, type: .monthYear)
 			}
 			return cell
 		case 37:
@@ -491,15 +481,15 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "employment end date"
 				dfCell.prompt = "End"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.parentEndEmployer1, type: .monthYear)
+				dfCell.setDate(residency.endEmployer2, type: .monthYear)
 			}
 			return cell
-			
-		// previous job
+		
+		// parent's current job
 		case 38:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "List your parent/guardian's previous job, if any."
+				labelCell.labelText = "List your parent/guardian's most recent or current job."
 				labelCell.contentView.backgroundColor = nil
 				labelCell.labelTextColor = nil
 			}
@@ -509,7 +499,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "employer name"
 				tfCell.prompt = "Name"
-				tfCell.textField.text = residency.parentNameEmployer2
+				tfCell.textField.text = residency.parentNameEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
@@ -520,7 +510,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 			if let tfCell = cell as? TextFieldCell {
 				tfCell.textField.placeholder = "employer city"
 				tfCell.prompt = "City"
-				tfCell.textField.text = residency.parentCityEmployer2
+				tfCell.textField.text = residency.parentCityEmployer1
 				tfCell.textField.keyboardType = .default
 				tfCell.textField.inputAccessoryView = keyboardAccessoryView
 				tfCell.textField.delegate = self
@@ -532,10 +522,60 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 				dfCell.placeholderText = "employment start date"
 				dfCell.prompt = "Start"
 				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
-				dfCell.setDate(residency.parentStartEmployer2, type: .monthYear)
+				dfCell.setDate(residency.parentStartEmployer1, type: .monthYear)
 			}
 			return cell
 		case 42:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
+			if let dfCell = cell as? DateFieldCell {
+				dfCell.placeholderText = "employment end date"
+				dfCell.prompt = "End"
+				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
+				dfCell.setDate(residency.parentEndEmployer1, type: .monthYear)
+			}
+			return cell
+			
+		// previous job
+		case 43:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
+			if let labelCell = cell as? LabelCell {
+				labelCell.labelText = "List your parent/guardian's previous job, if any."
+				labelCell.contentView.backgroundColor = nil
+				labelCell.labelTextColor = nil
+			}
+			return cell
+		case 44:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.placeholder = "employer name"
+				tfCell.prompt = "Name"
+				tfCell.textField.text = residency.parentNameEmployer2
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 45:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "textentry", for: indexPath)
+			if let tfCell = cell as? TextFieldCell {
+				tfCell.textField.placeholder = "employer city"
+				tfCell.prompt = "City"
+				tfCell.textField.text = residency.parentCityEmployer2
+				tfCell.textField.keyboardType = .default
+				tfCell.textField.inputAccessoryView = keyboardAccessoryView
+				tfCell.textField.delegate = self
+			}
+			return cell
+		case 46:
+			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
+			if let dfCell = cell as? DateFieldCell {
+				dfCell.placeholderText = "employment start date"
+				dfCell.prompt = "Start"
+				dfCell.dateField.addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
+				dfCell.setDate(residency.parentStartEmployer2, type: .monthYear)
+			}
+			return cell
+		case 47:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "dateentry", for: indexPath)
 			if let dfCell = cell as? DateFieldCell {
 				dfCell.placeholderText = "employment end date"

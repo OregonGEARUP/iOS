@@ -114,7 +114,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 	
 	public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		
-		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 36.0))
+		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 40.0))
 		headerView.backgroundColor = StyleGuide.myPlanColor
 		
 		let titleLabel = UILabel()
@@ -124,7 +124,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 		titleLabel.textColor = .white
 		headerView.addSubview(titleLabel)
 		
-		titleLabel.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
+		titleLabel.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
 		titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 		titleLabel.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 16.0).isActive = true
 		
@@ -151,7 +151,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 0:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 				if let labelCell = cell as? LabelCell {
-					labelCell.labelText = "If you have taken the ACT enter the date and your best scores."
+					labelCell.labelText = "If you have taken the ACT, enter the date and your best scores."
 				}
 				return cell
 			case 1:
@@ -227,7 +227,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 			case 0:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 				if let labelCell = cell as? LabelCell {
-					labelCell.labelText = "If you have taken the SAT enter the date and your best scores."
+					labelCell.labelText = "If you have taken the SAT, enter the date and your best scores."
 				}
 				return cell
 			case 1:

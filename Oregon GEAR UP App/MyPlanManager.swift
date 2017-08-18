@@ -105,7 +105,7 @@ class MyPlanManager {
 		}
 	}
 	
-	private let firstNamePlaceholder = "my first choice"
+	private let firstCollegePlaceholder = "College 1"
 	
 	public func checkFirstCollegeName() {
 		
@@ -113,7 +113,7 @@ class MyPlanManager {
 			return
 		}
 		
-		guard colleges[0].name == "" || colleges[0].name == firstNamePlaceholder else {
+		guard colleges[0].name == "" || colleges[0].name == firstCollegePlaceholder else {
 			return
 		}
 		
@@ -136,17 +136,19 @@ class MyPlanManager {
 			}
 			
 		} else {
-			colleges[0].name = firstNamePlaceholder
+			colleges[0].name = firstCollegePlaceholder
 		}
 	}
 	
+	private let firstScholarshipPlaceholder = "Scholarship 1"
+
 	public func checkFirstScholarshipName() {
 		
 		guard scholarships.count == 1 else {
 			return
 		}
 		
-		guard scholarships[0].name == "" || scholarships[0].name == firstNamePlaceholder else {
+		guard scholarships[0].name == "" || scholarships[0].name == firstScholarshipPlaceholder else {
 			return
 		}
 		
@@ -176,7 +178,7 @@ class MyPlanManager {
 			}
 			
 		} else {
-			scholarships[0].name = firstNamePlaceholder
+			scholarships[0].name = firstScholarshipPlaceholder
 		}
 	}
 	

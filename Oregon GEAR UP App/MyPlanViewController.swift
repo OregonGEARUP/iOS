@@ -14,7 +14,7 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	
 	public var planIndexToShow = -1
 	
-	private let titles = ["Store the deadlines and information you need. Start with the checklist; your responses will automatically be transferred.", NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title"), NSLocalizedString("Calendar", comment: "Calendar title")]
+	private let titles = ["Start with the checklist; the info and deadlines you need will be here.", NSLocalizedString("Colleges", comment: "Colleges title"), NSLocalizedString("Scholarships", comment: "Scholarships title"), NSLocalizedString("ACT / SAT", comment: "ACT / SAT title"), NSLocalizedString("Residency Info", comment: "Residency Info title"), NSLocalizedString("Calendar", comment: "Calendar title")]
 	private let images = [#imageLiteral(resourceName: "Colleges"), #imageLiteral(resourceName: "Colleges"), #imageLiteral(resourceName: "Scholarships"), #imageLiteral(resourceName: "ACTSAT"), #imageLiteral(resourceName: "Residency"), #imageLiteral(resourceName: "Calendar")]
 	
     override func viewDidLoad() {
@@ -51,15 +51,22 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
 	public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return indexPath.row > 0 ? 80 : 120
+		return indexPath.row > 0 ? 80 : 90
 	}
 	
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "myplancell", for: indexPath)
+		
+		if indexPath.row == 0 {
+			cell.textLabel?.font = UIFont.italicSystemFont(ofSize: 17.0)
+			cell.textLabel?.textColor = .gray
+		} else {
+			cell.textLabel?.font = UIFont.systemFont(ofSize: 24.0)
+			cell.textLabel?.textColor = StyleGuide.myPlanColor
+		}
+		
 		cell.selectionStyle = .none
-		cell.textLabel?.font = indexPath.row > 0 ? UIFont.systemFont(ofSize: 24.0) : UIFont.systemFont(ofSize: 19.0)
-		cell.textLabel?.textColor = StyleGuide.myPlanColor
 		cell.textLabel?.numberOfLines = 0
 		cell.backgroundColor = .clear
 		cell.contentView.backgroundColor = .clear

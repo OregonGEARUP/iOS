@@ -188,7 +188,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		let scholarshipSection = section % sectionsPerScholarship
 		
 		if scholarshipSection == 0 {
-			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 36.0))
+			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 40.0))
 			headerView.backgroundColor = StyleGuide.myPlanColor
 			
 			let titleLabel = UILabel()
@@ -198,7 +198,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 			titleLabel.textColor = .white
 			headerView.addSubview(titleLabel)
 			
-			titleLabel.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
+			titleLabel.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
 			titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 			titleLabel.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 16.0).isActive = true
 			
@@ -219,6 +219,16 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 			return 0
 		}
     }
+	
+	public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		
+		let scholarshipSection = indexPath.section % sectionsPerScholarship
+		if scholarshipSection == 1 && indexPath.row <= 3 {
+			return 40
+		}
+		
+		return 60
+	}
 	
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		

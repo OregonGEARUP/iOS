@@ -187,4 +187,13 @@ class LabelCell: UITableViewCell {
 			label.font = UIFont.systemFont(ofSize: newValue)
 		}
 	}
+	
+	public var labelFontItalicSize: CGFloat {
+		get {
+			return label.font.pointSize
+		}
+		set {
+			label.font = UIFont.italicSystemFont(ofSize: newValue)
+		}
+	}
 }

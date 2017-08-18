@@ -504,7 +504,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	}
 	
 	public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return maxFixedFieldsTag + MyPlanManager.shared.colleges.count * 3
+		return maxFixedFieldsTag + 1 + MyPlanManager.shared.colleges.count * 3
 	}
 	
 	private let headerBgColor = StyleGuide.myPlanColor
@@ -520,8 +520,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			if let labelCell = cell as? LabelCell {
 				labelCell.labelText = "Store usernames and passwords securely on your phone; this information will not be shared."
 				labelCell.contentView.backgroundColor = nil
-				labelCell.labelTextColor = StyleGuide.myPlanColor
-				labelCell.labelFontSize = 19.0
+				labelCell.labelTextColor = .gray
+				labelCell.labelFontItalicSize = 17.0
 			}
 			return cell
 		case 1:
@@ -530,14 +530,16 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "Financial Aid Information"
 				labelCell.contentView.backgroundColor = headerBgColor
 				labelCell.labelTextColor = headerTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 2:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "Enter your Social Security number. And the numbers for your parent/gaurdians."
+				labelCell.labelText = "Enter your and your parent/gaurdian(s) Social Security numbers (SSN)."
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 3:
@@ -588,6 +590,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "Enter your driver license number."
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 7:
@@ -612,6 +615,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "FSA ID"
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 9:
@@ -652,6 +656,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "ORSAA"
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 12:
@@ -692,6 +697,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "CSS Profile"
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 15:
@@ -733,6 +739,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "Extra Login #1"
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 18:
@@ -791,6 +798,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "Extra Login #2"
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 22:
@@ -849,6 +857,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "College and Scholarship Applications"
 				labelCell.contentView.backgroundColor = headerBgColor
 				labelCell.labelTextColor = headerTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 26:
@@ -857,6 +866,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "The email address and password you will use for applications."
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 27:
@@ -897,6 +907,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				labelCell.labelText = "OSAC"
 				labelCell.contentView.backgroundColor = subheadBgColor
 				labelCell.labelTextColor = subheadTextColor
+				labelCell.labelFontSize = 17.0
 			}
 			return cell
 		case 30:
@@ -933,10 +944,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			return cell
 			
 		default:
-			let collegeIndex = (indexPath.row - maxFixedFieldsTag) / 3
+			let collegeIndex = (indexPath.row - (maxFixedFieldsTag+1)) / 3
 			let college = MyPlanManager.shared.colleges[collegeIndex]
 			
-			let collegeRow = (indexPath.row - maxFixedFieldsTag) % 3
+			let collegeRow = (indexPath.row - (maxFixedFieldsTag+1)) % 3
 			switch collegeRow {
 			case 0:
 				let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
@@ -944,6 +955,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 					labelCell.labelText = college.name
 					labelCell.contentView.backgroundColor = subheadBgColor
 					labelCell.labelTextColor = subheadTextColor
+					labelCell.labelFontSize = 17.0
 				}
 				return cell
 			case 1:

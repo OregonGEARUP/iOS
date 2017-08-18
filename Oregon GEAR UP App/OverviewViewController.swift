@@ -46,7 +46,8 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		welcomeOverlay.layer.borderWidth = 0.5
 		welcomeOverlay.layer.cornerRadius = 5.0
 		
-		welcome1Label.textColor = StyleGuide.completeButtonColor
+		welcome1Label.textColor = StyleGuide.myPlanColor
+		welcome2Label.textColor = .darkText
 		
 		if smallerScreen {
 			welcome1Label.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightMedium)
@@ -177,21 +178,20 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		infoLabel.text = "Follow the 10 key steps to apply, pay and go to college."
 		infoLabel.numberOfLines = 0
 		infoLabel.textAlignment = .natural
-		infoLabel.textColor = .darkText
-		infoLabel.textColor = StyleGuide.myPlanColor
-		infoLabel.font = UIFont.systemFont(ofSize: 19.0, weight: UIFontWeightRegular)
+		infoLabel.textColor = .gray
+		infoLabel.font = UIFont.italicSystemFont(ofSize: 17.0)
 		stackView.addArrangedSubview(infoLabel)
 		infoLabel.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.75).isActive = true
 		
-		// change "10" to green text
-		if let text = infoLabel.text {
-			let attrWelcome = NSMutableAttributedString(string: text)
-			let r = (text as NSString).range(of: "10")
-			if r.location != NSNotFound {
-				attrWelcome.setAttributes([NSForegroundColorAttributeName: StyleGuide.completeButtonColor], range: r)
-			}
-			infoLabel.attributedText = attrWelcome
-		}
+//		// change "10" to green text
+//		if let text = infoLabel.text {
+//			let attrWelcome = NSMutableAttributedString(string: text)
+//			let r = (text as NSString).range(of: "10")
+//			if r.location != NSNotFound {
+//				attrWelcome.setAttributes([NSForegroundColorAttributeName: StyleGuide.completeButtonColor], range: r)
+//			}
+//			infoLabel.attributedText = attrWelcome
+//		}
 		
 		let spacer = UIView()
 		stackView.addArrangedSubview(spacer)

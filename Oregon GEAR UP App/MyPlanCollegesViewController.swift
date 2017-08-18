@@ -190,7 +190,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 		let collegeSection = section % sectionsPerCollege
 		
 		if collegeSection == 0 {
-			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 36.0))
+			let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 200.0, height: 40.0))
 			headerView.backgroundColor = StyleGuide.myPlanColor
 			
 			let titleLabel = UILabel()
@@ -200,7 +200,7 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 			titleLabel.textColor = .white
 			headerView.addSubview(titleLabel)
 			
-			titleLabel.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
+			titleLabel.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
 			titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 			titleLabel.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 16.0).isActive = true
 			
@@ -213,7 +213,6 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
 		let collegeSection = section % sectionsPerCollege
-		
 		switch collegeSection {
 		case 0:	return 4
 		case 1: return MyPlanManager.shared.colleges.count > 1 ? 9 : 8		// no Remove button when just one college
@@ -221,6 +220,16 @@ class MyPlanCollegesViewController: MyPlanBaseViewController, UITableViewDelegat
 			return 0
 		}
     }
+	
+	public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		
+		let collegeSection = indexPath.section % sectionsPerCollege
+		if collegeSection == 1 && indexPath.row <= 6 {
+			return 40
+		}
+		
+		return 60
+	}
 	
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
