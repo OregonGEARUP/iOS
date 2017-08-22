@@ -1263,16 +1263,17 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		
 		UIView.animate(withDuration: 0.30, animations: {
 			fireworkImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+			fireworkImageView.alpha = 1.0
 		}) { (finished) in
 			
 			UIView.animate(withDuration: 3.0, delay: 0.15, options: UIViewAnimationOptions(), animations: {
 				fireworkImageView.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
-				fireworkImageView.alpha = 0.0
+				fireworkImageView.alpha = 0.6
 				
 			}, completion: { (finished) in
 				
-				fireworkImageView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-				fireworkImageView.alpha = 1.0
+//				fireworkImageView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+//				fireworkImageView.alpha = 1.0
 			})
 		}
 	}
