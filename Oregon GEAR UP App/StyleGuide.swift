@@ -31,8 +31,8 @@ struct StyleGuide {
 		let gradient = CAGradientLayer()
 		gradient.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 100.0)
 		gradient.colors = [UIColor(red: 0.036, green: 0.152, blue: 0.211, alpha: 1.0).cgColor, UIColor(red: 0.498, green: 0.773, blue: 0.894, alpha: 1.0).cgColor]
-		gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-		gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+		gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
+		gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
 		
 		view.layer.insertSublayer(gradient, at: 0)
 	}

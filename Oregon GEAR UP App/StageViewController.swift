@@ -59,7 +59,7 @@ class RadiosCheckpointView: CheckpointView {
 }
 
 class RouteCheckpointView: CheckpointView {
-	public let nextBlockButton = UIButton(type: .custom)
+	public let nextButton = UIButton(type: .custom)
 	public let graphicImageView = UIImageView()
 }
 
@@ -153,7 +153,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
 	private func createCheckpointView(forType type: EntryType) -> CheckpointView {
 		
-		let cpView: CheckpointView!
+		let cpView: CheckpointView
 		switch type {
 		case .infoEntry:
 			cpView = InfoCheckpointView()
@@ -226,30 +226,30 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			spacer.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
 			cpView.stackView.addArrangedSubview(spacer)
 			
-			routeCPView.nextBlockButton.translatesAutoresizingMaskIntoConstraints = false
-			routeCPView.nextBlockButton.setTitleColor(.white, for: .normal)		// button blue
-			routeCPView.nextBlockButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
-			routeCPView.nextBlockButton.layer.cornerRadius = 4.0
-			routeCPView.nextBlockButton.layer.backgroundColor = StyleGuide.endOfSectionColor.cgColor
+			routeCPView.nextButton.translatesAutoresizingMaskIntoConstraints = false
+			routeCPView.nextButton.setTitleColor(.white, for: .normal)		// button blue
+			routeCPView.nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 22.0)
+			routeCPView.nextButton.layer.cornerRadius = 4.0
+			routeCPView.nextButton.layer.backgroundColor = StyleGuide.endOfSectionColor.cgColor
 			routeCPView.graphicImageView.translatesAutoresizingMaskIntoConstraints = false
 			routeCPView.graphicImageView.contentMode = .scaleAspectFit
 			
 			if type == .routeEntry {
-				routeCPView.nextBlockButton.setTitle(String(format: "Onward to Step %d", blockIndex+2), for: .normal)
-				routeCPView.nextBlockButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
+				routeCPView.nextButton.setTitle(String(format: "Onward to Step %d", blockIndex+2), for: .normal)
+				routeCPView.nextButton.addTarget(self, action: #selector(routeToNextBlock), for: .touchUpInside)
 				routeCPView.graphicImageView.image = #imageLiteral(resourceName: "stars")
 			} else {
-				routeCPView.nextBlockButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
-				routeCPView.nextBlockButton.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
+				routeCPView.nextButton.setTitle(NSLocalizedString("Let's Keep Going!", comment: "button title for transition to next block"), for: .normal)
+				routeCPView.nextButton.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
 				routeCPView.graphicImageView.image = nil
 			}
 			
 			// don't add button if route CP for the last block
 			if type != .routeEntry || blockIndex != CheckpointManager.shared.countOfBlocks() - 1 {
-				cpView.stackView.addArrangedSubview(routeCPView.nextBlockButton)
+				routeCPView.stackView.addArrangedSubview(routeCPView.nextButton)
 			}
-
-			cpView.addSubview(routeCPView.graphicImageView)
+			
+			routeCPView.insertSubview(routeCPView.graphicImageView, belowSubview: routeCPView.stackView)
 			NSLayoutConstraint.activate([
 				routeCPView.graphicImageView.leftAnchor.constraint(equalTo: cpView.leftAnchor, constant: 8.0),
 				routeCPView.graphicImageView.rightAnchor.constraint(equalTo: cpView.rightAnchor, constant: -8.0),
@@ -258,76 +258,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			
 			if type == .routeEntry && blockIndex == CheckpointManager.shared.countOfBlocks() - 1 {
 				
-				// we are done, show the big congratulations
-				StyleGuide.addCongratsGradientLayerTo(routeCPView)
-				
-				routeCPView.titleLabel.font = UIFont.boldSystemFont(ofSize: 44.0)
-				routeCPView.titleLabel.textColor = .white
-				
-				routeCPView.descriptionLabel.alpha = 0.0
-				routeCPView.nextBlockButton.alpha = 0.0
-				
-				routeCPView.graphicImageView.image = nil
-				
-				let firework1 = UIImageView()
-				firework1.translatesAutoresizingMaskIntoConstraints = false
-				firework1.tag = 10001
-				firework1.image = #imageLiteral(resourceName: "firework01")
-				firework1.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-				routeCPView.addSubview(firework1)
-				NSLayoutConstraint.activate([
-					firework1.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: 30.0),
-					firework1.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 20.0)
-				])
-				
-				let firework2 = UIImageView()
-				firework2.translatesAutoresizingMaskIntoConstraints = false
-				firework2.tag = 10002
-				firework2.image = #imageLiteral(resourceName: "firework01").withRenderingMode(.alwaysTemplate)
-				firework2.tintColor = .red
-				firework2.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-				routeCPView.addSubview(firework2)
-				NSLayoutConstraint.activate([
-					firework2.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: -30.0),
-					firework2.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 140.0)
-				])
-				
-				let firework3 = UIImageView()
-				firework3.translatesAutoresizingMaskIntoConstraints = false
-				firework3.tag = 10003
-				firework3.image = #imageLiteral(resourceName: "firework01").withRenderingMode(.alwaysTemplate)
-				firework3.tintColor = .blue
-				firework3.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-				routeCPView.addSubview(firework3)
-				NSLayoutConstraint.activate([
-					firework3.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: 40.0),
-					firework3.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 110.0)
-				])
-				
-				let firework4 = UIImageView()
-				firework4.translatesAutoresizingMaskIntoConstraints = false
-				firework4.tag = 10004
-				firework4.image = #imageLiteral(resourceName: "firework01").withRenderingMode(.alwaysTemplate)
-				firework4.tintColor = .orange
-				firework4.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-				routeCPView.addSubview(firework4)
-				NSLayoutConstraint.activate([
-					firework4.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: -10.0),
-					firework4.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 50.0)
-				])
-				
-				let firework5 = UIImageView()
-				firework5.translatesAutoresizingMaskIntoConstraints = false
-				firework5.tag = 10005
-				firework5.image = #imageLiteral(resourceName: "firework01").withRenderingMode(.alwaysTemplate)
-				firework5.tintColor = UIColor(red: 0.0, green: 0.7, blue: 0.0, alpha: 1.0)
-				firework5.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-				routeCPView.addSubview(firework5)
-				NSLayoutConstraint.activate([
-					firework5.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: -65.0),
-					firework5.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 23.0)
-				])
-				
+				setupCongratulationCheckpoint(routeCPView)
 			}
 			
 		case .fieldEntry:
@@ -487,6 +418,108 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		label.topAnchor.constraint(equalTo: button.topAnchor, constant: 0.0).isActive = true
 		label.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: 0.0).isActive = true
 		label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+	}
+	
+	private func setupCongratulationCheckpoint(_ routeCPView: RouteCheckpointView) {
+		
+		// they are done, show the big congratulations
+		
+		let multiplier: CGFloat
+		switch UIScreen.main.bounds.height {
+		case let h where h <= 568.0:	multiplier = 1.0
+		case let h where h <= 667.0:	multiplier = 1.5
+		default:						multiplier = 1.8
+		}
+		
+		
+		StyleGuide.addCongratsGradientLayerTo(routeCPView)
+		
+		routeCPView.titleLabel.font = UIFont.boldSystemFont(ofSize: 44.0)
+		routeCPView.titleLabel.textColor = .white	// StyleGuide.completeButtonColor
+		
+		routeCPView.descriptionLabel.alpha = 0.0
+		routeCPView.nextButton.alpha = 0.0
+		
+		routeCPView.graphicImageView.image = nil
+		
+		let firework1 = UIImageView()
+		firework1.translatesAutoresizingMaskIntoConstraints = false
+		firework1.tag = 10001
+		firework1.image = #imageLiteral(resourceName: "fireworkYellow")
+		firework1.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+		routeCPView.addSubview(firework1)
+		NSLayoutConstraint.activate([
+			firework1.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: -5.0 * multiplier),
+			firework1.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 10.0 * multiplier)
+		])
+		
+		let firework2 = UIImageView()
+		firework2.translatesAutoresizingMaskIntoConstraints = false
+		firework2.tag = 10002
+		firework2.image = #imageLiteral(resourceName: "fireworkBlue")
+		firework2.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+		routeCPView.addSubview(firework2)
+		NSLayoutConstraint.activate([
+			firework2.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: 60.0 * multiplier),
+			firework2.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 60.0 * multiplier)
+		])
+		
+		let firework3 = UIImageView()
+		firework3.translatesAutoresizingMaskIntoConstraints = false
+		firework3.tag = 10003
+		firework3.image = #imageLiteral(resourceName: "fireworkMulti")
+		firework3.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+		routeCPView.addSubview(firework3)
+		NSLayoutConstraint.activate([
+			firework3.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: -50.0 * multiplier),
+			firework3.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 70.0 * multiplier)
+		])
+		
+		let firework4 = UIImageView()
+		firework4.translatesAutoresizingMaskIntoConstraints = false
+		firework4.tag = 10004
+		firework4.image = #imageLiteral(resourceName: "fireworkGold")
+		firework4.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+		routeCPView.addSubview(firework4)
+		NSLayoutConstraint.activate([
+			firework4.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: 34.0 * multiplier),
+			firework4.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 105.0 * multiplier)
+		])
+		
+		let firework5 = UIImageView()
+		firework5.translatesAutoresizingMaskIntoConstraints = false
+		firework5.tag = 10005
+		firework5.image = #imageLiteral(resourceName: "fireworkSplash1")
+		firework5.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+		routeCPView.addSubview(firework5)
+		NSLayoutConstraint.activate([
+			firework5.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: -83.0 * multiplier),
+			firework5.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 58.0 * multiplier)
+		])
+		
+		let firework6 = UIImageView()
+		firework6.translatesAutoresizingMaskIntoConstraints = false
+		firework6.tag = 10006
+		firework6.image = #imageLiteral(resourceName: "fireworkSplash2")
+		firework6.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+		routeCPView.addSubview(firework6)
+		NSLayoutConstraint.activate([
+			firework6.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: 63.0 * multiplier),
+			firework6.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 38.0 * multiplier)
+		])
+		
+		let banner = UIImageView()
+		banner.translatesAutoresizingMaskIntoConstraints = false
+		banner.contentMode = .scaleAspectFit
+		banner.tag = 20000
+		banner.image = #imageLiteral(resourceName: "congratsGreenBanner")
+		banner.alpha = 0.0
+		routeCPView.addSubview(banner)
+		NSLayoutConstraint.activate([
+			banner.centerXAnchor.constraint(equalTo: routeCPView.centerXAnchor, constant: 0.0),
+			banner.widthAnchor.constraint(equalTo: routeCPView.widthAnchor, multiplier: 1.0),
+			banner.topAnchor.constraint(equalTo: routeCPView.titleLabel.bottomAnchor, constant: 60.0 * multiplier)
+		])
 	}
 	
 	private func populateCheckpointView(_ cpView: CheckpointView, withCheckpointAtIndex cpIndex: Int) {
@@ -1220,6 +1253,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			if let firework = self.checkpointView?.viewWithTag(10000 + i) as? UIImageView {
 				perform(#selector(animateFireworkImageView), with: firework, afterDelay: Double(i-1) * 0.25)
 			} else {
+				perform(#selector(showCongratsBanner), with: nil, afterDelay: Double(i-1) * 0.25 + 0.9)
 				break
 			}
 		}
@@ -1239,6 +1273,15 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 				
 				fireworkImageView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
 				fireworkImageView.alpha = 1.0
+			})
+		}
+	}
+	
+	private dynamic func showCongratsBanner() {
+		
+		if let banner = self.checkpointView?.viewWithTag(20000) as? UIImageView {
+			UIView.animate(withDuration: 0.3, animations: { 
+				banner.alpha = 1.0
 			})
 		}
 	}
