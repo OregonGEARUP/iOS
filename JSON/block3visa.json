@@ -1,0 +1,239 @@
+[
+	{
+		"id": "b3visa",
+		"blocktitle": "Learn how to pay.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Explore paying for college.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Explore financial aid and other ways to help pay for college. Learn about your options.",
+						"url": "https://oregongoestocollege.org/5-things/pay-visa",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Don’t let the cost of college shock you - most students don’t pay full price. The net price is what you will actually pay after financial aid. Explore net prices of your schools by looking for the Net Price Calculator on their websites or use an online tool like College Abacus.",
+						"url": "https://collegeabacus.org/",
+						"urlText": "Find net prices.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "##b2_s3_cp2_i1_text##",
+						"description": "",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Average Net Price",
+								"placeholder": "Average net price"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Add the net price to each of your colleges in \"My Plan\".",
+						"url": "itsaplan://myplan/colleges",
+						"urlText": "Add net prices in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Make a list of scholarships.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "There are countless college scholarships. Your home country may offer scholarships as well. Make a list of at least five scholarships that you are eligible for, their deadlines and requirements.",
+						"url": "https://oregongoestocollege.org/pay/scholarships",
+						"urlText": "Find scholarships.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "",
+						"url": "",
+						"urlText": "",
+						"type": "dateAndText",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Scholarship & Application Deadline",
+								"placeholder": "Scholarship"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							},
+							{
+								"id": "c2",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp3",
+						"title": "",
+						"description": "Add additional scholarships at any point in \"My Plan\".",
+						"url": "itsaplan://myplan/scholarships",
+						"urlText": "Add scholarships in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Nice. You've explored how to pay for college. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block4.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

@@ -1,0 +1,452 @@
+[
+	{
+		"id": "b9",
+		"blocktitle": "Make your choice.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Watch your mail.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Look for decision and financial aid award letters. They may come by snail mail, e-mail or in an online portal.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Be sure to share your acceptances with counselors, parents and friends. Where were you accepted?",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "College"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "College"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "College"
+							},
+							{
+								"id": "i4",
+								"prompt": "",
+								"placeholder": "College"
+							},
+							{
+								"id": "i5",
+								"prompt": "",
+								"placeholder": "College"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Where were you waitlisted?",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "College"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "College"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "College"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Compare financial aid award letters. Go over these carefully and ask an adult if you have questions. ",
+						"url": "https://bigfuture.collegeboard.org/pay-for-college/financial-aid-awards/compare-aid-calculator ",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Decide!",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Decision time! Think carefully and critically about the pros and cons for each school. Consider size, academics, cost, extracurricular options and more.",
+						"url": "https://oregongoestocollege.org/5-things/choosing",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "yes",
+						"id": "cp2",
+						"title": "",
+						"description": "Where will you go to college?",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "College",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "yes",
+						"id": "cp3",
+						"title": "",
+						"description": "Congratulations! Great choice. Many colleges require a confirmation and initial deposit on May 1. Have you...",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Confirmed with college?",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Sent deposit?",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "Declined acceptances from other colleges?",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Send your appreciation to scholarship providers, counselors, teachers, coaches, family – anyone who has supported you in getting to college. Who do you need to send thank yous to?",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "Person/Organization"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "Person/Organization"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "Person/Organization"
+							},
+							{
+								"id": "i4",
+								"prompt": "",
+								"placeholder": "Person/Organization"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Fill out forms.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Colleges will be sending information that you need to fill out by certain deadlines. Make sure that you complete everything and send it on time.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Have you... (note that not all of these may apply to you)",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Accepted financial aid?",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Completed student loan paperwork?",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "Filled out health form?",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "Registered for orientation?",
+								"placeholder": ""
+							},
+							{
+								"id": "i5",
+								"prompt": "Picked housing and meal plans?",
+								"placeholder": ""
+							},
+							{
+								"id": "i6",
+								"prompt": "Filled out a residency affadavit?",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Confirm with your school counselor the college you will attend so the school can send your final transcript and any AP or IB test scores.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Colleges in Oregon require certain immunizations and recommend others before enrolling. Make sure you are healthy and ready to go!",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Your doctor's appointment:",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "You're so close to going to college! Just a few more things to do...",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block10.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

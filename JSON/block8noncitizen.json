@@ -1,0 +1,252 @@
+[
+	{
+		"id": "b8noncitizen",
+		"blocktitle": "Look ahead.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Get to know campus.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Visit the colleges you’ve applied to. Many colleges hold special Preview Days for admitted students. Make an effort to go to your top two choices if possible and get to know the campus and the people!",
+						"url": "https://bigfuture.collegeboard.org/find-colleges/campus-visit-guide ",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "When will you visit your top choice colleges?",
+						"url": "",
+						"urlText": "",
+						"type": "dateAndText",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "College #1",
+								"placeholder": "College"
+							},
+							{
+								"id": "i2",
+								"prompt": "College #2",
+								"placeholder": "College"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "If you don’t have an opportunity to visit campus, ask the Admissions or Enrollment office if you can talk to a current college student.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Look ahead to summer.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "It’s not too early to start thinking about the summer. Consider applying for a summer camp or program at a college, or an internship or job in a field you’re interested in.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Many college orientations happen during the summer so make sure you include those in your plans.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "Summer Programs",
+						"description": "Make a list of summer programs you're interested in.",
+						"url": "",
+						"urlText": "",
+						"type": "dateAndText",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Name & Application Deadline",
+								"placeholder": "Program"
+							},
+							{
+								"id": "i2",
+								"prompt": "Name & Application Deadline",
+								"placeholder": "Program"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "File taxes.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "",
+						"id": "cp1",
+						"title": "",
+						"description": "Financial aid awards are based on your and your parents tax information (federal and state) from previous years, so be sure to file by the April 15 deadline.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp2",
+						"title": "",
+						"description": "Excellent. You're all set for what's ahead. Let's keep going.",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block9.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

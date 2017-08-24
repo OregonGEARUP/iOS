@@ -1,0 +1,269 @@
+[
+	{
+		"id": "b7visa",
+		"blocktitle": "Apply!",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Apply!",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "You’re ready! Time to apply to the colleges on your list.",
+						"url": "https://oregongoestocollege.org/caw/students/faq ",
+						"urlText": "FAQ about applications.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Record website college application usernames and passwords.",
+						"url": "itsaplan://passwords",
+						"urlText": "Add to Passwords.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Check off the colleges you've applied to in \"My Plan\".",
+						"url": "itsaplan://myplan/colleges",
+						"urlText": "Update your list in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Make sure that your supplemental materials are sent to colleges. Check all that apply.",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "High school transcript",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Activities chart or resume",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "SAT or ACT scores",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "Letters of recommendation",
+								"placeholder": ""
+							},
+							{
+								"id": "i5",
+								"prompt": "CSS PROFILE or other financial aid form",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Finalize financial aid.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Complete additional financial aid forms such as the CSS PROFILE or a college’s own form.",
+						"url": "",
+						"urlText": "",
+						"type": "",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "This doesn't apply to me.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							},
+							{
+								"id": "c2",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "Congratulations!",
+						"description": "You've applied to college and financial aid, but there's more to do. Let's keep going.",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i2",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block8noncitizen.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "Congratulations!",
+						"description": "You've applied to college and financial aid, but there's more to do. Let's keep going.",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i3",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block8noncitizen.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "Congratulations!",
+						"description": "You've applied to college and financial aid, but there's more to do. Let's keep going.",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block8citizen.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

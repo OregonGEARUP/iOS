@@ -1,0 +1,432 @@
+[
+	{
+		"id": "b6",
+		"blocktitle": "Gather your info.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "List what you will need.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "You will need a lot of information for college applications. Research what you will need to apply to the colleges on your list.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "##b2_s3_cp2_i1_text##, due ##b2_s3_cp2_i1_date##",
+						"description": "What are the application requirements? (check all that apply)",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Essay or personal statement",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Letter(s) of recommendation",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "Activities chart or resume",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "SAT or ACT score",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "##b2_s3_cp2_i1_text##",
+						"description": "Are there additional financial aid forms to fill out? (check all that apply)",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Additional form (like the CSS PROFILE)",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Additional scholarship application",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "##b2_s3_cp2_i1_text##",
+						"description": "",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "How much does it cost to apply?",
+								"placeholder": "Cost to apply"
+							},
+							{
+								"id": "i2",
+								"prompt": "Can I use a fee deferral or waiver?",
+								"placeholder": "Yes/No"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "Update all of the colleges in \"My Plan\" with application requirements.",
+						"url": "itsaplan://myplan/colleges",
+						"urlText": "Update your list in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Get additional info.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "If you're planning to apply to an Oregon public university, you’ll need to answer some information about how long you and your parent/guardian have lived in Oregon. ",
+						"url": "https://oregongoestocollege.org/5-things/public-colleges",
+						"urlText": "List of Oregon public colleges.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Enter this information in \"My Plan\" so you have it handy for college applications.",
+						"url": "itsaplan://myplan/residency",
+						"urlText": "Answer residency questions in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "This doesn't apply to me.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "If you recently took or re-took the SAT or ACT, add or update your scores in \"My Plan\". If you have taken the tests multiple times, record your best results.",
+						"url": "itsaplan://myplan/tests",
+						"urlText": "Add test scores in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "This doesn't apply to me.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Get documents.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Think carefully about whom to ask for letters of recommendation for college and scholarship applications. Who will you ask for letters of recommendation?",
+						"url": "https://oregongoestocollege.org/5-things/letters",
+						"urlText": "Get more information.",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "Person #1"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "Person #2"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "Person #3"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Do you have what you need to apply? (check all that apply)",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "High school transcript",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Activities chart or resume",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "Essay or personal statements",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "Fee waiver or deferrals",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "You're ready to apply! Let's do it!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i2",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block7undoc.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "You're ready to apply! Let's do it!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i3",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block7visa.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "You're ready to apply! Let's do it!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block7citizen.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

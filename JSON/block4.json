@@ -1,0 +1,408 @@
+[
+	{
+		"id": "b4",
+		"blocktitle": "Get organized.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Sign up for the SAT or ACT.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "The ACT and SAT are tests that help determine how ready you are for college-level work. Many colleges require or recommend taking one or both tests.",
+						"url": "https://bigfuture.collegeboard.org/get-in/testing/which-college-admission-tests-do-i-need-to-take",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "If you have taken the SAT or ACT already, add your scores in \"My Plan\".",
+						"url": "itsaplan://myplan/tests",
+						"urlText": "Add test scores in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Do you need to take or re-take the ACT? Ask your counselor if you are eligible for a fee waiver.",
+						"url": "https://www.act.org/content/act/en/products-and-services/the-act/test-preparation.html",
+						"urlText": "Use free ACT test prep.",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Date of Test",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp4",
+						"title": "",
+						"description": "Do you need to take or re-take the SAT? Ask your counselor if you are eligible for a fee waiver.",
+						"url": "https://www.khanacademy.org/sat",
+						"urlText": "Use free SAT test prep.",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Date of Test",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "Get a good night's sleep the night before and eat breakfast the morning of the test.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Clean up your online act.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "",
+						"id": "cp1",
+						"title": "",
+						"description": "Choose or create a professional e-mail to use for all of your college and financial aid correspondence. Record your username and password so you will remember it.",
+						"url": "itsaplan://passwords",
+						"urlText": "Add to Passwords.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp2",
+						"title": "",
+						"description": "Control privacy settings on social media. 40% of college admission officers say they’ve looked at applicant’s social media accounts.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Prepare to share.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Your college and scholarship applications may ask you to list the activities you have been involved in including clubs, sports, jobs, volunteer opportunities or family responsibilities.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp2",
+						"title": "",
+						"description": "Create and save a list of all of the activities you’ve been involved in throughout high school and any special awards or accomplishments. ",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "List your three most meaningful activities. One of these might be a good topic for an essay.",
+						"url": "",
+						"urlText": "",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "Activity #1"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "Activity #2"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "Activity #3"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Start writing college and/or scholarship essays. Ask a teacher, counselor or other adult to edit and provide advice.",
+						"url": "https://oregongoestocollege.org/5-things/essays",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "Nice job getting organized. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i2",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block5undoc.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp6",
+						"title": "",
+						"description": "Nice job getting organized. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i3",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block5visa.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp7",
+						"title": "",
+						"description": "Nice job getting organized. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block5citizen.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

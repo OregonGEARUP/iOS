@@ -1,0 +1,446 @@
+[
+	{
+		"id": "b5citizen",
+		"blocktitle": "Get money for college.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Get to know colleges.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Attend a college fair in your area, if possible.",
+						"url": "https://oregongoestocollege.org/5-things/college-fairs",
+						"urlText": "Get more information. ",
+						"type": "dateAndText",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "College Fair Location & Date",
+								"placeholder": "Name & location"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Visit colleges, if possible.",
+						"url": "https://oregongoestocollege.org/5-things/visiting-colleges",
+						"urlText": "Get more information.",
+						"type": "dateAndText",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "College Visit #1",
+								"placeholder": "Which college?"
+							},
+							{
+								"id": "i2",
+								"prompt": "College Visit #2",
+								"placeholder": "Which college?"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Get the student view: Talk to current college students, check out student reviews online and look at student-run media.",
+						"url": "https://www.unigo.com/",
+						"urlText": "Read student reviews.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "I’ve talked to college students who attend the schools I want to go to.",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "I’ve looked at student reviews of the colleges I’m interested in online.",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "I’ve checked out the student TV or radio station or newspaper of my colleges.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Narrow the field.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Give yourself options - consider having at least one Oregon public university or community college on your list.",
+						"url": "https://oregongoestocollege.org/5-things/college-list",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "yes",
+						"id": "cp2",
+						"title": "",
+						"description": "What types of colleges do you plan to apply to?",
+						"url": "https://oregongoestocollege.org/5-things#colleges",
+						"urlText": "See lists of Oregon colleges by type.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Community college in Oregon",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Community college out of state",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "Public university in Oregon",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "Public university out of state",
+								"placeholder": ""
+							},
+							{
+								"id": "i5",
+								"prompt": "Private university",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Finalize your list of colleges you plan to apply to – 3 to 5 is a good number. Update your list of colleges in \"My Plan\".",
+						"url": "itsaplan://myplan/colleges",
+						"urlText": "Update your list in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Apply for scholarships.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Add to your list of scholarships to apply to in \"My Plan\".",
+						"url": "itsaplan://myplan/scholarships",
+						"urlText": "Add scholarships in My Plan.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Your scholarships may require an essay. Re-use essays when appropriate to make less work for you! ",
+						"url": "https://oregongoestocollege.org/5-things/essays",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Apply for scholarships on your list. Check them off when you're done in \"My Plan\".",
+						"url": "itsaplan://myplan/scholarships",
+						"urlText": "Update your list of scholarships in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s4",
+				"title": "Complete the FAFSA.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "It’s time to fill out your FAFSA. There may be a workshop at your school or in your community to help you with the application.",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "FAFSA Workshop Date",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "If you have questions, talk to a counselor or teacher at your school or e-mail, chat or call the Office of Federal Student Aid.",
+						"url": "https://studentaidhelp.ed.gov/app/home/site/fafsa ",
+						"urlText": "Get FAFSA help here.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "yes",
+						"id": "cp3",
+						"title": "",
+						"description": "Fill out and submit the Free Application for Federal Student Aid to be eligible for federal grants, loans and work-study funds.",
+						"url": "https://fafsa.ed.gov/ ",
+						"urlText": "Apply for the FAFSA here.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Great job getting money for college. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block6.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

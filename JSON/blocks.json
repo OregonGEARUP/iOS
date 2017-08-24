@@ -1,0 +1,52 @@
+[
+   {
+      "ids": "b1",
+      "title": "Explore your options.",
+      "blockFileName": "block1.json"
+   },
+   {
+      "ids": "b2",
+      "title": "Be prepared.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b3citizen,b3undoc,b3visa",
+      "title": "Learn how to pay.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b4",
+      "title": "Get organized.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b5citizen,b5undoc,b5visa",
+      "title": "Get money for college.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b6",
+      "title": "Gather your info.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b7citizen,b7undoc,b7visa",
+      "title": "Apply!",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b8citizen,b8noncitizen",
+      "title": "Look ahead.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b9",
+      "title": "Make your choice.",
+      "blockFileName": ""
+   },
+   {
+      "ids": "b10",
+      "title": "Get ready to go.",
+      "blockFileName": ""
+   }
+]

@@ -1,0 +1,431 @@
+[
+	{
+		"id": "b10",
+		"blocktitle": "Get ready to go.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Study for and take tests.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Keep working hard in all of your classes - no slacking! Colleges will look at your second semester grades. ",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp2",
+						"title": "",
+						"description": "If you are taking AP or IB classes remember that tests occur in May - take advantage of practice tests and study sessions at school.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Some colleges may have placement tests. Check to see if you can take them now while the material is still fresh.",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Date of Placement Test",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Start thinking ahead.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "College may be the first time you’ve had to manage all of your own money. Create a budget and a way to track your expenses.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Everyone needs a little support when they get to college. There are a lot of people on campus available to help. ",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Explore the services at your college online.",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Financial aid",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Tutoring",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "Academic advising",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "Mental health",
+								"placeholder": ""
+							},
+							{
+								"id": "i5",
+								"prompt": "Physical health",
+								"placeholder": ""
+							},
+							{
+								"id": "i6",
+								"prompt": "Registrar",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Consider your living situation and use the paperwork you got from your college to make a packing and supply list. ",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Get organized.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Orientation is important. Sign up for orientation programs and arrange travel.",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Date of orientation:",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Make sure you’ve got health insurance through the school, your parents, or your own policy.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Determine your banking and financial needs – set up a checking account at a bank or credit union near campus.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp4",
+						"title": "",
+						"description": "Learn more about credit cards and how your student loans work.",
+						"url": "https://studentaid.ed.gov/sa/types/loans",
+						"urlText": "Get more information about student loans.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s4",
+				"title": "Register for classes.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Know what to expect from college classes. What day do classes start?",
+						"url": "https://oregongoestocollege.org/5-things/college-classes",
+						"urlText": "Get more information.",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Classes start:",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Register for classes. Meet with an academic advisor if you're not sure what to take.",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Advisor meeting:",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp3",
+						"title": "You're going to college!",
+						"description": "You are going to college!",
+						"url": "https://oregongoestocollege.org/itsaplan/students-college",
+						"urlText": "Get college tips.",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

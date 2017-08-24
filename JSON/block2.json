@@ -1,0 +1,423 @@
+[
+	{
+		"id": "b2",
+		"blocktitle": "Be prepared.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Think about future careers.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "What do you want to do? List three careers you are interested in.",
+						"url": "https://bigfuture.collegeboard.org/explore-careers/careers/exploring-careers-step-by-step",
+						"urlText": "Get more information.",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "Career #1"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "Career #2"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "Career #3"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Your future career determines what education you will need. List the programs or majors that will get you to your dream career.",
+						"url": "https://bigfuture.collegeboard.org/majors-careers",
+						"urlText": "Get more information.",
+						"type": "field",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": "Major or Program #1"
+							},
+							{
+								"id": "i2",
+								"prompt": "",
+								"placeholder": "Major or Program #2"
+							},
+							{
+								"id": "i3",
+								"prompt": "",
+								"placeholder": "Major or Program #3"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "Make sure you're on track.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Review your transcript and your senior year class schedule with your counselor to make sure you have the classes you need to graduate and apply to college. ",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "When will you meet with your counselor?",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Everyone who has a high school diploma or GED can go to college! Take a look at the kinds of colleges you might be ready to attend.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "You're eligible for a community college if:",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "You will graduate from high school or earn a GED.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "You’re eligible for an Oregon public university if you’ve earned a diploma or GED and: ",
+						"url": "",
+						"urlText": "",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "You've earned at least a 2.75-3.0 GPA.",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "You've earned a C- or better in all of your core classes.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp6",
+						"title": "",
+						"description": "Requirements vary for private colleges and universities, but more selective colleges want to see A’s and B’s in college prep classes.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Make a list of colleges.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Make a list of at least five colleges you are interested in with deadline information.",
+						"url": "https://bigfuture.collegeboard.org/college-search",
+						"urlText": "Search for colleges.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "yes",
+						"id": "cp2",
+						"title": "",
+						"description": "List your top choice college. If you would like an application deadline reminder, make sure you've enabled It's A Plan to send you notifications under Settings.",
+						"url": "",
+						"urlText": "",
+						"type": "dateAndText",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "College & Application Deadline",
+								"placeholder": "College"
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Add additional colleges to your list at any time in \"My Plan\".",
+						"url": "itsaplan://myplan/colleges",
+						"urlText": "Add colleges in My Plan.",
+						"type": "checkbox",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "Done!",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Nice job getting prepared to apply. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i2",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block3undoc.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "Nice job getting prepared to apply. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "b1_s2_cp4_i3",
+								"value": "1"
+							}
+						],
+						"routeFileName": "block3visa.json"
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp6",
+						"title": "",
+						"description": "Nice job getting prepared to apply. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block3citizen.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]

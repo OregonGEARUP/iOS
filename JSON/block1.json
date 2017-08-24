@@ -1,0 +1,464 @@
+[
+	{
+		"id": "b1",
+		"blocktitle": "Explore your options.",
+		"stages": 
+		[
+			{
+				"id": "s1",
+				"title": "Why go to college?",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "College is any type of education after high school, including 4-year colleges, community colleges, trade schools and apprenticeships.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "College helps you...",
+						"url": "",
+						"urlText": "",
+						"type": "radio",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "have new experiences",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "meet new people",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "explore interests",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "all of the above",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "All of the above! College gives you opportunities.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "If you have a college degree, you are more likely to...",
+						"url": "",
+						"urlText": "",
+						"type": "radio",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "make more money",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "like your job",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "be happy",
+								"placeholder": ""
+							},
+							{
+								"id": "i4",
+								"prompt": "all of the above",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "",
+						"id": "cp5",
+						"title": "",
+						"description": "All of the above! A college degree has many benefits.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s2",
+				"title": "College is for you.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "You can go to college. Talk to a trusted adult and explore specific resources and support services for your situation. ",
+						"url": "https://oregongoestocollege.org/5-things/special",
+						"urlText": "Explore resources for special circumstances.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "You can afford college. You might be able to receive federal financial aid to help pay for college. This is determined by your family's financial circumstances but also by things like your citizenship status, registering with the selective service, and staying out of legal trouble.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "If you are male, you are required to register for the selective service within one month of your 18th birthday to be eligible for federal financial aid. If you would like a reminder, make sure you've enabled It's A Plan to send you notifications under Settings.",
+						"url": "",
+						"urlText": "",
+						"type": "dateOnly",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "My 18th birthday is:",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "yes",
+						"id": "cp4",
+						"title": "",
+						"description": "Your citizenship status determines how you can pay for college. Note: this information will be saved on your device and will not be shared. I am:",
+						"url": "",
+						"urlText": "",
+						"type": "radio",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "A U.S. citizen or permanent resident.",
+								"placeholder": ""
+							},
+							{
+								"id": "i2",
+								"prompt": "Undocumented or DACA-mented.",
+								"placeholder": ""
+							},
+							{
+								"id": "i3",
+								"prompt": "A non-immigrant visa holder.",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					}
+				]
+			},
+			{
+				"id": "s3",
+				"title": "Know your college options.",
+				"img": "",
+				"checkpoints": 
+				[
+					{
+						"requiredCP": "no",
+						"id": "cp1",
+						"title": "",
+						"description": "Think about what is most important to you in choosing a college. Academics? Cost? Size? Location? Campus activities?",
+						"url": "https://oregongoestocollege.org/5-things/college-list",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp2",
+						"title": "",
+						"description": "Make sure you research deadlines and special requirements for specific programs.",
+						"url": "",
+						"urlText": "",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp3",
+						"title": "",
+						"description": "Are you interested in studying art, music or theater in college?",
+						"url": "https://oregongoestocollege.org/5-things/art",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp4",
+						"title": "",
+						"description": "Are you interested in joining the military?",
+						"url": "https://oregongoestocollege.org/5-things/military",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp5",
+						"title": "",
+						"description": "Are you interested in playing sports in college?",
+						"url": "https://oregongoestocollege.org/5-things/sports",
+						"urlText": "Get more information.",
+						"type": "info",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": ""
+					},
+					{
+						"requiredCP": "no",
+						"id": "cp6",
+						"title": "",
+						"description": "Nice. You've explored your college options. Let's keep going!",
+						"url": "",
+						"urlText": "",
+						"type": "route",
+						"instances": 
+						[
+							{
+								"id": "i1",
+								"prompt": "",
+								"placeholder": ""
+							}
+						],
+						"criteria": 
+						[
+							{
+								"id": "c1",
+								"key": "",
+								"value": ""
+							}
+						],
+						"routeFileName": "block2.json"
+					}
+				]
+			}
+		],
+		"version": "1.0"
+	}
+]
