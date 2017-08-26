@@ -334,7 +334,15 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		UIView.animate(withDuration: 0.3, animations: {
 			self.welcomeOverlay.alpha = 1.0
 		}) { (finished) in
-			self.showNumberLabel(atIndex: 0)
+			
+			// number countdown animation does not fit on 3 inch screens, so skip it
+			if UIScreen.main.bounds.height > 480.0 {
+				self.showNumberLabel(atIndex: 0)
+			} else {
+				UIView.animate(withDuration: 0.2) {
+					self.getStartedButton.alpha = 1.0
+				}
+			}
 		}
 	}
 	

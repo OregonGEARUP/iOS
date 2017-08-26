@@ -16,7 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+		
+		// kick start My Plan
+		_ = MyPlanManager.shared
 		
 		if #available(iOS 10.0, *) {
 			UNUserNotificationCenter.current().delegate = self
