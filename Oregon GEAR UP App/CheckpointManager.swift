@@ -447,6 +447,12 @@ class CheckpointManager {
 		var completed = true
 		for (cpIndex, _) in block.stages[stageIndex].checkpoints.enumerated() {
 			completed = completed && checkpointCompleted(atIndex: cpIndex, stageIndex: stageIndex)
+			
+			// check for completed route cp at the end of the stage, as soon as we find one visited
+			// route cp then we are good for the stage (this assumes that route cps are alwaya at the end of a stage)
+			if completed && block.stages[stageIndex].checkpoints[cpIndex].type == .routeEntry {
+				break
+			}
 		}
 		
 		return completed
