@@ -17,8 +17,10 @@ struct StyleGuide {
 	
 	static func addGradientLayerTo(_ view: UIView) {
 		
+		let maxDim = max(view.bounds.width, view.bounds.height)
+		
 		let gradient = CAGradientLayer()
-		gradient.frame = view.bounds
+		gradient.frame = CGRect(origin: view.bounds.origin, size: CGSize(width: maxDim, height: maxDim))
 		gradient.colors = [topGradientColor.cgColor, bottomGradientColor.cgColor]
 		gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
 		gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
