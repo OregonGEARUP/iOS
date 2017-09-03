@@ -181,7 +181,12 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		infoLabel.textColor = .gray
 		infoLabel.font = UIFont.italicSystemFont(ofSize: 17.0)
 		stackView.addArrangedSubview(infoLabel)
-		infoLabel.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.75).isActive = true
+		
+		if traitCollection.horizontalSizeClass == .regular {
+			infoLabel.widthAnchor.constraint(equalToConstant: 390.0).isActive = true
+		} else {
+			infoLabel.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.75).isActive = true
+		}
 		
 //		// change "10" to green text
 //		if let text = infoLabel.text {
@@ -222,9 +227,12 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			
 			stackView.addArrangedSubview(button)
 			
-			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+			if traitCollection.horizontalSizeClass == .regular {
+				button.widthAnchor.constraint(equalToConstant: 400.0).isActive = true
+			} else {
+				button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+			}
 			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
-			
 			
 			let completedView = UIImageView()
 			completedView.translatesAutoresizingMaskIntoConstraints = false
@@ -279,7 +287,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			versionLabel.text = "\(name), v\(version) (\(build))\n\nOregon GEAR UP"
 			versionLabel.numberOfLines = 0
 			versionLabel.textAlignment = .center
-			versionLabel.textColor = .gray
+			versionLabel.textColor = StyleGuide.myPlanColor
 			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightThin)
 			stackView.addArrangedSubview(versionLabel)
 		}

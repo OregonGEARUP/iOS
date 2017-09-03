@@ -170,6 +170,10 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			cpView = RouteCheckpointView()
 		}
 		
+		let horizMargin: CGFloat = traitCollection.horizontalSizeClass == .regular ? 60.0 : 8.0
+		let vertSpacing: CGFloat = traitCollection.horizontalSizeClass == .regular ? 16.0 : 8.0
+		let fontSizeFactor: CGFloat = traitCollection.horizontalSizeClass == .regular ? 1.3 : 1.0
+		
 		cpView.layer.backgroundColor = UIColor(white: 1.0, alpha: 1.0).cgColor
 		cpView.layer.borderColor = UIColor.lightGray.cgColor
 		cpView.layer.borderWidth = 0.5
@@ -179,39 +183,39 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		cpView.clipsToBounds = true
 		
 		cpView.titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
+		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0 * fontSizeFactor)
 		cpView.titleLabel.textAlignment = .center
 		cpView.titleLabel.numberOfLines = 0
 		cpView.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
 		cpView.addSubview(cpView.titleLabel)
 		NSLayoutConstraint.activate([
 			cpView.titleLabel.topAnchor.constraint(equalTo: cpView.topAnchor, constant: 20.0),
-			cpView.titleLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
-			cpView.titleLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
+			cpView.titleLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: horizMargin),
+			cpView.titleLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -horizMargin)
 		])
 		
 		cpView.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-		cpView.descriptionLabel.font = UIFont.systemFont(ofSize: 18.0)
+		cpView.descriptionLabel.font = UIFont.systemFont(ofSize: 18.0 * fontSizeFactor)
 		cpView.descriptionLabel.textAlignment = .left
 		cpView.descriptionLabel.numberOfLines = 0
 		cpView.descriptionLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
 		cpView.addSubview(cpView.descriptionLabel)
 		NSLayoutConstraint.activate([
-			cpView.descriptionLabel.topAnchor.constraint(equalTo: cpView.titleLabel.bottomAnchor, constant: 8.0),
-			cpView.descriptionLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
-			cpView.descriptionLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
+			cpView.descriptionLabel.topAnchor.constraint(equalTo: cpView.titleLabel.bottomAnchor, constant: vertSpacing),
+			cpView.descriptionLabel.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: horizMargin),
+			cpView.descriptionLabel.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -horizMargin)
 		])
 		
 		cpView.stackView.translatesAutoresizingMaskIntoConstraints = false
 		cpView.stackView.axis = .vertical
 		cpView.stackView.alignment = .fill
 		cpView.stackView.distribution = .fill
-		cpView.stackView.spacing = 8.0
+		cpView.stackView.spacing = vertSpacing
 		cpView.addSubview(cpView.stackView)
 		NSLayoutConstraint.activate([
 			cpView.stackView.topAnchor.constraint(equalTo: cpView.descriptionLabel.bottomAnchor, constant: 20.0),
-			cpView.stackView.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: 8.0),
-			cpView.stackView.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -8.0)
+			cpView.stackView.leadingAnchor.constraint(equalTo: cpView.leadingAnchor, constant: horizMargin),
+			cpView.stackView.trailingAnchor.constraint(equalTo: cpView.trailingAnchor, constant: -horizMargin)
 		])
 		
 		switch type {
@@ -265,7 +269,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			let fieldsCPView = cpView as! FieldsCheckpointView
 			for i in 0..<cpView.maxInstances {
 				fieldsCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
-				fieldsCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0)
+				fieldsCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0 * fontSizeFactor)
 				fieldsCPView.fieldLabels[i].textAlignment = .left
 				fieldsCPView.fieldLabels[i].numberOfLines = 0
 				cpView.stackView.addArrangedSubview(fieldsCPView.fieldLabels[i])
@@ -288,7 +292,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			let datesCPView = cpView as! DatesCheckpointView
 			for i in 0..<cpView.maxInstances {
 				datesCPView.fieldLabels[i].translatesAutoresizingMaskIntoConstraints = false
-				datesCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0)
+				datesCPView.fieldLabels[i].font = UIFont.systemFont(ofSize: 18.0 * fontSizeFactor)
 				datesCPView.fieldLabels[i].textAlignment = .left
 				datesCPView.fieldLabels[i].numberOfLines = 0
 				cpView.stackView.addArrangedSubview(datesCPView.fieldLabels[i])
@@ -327,7 +331,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 				checkboxesCPView.checkboxes[i].translatesAutoresizingMaskIntoConstraints = false
 				checkboxesCPView.checkboxes[i].addTarget(self, action: #selector(handleCheckbox(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(checkboxesCPView.checkboxes[i])
-				setupButton(checkboxesCPView.checkboxes[i], withText: "", image: #imageLiteral(resourceName: "Checkbox"))
+				setupButton(checkboxesCPView.checkboxes[i], withText: "", image: #imageLiteral(resourceName: "Checkbox"), fontSizeFactor: fontSizeFactor)
 			}
 			
 		case .radioEntry:
@@ -337,7 +341,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 				radiosCPView.radios[i].translatesAutoresizingMaskIntoConstraints = false
 				radiosCPView.radios[i].addTarget(self, action: #selector(handleRadio(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(radiosCPView.radios[i])
-				setupButton(radiosCPView.radios[i], withText: "", image: #imageLiteral(resourceName: "Radio"))
+				setupButton(radiosCPView.radios[i], withText: "", image: #imageLiteral(resourceName: "Radio"), fontSizeFactor: fontSizeFactor)
 			}
 		}
 		
@@ -391,7 +395,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private func setupButton(_ button: UIButton, withText text: String, image: UIImage?) {
+	private func setupButton(_ button: UIButton, withText text: String, image: UIImage?, fontSizeFactor: CGFloat) {
 		
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -405,7 +409,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		label.numberOfLines = 0
 		label.textAlignment = .left
 		label.textColor = .darkText
-		label.font = UIFont.systemFont(ofSize: 18.0)
+		label.font = UIFont.systemFont(ofSize: 18.0 * fontSizeFactor)
 		label.text = text
 		label.tag = 101
 		button.addSubview(label)
@@ -1331,11 +1335,17 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		
 		currentXConstraint = checkpointView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 		NSLayoutConstraint.activate([
-			checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 			currentXConstraint,
 			checkpointView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 			checkpointView.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
 		])
+		
+		if traitCollection.horizontalSizeClass == .regular {
+			let minDim = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+			checkpointView.widthAnchor.constraint(equalToConstant: minDim * 0.8).isActive = true
+		} else {
+			checkpointView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80).isActive = true
+		}
 		
 		loadNextCheckpointAfterIndex(checkpointIndex)
 		loadPrevCheckpointBeforeIndex(checkpointIndex)
@@ -1422,11 +1432,17 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			
 			nextXConstraint = nextCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: nextXConstant)
 			NSLayoutConstraint.activate([
-				nextCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				nextXConstraint!,
 				nextCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 				nextCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
 			])
+			
+			if traitCollection.horizontalSizeClass == .regular {
+				let minDim = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+				nextCheckpointView!.widthAnchor.constraint(equalToConstant: minDim * 0.8).isActive = true
+			} else {
+				nextCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80).isActive = true
+			}
 		}
 	}
 	
@@ -1471,11 +1487,17 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			
 			prevXConstraint = prevCheckpointView!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: prevXConstant)
 			NSLayoutConstraint.activate([
-				prevCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80),
 				prevXConstraint!,
 				prevCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
 				prevCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
 			])
+			
+			if traitCollection.horizontalSizeClass == .regular {
+				let minDim = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+				prevCheckpointView!.widthAnchor.constraint(equalToConstant: minDim * 0.8).isActive = true
+			} else {
+				prevCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80).isActive = true
+			}
 		}
 	}
 	

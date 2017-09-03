@@ -98,9 +98,12 @@ class BlockViewController: UIViewController {
 			
 			stackView.addArrangedSubview(button)
 			
-			button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+			if traitCollection.horizontalSizeClass == .regular {
+				button.widthAnchor.constraint(equalToConstant: 400.0).isActive = true
+			} else {
+				button.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 0.8).isActive = true
+			}
 			button.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
-			
 			
 			let statusView = UIImageView()
 			statusView.translatesAutoresizingMaskIntoConstraints = false
