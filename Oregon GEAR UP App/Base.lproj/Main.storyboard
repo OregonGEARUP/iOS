@@ -33,7 +33,7 @@
                                     <constraint firstItem="WsF-Uz-Mfj" firstAttribute="leading" secondItem="zP0-cB-eVZ" secondAttribute="leading" id="O07-fg-vKY"/>
                                     <constraint firstAttribute="bottom" secondItem="WsF-Uz-Mfj" secondAttribute="bottom" id="RdR-GF-tYQ"/>
                                     <constraint firstItem="WsF-Uz-Mfj" firstAttribute="width" secondItem="zP0-cB-eVZ" secondAttribute="width" id="XSV-sh-DOT"/>
-                                    <constraint firstItem="WsF-Uz-Mfj" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="top" constant="-44" id="aov-yb-Uj2"/>
+                                    <constraint firstItem="WsF-Uz-Mfj" firstAttribute="top" secondItem="zP0-cB-eVZ" secondAttribute="top" id="aov-yb-Uj2"/>
                                 </constraints>
                             </scrollView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="MoL-OB-pNu">
@@ -429,7 +429,7 @@
                             <constraint firstItem="hl5-gi-dUt" firstAttribute="top" secondItem="DPa-1S-6Cd" secondAttribute="topMargin" id="Idd-Wn-Wk0"/>
                             <constraint firstItem="hl5-gi-dUt" firstAttribute="leading" secondItem="DPa-1S-6Cd" secondAttribute="leading" id="KKd-8F-4XD"/>
                             <constraint firstItem="RyT-NP-LSb" firstAttribute="top" secondItem="hl5-gi-dUt" secondAttribute="bottom" id="ROG-zO-Udm"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hl5-gi-dUt" secondAttribute="trailing" constant="-16" id="xBn-lt-U2j"/>
+                            <constraint firstAttribute="trailing" secondItem="hl5-gi-dUt" secondAttribute="trailing" id="xBn-lt-U2j"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="VVC-gl-VLd"/>
@@ -582,7 +582,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rVZ-QH-44k" firstAttribute="width" secondItem="Sig-D7-DQq" secondAttribute="width" id="EVr-Ar-zY1"/>
-                                    <constraint firstItem="rVZ-QH-44k" firstAttribute="top" secondItem="Sig-D7-DQq" secondAttribute="top" constant="-44" id="KZz-rR-my4"/>
+                                    <constraint firstItem="rVZ-QH-44k" firstAttribute="top" secondItem="Sig-D7-DQq" secondAttribute="top" id="KZz-rR-my4"/>
                                     <constraint firstAttribute="bottom" secondItem="rVZ-QH-44k" secondAttribute="bottom" id="LIJ-17-KTg"/>
                                     <constraint firstItem="rVZ-QH-44k" firstAttribute="leading" secondItem="Sig-D7-DQq" secondAttribute="leading" id="z3K-0h-TFO"/>
                                 </constraints>

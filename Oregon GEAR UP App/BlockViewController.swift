@@ -24,6 +24,8 @@ class BlockViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		automaticallyAdjustsScrollViewInsets = false
+
 		StyleGuide.addGradientLayerTo(view)
     }
 	
@@ -77,6 +79,11 @@ class BlockViewController: UIViewController {
 
 		blockIndex = CheckpointManager.shared.blockIndex
 		title = "\(blockIndex+1). \(block.title)"
+		
+		let spacer1 = UIView()
+		stackView.addArrangedSubview(spacer1)
+		spacer1.heightAnchor.constraint(equalToConstant: 0.0).isActive = true
+		spacer1.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
 		
 		for (index, stage) in block.stages.enumerated() {
 			

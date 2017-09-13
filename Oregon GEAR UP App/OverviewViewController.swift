@@ -36,6 +36,8 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		title = NSLocalizedString("Checklist", comment: "overview title")
 		
+		automaticallyAdjustsScrollViewInsets = false
+		
 		StyleGuide.addGradientLayerTo(view)
 		
 		let smallerScreen = UIScreen.main.bounds.height <= 568.0
@@ -174,6 +176,11 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		prepareForNewBlocks()
 		
+		let spacer1 = UIView()
+		stackView.addArrangedSubview(spacer1)
+		spacer1.heightAnchor.constraint(equalToConstant: 0.0).isActive = true
+		spacer1.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+		
 		let infoLabel = UILabel()
 		infoLabel.text = "Follow the 10 key steps to apply, pay and go to college."
 		infoLabel.numberOfLines = 0
@@ -198,10 +205,10 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 //			infoLabel.attributedText = attrWelcome
 //		}
 		
-		let spacer = UIView()
-		stackView.addArrangedSubview(spacer)
-		spacer.heightAnchor.constraint(equalToConstant: 0.0).isActive = true
-		spacer.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+		let spacer2 = UIView()
+		stackView.addArrangedSubview(spacer2)
+		spacer2.heightAnchor.constraint(equalToConstant: 0.0).isActive = true
+		spacer2.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
 		
 		for index in 0..<CheckpointManager.shared.countOfBlocks() {
 			
