@@ -373,7 +373,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		cpView.incompeteLabel.font = UIFont.systemFont(ofSize: 18.0)
 		cpView.incompeteLabel.textColor = .red
 		cpView.incompeteLabel.layer.cornerRadius = 3.0
-		cpView.incompeteLabel.layer.backgroundColor = UIColor(colorLiteralRed: 1.0, green: 0.97, blue: 0.97, alpha: 1.0).cgColor
+		cpView.incompeteLabel.layer.backgroundColor = UIColor(red: 1.0, green: 0.97, blue: 0.97, alpha: 1.0).cgColor
 		cpView.incompeteLabel.textAlignment = .center
 		cpView.incompeteLabel.numberOfLines = 0
 		cpView.incompeteLabel.alpha = 0.0
