@@ -1355,7 +1355,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	}
 	
 	
-	private let prevNextXFrameFactor: CGFloat = 0.84	// this controls how much peek of prev/next checkpoint view shows, lower value shows more (1.0 shows none)
+	private let prevNextXFrameFactor: CGFloat = 1.04	// this controls the spacing between current and prev/next checkpoints
 	
 	private func nextIndexAfterIndex(_ index: Int) -> Int? {
 		
@@ -1418,8 +1418,15 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		
 		nextCheckpointView = nil
 		nextXConstraint = nil
+		
+		let cpWidth: CGFloat
+		if traitCollection.horizontalSizeClass == .regular {
+			cpWidth = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.8	// same width for all orientation on iPad
+		} else {
+			cpWidth = self.view.bounds.width * 0.8
+		}
 
-		nextXConstant = view.frame.width * prevNextXFrameFactor
+		nextXConstant = cpWidth * prevNextXFrameFactor
 		
 		nextCheckpointIndex = nextIndexAfterIndex(index)
 		if let nextIndex = nextCheckpointIndex {
@@ -1434,15 +1441,9 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			NSLayoutConstraint.activate([
 				nextXConstraint!,
 				nextCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				nextCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
+				nextCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0),
+				nextCheckpointView!.widthAnchor.constraint(equalToConstant: cpWidth)
 			])
-			
-			if traitCollection.horizontalSizeClass == .regular {
-				let minDim = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
-				nextCheckpointView!.widthAnchor.constraint(equalToConstant: minDim * 0.8).isActive = true
-			} else {
-				nextCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80).isActive = true
-			}
 		}
 	}
 	
@@ -1474,7 +1475,14 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		prevCheckpointView = nil
 		prevXConstraint = nil
 		
-		prevXConstant = -view.frame.width * prevNextXFrameFactor
+		let cpWidth: CGFloat
+		if traitCollection.horizontalSizeClass == .regular {
+			cpWidth = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.8
+		} else {
+			cpWidth = self.view.bounds.width * 0.8
+		}
+		
+		prevXConstant = -cpWidth * prevNextXFrameFactor
 		
 		prevCheckpointIndex = prevIndexBeforeIndex(index)
 		if let prevIndex = prevCheckpointIndex {
@@ -1489,15 +1497,9 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			NSLayoutConstraint.activate([
 				prevXConstraint!,
 				prevCheckpointView!.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 16.0),
-				prevCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0)
+				prevCheckpointView!.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor, constant: -16.0),
+				prevCheckpointView!.widthAnchor.constraint(equalToConstant: cpWidth)
 			])
-			
-			if traitCollection.horizontalSizeClass == .regular {
-				let minDim = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
-				prevCheckpointView!.widthAnchor.constraint(equalToConstant: minDim * 0.8).isActive = true
-			} else {
-				prevCheckpointView!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.80).isActive = true
-			}
 		}
 	}
 	
