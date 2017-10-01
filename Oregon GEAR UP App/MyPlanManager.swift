@@ -79,7 +79,8 @@ class MyPlanManager {
 		checkFirstCollegeName()
 		checkFirstScholarshipName()
 		checkTestDates()
-		setupCalendarEvents()
+        
+		initializeCalendar()
 
 		
 		// serialize out data
@@ -213,6 +214,35 @@ class MyPlanManager {
 		scholarships.remove(at: index)
 	}
 	
+    private let BaseURL = "https://oregongoestocollege.org/mobileApp/json/"
+    
+    private var eventArray: [[String: Any]]? = nil
+    
+    private func initializeCalendar() {
+        
+        // load the calendar info
+        let url = URL(string: BaseURL + "calendar.json")!
+        let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) -> Void in
+            
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("no calendar data found server")
+                return
+            }
+            
+            if let jsonArray = try? JSONSerialization.jsonObject(with: data), let eventArray = jsonArray as? [[String: Any]] {
+                self.eventArray = eventArray
+            }
+            
+            self.setupCalendarEvents()
+        }
+        
+        task.resume()
+    }
+    
 	public func setupCalendarEvents() {
 		
 		calendar = [Date: [CalendarEvent]]()
@@ -223,18 +253,30 @@ class MyPlanManager {
 //		}
 		
 		
-		// build up calendar from JSON data file
-		if	let calendarAsset = NSDataAsset(name: "calendar"),
-			let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
-			let eventArray = json as? [[String: Any]] {
-			
-			for eventDictionary in eventArray {
-				if let event = CalendarEvent(from: eventDictionary) {
-					addEventToCalendar(event)
-				}
-			}
-		}
-		
+        let eventArrayToUse: [[String: Any]]
+        if self.eventArray != nil {
+            eventArrayToUse = self.eventArray!
+        } else {
+            
+            // load the in-app copy of the calendar events
+            guard let calendarAsset = NSDataAsset(name: "calendar"),
+                let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
+                let eventArray = json as? [[String: Any]] else {
+                    
+                    print("no calendar events available for setup")
+                    return
+            }
+            
+            eventArrayToUse = eventArray
+        }
+        
+        // build up calendar from events data
+        for eventDictionary in eventArrayToUse {
+            if let event = CalendarEvent(from: eventDictionary) {
+                addEventToCalendar(event)
+            }
+        }
+        
 		// add college application deadlines
 		for (index, college) in colleges.enumerated() {
 			if let date = college.applicationDate {
