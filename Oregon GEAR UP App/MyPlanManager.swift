@@ -232,7 +232,13 @@ class MyPlanManager {
                 print("no calendar data found server")
                 return
             }
-            
+			
+			// cache the calendar JSON file data
+			if let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true).first {
+				let fileurl = URL(fileURLWithPath: dir).appendingPathComponent("calendar.json")
+				try? data.write(to: fileurl)
+			}
+			
             if let jsonArray = try? JSONSerialization.jsonObject(with: data), let eventArray = jsonArray as? [[String: Any]] {
                 self.eventArray = eventArray
             }
@@ -257,14 +263,14 @@ class MyPlanManager {
         if self.eventArray != nil {
             eventArrayToUse = self.eventArray!
         } else {
-            
+			
             // load the in-app copy of the calendar events
             guard let calendarAsset = NSDataAsset(name: "calendar"),
                 let json = try? JSONSerialization.jsonObject(with: calendarAsset.data),
                 let eventArray = json as? [[String: Any]] else {
                     
-                    print("no calendar events available for setup")
-                    return
+				print("no calendar events available for setup")
+				return
             }
             
             eventArrayToUse = eventArray
