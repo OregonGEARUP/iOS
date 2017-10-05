@@ -128,9 +128,9 @@
       "##b5visa_s1_cp2_i1_date##"
     ],
     "description": [
-      "##b5citizen_s1_cp2_i1_text##",
-      "##b5undoc_s1_cp2_i1_text##",
-      "##b5visa_s1_cp2_i1_text##"
+      "##b5citizen_s1_cp2_i1_text## visit",
+      "##b5undoc_s1_cp2_i1_text## visit",
+      "##b5visa_s1_cp2_i1_text## visit"
     ]
   },
   {
@@ -140,9 +140,9 @@
       "##b5visa_s1_cp2_i2_date##"
     ],
     "description": [
-      "##b5citizen_s1_cp2_i2_text##",
-      "##b5undoc_s1_cp2_i2_text##",
-      "##b5visa_s1_cp2_i2_text##"
+      "##b5citizen_s1_cp2_i2_text## visit",
+      "##b5undoc_s1_cp2_i2_text## visit",
+      "##b5visa_s1_cp2_i2_text## visit"
     ]
   },
   {
@@ -163,8 +163,8 @@
       "##b8noncitizen_s1_cp2_i1_date##"
     ],
     "description": [
-      "##b8citizen_s1_cp2_i1_text##",
-      "##b8noncitizen_s1_cp2_i1_text##"
+      "##b8citizen_s1_cp2_i1_text## visit",
+      "##b8noncitizen_s1_cp2_i1_text## visit"
     ]
   },
   {
@@ -173,8 +173,8 @@
       "##b8noncitizen_s1_cp2_i2_date##"
     ],
     "description": [
-      "##b8citizen_s1_cp2_i2_text##",
-      "##b8noncitizen_s1_cp2_i2_text##"
+      "##b8citizen_s1_cp2_i2_text## visit",
+      "##b8noncitizen_s1_cp2_i2_text## visit"
     ]
   },
   {
@@ -183,8 +183,8 @@
       "##b8noncitizen_s2_cp3_i1_date##"
     ],
     "description": [
-      "##b8citizen_s2_cp3_i1_text##",
-      "##b8noncitizen_s2_cp3_i1_text##"
+      "##b8citizen_s2_cp3_i1_text## application deadline",
+      "##b8noncitizen_s2_cp3_i1_text## application deadline"
     ]
   },
   {
@@ -193,8 +193,8 @@
       "##b8noncitizen_s2_cp3_i2_date##"
     ],
     "description": [
-      "##b8citizen_s2_cp3_i2_text##",
-      "##b8noncitizen_s2_cp3_i2_text##"
+      "##b8citizen_s2_cp3_i2_text## application deadline",
+      "##b8noncitizen_s2_cp3_i2_text## application deadline"
     ]
   },
   {
@@ -221,7 +221,7 @@
       "##b10_s3_cp1_i1_date##"
     ],
     "description": [
-      "Date of Orientation"
+      "Orientation"
     ],
     "reminderId": "iap013",
     "reminder": "Orientation is a week away. Do you have transportation?",
@@ -243,7 +243,7 @@
       "##b10_s4_cp2_i1_date##"
     ],
     "description": [
-      "Date to meet with advisor"
+      "Meet with advisor"
     ]
   },
     {

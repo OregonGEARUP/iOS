@@ -66,20 +66,11 @@ struct CalendarEvent {
 		// description
 		var eventDescription: String?
 		for descStr in descArray {
-			
-			if descStr.hasPrefix("##") && descStr.hasSuffix("##") {
-				let keyRange = NSMakeRange(2, descStr.characters.count-4)
-				let key = (descStr as NSString).substring(with: keyRange)
-				if let replacement = UserDefaults.standard.object(forKey: key) as? String {
-					eventDescription = replacement
-					break
-				}
-				
-			} else {
-				eventDescription = descStr
+			let (newString, good) = stringWithSubstitutions(descStr)
+			if good {
+				eventDescription = newString
 				break
 			}
-			
 		}
 		
 		if eventDescription == nil || eventDescription!.isEmpty {

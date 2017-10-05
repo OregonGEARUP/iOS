@@ -24,8 +24,8 @@ struct Instance {
     let prompt: String
 	let placeholder: String
 	
-	var promptSubstituted: String { return stringWithSubstitutions(prompt) }
-	var placeholderSubstituted: String { return stringWithSubstitutions(placeholder) }
+	var promptSubstituted: String { return stringWithSubstitutions(prompt).newString }
+	var placeholderSubstituted: String { return stringWithSubstitutions(placeholder).newString }
 }
 
 struct Checkpoint {
@@ -136,9 +136,9 @@ struct Checkpoint {
 		}
 	}
 	
-	var titleSubstituted: String { return stringWithSubstitutions(title) }
-	var descriptionSubstituted: String { return stringWithSubstitutions(description) }
-	var moreInfoSubstituted: String? { return (moreInfo != nil ? stringWithSubstitutions(moreInfo!) : nil) }
+	var titleSubstituted: String { return stringWithSubstitutions(title).newString }
+	var descriptionSubstituted: String { return stringWithSubstitutions(description).newString }
+	var moreInfoSubstituted: String? { return (moreInfo != nil ? stringWithSubstitutions(moreInfo!).newString : nil) }
 }
 
 
@@ -146,10 +146,11 @@ private var re: NSRegularExpression {
 	return try! NSRegularExpression(pattern: "##[^(##)]+##", options: [])
 }
 
-private func stringWithSubstitutions(_ string: String) -> String {
+public func stringWithSubstitutions(_ string: String) -> (newString: String, good: Bool) {
 	
 	let matches = re.matches(in: string, options: [], range: NSMakeRange(0, string.characters.count))
 	
+	var good = true
 	var newString = string
 	for match in matches.reversed() {
 		let keyRange = NSMakeRange(match.range.location+2, match.range.length-4)
@@ -157,9 +158,11 @@ private func stringWithSubstitutions(_ string: String) -> String {
 		var replacement = UserDefaults.standard.object(forKey: key)
 		if replacement == nil {
 			replacement = "<< missing value for \(key) >>"
+			good = false
 		}
 		newString = (newString as NSString).replacingCharacters(in: match.range, with: String(describing: replacement!))
 	}
 	
-	return newString
+	return (newString: newString, good: good)
 }
+
