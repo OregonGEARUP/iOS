@@ -122,24 +122,26 @@ class MyPlanManager {
 			cpCollegeName = firstCollegePlaceholder
 		}
 		
-		// see if the user has changed the first college in My Plan
-		guard colleges[0].name == "" || colleges[0].name == cpCollegeName else {
-			return
+		// fill in any missing pieces of the first college from the checkpoints
+		if colleges[0].name == "" || colleges[0].name == firstCollegePlaceholder {
+			colleges[0].name = cpCollegeName
 		}
 		
-		colleges[0].name = cpCollegeName
-		
-		if let dateStr = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date") {
+		if let dateStr = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date"),
+			colleges[0].applicationDate == nil {
 			colleges[0].applicationDate = Date(longDescription: dateStr)
 		}
 		
-		if let priceStr = UserDefaults.standard.string(forKey: "b3citizen_s1_cp3_i1") {
+		if let priceStr = UserDefaults.standard.string(forKey: "b3citizen_s1_cp3_i1"),
+			colleges[0].averageNetPrice == nil {
 			colleges[0].averageNetPrice = Double(priceStr)
 		}
-		if let priceStr = UserDefaults.standard.string(forKey: "b3undoc_s1_cp3_i1") {
+		if let priceStr = UserDefaults.standard.string(forKey: "b3undoc_s1_cp3_i1"),
+			colleges[0].averageNetPrice == nil  {
 			colleges[0].averageNetPrice = Double(priceStr)
 		}
-		if let priceStr = UserDefaults.standard.string(forKey: "b3visa_s1_cp3_i1") {
+		if let priceStr = UserDefaults.standard.string(forKey: "b3visa_s1_cp3_i1"),
+			colleges[0].averageNetPrice == nil  {
 			colleges[0].averageNetPrice = Double(priceStr)
 		}
 	}
