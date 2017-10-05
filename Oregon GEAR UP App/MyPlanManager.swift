@@ -395,14 +395,14 @@ class MyPlanManager {
 							let reminder = event.reminder,
 							let delta = event.reminderDelta {
 							
-							print("considering: \(reminderId)")
+							//print("considering: \(reminderId)")
 							
 							// check to see if the reminder has been delivered, if so do nothing more
 							let foundDelivered = delivered.filter { (deliveredNotification) -> Bool in
 								return deliveredNotification.request.identifier == reminderId
 							}
 							if foundDelivered.count > 0 {
-								print("previously delivered: \(reminderId)")
+								//print("previously delivered: \(reminderId)")
 								continue
 							}
 							
@@ -420,7 +420,7 @@ class MyPlanManager {
 								
 								// see if it the trigger date has changed, if not nothing more to do
 								if foundPending[0].trigger == trigger {
-									print("pending unchanged: \(reminderId)")
+									//print("pending unchanged: \(reminderId)")
 									continue
 								}
 								
@@ -439,7 +439,7 @@ class MyPlanManager {
 								if let error = error {
 									print("error creating reminder notification \(reminderId): \(error)")
 								} else {
-									print("created reminder notification: \(reminderId)")
+									//print("created reminder notification: \(reminderId)")
 								}
 							})
 						}

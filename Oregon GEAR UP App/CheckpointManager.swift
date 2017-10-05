@@ -101,7 +101,7 @@ class CheckpointManager {
 		NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { (note) in
 			
 			let visitedArray = Array(self.visited)
-			print("visitedArray: \(visitedArray)")
+			//print("visitedArray: \(visitedArray)")
 			UserDefaults.standard.set(visitedArray, forKey: "visited")
 			
 			self.persistBlockCompletionInfo()
@@ -521,7 +521,7 @@ class CheckpointManager {
 	public func addTrace(_ trace: String) {
 		traces.append("\(Date()): \(trace)")
 		
-		print(traces.last!)
+		//print(traces.last!)
 	}
 	
 	public func allTraces() -> String {

@@ -103,13 +103,13 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 		
 		eventsTableView.reloadData()
 		
-		guard let date = dayView.date else {
-			return
-		}
-		
-		if let events = MyPlanManager.shared.calendarEventsForDate(date) {
-			print(events)
-		}
+//		guard let date = dayView.date else {
+//			return
+//		}
+//		
+//		if let events = MyPlanManager.shared.calendarEventsForDate(date) {
+//			print(events)
+//		}
 	}
 	
 	func didPresentOtherMonth(_ monthView: JBDatePickerMonthView) {
