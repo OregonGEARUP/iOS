@@ -134,15 +134,15 @@ class MyPlanManager {
 		
 		if let priceStr = UserDefaults.standard.string(forKey: "b3citizen_s1_cp3_i1"),
 			colleges[0].averageNetPrice == nil {
-			colleges[0].averageNetPrice = Double(priceStr)
+			colleges[0].averageNetPrice = Double(currencyDescription: priceStr)
 		}
 		if let priceStr = UserDefaults.standard.string(forKey: "b3undoc_s1_cp3_i1"),
 			colleges[0].averageNetPrice == nil  {
-			colleges[0].averageNetPrice = Double(priceStr)
+			colleges[0].averageNetPrice = Double(currencyDescription: priceStr)
 		}
 		if let priceStr = UserDefaults.standard.string(forKey: "b3visa_s1_cp3_i1"),
 			colleges[0].averageNetPrice == nil  {
-			colleges[0].averageNetPrice = Double(priceStr)
+			colleges[0].averageNetPrice = Double(currencyDescription: priceStr)
 		}
 	}
 	
