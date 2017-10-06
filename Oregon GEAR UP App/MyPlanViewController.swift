@@ -33,11 +33,18 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		StyleGuide.addGradientLayerTo(view)
     }
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		print("my plan menu viewDidAppear")
 		
 		if planIndexToShow >= 0 {
-			showPlan(atIndex: planIndexToShow, animated: false)
+			
+			let pts = planIndexToShow
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				self.showPlan(atIndex: pts, animated: true)
+			}
+			
 			planIndexToShow = -1
 		}
 	}

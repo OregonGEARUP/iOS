@@ -872,13 +872,15 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 					if let myplanController = nc.visibleViewController as? MyPlanViewController {
 						
 						if urlstr.hasSuffix("colleges") {
-							myplanController.planIndexToShow = 0
-						} else if urlstr.hasSuffix("scholarships") {
 							myplanController.planIndexToShow = 1
-						} else if urlstr.hasSuffix("tests") {
+						} else if urlstr.hasSuffix("scholarships") {
 							myplanController.planIndexToShow = 2
-						} else if urlstr.hasSuffix("residency") {
+						} else if urlstr.hasSuffix("tests") {
 							myplanController.planIndexToShow = 3
+						} else if urlstr.hasSuffix("residency") {
+							myplanController.planIndexToShow = 4
+						} else if urlstr.hasSuffix("calendar") {
+							myplanController.planIndexToShow = 5
 						} else {
 							myplanController.planIndexToShow = -1
 						}
