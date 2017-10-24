@@ -297,6 +297,11 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			versionLabel.textColor = StyleGuide.myPlanColor
 			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightThin)
 			stackView.addArrangedSubview(versionLabel)
+			
+			let spacer2 = UIView()
+			stackView.addArrangedSubview(spacer2)
+			spacer2.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
+			spacer2.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
 		}
 	}
 	
