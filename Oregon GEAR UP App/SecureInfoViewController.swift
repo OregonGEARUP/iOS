@@ -113,7 +113,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 	}
 	
-	private dynamic func keyboardDidShow(_ notification: Notification) {
+	@objc private dynamic func keyboardDidShow(_ notification: Notification) {
 		
 		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] else {
 			return
@@ -123,7 +123,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		tableViewBottomConstraint.constant = kbHeight - 40.0	// allow for tab bar height
 	}
 	
-	private dynamic func keyboardDidHide(_ notification: Notification) {
+	@objc private dynamic func keyboardDidHide(_ notification: Notification) {
 		
 		tableViewBottomConstraint.constant = 0.0
 	}
@@ -180,7 +180,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		}
 	}
 	
-	dynamic func checkPIN() {
+	@objc dynamic func checkPIN() {
 		
 		guard let pin = pinTextField.text else {
 			return
@@ -282,7 +282,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		}
 	}
 	
-	private dynamic func lockInfo() {
+	@objc private dynamic func lockInfo() {
 		
 		doneWithKeyboard()
 		
@@ -299,7 +299,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		locked = true
 	}
 	
-	private dynamic func unlockInfo() {
+	@objc private dynamic func unlockInfo() {
 
 		locked = false
 		
@@ -420,7 +420,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		}
 	}
 	
-	private dynamic func doneWithKeyboard() {
+	@objc private dynamic func doneWithKeyboard() {
 		
 		view.endEditing(true)
 		

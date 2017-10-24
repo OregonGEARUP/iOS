@@ -91,7 +91,7 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 	
 	// MARK: - calendar delegate
 	
-	func showCurrentMonth() {
+	@objc func showCurrentMonth() {
 		
 		calendarView.contentController.setupMonthForDate(Date())
 		
@@ -164,7 +164,7 @@ class MyPlanCalendarViewController: UIViewController, JBDatePickerViewDelegate, 
 		
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "eventcell")
 		cell.backgroundColor = .clear
-		cell.textLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+		cell.textLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.light)
 		cell.textLabel?.textColor = .darkText
 		cell.textLabel?.numberOfLines = 0
 		cell.selectionStyle = .none

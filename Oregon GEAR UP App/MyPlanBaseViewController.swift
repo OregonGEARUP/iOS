@@ -74,7 +74,7 @@ class MyPlanBaseViewController: UIViewController {
 		])
 	}
 	
-	public dynamic func toggleDatePicker(_ button: UIButton) {
+	@objc public dynamic func toggleDatePicker(_ button: UIButton) {
 		
 		// hide keyboard first
 		doneWithKeyboard(btn: nil)
@@ -119,7 +119,7 @@ class MyPlanBaseViewController: UIViewController {
 		}
 	}
 	
-	public dynamic func doneWithDatePicker() {
+	@objc public dynamic func doneWithDatePicker() {
 		
 		if datePickerTopConstraint.constant == 0 || currentInputDate == nil {
 			return
@@ -137,7 +137,7 @@ class MyPlanBaseViewController: UIViewController {
 //		currentInputDate = nil
 	}
 	
-	private dynamic func datePickerChanged(_ datePicker: UIDatePicker) {
+	@objc private dynamic func datePickerChanged(_ datePicker: UIDatePicker) {
 		
 		if let button = currentInputDate,
 			let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
@@ -205,7 +205,7 @@ class MyPlanBaseViewController: UIViewController {
 		])
 	}
 	
-	public dynamic func doneWithKeyboard(btn: UIButton?) {
+	@objc public dynamic func doneWithKeyboard(btn: UIButton?) {
 		
 		view.endEditing(true)
 	}

@@ -52,7 +52,7 @@ class BlockViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 	
-	dynamic func handleStageTap(_ button: UIButton) {
+	@objc dynamic func handleStageTap(_ button: UIButton) {
 		
 		showStage(forIndex: button.tag - buttonTagOffset, checkpointIndex: 0)
 	}

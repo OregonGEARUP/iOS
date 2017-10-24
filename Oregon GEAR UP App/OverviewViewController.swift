@@ -52,8 +52,8 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		welcome2Label.textColor = .darkText
 		
 		if smallerScreen {
-			welcome1Label.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightMedium)
-			welcome2Label.font = UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightMedium)
+			welcome1Label.font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.medium)
+			welcome2Label.font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.medium)
 		}
 		
 		// change "10" to green text
@@ -61,7 +61,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			let attrWelcome = NSMutableAttributedString(string: text)
 			let r = (text as NSString).range(of: "10")
 			if r.location != NSNotFound {
-				attrWelcome.setAttributes([NSForegroundColorAttributeName: StyleGuide.completeButtonColor], range: r)
+				attrWelcome.setAttributes([NSAttributedStringKey.foregroundColor: StyleGuide.completeButtonColor], range: r)
 			}
 			welcome2Label.attributedText = attrWelcome
 		}
@@ -140,7 +140,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		verticalScrollOffset = scrollView.contentOffset.y
 	}
 	
-	dynamic func handleBlockTap(_ button: UIButton) {
+	@objc dynamic func handleBlockTap(_ button: UIButton) {
 		
 		showBlock(forIndex: button.tag-1, stageIndex: -1, checkpointIndex: -1)
 	}
@@ -259,7 +259,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			let progressLabel = UILabel()
 			progressLabel.translatesAutoresizingMaskIntoConstraints = false
 			progressLabel.tag = progressTagOffset + index + 1
-			progressLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+			progressLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
 			progressLabel.textColor = .white
 			progressLabel.alpha = 0.0
 			button.addSubview(progressLabel)
@@ -271,7 +271,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			progress2Label.translatesAutoresizingMaskIntoConstraints = false
 			progress2Label.text = "completed"
 			progress2Label.tag = progress2TagOffset + index + 1
-			progress2Label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFontWeightRegular)
+			progress2Label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.regular)
 			progress2Label.textColor = .white
 			progress2Label.alpha = 0.0
 			button.addSubview(progress2Label)
@@ -295,7 +295,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			versionLabel.numberOfLines = 0
 			versionLabel.textAlignment = .center
 			versionLabel.textColor = StyleGuide.myPlanColor
-			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightThin)
+			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFont.Weight.thin)
 			stackView.addArrangedSubview(versionLabel)
 			
 			let spacer2 = UIView()

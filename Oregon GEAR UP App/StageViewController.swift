@@ -186,7 +186,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		cpView.titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0 * fontSizeFactor)
 		cpView.titleLabel.textAlignment = .center
 		cpView.titleLabel.numberOfLines = 0
-		cpView.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+		cpView.titleLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
 		cpView.addSubview(cpView.titleLabel)
 		NSLayoutConstraint.activate([
 			cpView.titleLabel.topAnchor.constraint(equalTo: cpView.topAnchor, constant: 20.0),
@@ -198,7 +198,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		cpView.descriptionLabel.font = UIFont.systemFont(ofSize: 18.0 * fontSizeFactor)
 		cpView.descriptionLabel.textAlignment = .left
 		cpView.descriptionLabel.numberOfLines = 0
-		cpView.descriptionLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+		cpView.descriptionLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
 		cpView.addSubview(cpView.descriptionLabel)
 		NSLayoutConstraint.activate([
 			cpView.descriptionLabel.topAnchor.constraint(equalTo: cpView.titleLabel.bottomAnchor, constant: vertSpacing),
@@ -283,7 +283,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 				let spacer = UIView()
 				cpView.stackView.addArrangedSubview(spacer)
 				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// zero height spacer still incurs stack view spacing
-				hc2.priority = UILayoutPriorityRequired - 1
+				hc2.priority = UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))
 				hc2.isActive = true
 			}
 			
@@ -314,13 +314,13 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 				datesCPView.dateButtons[i].addTarget(self, action: #selector(toggleDatePicker(_:)), for: .touchUpInside)
 				cpView.stackView.addArrangedSubview(datesCPView.dateButtons[i])
 				let hc1 = datesCPView.dateButtons[i].heightAnchor.constraint(equalToConstant: 30.0)
-				hc1.priority = UILayoutPriorityRequired - 1
+				hc1.priority = UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))
 				hc1.isActive = true
 				
 				let spacer = UIView()
 				cpView.stackView.addArrangedSubview(spacer)
 				let hc2 = spacer.heightAnchor.constraint(equalToConstant: 0.0)	// zero height spacer still incurs stack view spacing
-				hc2.priority = UILayoutPriorityRequired - 1
+				hc2.priority = UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))
 				hc2.isActive = true
 			}
 			
@@ -389,7 +389,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		return cpView
 	}
 	
-	private dynamic func dismissIncomplete() {
+	@objc private dynamic func dismissIncomplete() {
 		UIView.animate(withDuration: 0.2) { 
 			self.checkpointView.incompeteLabel.alpha = 0.0
 		}
@@ -401,7 +401,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.image = image
 		imageView.tag = 100
-		imageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+		imageView.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
 		button.addSubview(imageView)
 		
 		let label = UILabel()
@@ -421,7 +421,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		label.rightAnchor.constraint(equalTo: button.rightAnchor, constant: 0.0).isActive = true
 		label.topAnchor.constraint(equalTo: button.topAnchor, constant: 0.0).isActive = true
 		label.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: 0.0).isActive = true
-		label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+		label.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
 	}
 	
 	private func setupCongratulationCheckpoint(_ routeCPView: RouteCheckpointView) {
@@ -855,7 +855,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		])
 	}
 	
-	private dynamic func showMoreInfo() {
+	@objc private dynamic func showMoreInfo() {
 		
 		// check for special app destination URLs first
 		if let url = checkpoints[checkpointIndex].moreInfoURL {
@@ -911,7 +911,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func shareMoreInfo() {
+	@objc private dynamic func shareMoreInfo() {
 		
 		if let url = checkpoints[checkpointIndex].moreInfoURL {
 			let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -967,12 +967,12 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		return checkpointView.stackView.arrangedSubviews.contains(textField)
 	}
 	
-	private dynamic func doneWithKeyboard(btn: UIButton?) {
+	@objc private dynamic func doneWithKeyboard(btn: UIButton?) {
 		
 		self.view.endEditing(true)
 	}
 	
-	fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
+	@objc fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
 		
 		doneWithDatePicker()
 		
@@ -1008,13 +1008,13 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		})
 	}
 	
-	fileprivate dynamic func keyboardDidHide(_ notification: Notification) {
+	@objc fileprivate dynamic func keyboardDidHide(_ notification: Notification) {
 		UIView.animate(withDuration: 0.3, animations: {
 			self.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height)
 		})
 	}
 	
-	private dynamic func nextField(btn: UIButton) {
+	@objc private dynamic func nextField(btn: UIButton) {
 		
 		var foundCurrent = false
 		for subview in checkpointView.stackView.arrangedSubviews {
@@ -1034,7 +1034,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func previousField(btn: UIButton) {
+	@objc private dynamic func previousField(btn: UIButton) {
 		
 		var foundCurrent = false
 		for subview in checkpointView.stackView.arrangedSubviews.reversed() {
@@ -1054,7 +1054,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func toggleDatePicker(_ button: UIButton) {
+	@objc private dynamic func toggleDatePicker(_ button: UIButton) {
 		
 		guard checkpointView.stackView.arrangedSubviews.contains(button) else {
 			return
@@ -1089,7 +1089,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		currentInputDate = (datePickerVisible ? button : nil)
 	}
 	
-	private dynamic func doneWithDatePicker() {
+	@objc private dynamic func doneWithDatePicker() {
 		
 		view.layoutIfNeeded()
 		UIView.animate(withDuration: 0.3, animations: {
@@ -1100,7 +1100,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		currentInputDate = nil
 	}
 
-	func datePickerChanged(_ datePicker: UIDatePicker) {
+	@objc func datePickerChanged(_ datePicker: UIDatePicker) {
 		
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateStyle = .long
@@ -1114,7 +1114,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
 	private let prevNextScale: CGFloat = 0.9
 	
-	private dynamic func handleSwipe(_ gr: UIPanGestureRecognizer) {
+	@objc private dynamic func handleSwipe(_ gr: UIPanGestureRecognizer) {
 		
 		if gr.state == .began {
 			doneWithDatePicker()
@@ -1253,7 +1253,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func animateFireworks() {
+	@objc private dynamic func animateFireworks() {
 		
 		for i in 1...100 {
 			if let firework = self.checkpointView?.viewWithTag(10000 + i) as? UIImageView {
@@ -1265,7 +1265,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func animateFireworkImageView(_ fireworkImageView: UIImageView) {
+	@objc private dynamic func animateFireworkImageView(_ fireworkImageView: UIImageView) {
 		
 		UIView.animate(withDuration: 0.30, animations: {
 			fireworkImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -1284,7 +1284,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func showCongratsBanner() {
+	@objc private dynamic func showCongratsBanner() {
 		
 		if let banner = self.checkpointView?.viewWithTag(20000) as? UIImageView {
 			UIView.animate(withDuration: 0.3, animations: { 
@@ -1293,7 +1293,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func loadNextStage() {
+	@objc private dynamic func loadNextStage() {
 		
 		guard self.stageIndex+1 < CheckpointManager.shared.block.stages.count else {
 			return
@@ -1314,7 +1314,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		self.loadCheckpointAtIndex(0)
 	}
 	
-	private dynamic func routeToNextBlock() {
+	@objc private dynamic func routeToNextBlock() {
 		guard checkpoints[checkpointIndex].type == .routeEntry, let blockFileName = checkpoints[checkpointIndex].routeFileName else {
 			return
 		}
@@ -1505,7 +1505,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {
+	@objc private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {
 		
 		if gr.state != .began {
 			return
@@ -1619,7 +1619,7 @@ class WebViewController: UIViewController, UIWebViewDelegate {
 		}
 	}
 	
-	private dynamic func goBack() {
+	@objc private dynamic func goBack() {
 		
 		webView.goBack()
 	}
