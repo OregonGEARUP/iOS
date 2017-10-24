@@ -140,7 +140,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		verticalScrollOffset = scrollView.contentOffset.y
 	}
 	
-	@objc dynamic func handleBlockTap(_ button: UIButton) {
+	@objc func handleBlockTap(_ button: UIButton) {
 		
 		showBlock(forIndex: button.tag-1, stageIndex: -1, checkpointIndex: -1)
 	}

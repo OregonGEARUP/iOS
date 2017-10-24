@@ -49,7 +49,7 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 	}
 	
-	@objc dynamic func handleTap(_ button: UIButton) {
+	@objc func handleTap(_ button: UIButton) {
 		showPlan(atIndex: button.tag)
 	}
 	

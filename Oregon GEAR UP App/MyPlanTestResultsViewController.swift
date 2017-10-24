@@ -78,7 +78,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 		doneWithDatePicker()
 	}
 	
-	@objc private dynamic func keyboardDidShow(_ notification: Notification) {
+	@objc private func keyboardDidShow(_ notification: Notification) {
 		
 		doneWithDatePicker()
 		
@@ -90,7 +90,7 @@ class MyPlanTestResultsViewController: MyPlanBaseViewController, UITableViewDele
 		tableViewBottomConstraint.constant = kbHeight - 40.0	// allow for tab bar height
 	}
 	
-	@objc private dynamic func keyboardDidHide(_ notification: Notification) {
+	@objc private func keyboardDidHide(_ notification: Notification) {
 		
 		tableViewBottomConstraint.constant = 0.0
 	}

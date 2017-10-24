@@ -45,7 +45,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 	
 	// MARK: - add/remove scholarship
 	
-	@objc private dynamic func addScholarship() {
+	@objc private func addScholarship() {
 		
 		let alertController = UIAlertController(title: "Add Scholarship", message: "Please enter the name of the scholarship.", preferredStyle: .alert)
 		
@@ -81,7 +81,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		present(alertController, animated: true, completion: nil)
 	}
 	
-	@objc private dynamic func removeScholarship(_ button: UIButton) {
+	@objc private func removeScholarship(_ button: UIButton) {
 		
 		if let indexPath = tableView.indexPathForRow(at: button.convert(button.frame.origin, to: tableView)) {
 			
@@ -144,7 +144,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		doneWithDatePicker()
 	}
 	
-	@objc private dynamic func keyboardDidShow(_ notification: Notification) {
+	@objc private func keyboardDidShow(_ notification: Notification) {
 		
 		doneWithDatePicker()
 		
@@ -156,7 +156,7 @@ class MyPlanScholarshipsViewController: MyPlanBaseViewController, UITableViewDel
 		tableViewBottomConstraint.constant = kbHeight - 40.0	// allow for tab bar height
 	}
 	
-	@objc private dynamic func keyboardDidHide(_ notification: Notification) {
+	@objc private func keyboardDidHide(_ notification: Notification) {
 		
 		tableViewBottomConstraint.constant = 0.0
 	}

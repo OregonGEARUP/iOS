@@ -389,7 +389,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		return cpView
 	}
 	
-	@objc private dynamic func dismissIncomplete() {
+	@objc private func dismissIncomplete() {
 		UIView.animate(withDuration: 0.2) { 
 			self.checkpointView.incompeteLabel.alpha = 0.0
 		}
@@ -855,7 +855,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		])
 	}
 	
-	@objc private dynamic func showMoreInfo() {
+	@objc private func showMoreInfo() {
 		
 		// check for special app destination URLs first
 		if let url = checkpoints[checkpointIndex].moreInfoURL {
@@ -911,7 +911,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func shareMoreInfo() {
+	@objc private func shareMoreInfo() {
 		
 		if let url = checkpoints[checkpointIndex].moreInfoURL {
 			let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -967,12 +967,12 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		return checkpointView.stackView.arrangedSubviews.contains(textField)
 	}
 	
-	@objc private dynamic func doneWithKeyboard(btn: UIButton?) {
+	@objc private func doneWithKeyboard(btn: UIButton?) {
 		
 		self.view.endEditing(true)
 	}
 	
-	@objc fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
+	@objc private func keyboardDidShow(_ notification: Notification) {
 		
 		doneWithDatePicker()
 		
@@ -1008,13 +1008,13 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		})
 	}
 	
-	@objc fileprivate dynamic func keyboardDidHide(_ notification: Notification) {
+	@objc private func keyboardDidHide(_ notification: Notification) {
 		UIView.animate(withDuration: 0.3, animations: {
 			self.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height)
 		})
 	}
 	
-	@objc private dynamic func nextField(btn: UIButton) {
+	@objc private func nextField(btn: UIButton) {
 		
 		var foundCurrent = false
 		for subview in checkpointView.stackView.arrangedSubviews {
@@ -1034,7 +1034,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func previousField(btn: UIButton) {
+	@objc private func previousField(btn: UIButton) {
 		
 		var foundCurrent = false
 		for subview in checkpointView.stackView.arrangedSubviews.reversed() {
@@ -1054,7 +1054,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func toggleDatePicker(_ button: UIButton) {
+	@objc private func toggleDatePicker(_ button: UIButton) {
 		
 		guard checkpointView.stackView.arrangedSubviews.contains(button) else {
 			return
@@ -1089,7 +1089,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		currentInputDate = (datePickerVisible ? button : nil)
 	}
 	
-	@objc private dynamic func doneWithDatePicker() {
+	@objc private func doneWithDatePicker() {
 		
 		view.layoutIfNeeded()
 		UIView.animate(withDuration: 0.3, animations: {
@@ -1114,7 +1114,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
 	private let prevNextScale: CGFloat = 0.9
 	
-	@objc private dynamic func handleSwipe(_ gr: UIPanGestureRecognizer) {
+	@objc private func handleSwipe(_ gr: UIPanGestureRecognizer) {
 		
 		if gr.state == .began {
 			doneWithDatePicker()
@@ -1253,7 +1253,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func animateFireworks() {
+	@objc private func animateFireworks() {
 		
 		for i in 1...100 {
 			if let firework = self.checkpointView?.viewWithTag(10000 + i) as? UIImageView {
@@ -1265,7 +1265,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func animateFireworkImageView(_ fireworkImageView: UIImageView) {
+	@objc private func animateFireworkImageView(_ fireworkImageView: UIImageView) {
 		
 		UIView.animate(withDuration: 0.30, animations: {
 			fireworkImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -1284,7 +1284,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func showCongratsBanner() {
+	@objc private func showCongratsBanner() {
 		
 		if let banner = self.checkpointView?.viewWithTag(20000) as? UIImageView {
 			UIView.animate(withDuration: 0.3, animations: { 
@@ -1293,7 +1293,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func loadNextStage() {
+	@objc private func loadNextStage() {
 		
 		guard self.stageIndex+1 < CheckpointManager.shared.block.stages.count else {
 			return
@@ -1314,7 +1314,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		self.loadCheckpointAtIndex(0)
 	}
 	
-	@objc private dynamic func routeToNextBlock() {
+	@objc private func routeToNextBlock() {
 		guard checkpoints[checkpointIndex].type == .routeEntry, let blockFileName = checkpoints[checkpointIndex].routeFileName else {
 			return
 		}
@@ -1505,7 +1505,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		}
 	}
 	
-	@objc private dynamic func handleLongPress(_ gr: UILongPressGestureRecognizer) {
+	@objc private func handleLongPress(_ gr: UILongPressGestureRecognizer) {
 		
 		if gr.state != .began {
 			return
@@ -1619,7 +1619,7 @@ class WebViewController: UIViewController, UIWebViewDelegate {
 		}
 	}
 	
-	@objc private dynamic func goBack() {
+	@objc private func goBack() {
 		
 		webView.goBack()
 	}
