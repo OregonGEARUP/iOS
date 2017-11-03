@@ -39,7 +39,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		tableView.estimatedRowHeight = 50
 		
 		// clear all leftover values
-		let isSetup = UserDefaults.standard.bool(forKey: "initialsecuresetup")
+		let isSetup = hasSecureSetup()
 		if !isSetup {
 			
 			for key in tagFieldMap.values {
@@ -130,18 +130,27 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	
 	private func hasSecureSetup() -> Bool {
 		
-		return UserDefaults.standard.bool(forKey: "initialsecuresetup")
+		let needsAndHasBiometrics = UserDefaults.standard.bool(forKey: "securewithfingerprint") == false || LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+		return UserDefaults.standard.bool(forKey: "initialsecuresetup") && needsAndHasBiometrics
 	}
 	
 	private func checkForSecureSetup() {
 		
-		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
+		if hasSecureSetup() == false {
 			
 			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+			var haveFaceID = false
+			if #available(iOS 11.0, *), LAContext().biometryType == .typeFaceID {
+				haveFaceID = true
+			}
 			
 			var message: String? = nil
 			if haveBiometrics {
-				message = NSLocalizedString("You can either use your fingerprint or setup a PIN for accessing your passwords.", comment: "secure info fingerprint or PIN message")
+				if haveFaceID {
+					message = NSLocalizedString("You can either use Face ID or setup a PIN for accessing your passwords.", comment: "secure info Face ID or PIN message")
+				} else {
+					message = NSLocalizedString("You can either use Touch ID or setup a PIN for accessing your passwords.", comment: "secure info Touch ID or PIN message")
+				}
 			} else {
 				message = NSLocalizedString("You need to setup a PIN for accessing your passwords.", comment: "secure info PIN message")
 			}
@@ -151,7 +160,8 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				self.promptForPIN()
 			}))
 			if haveBiometrics {
-				alertController.addAction(UIAlertAction(title: NSLocalizedString("Use Fingerprint", comment: "Use Fingerprint button title"), style: .default, handler: { (action) in
+				let title = haveFaceID ? NSLocalizedString("Use Face ID", comment: "Use Face ID button title") : NSLocalizedString("Use Touch ID", comment: "Use Touch ID button title")
+				alertController.addAction(UIAlertAction(title: title, style: .default, handler: { (action) in
 					UserDefaults.standard.set(true, forKey: "initialsecuresetup")
 					UserDefaults.standard.set(true, forKey: "securewithfingerprint")
 				}))
@@ -171,7 +181,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		setPINButton.alpha = 0.0
 		badPINLabel.alpha = 0.0
 		
-		cancelPINButton.alpha = UserDefaults.standard.bool(forKey: "initialsecuresetup") ? 1.0 : 0.0
+		cancelPINButton.alpha = hasSecureSetup() ? 1.0 : 0.0
 		
 		UIView.animate(withDuration: 0.3, animations: { 
 			self.pinPadView.alpha = 1.0
@@ -186,11 +196,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 			return
 		}
 		
-		if UserDefaults.standard.bool(forKey: "initialsecuresetup") == false {
-			setPINButton.alpha = pin.characters.count == 4 ? 1.0 : 0.0
+		if hasSecureSetup() == false {
+			setPINButton.alpha = pin.count == 4 ? 1.0 : 0.0
 		} else {
 			
-			if pin.characters.count < 4 {
+			if pin.count < 4 {
 				
 				UIView.animate(withDuration: 0.2, animations: {
 					self.badPINLabel.alpha = 0.0
@@ -221,10 +231,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	
 	@IBAction func setPIN() {
 		
-		if let pin = pinTextField.text, pin.characters.count == 4 {
+		if let pin = pinTextField.text, pin.count == 4 {
 			KeychainWrapper.standard.set(pin, forKey: "pin")
 			UserDefaults.standard.set(true, forKey: "initialsecuresetup")
-			
+			UserDefaults.standard.set(false, forKey: "securewithfingerprint")
+
 			pinTextField.resignFirstResponder()
 			
 			UIView.animate(withDuration: 0.3, animations: { 
@@ -354,7 +365,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		if textField == pinTextField {
 			
 			if let fieldText = textField.text {
-				let length = fieldText.characters.count + string.characters.count
+				let length = fieldText.count + string.count
 				return length <= 4
 			}
 			
@@ -379,7 +390,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 				ssn = ssn!.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
 			}
 			
-			let good = (ssn != nil ? ssn!.characters.count == 9 : false)
+			let good = (ssn != nil ? ssn!.count == 9 : false)
 			
 			if good {
 				

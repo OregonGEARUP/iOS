@@ -258,7 +258,7 @@ class CheckpointManager {
 					// update the blockIndex for the newly loaded block
 					for (index, blockInfo) in self.blockInfos.enumerated() {
 						
-						let ids = blockInfo.ids.characters.split{$0 == ","}.map(String.init)
+						let ids = blockInfo.ids.split{$0 == ","}.map(String.init)
 						if ids.index(of: self.block.identifier) != nil {
 							
 							self.blockIndex = index

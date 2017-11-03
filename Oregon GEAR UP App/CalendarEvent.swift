@@ -43,7 +43,7 @@ struct CalendarEvent {
 		for dateStr in dateArray {
 			
 			if dateStr.hasPrefix("##") && dateStr.hasSuffix("##") {
-				let keyRange = NSMakeRange(2, dateStr.characters.count-4)
+				let keyRange = NSMakeRange(2, dateStr.count-4)
 				let key = (dateStr as NSString).substring(with: keyRange)
 				if let replacement = UserDefaults.standard.object(forKey: key) as? String {
 					eventDate = Date(longDescription: replacement)

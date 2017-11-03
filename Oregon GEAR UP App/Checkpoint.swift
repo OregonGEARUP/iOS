@@ -148,7 +148,7 @@ private var re: NSRegularExpression {
 
 public func stringWithSubstitutions(_ string: String) -> (newString: String, good: Bool) {
 	
-	let matches = re.matches(in: string, options: [], range: NSMakeRange(0, string.characters.count))
+	let matches = re.matches(in: string, options: [], range: NSMakeRange(0, string.count))
 	
 	var good = true
 	var newString = string
