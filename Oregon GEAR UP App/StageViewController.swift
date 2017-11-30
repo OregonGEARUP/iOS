@@ -550,7 +550,6 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			cpView.moreInfoShareButton.isHidden = true
 		}
 		
-		let defaults = UserDefaults.standard
 		
 		switch checkPoint.type {
 		case .infoEntry, .routeEntry:
@@ -567,7 +566,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 					fieldsCPView.textFields[i].isHidden = false
 					fieldsCPView.fieldLabels[i].text = checkPoint.instances[i].promptSubstituted
 					fieldsCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
-					fieldsCPView.textFields[i].text = defaults.string(forKey: cpView.keyForInstanceIndex(i))
+					//fieldsCPView.textFields[i].text = defaults.string(forKey: cpView.keyForInstanceIndex(i))
+					fieldsCPView.textFields[i].text = EntryManager.shared.textForKey(cpView.keyForInstanceIndex(i))
 				} else {
 					fieldsCPView.fieldLabels[i].isHidden = true
 					fieldsCPView.textFields[i].isHidden = true
@@ -586,8 +586,10 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 					datesCPView.textFields[i].placeholder = checkPoint.instances[i].placeholderSubstituted
 					
 					let key = cpView.keyForInstanceIndex(i)
-					datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_text")
-					if let dateStr = defaults.string(forKey: "\(key)_date") {
+					//datesCPView.textFields[i].text = defaults.string(forKey: "\(key)_text")
+					datesCPView.textFields[i].text = EntryManager.shared.textForKey("\(key)_text")
+					//if let dateStr = defaults.string(forKey: "\(key)_date") {
+					if let dateStr = EntryManager.shared.textForKey("\(key)_date") {
 						datesCPView.dateButtons[i].setTitle(dateStr, for: .normal)
 						datesCPView.dateButtons[i].setTitleColor(.darkText, for: .normal)
 					} else {
@@ -609,7 +611,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 					if let label = checkboxesCPView.checkboxes[i].viewWithTag(101) as? UILabel {
 						label.text = checkPoint.instances[i].promptSubstituted
 					}
-					checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: cpView.keyForInstanceIndex(i))
+					//checkboxesCPView.checkboxes[i].isSelected = defaults.bool(forKey: cpView.keyForInstanceIndex(i))
+					checkboxesCPView.checkboxes[i].isSelected = EntryManager.shared.boolForKey(cpView.keyForInstanceIndex(i))
 					if let imageView = checkboxesCPView.checkboxes[i].viewWithTag(100) as? UIImageView {
 						imageView.image = checkboxesCPView.checkboxes[i].isSelected ? #imageLiteral(resourceName: "Checkbox_Checked") : #imageLiteral(resourceName: "Checkbox")
 					}
@@ -626,7 +629,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 					if let label = radiosCPView.radios[i].viewWithTag(101) as? UILabel {
 						label.text = checkPoint.instances[i].promptSubstituted
 					}
-					radiosCPView.radios[i].isSelected = defaults.bool(forKey: cpView.keyForInstanceIndex(i))
+					//radiosCPView.radios[i].isSelected = defaults.bool(forKey: cpView.keyForInstanceIndex(i))
+					radiosCPView.radios[i].isSelected = EntryManager.shared.boolForKey(cpView.keyForInstanceIndex(i))
 					if let imageView = radiosCPView.radios[i].viewWithTag(100) as? UIImageView {
 						imageView.image = radiosCPView.radios[i].isSelected ? #imageLiteral(resourceName: "Radio_On") : #imageLiteral(resourceName: "Radio")
 					}
@@ -703,8 +707,6 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
 	private func saveCheckpointEntries() {
 		
-		let defaults = UserDefaults.standard
-		
 		let checkPoint = checkpoints[checkpointIndex]
 		switch checkPoint.type {
 		case .infoEntry, .routeEntry, .nextStage:
@@ -716,7 +718,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = checkpointView.keyForInstanceIndex(i)
-				defaults.set(fieldsCPView.textFields[i].text, forKey: key)
+				//defaults.set(fieldsCPView.textFields[i].text, forKey: key)
+				EntryManager.shared.set(fieldsCPView.textFields[i].text, forKey: key)
 				let value = fieldsCPView.textFields[i].text ?? ""
 				CheckpointManager.shared.addTrace("saved '\(value)' for '\(key)'")
 			}
@@ -729,16 +732,19 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = checkpointView.keyForInstanceIndex(i)
 				if checkPoint.type == .dateAndTextEntry {
-					defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
+					//defaults.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
+					EntryManager.shared.set(datesCPView.textFields[i].text, forKey: "\(key)_text")
 					let value = datesCPView.textFields[i].text ?? ""
 					CheckpointManager.shared.addTrace("saved '\(value)' for '\(key)_text'")
 				}
 				
 				if let text = datesCPView.dateButtons[i].title(for: .normal), text != datesCPView.dateTextPlaceholder {
-					defaults.set(text, forKey: "\(key)_date")
+					//defaults.set(text, forKey: "\(key)_date")
+					EntryManager.shared.set(text, forKey: "\(key)_date")
 					CheckpointManager.shared.addTrace("saved '\(text)' for '\(key)_date'")
 				} else {
-					defaults.removeObject(forKey: "\(key)_date")
+					//defaults.removeObject(forKey: "\(key)_date")
+					EntryManager.shared.clearForKey("\(key)_date")
 				}
 			}
 			
@@ -748,7 +754,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = checkpointView.keyForInstanceIndex(i)
-				defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
+				//defaults.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
+				EntryManager.shared.set(checkboxesCPView.checkboxes[i].isSelected, forKey: key)
 				CheckpointManager.shared.addTrace("saved '\(checkboxesCPView.checkboxes[i].isSelected)' for '\(key)'")
 			}
 			
@@ -758,7 +765,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			}
 			for i in 0..<min(checkpointView.maxInstances, checkPoint.instances.count) {
 				let key = checkpointView.keyForInstanceIndex(i)
-				defaults.set(radiosCPView.radios[i].isSelected, forKey: key)
+				//defaults.set(radiosCPView.radios[i].isSelected, forKey: key)
+				EntryManager.shared.set(radiosCPView.radios[i].isSelected, forKey: key)
 				CheckpointManager.shared.addTrace("saved '\(radiosCPView.radios[i].isSelected)' for '\(key)'")
 			}
 		}

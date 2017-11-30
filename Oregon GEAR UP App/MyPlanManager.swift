@@ -116,7 +116,7 @@ class MyPlanManager {
 		
 		// determine what college name was entered in the checkpoint
 		let cpCollegeName: String
-		if let name = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_text") {
+		if let name = EntryManager.shared.textForKey("b2_s3_cp2_i1_text") {
 			cpCollegeName = name
 		} else {
 			cpCollegeName = firstCollegePlaceholder
@@ -127,20 +127,20 @@ class MyPlanManager {
 			colleges[0].name = cpCollegeName
 		}
 		
-		if let dateStr = UserDefaults.standard.string(forKey: "b2_s3_cp2_i1_date"),
+		if let dateStr = EntryManager.shared.textForKey("b2_s3_cp2_i1_date"),
 			colleges[0].applicationDate == nil {
 			colleges[0].applicationDate = Date(longDescription: dateStr)
 		}
 		
-		if let priceStr = UserDefaults.standard.string(forKey: "b3citizen_s1_cp3_i1"),
+		if let priceStr = EntryManager.shared.textForKey("b3citizen_s1_cp3_i1"),
 			colleges[0].averageNetPrice == nil {
 			colleges[0].averageNetPrice = Double(currencyDescription: priceStr)
 		}
-		if let priceStr = UserDefaults.standard.string(forKey: "b3undoc_s1_cp3_i1"),
+		if let priceStr = EntryManager.shared.textForKey("b3undoc_s1_cp3_i1"),
 			colleges[0].averageNetPrice == nil  {
 			colleges[0].averageNetPrice = Double(currencyDescription: priceStr)
 		}
-		if let priceStr = UserDefaults.standard.string(forKey: "b3visa_s1_cp3_i1"),
+		if let priceStr = EntryManager.shared.textForKey("b3visa_s1_cp3_i1"),
 			colleges[0].averageNetPrice == nil  {
 			colleges[0].averageNetPrice = Double(currencyDescription: priceStr)
 		}
@@ -159,27 +159,27 @@ class MyPlanManager {
 		}
 		
 		
-		if let scholarshipName = UserDefaults.standard.string(forKey: "b3citizen_s2_cp2_i1_text") {
+		if let scholarshipName = EntryManager.shared.textForKey("b3citizen_s2_cp2_i1_text") {
 			
 			scholarships[0].name = scholarshipName
 			
-			if let dateStr = UserDefaults.standard.string(forKey: "b3citizen_s2_cp2_i1_date") {
+			if let dateStr = EntryManager.shared.textForKey("b3citizen_s2_cp2_i1_date") {
 				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 			
-		} else if let scholarshipName = UserDefaults.standard.string(forKey: "b3undoc_s2_cp2_i1_text") {
+		} else if let scholarshipName = EntryManager.shared.textForKey("b3undoc_s2_cp2_i1_text") {
 			
 			scholarships[0].name = scholarshipName
 			
-			if let dateStr = UserDefaults.standard.string(forKey: "b3undoc_s2_cp2_i1_date") {
+			if let dateStr = EntryManager.shared.textForKey("b3undoc_s2_cp2_i1_date") {
 				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 			
-		} else if let scholarshipName = UserDefaults.standard.string(forKey: "b3visa_s2_cp2_i1_text") {
+		} else if let scholarshipName = EntryManager.shared.textForKey("b3visa_s2_cp2_i1_text") {
 			
 			scholarships[0].name = scholarshipName
 			
-			if let dateStr = UserDefaults.standard.string(forKey: "b3visa_s2_cp2_i1_date") {
+			if let dateStr = EntryManager.shared.textForKey("b3visa_s2_cp2_i1_date") {
 				scholarships[0].applicationDate = Date(longDescription: dateStr)
 			}
 			
@@ -190,11 +190,11 @@ class MyPlanManager {
 	
 	public func checkTestDates() {
 		
-		if testResults.satDate == nil, let dateStr = UserDefaults.standard.string(forKey: "b4_s1_cp4_i1_date") {
+		if testResults.satDate == nil, let dateStr = EntryManager.shared.textForKey("b4_s1_cp4_i1_date") {
 			testResults.satDate = Date(longDescription: dateStr)
 		}
 		
-		if testResults.actDate == nil, let dateStr = UserDefaults.standard.string(forKey: "b4_s1_cp3_i1_date") {
+		if testResults.actDate == nil, let dateStr = EntryManager.shared.textForKey("b4_s1_cp3_i1_date") {
 			testResults.actDate = Date(longDescription: dateStr)
 		}
 	}

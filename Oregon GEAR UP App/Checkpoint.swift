@@ -62,13 +62,21 @@ struct Checkpoint {
 					}
 					
 					// check that value for the key matches the expected value
-					if let obj = UserDefaults.standard.object(forKey: key) {
-						let value = String(describing: obj).lowercased()
-						let expectedValue = expectedValue.lowercased()
-						meets = meets && (value == expectedValue)
+					if let value = EntryManager.shared.descriptionForKey(key) {
+						let lcValue = value.lowercased()
+						let lcExpectedValue = expectedValue.lowercased()
+						meets = meets && (lcValue == lcExpectedValue)
 					} else {
 						meets = false
 					}
+					
+//					if let obj = UserDefaults.standard.object(forKey: key) {
+//						let value = String(describing: obj).lowercased()
+//						let expectedValue = expectedValue.lowercased()
+//						meets = meets && (value == expectedValue)
+//					} else {
+//						meets = false
+//					}
 					
 					if !meets {
 						break
@@ -91,8 +99,6 @@ struct Checkpoint {
 			return true
 		}
 		
-		let defaults = UserDefaults.standard
-		
 		switch type {
 		case .infoEntry, .checkboxEntry, .routeEntry, .nextStage:
 			return true
@@ -101,7 +107,7 @@ struct Checkpoint {
 			var oneOn = false
 			for (index, _) in instances.enumerated() {
 				let key = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: index)
-				oneOn = defaults.bool(forKey: key)
+				oneOn = EntryManager.shared.boolForKey(key)
 				if oneOn {
 					break
 				}
@@ -112,7 +118,7 @@ struct Checkpoint {
 			var allFilled = true
 			for (index, _) in instances.enumerated() {
 				let key = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: index)
-				if let str = defaults.string(forKey: key), str.isEmpty == false {
+				if let text = EntryManager.shared.textForKey(key), text.isEmpty == false {
 					allFilled = true
 				} else {
 					allFilled = false
@@ -125,7 +131,7 @@ struct Checkpoint {
 			var allFilled = true
 			for (index, _) in instances.enumerated() {
 				let key = CheckpointManager.shared.keyForBlockIndex(blockIndex, stageIndex: stageIndex, checkpointIndex: checkpointIndex, instanceIndex: index)
-				if let text = defaults.string(forKey: key+"_text"), let date = defaults.string(forKey: key+"_date"), text.isEmpty == false, date.isEmpty == false {
+				if let text = EntryManager.shared.textForKey(key+"_text"), let date = EntryManager.shared.textForKey(key+"_date"), text.isEmpty == false, date.isEmpty == false {
 					allFilled = true
 				} else {
 					allFilled = false
@@ -155,12 +161,12 @@ public func stringWithSubstitutions(_ string: String) -> (newString: String, goo
 	for match in matches.reversed() {
 		let keyRange = NSMakeRange(match.range.location+2, match.range.length-4)
 		let key = (string as NSString).substring(with: keyRange)
-		var replacement = UserDefaults.standard.object(forKey: key)
+		var replacement = EntryManager.shared.descriptionForKey(key)
 		if replacement == nil {
 			replacement = "<< missing value for \(key) >>"
 			good = false
 		}
-		newString = (newString as NSString).replacingCharacters(in: match.range, with: String(describing: replacement!))
+		newString = (newString as NSString).replacingCharacters(in: match.range, with: replacement!)
 	}
 	
 	return (newString: newString, good: good)
