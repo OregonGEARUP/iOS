@@ -21,9 +21,40 @@ class EntryManager {
 		// get persisted entries
 		if let entries = UserDefaults.standard.object(forKey: "entries") as? [String: Any] {
 			self.entries = entries
+		} else if UserDefaults.standard.bool(forKey: "entry_conversion_done") == false {
+			
+			// NOTE: one-time conversion from v1 entrie storage in UserDefaults
+			
+			// find keys for the checkpoint entries
+			let entryKeys = Set(UserDefaults.standard.dictionaryRepresentation().keys.filter { (key) -> Bool in
+				guard let b = key.first, b == "b" else {
+					return false
+				}
+				
+				let key1 = key.dropFirst()
+				guard let n = key1.first, n >= "1", n <= "9" else {
+					return false
+				}
+				
+				return true
+			})
+			
+			// get the entries for the keys
+			self.entries = UserDefaults.standard.dictionaryRepresentation().filter { (key, _) -> Bool in
+				return entryKeys.contains(key)
+			}
+			
+			//print(self.entries)
+			
+			UserDefaults.standard.set(true, forKey: "entry_conversion_done")
+			
 		} else {
+			
+			// starting from the beginning
 			self.entries = [String: Any]()
 		}
+		
+		
 		
 		// persist entries
 		NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { (note) in
