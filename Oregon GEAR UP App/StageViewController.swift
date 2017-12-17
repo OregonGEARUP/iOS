@@ -87,11 +87,16 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	var routeFilename: String?
 	
 	private var keyboardAccessoryView: UIView!
-	
+	private var kbPrevFieldButton: UIButton!
+	private var kbNextFieldButton: UIButton!
+	private var kbHeight: CGFloat = 0.0
+
 	private let datePickerPaletteHeight: CGFloat = 200.0
 	private var datePickerPaletteView: UIView!
 	private var datePicker: UIDatePicker!
 	private var datePickerTopConstraint: NSLayoutConstraint!
+	private var dpPrevFieldButton: UIButton!
+	private var dpNextFieldButton: UIButton!
 	private var currentInputDate: UIButton?
 	
 	private var checkpoints: [Checkpoint] {
@@ -101,6 +106,8 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		view.clipsToBounds = true	// keeps prev/next cp views inside main view (particularly when going back)
 		
 		title = CheckpointManager.shared.block.stages[stageIndex].title
 		
@@ -134,10 +141,6 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		
 		doneWithKeyboard(btn: nil)
 		doneWithDatePicker()
-		
-		checkpointView?.alpha = 0.0
-		nextCheckpointView?.alpha = 0.0
-		prevCheckpointView?.alpha = 0.0
 		
 		saveCheckpointEntries()
 		
@@ -594,7 +597,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 						datesCPView.dateButtons[i].setTitleColor(.darkText, for: .normal)
 					} else {
 						datesCPView.dateButtons[i].setTitle(datesCPView.dateTextPlaceholder, for: .normal)
-						datesCPView.dateButtons[i].setTitleColor(.lightGray, for: .normal)
+						datesCPView.dateButtons[i].setTitleColor(UIColor(white: 0.8, alpha: 1.0), for: .normal)
 					}
 				} else {
 					datesCPView.fieldLabels[i].isHidden = true
@@ -774,10 +777,9 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 	
 	private func createKeyboardAccessoryView() {
 		
-		// add a done button for the keyboard
+		// add a prev/next/done buttons for the keyboard
 		keyboardAccessoryView = UIView(frame: CGRect(x:0.0, y:0.0, width:0.0, height:40.0))
-		keyboardAccessoryView.backgroundColor = UIColor(red: 0.7790, green: 0.7963, blue: 0.8216, alpha: 0.9)
-		
+		keyboardAccessoryView.backgroundColor = UIColor(red: 0.7790, green: 0.7963, blue: 0.8216, alpha: 1.0)
 		
 		let topLine = UIView()
 		topLine.translatesAutoresizingMaskIntoConstraints = false
@@ -786,16 +788,18 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		
 		let prevBtn = UIButton(type: .system)
 		prevBtn.translatesAutoresizingMaskIntoConstraints = false
-		prevBtn.setTitle("<", for: .normal)
-		prevBtn.addTarget(self, action: #selector(previousField(btn:)), for: .touchUpInside)
+		prevBtn.setImage(#imageLiteral(resourceName: "up_arrow"), for: .normal)
+		prevBtn.addTarget(self, action: #selector(moveToPreviousField(btn:)), for: .touchUpInside)
 		keyboardAccessoryView.addSubview(prevBtn)
+		kbPrevFieldButton = prevBtn
 		
 		let nextBtn = UIButton(type: .system)
 		nextBtn.translatesAutoresizingMaskIntoConstraints = false
-		nextBtn.setTitle(">", for: .normal)
-		nextBtn.addTarget(self, action: #selector(nextField(btn:)), for: .touchUpInside)
+		nextBtn.setImage(#imageLiteral(resourceName: "dn_arrow"), for: .normal)
+		nextBtn.addTarget(self, action: #selector(moveToNextField(btn:)), for: .touchUpInside)
 		keyboardAccessoryView.addSubview(nextBtn)
-		
+		kbNextFieldButton = nextBtn
+
 		let doneBtn = UIButton(type: .system)
 		doneBtn.translatesAutoresizingMaskIntoConstraints = false
 		doneBtn.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
@@ -806,12 +810,14 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			topLine.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			topLine.widthAnchor.constraint(equalTo: keyboardAccessoryView.widthAnchor),
 			topLine.heightAnchor.constraint(equalToConstant: 0.5),
+			prevBtn.widthAnchor.constraint(equalToConstant: 35.0),
 			prevBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			prevBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
-			prevBtn.leadingAnchor.constraint(equalTo: keyboardAccessoryView.leadingAnchor, constant: 20.0),
+			prevBtn.leadingAnchor.constraint(equalTo: keyboardAccessoryView.leadingAnchor, constant: 10.0),
+			nextBtn.widthAnchor.constraint(equalToConstant: 35.0),
 			nextBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			nextBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
-			nextBtn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 20.0),
+			nextBtn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 10.0),
 			doneBtn.topAnchor.constraint(equalTo: keyboardAccessoryView.topAnchor),
 			doneBtn.bottomAnchor.constraint(equalTo: keyboardAccessoryView.bottomAnchor),
 			doneBtn.trailingAnchor.constraint(equalTo: keyboardAccessoryView.trailingAnchor, constant: -20.0)
@@ -822,7 +828,7 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		
 		datePickerPaletteView = UIView()
 		datePickerPaletteView.translatesAutoresizingMaskIntoConstraints = false
-		datePickerPaletteView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 1.0, alpha: 1.0)
+		datePickerPaletteView.backgroundColor = UIColor(red: 0.7790, green: 0.7963, blue: 0.8216, alpha: 1.0)
 		view.addSubview(datePickerPaletteView)
 		datePickerTopConstraint = datePickerPaletteView.topAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor)
 		NSLayoutConstraint.activate([
@@ -850,6 +856,31 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		NSLayoutConstraint.activate([
 			datePicker.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor, constant: 16.0),
 			datePicker.centerXAnchor.constraint(equalTo: datePickerPaletteView.centerXAnchor)
+		])
+		
+		let prevBtn = UIButton(type: .system)
+		prevBtn.translatesAutoresizingMaskIntoConstraints = false
+		prevBtn.setImage(#imageLiteral(resourceName: "up_arrow"), for: .normal)
+		prevBtn.addTarget(self, action: #selector(moveToPreviousField(btn:)), for: .touchUpInside)
+		datePickerPaletteView.addSubview(prevBtn)
+		dpPrevFieldButton = prevBtn
+		
+		let nextBtn = UIButton(type: .system)
+		nextBtn.translatesAutoresizingMaskIntoConstraints = false
+		nextBtn.setImage(#imageLiteral(resourceName: "dn_arrow"), for: .normal)
+		nextBtn.addTarget(self, action: #selector(moveToNextField(btn:)), for: .touchUpInside)
+		datePickerPaletteView.addSubview(nextBtn)
+		dpNextFieldButton = nextBtn
+		
+		NSLayoutConstraint.activate([
+			prevBtn.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor),
+			prevBtn.widthAnchor.constraint(equalToConstant: 35.0),
+			prevBtn.heightAnchor.constraint(equalToConstant: 40.0),
+			prevBtn.leadingAnchor.constraint(equalTo: datePickerPaletteView.leadingAnchor, constant: 10.0),
+			nextBtn.topAnchor.constraint(equalTo: datePickerPaletteView.topAnchor),
+			nextBtn.widthAnchor.constraint(equalToConstant: 35.0),
+			nextBtn.heightAnchor.constraint(equalToConstant: 40.0),
+			nextBtn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 10.0)
 		])
 		
 		let doneBtn = UIButton(type: .system)
@@ -975,8 +1006,14 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		return checkpointView.stackView.arrangedSubviews.contains(textField)
 	}
 	
-	@objc private func doneWithKeyboard(btn: UIButton?) {
+	public func textFieldDidBeginEditing(_ textField: UITextField) {
 		
+		// setup the prev/next buttons
+		kbPrevFieldButton.isEnabled = (previousField(fromField: textField) != nil)
+		kbNextFieldButton.isEnabled = (nextField(fromField: textField) != nil)
+	}
+	
+	@objc private func doneWithKeyboard(btn: UIButton?) {
 		self.view.endEditing(true)
 	}
 	
@@ -987,6 +1024,13 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		guard let userInfo = notification.userInfo, let r = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
 			return
 		}
+		
+		kbHeight = r.cgRectValue.size.height
+		
+		adjustForKeyboardAvoidance(keyboardHeight: kbHeight)
+	}
+	
+	private func adjustForKeyboardAvoidance(keyboardHeight kbHeight: CGFloat) {
 		
 		var textField: UITextField?
 		for subview in checkpointView.stackView.arrangedSubviews {
@@ -1000,10 +1044,9 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			return
 		}
 		
-		let kbHeigth = r.cgRectValue.size.height
 		let textFrame = textField!.convert(textField!.bounds, to: view)
 		let textBottom = textFrame.maxY
-		let kbTop = view.frame.height - kbHeigth
+		let kbTop = view.frame.height - kbHeight
 		
 		if (textBottom < kbTop-16)
 		{
@@ -1022,44 +1065,112 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 		})
 	}
 	
-	@objc private func nextField(btn: UIButton) {
-		
+	@objc private func moveToNextField(btn: UIButton) {
+		let next = nextField()
+		if let textField = next as? UITextField {
+			textField.becomeFirstResponder()
+			if kbHeight > 0.0 {
+				adjustForKeyboardAvoidance(keyboardHeight: kbHeight)
+			}
+		} else if let dateField = next as? UIButton {
+			toggleDatePicker(dateField)
+		}
+	}
+	
+	private func nextField(fromField: UIResponder? = nil) -> UIResponder? {
 		var foundCurrent = false
 		for subview in checkpointView.stackView.arrangedSubviews {
 			
-			if let textField = subview as? UITextField, !textField.isHidden {
+			if let textField = subview as? UITextField, textField.isHidden == false {
 				
-				if !foundCurrent && textField.isFirstResponder {
+				if !foundCurrent && fromField != nil && textField == fromField! {
+					foundCurrent = true
+					continue
+				}
+				
+				if !foundCurrent && fromField == nil && textField.isFirstResponder {
 					foundCurrent = true
 					continue
 				}
 				
 				if foundCurrent {
-					textField.becomeFirstResponder()
-					return
+					return textField
+				}
+			}
+			
+			if let dateField = subview as? UIButton, dateField.isHidden == false {
+				
+				if !foundCurrent && fromField != nil && dateField == fromField! {
+					foundCurrent = true
+					continue
+				}
+				
+				if !foundCurrent && fromField == nil && dateField == currentInputDate {
+					foundCurrent = true
+					continue
+				}
+				
+				if foundCurrent {
+					return dateField
 				}
 			}
 		}
+		
+		return nil
 	}
 	
-	@objc private func previousField(btn: UIButton) {
-		
+	@objc private func moveToPreviousField(btn: UIButton) {
+		let prev = previousField()
+		if let textField = prev as? UITextField {
+			textField.becomeFirstResponder()
+			if kbHeight > 0.0 {
+				adjustForKeyboardAvoidance(keyboardHeight: kbHeight)
+			}
+		} else if let dateField = prev as? UIButton {
+			toggleDatePicker(dateField)
+		}
+	}
+	
+	private func previousField(fromField: UIResponder? = nil) -> UIResponder? {
 		var foundCurrent = false
 		for subview in checkpointView.stackView.arrangedSubviews.reversed() {
 			
 			if let textField = subview as? UITextField, !textField.isHidden {
 				
-				if !foundCurrent && textField.isFirstResponder {
+				if !foundCurrent && fromField != nil && textField == fromField! {
+					foundCurrent = true
+					continue
+				}
+				
+				if !foundCurrent && fromField == nil && textField.isFirstResponder {
 					foundCurrent = true
 					continue
 				}
 				
 				if foundCurrent {
-					textField.becomeFirstResponder()
-					return
+					return textField
+				}
+			}
+			
+			if let dateField = subview as? UIButton, dateField.isHidden == false {
+				
+				if !foundCurrent && fromField != nil && dateField == fromField! {
+					foundCurrent = true
+					continue
+				}
+				
+				if !foundCurrent && fromField == nil && dateField == currentInputDate {
+					foundCurrent = true
+					continue
+				}
+				
+				if foundCurrent {
+					return dateField
 				}
 			}
 		}
+		
+		return nil
 	}
 	
 	@objc private func toggleDatePicker(_ button: UIButton) {
@@ -1092,9 +1203,15 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 			self.datePickerTopConstraint.constant = (self.datePickerTopConstraint.constant == 0 ? -(self.datePickerPaletteHeight + 50.0) : 0.0)
 			self.view.layoutIfNeeded()
 		})
-
+		
 		// keep track of which button triggered the date picker
 		currentInputDate = (datePickerVisible ? button : nil)
+		
+		// setup the prev/next buttons
+		if datePickerVisible {
+			dpPrevFieldButton.isEnabled = previousField(fromField: currentInputDate) != nil
+			dpNextFieldButton.isEnabled = nextField(fromField: currentInputDate) != nil
+		}
 	}
 	
 	@objc private func doneWithDatePicker() {
