@@ -14,7 +14,6 @@ class EntryManager {
 	static let shared = EntryManager()
 	
 	private var entries: [String: Any]
-	private let mode11 = false
 	
 	private init() {
 		
@@ -43,17 +42,19 @@ class EntryManager {
 			self.entries = UserDefaults.standard.dictionaryRepresentation().filter { (key, _) -> Bool in
 				return entryKeys.contains(key)
 			}
-			
 			//print(self.entries)
+
+			// remove entries from UserDefaults
+			Array(entryKeys).forEach { UserDefaults.standard.removeObject(forKey: $0) }
 			
+			// record that we have done the conversion
 			UserDefaults.standard.set(true, forKey: "entry_conversion_done")
 			
 		} else {
 			
-			// starting from the beginning
+			// starting from the beginning empty
 			self.entries = [String: Any]()
 		}
-		
 		
 		
 		// persist entries
@@ -67,30 +68,12 @@ class EntryManager {
 	
 	public func set(_ value: Any?, forKey key: String) {
 		
-		if mode11 {
-			UserDefaults.standard.set(value, forKey: key)
-			return
-		}
-		
-		
 		entries[key] = value
-		
-		// backward compatibility
-		UserDefaults.standard.removeObject(forKey: key)
 	}
 	
 	public func clearForKey(_ key: String) {
 		
-		if mode11 {
-			UserDefaults.standard.removeObject(forKey: key)
-			return
-		}
-		
-		
 		entries.removeValue(forKey: key)
-		
-		// backward compatibility
-		UserDefaults.standard.removeObject(forKey: key)
 	}
 	
 	
@@ -98,20 +81,7 @@ class EntryManager {
 	
 	public func textForKey(_ key: String) -> String? {
 		
-		if mode11 {
-			return UserDefaults.standard.string(forKey: key)
-		}
-		
-		
 		guard let text = entries[key] as? String else {
-			
-			// backward compatibility
-			if let udText = UserDefaults.standard.string(forKey: key) {
-				UserDefaults.standard.removeObject(forKey: key)
-				entries[key] = udText
-				return udText
-			}
-			
 			return nil
 		}
 		return text
@@ -119,35 +89,13 @@ class EntryManager {
 	
 	public func boolForKey(_ key: String) -> Bool {
 		
-		if mode11 {
-			return UserDefaults.standard.bool(forKey: key)
-		}
-		
-		
 		guard let bool = entries[key] as? Bool else {
-			
-			// backward compatibility
-			if UserDefaults.standard.object(forKey: key) != nil {
-				let udBool = UserDefaults.standard.bool(forKey: key)
-				UserDefaults.standard.removeObject(forKey: key)
-				entries[key] = udBool
-				return udBool
-			}
-			
 			return false
 		}
 		return bool
 	}
 	
 	public func descriptionForKey(_ key: String) -> String? {
-		
-		if mode11 {
-			if let obj = UserDefaults.standard.object(forKey: key) {
-				return String(describing: obj)
-			}
-			return nil
-		}
-		
 		
 		guard let value = entries[key] else {
 			return nil
