@@ -139,9 +139,11 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		if hasSecureSetup() == false {
 			
 			let haveBiometrics = LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-			var haveFaceID = false
-			if #available(iOS 11.0, *), LAContext().biometryType == .typeFaceID {
+			let haveFaceID: Bool
+			if #available(iOS 11.0, *), LAContext().biometryType == .faceID {
 				haveFaceID = true
+			} else {
+				haveFaceID = false
 			}
 			
 			var message: String? = nil
