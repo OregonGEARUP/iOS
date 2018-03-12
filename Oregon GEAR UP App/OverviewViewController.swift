@@ -8,9 +8,10 @@
 
 import UIKit
 import UserNotifications
+import FirebaseAuthUI
 
 
-class OverviewViewController: UIViewController, UIScrollViewDelegate {
+class OverviewViewController: UIViewController, UIScrollViewDelegate, FUIAuthDelegate {
 	
 	let completedTagOffset = 200
 	let progressTagOffset = 300
@@ -30,6 +31,8 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
 	private var firstAppearance = true
+	
+	// MARK: -
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,29 +91,18 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		
 		scrollView.delegate = self
 		
-		
-		// load the JSON checkpoint information
-		activityIndicator.startAnimating()
-		CheckpointManager.shared.resumeCheckpoints { (success) in
+		if let user = Auth.auth().currentUser {
 			
-			if success {
-				self.setup()
-				
-				self.activityIndicator.stopAnimating()
-				
-				// show welcome message if first run
-				if UserDefaults.standard.bool(forKey: "welcomedone") == false {
-					self.scrollView.alpha = 0.2
-					self.showWelcomeOverlay()
-					UserDefaults.standard.set(true, forKey: "welcomedone")
-				} else {
-					if CheckpointManager.shared.blockIndex >= 0 {
-						self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
-					}
-				}
-			} else {
-				// TODO: show error here?
+			if let name = user.displayName {
+				print(">>>>>>>>> signed in as \(name)")
 			}
+			
+			loadCheckpoints()
+			
+		} else if UserDefaults.standard.bool(forKey: "welcomedone") == false {
+			showWelcomeOverlay()
+		} else {
+			showSignIn()
 		}
     }
 	
@@ -127,6 +119,68 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 		update()
 		
 		firstAppearance = false
+	}
+	
+	private func showSignIn() {
+		guard let authUI = FUIAuth.defaultAuthUI() else {
+			return
+		}
+		
+		authUI.delegate = self
+		let authViewController = authUI.authViewController()
+		present(authViewController, animated: true, completion: nil)
+	}
+	
+	@objc func signOut() {
+		guard let authUI = FUIAuth.defaultAuthUI() else {
+			return
+		}
+		
+		try? authUI.signOut()
+	}
+	
+	func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
+		if let error = error {
+			print(error)
+			return		// TODO: handle error here
+		}
+		
+		if let user = user, let name = user.displayName {
+			print(">>>>>>>>> signed in as \(name)")
+		}
+		
+		loadCheckpoints(showBlock: false)
+	}
+	
+	private func loadCheckpoints(showBlock: Bool = true) {
+		
+		// load the JSON checkpoint information
+		activityIndicator.startAnimating()
+		CheckpointManager.shared.resumeCheckpoints { (success) in
+			
+			if success {
+				self.setup()
+				self.activityIndicator.stopAnimating()
+				
+				if showBlock {
+					self.showWelcomeOrBlock()
+				}
+			} else {
+				// TODO: show error here?
+			}
+		}
+	}
+	
+	private func showWelcomeOrBlock() {
+		
+		// show welcome message if first run
+		if UserDefaults.standard.bool(forKey: "welcomedone") == false {
+			self.showWelcomeOverlay()
+		} else {
+			if CheckpointManager.shared.blockIndex >= 0 {
+				self.showBlock(forIndex: CheckpointManager.shared.blockIndex, stageIndex: CheckpointManager.shared.stageIndex, checkpointIndex: CheckpointManager.shared.checkpointIndex, animated: false)
+			}
+		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -298,6 +352,14 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 			versionLabel.font = UIFont.systemFont(ofSize: 13.0, weight: UIFont.Weight.thin)
 			stackView.addArrangedSubview(versionLabel)
 			
+			if Auth.auth().currentUser != nil {
+				let signOutButton = UIButton.init(type: .system)
+				signOutButton.setTitle("Sign Out", for: .normal)
+				signOutButton.setTitleColor(.red, for: .normal)
+				signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+				stackView.addArrangedSubview(signOutButton)
+			}
+			
 			let spacer2 = UIView()
 			stackView.addArrangedSubview(spacer2)
 			spacer2.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
@@ -352,6 +414,7 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	private func showWelcomeOverlay() {
 		
 		UIView.animate(withDuration: 0.3, animations: {
+			self.scrollView.alpha = 0.2
 			self.welcomeOverlay.alpha = 1.0
 		}) { (finished) in
 			
@@ -384,22 +447,21 @@ class OverviewViewController: UIViewController, UIScrollViewDelegate {
 	
 	@IBAction private func dismissWelcomeOverlay() {
 		
-		UIView.animate(withDuration: 0.3) {
-			self.welcomeOverlay.alpha = 0.0
-			self.scrollView.alpha = 1.0
-		}
+		UserDefaults.standard.set(true, forKey: "welcomedone")
 		
-		UIView.animate(withDuration: 0.3, animations: { 
+		UIView.animate(withDuration: 0.3, animations: {
 			self.welcomeOverlay.alpha = 0.0
 			self.scrollView.alpha = 1.0
 		}) { (finished) in
-			if #available(iOS 10.0, *) {
-				UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-					if !granted {
-						print("user denied notifications")
-					}
-				}
-			}
+//			if #available(iOS 10.0, *) {			TODO: need to find a new home for this
+//				UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+//					if !granted {
+//						print("user denied notifications")
+//					}
+//				}
+//			}
+			
+			self.showSignIn()
 		}
 	}
 }
