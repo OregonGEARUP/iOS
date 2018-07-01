@@ -130,7 +130,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 	
 	private func hasSecureSetup() -> Bool {
 		
-		let needsAndHasBiometrics = UserDefaults.standard.bool(forKey: "securewithfingerprint") == false || LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+		let needsAndHasBiometrics = UserDefaults.standard.bool(forKey: "securewithfingerprint") == false || LAContext().canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
 		return UserDefaults.standard.bool(forKey: "initialsecuresetup") && needsAndHasBiometrics
 	}
 	
@@ -139,7 +139,7 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		if hasSecureSetup() == false {
 			
 			let laContext = LAContext()
-			let haveBiometrics = laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+			let haveBiometrics = laContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
 			
 			let haveFaceID: Bool
 			if #available(iOS 11.0, *), laContext.biometryType == .faceID {
@@ -270,10 +270,10 @@ class SecureInfoViewController: UIViewController, UITextFieldDelegate, UITableVi
 		if locked {
 			var error: NSError?
 			let context = LAContext()
-			if UserDefaults.standard.bool(forKey: "securewithfingerprint") && context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+			if UserDefaults.standard.bool(forKey: "securewithfingerprint") && context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
 				
 				let reason = NSLocalizedString("Unlock your passwords.", comment: "biometrics unlock reason")
-				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
+				context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
 					[unowned self] (success, authenticationError) in
 					
 					DispatchQueue.main.async {

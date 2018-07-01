@@ -113,7 +113,7 @@ class CheckpointManager {
 	public func resumeCheckpoints(completion: @escaping (_ success: Bool) -> Void) {
 		
 		if let blockInfo = UserDefaults.standard.array(forKey: "blockInfo") as? [[String: Any]] {
-			self.blockInfos = blockInfo.map({ BlockInfo(fromDictionary: $0) }).flatMap({ $0 })
+			self.blockInfos = blockInfo.map({ BlockInfo(fromDictionary: $0) }).compactMap({ $0 })
 			resumeCheckpointsInternal(completion: completion)
 			return
 		}
@@ -128,7 +128,7 @@ class CheckpointManager {
 				
 				if let jsonArray = try? JSONSerialization.jsonObject(with: data), let blockInfo = jsonArray as? [[String: Any]] {
 					
-					self.blockInfos = blockInfo.map({ BlockInfo(fromDictionary: $0) }).flatMap({ $0 })
+					self.blockInfos = blockInfo.map({ BlockInfo(fromDictionary: $0) }).compactMap({ $0 })
 					success = true
 				}
 			}
