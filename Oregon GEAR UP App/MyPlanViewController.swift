@@ -36,8 +36,6 @@ class MyPlanViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		print("my plan menu viewDidAppear")
-		
 		if planIndexToShow >= 0 {
 			
 			let pts = planIndexToShow
