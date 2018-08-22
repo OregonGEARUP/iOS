@@ -133,7 +133,7 @@ class MyPlanResidencyViewController: MyPlanBaseViewController, UITableViewDelega
 		case 0:
 			let cell = tableView.dequeueReusableCell(withIdentifier: "label", for: indexPath)
 			if let labelCell = cell as? LabelCell {
-				labelCell.labelText = "If you apply to an Oregon public university you will need to answer questions about how long you and your parent/guardian have lived in the state."
+				labelCell.labelText = "If you apply to an Oregon public university you will need to answer questions about how long you and your parent/guardian have lived in the state.\n\nIf you're not sure of the exact date, choose the 1st of the month."
 				labelCell.contentView.backgroundColor = nil
 				labelCell.labelTextColor = nil
 			}
