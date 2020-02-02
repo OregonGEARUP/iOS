@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import WebKit
 
 
 class CheckpointView: UIView {
@@ -1706,25 +1707,36 @@ class StageViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
 
 }
 
-class WebViewController: UIViewController, UIWebViewDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 	
 	var url = URL(string: "https://oregongoestocollege.org/5-things")
 	
-	@IBOutlet weak var webView: UIWebView!
-	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+	private let webkitView = WKWebView()
+	private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 	var firstAppearance = true
+	
+	override func loadView() {
+		view = webkitView
+		
+		view.addSubview(activityIndicator)
+		activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+		activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+		activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		activityIndicator.color = .gray
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		title = "Information"
 		
+		webkitView.navigationDelegate = self
+		webkitView.uiDelegate = self
+		
 		if let ulr = url {
 			let request = URLRequest(url: ulr)
-			webView.loadRequest(request)
+			webkitView.load(request)
 		}
-		
-		webView.delegate = self
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -1737,19 +1749,89 @@ class WebViewController: UIViewController, UIWebViewDelegate {
 	}
 	
 	@objc private func goBack() {
-		
-		webView.goBack()
+		activityIndicator.stopAnimating()
+		webkitView.goBack()
 	}
 	
-	public func webViewDidFinishLoad(_ webView: UIWebView) {
+	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+		print("decidePolicyFor navigationAction: \(navigationAction.request.url?.absoluteString ?? "???")")
+		decisionHandler(.allow)
+	}
+	
+	func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+		print("decidePolicyFor navigationResponse")
+		decisionHandler(.allow)
+	}
+	
+	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+		print("didStartProvisionalNavigation: \(String(describing: navigation))")
+	}
+	
+	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+		print("didReceiveServerRedirectForProvisionalNavigation: \(String(describing: navigation))")
+	}
+	
+	func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+		print("didFailProvisionalNavigation: \(String(describing: navigation))")
+	}
+	
+	func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+		print("didCommit navigation: \(String(describing: navigation))")
 		
-		activityIndicator.stopAnimating()
-		
-		if webView.canGoBack {
-			let backButton = UIBarButtonItem(title: NSLocalizedString("< Back", comment: "webview back button title"), style: .plain, target: self, action: #selector(goBack))
+		if webkitView.canGoBack {
+			let title = NSLocalizedString("< Back", comment: "webview back button title")
+			let backButton = UIBarButtonItem(title: title , style: .plain, target: self, action: #selector(goBack))
 			navigationItem.leftBarButtonItem = backButton
 		} else {
 			navigationItem.leftBarButtonItem = nil
 		}
+	}
+	
+	func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+		print("didFail navigation: \(error)")
+	}
+	
+	func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+		print("ProcessDidTerminate")
+	}
+	
+	func webView(_ webView: WKWebView, 
+		didReceive challenge: URLAuthenticationChallenge, 
+		completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) 
+	{
+		print("didReceive challenge")
+		if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust)
+		{
+			print("using server trust cred")
+			let cred = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+			completionHandler(.useCredential, cred)
+		}
+		else
+		{
+			completionHandler(.performDefaultHandling, nil)
+		}
+	}
+	
+	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		
+		print("didFinish navigation: \(String(describing: navigation))")
+		
+		activityIndicator.stopAnimating()
+		
+//		if webkitView.canGoBack {
+//			let title = NSLocalizedString("< Back", comment: "webview back button title")
+//			let backButton = UIBarButtonItem(title: title , style: .plain, target: self, action: #selector(goBack))
+//			navigationItem.leftBarButtonItem = backButton
+//		} else {
+//			navigationItem.leftBarButtonItem = nil
+//		}
+	}
+	
+	func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+		if navigationAction.targetFrame == nil {
+			activityIndicator.startAnimating()
+			webView.load(navigationAction.request)
+		}
+		return nil
 	}
 }
