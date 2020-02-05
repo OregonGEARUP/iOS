@@ -1753,30 +1753,30 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 		webkitView.goBack()
 	}
 	
-	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-		print("decidePolicyFor navigationAction: \(navigationAction.request.url?.absoluteString ?? "???")")
-		decisionHandler(.allow)
-	}
-	
-	func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-		print("decidePolicyFor navigationResponse")
-		decisionHandler(.allow)
-	}
-	
-	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-		print("didStartProvisionalNavigation: \(String(describing: navigation))")
-	}
-	
-	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
-		print("didReceiveServerRedirectForProvisionalNavigation: \(String(describing: navigation))")
-	}
-	
-	func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-		print("didFailProvisionalNavigation: \(String(describing: navigation))")
-	}
+//	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//		print("decidePolicyFor navigationAction: \(navigationAction.request.url?.absoluteString ?? "???")")
+//		decisionHandler(.allow)
+//	}
+//	
+//	func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+//		print("decidePolicyFor navigationResponse")
+//		decisionHandler(.allow)
+//	}
+//	
+//	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+//		print("didStartProvisionalNavigation: \(String(describing: navigation))")
+//	}
+//	
+//	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+//		print("didReceiveServerRedirectForProvisionalNavigation: \(String(describing: navigation))")
+//	}
+//	
+//	func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+//		print("didFailProvisionalNavigation: \(String(describing: navigation))")
+//	}
 	
 	func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-		print("didCommit navigation: \(String(describing: navigation))")
+		//print("didCommit navigation: \(String(describing: navigation))")
 		
 		if webkitView.canGoBack {
 			let title = NSLocalizedString("< Back", comment: "webview back button title")
@@ -1787,22 +1787,22 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 		}
 	}
 	
-	func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-		print("didFail navigation: \(error)")
-	}
-	
-	func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-		print("ProcessDidTerminate")
-	}
+//	func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//		print("didFail navigation: \(error)")
+//	}
+//	
+//	func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+//		print("ProcessDidTerminate")
+//	}
 	
 	func webView(_ webView: WKWebView, 
 		didReceive challenge: URLAuthenticationChallenge, 
 		completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) 
 	{
-		print("didReceive challenge")
+		//print("didReceive challenge")
 		if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust)
 		{
-			print("using server trust cred")
+			//print("using server trust cred")
 			let cred = URLCredential(trust: challenge.protectionSpace.serverTrust!)
 			completionHandler(.useCredential, cred)
 		}
@@ -1814,17 +1814,9 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 	
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 		
-		print("didFinish navigation: \(String(describing: navigation))")
+		//print("didFinish navigation: \(String(describing: navigation))")
 		
 		activityIndicator.stopAnimating()
-		
-//		if webkitView.canGoBack {
-//			let title = NSLocalizedString("< Back", comment: "webview back button title")
-//			let backButton = UIBarButtonItem(title: title , style: .plain, target: self, action: #selector(goBack))
-//			navigationItem.leftBarButtonItem = backButton
-//		} else {
-//			navigationItem.leftBarButtonItem = nil
-//		}
 	}
 	
 	func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
